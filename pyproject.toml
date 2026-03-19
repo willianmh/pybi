@@ -9,9 +9,15 @@ authors = [
 requires-python = ">=3.14"
 dependencies = [
     "cryptography>=46.0.5",
+    "datamodel-code-generator>=0.55.0",
     "pydantic>=2.12.5",
 ]
 
 [build-system]
 requires = ["uv_build>=0.9.14,<0.10.0"]
 build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+]
