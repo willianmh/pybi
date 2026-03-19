@@ -11,4 +11,5 @@ wheels/
 
 
 # local sample files
-samples/
+samples/local
+**/.pbi/
