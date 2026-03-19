@@ -1,0 +1,80 @@
+table Risk
+	isHidden
+	lineageTag: 0fa72b4f-32d2-41a9-b683-f9d00be6f0cb
+
+	column 'Product ID'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 94521e95-fe71-4ef2-8bab-6e014298d13b
+		summarizeBy: none
+		sourceColumn: Product ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Location
+		dataType: string
+		isHidden
+		lineageTag: e860ea83-554c-44d0-8085-fe373ab48245
+		summarizeBy: none
+		sourceColumn: Location
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Risk Score'
+		dataType: string
+		isHidden
+		lineageTag: 065cff6e-1ce0-4a70-abf3-af936259842d
+		summarizeBy: none
+		sourceColumn: Risk Score
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Backorder Risk'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: a11c5cf4-0212-41bc-8cfc-ca3569e24992
+		summarizeBy: none
+		sourceColumn: Backorder Risk
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Distribution Center'
+		dataType: string
+		isHidden
+		lineageTag: 38bbe32b-9e12-45f9-a4b4-8dcdcd058fcb
+		summarizeBy: none
+		sourceColumn: Distribution Center
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Risk-d9078ef0-04f1-4c0d-a009-616523a3fc04 = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(AzureStorage.BlobContents("https://demostoragepbi.blob.core.windows.net/demo/automl%20demo.xlsx"), null, true),
+				    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Product ID", Int64.Type}, {"Location", type text}, {"Risk Score", type text}, {"Backorder Risk", Int64.Type}, {"Distribution Center", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_Id = 8ecb34a8-a096-4d03-924c-c1a91b337e28
+
+	annotation LinkedQueryName = Risk
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

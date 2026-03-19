@@ -1,0 +1,100 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json",
+  "name": "ReportSectionee1399c251cf213d7417",
+  "displayName": "Life Expectancy",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280,
+  "pageBinding": {
+    "name": "Pod4",
+    "type": "Default",
+    "parameters": []
+  },
+  "objects": {
+    "background": [
+      {
+        "properties": {
+          "transparency": {
+            "expr": {
+              "Literal": {
+                "Value": "0D"
+              }
+            }
+          },
+          "image": {
+            "image": {
+              "name": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Gartner Template-01.png'"
+                  }
+                }
+              },
+              "url": {
+                "expr": {
+                  "ResourcePackageItem": {
+                    "PackageName": "RegisteredResources",
+                    "PackageType": 1,
+                    "ItemName": "Gartner_Template-0120778720506872572.png"
+                  }
+                }
+              },
+              "scaling": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Fit'"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outspace": [
+      {
+        "properties": {
+          "color": {
+            "solid": {
+              "color": {
+                "expr": {
+                  "ThemeDataColor": {
+                    "ColorId": 0,
+                    "Percent": -0.1
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visualInteractions": [
+    {
+      "source": "60ad1a6cbc2a1aab0cd4",
+      "target": "95dab029e45250390896",
+      "type": "DataFilter"
+    },
+    {
+      "source": "df8451c4c46f34b97dcf",
+      "target": "95dab029e45250390896",
+      "type": "DataFilter"
+    },
+    {
+      "source": "6ca4a836ba33a9971a5d",
+      "target": "95dab029e45250390896",
+      "type": "DataFilter"
+    },
+    {
+      "source": "6ca4a836ba33a9971a5d",
+      "target": "d4d069eaeabe387e1830",
+      "type": "DataFilter"
+    },
+    {
+      "source": "d4d069eaeabe387e1830",
+      "target": "95dab029e45250390896",
+      "type": "DataFilter"
+    }
+  ]
+}

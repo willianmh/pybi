@@ -1,0 +1,116 @@
+cultureInfo en-US
+
+	linguisticMetadata =
+			{
+			  "Entities": {
+			    "covid_measures.case_fatality_rate": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "COVID measures",
+			          "ConceptualProperty": "Case fatality rate"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Case Fatality Rate": {
+			            "Source": {
+			              "Agent": "PowerBI.VisualColumnRename",
+			              "Type": "External"
+			            },
+			            "State": "Suggested",
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "covid_measures.total_confirmed_cases": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "COVID measures",
+			          "ConceptualProperty": "Total confirmed cases"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Confirmed Cases": {
+			            "Source": {
+			              "Agent": "PowerBI.VisualColumnRename",
+			              "Type": "External"
+			            },
+			            "State": "Suggested",
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "covid_measures.total_deaths": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "COVID measures",
+			          "ConceptualProperty": "Total deaths"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Total Deaths": {
+			            "Source": {
+			              "Agent": "PowerBI.VisualColumnRename",
+			              "Type": "External"
+			            },
+			            "State": "Suggested",
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "statedim.country": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "StateDim",
+			          "ConceptualProperty": "Country"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          ".": {
+			            "Source": {
+			              "Agent": "PowerBI.VisualColumnRename",
+			              "Type": "External"
+			            },
+			            "State": "Suggested",
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "statedim.state": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "StateDim",
+			          "ConceptualProperty": "State"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          ".": {
+			            "Source": {
+			              "Agent": "PowerBI.VisualColumnRename",
+			              "Type": "External"
+			            },
+			            "State": "Suggested",
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    }
+			  },
+			  "Language": "en-US",
+			  "Version": "2.0.0"
+			}
+		contentType: json
+

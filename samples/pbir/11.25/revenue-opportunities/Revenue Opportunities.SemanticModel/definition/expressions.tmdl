@@ -1,0 +1,106 @@
+expression fxResultGenerator =
+		(lower as number, upper as number) as number =>
+		let
+		    Source =  Number.RandomBetween(lower, upper),
+		    IntOnly = Int64.From(Source)
+		in
+		    IntOnly
+	lineageTag: 2bacb60c-c75b-4ff0-ad81-61d3153a1c9b
+	queryGroup: 'Functions and parameters'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Function
+
+expression fxDateGenerator =
+		(StartDate as date, EndDate as date, optional Culture as nullable text) as table =>
+		    let
+		        DayCount =
+		            Duration.TotalDays(EndDate - StartDate)
+		            + 1,
+		        Source =
+		            List.Dates(
+		                StartDate,
+		                DayCount,
+		                #duration(1, 0, 0, 0)
+		            ),
+		        TableFromList =
+		            Table.FromList(
+		                Source,
+		                Splitter.SplitByNothing(),
+		                type table [Date = date]
+		            ),
+		        InsertYear =
+		            Table.AddColumn(
+		                TableFromList,
+		                "Year",
+		                each Date.Year([Date]),
+		                Int64.Type
+		            ),
+		        InsertMonth =
+		            Table.AddColumn(
+		                InsertYear,
+		                "Month (Sort Order)",
+		                each Date.Month([Date]),
+		                Int8.Type
+		            ),
+		        InsertMonthName =
+		            Table.AddColumn(
+		                InsertMonth,
+		                "Month",
+		                each Date.ToText([Date], "MMMM", Culture),
+		                type text
+		            ),
+		        InsertDay =
+		            Table.AddColumn(
+		                InsertMonthName,
+		                "Day",
+		                each Date.Day([Date]),
+		                Int8.Type
+		            ),
+		        InsertDayWeek =
+		            Table.AddColumn(
+		                InsertDay,
+		                "Day (Sort Order)",
+		                each Date.DayOfWeek([Date], Day.Monday) + 1,
+		                Int8.Type
+		            ),
+		        InsertDayName =
+		            Table.AddColumn(
+		                InsertDayWeek,
+		                "Day Of Week Name",
+		                each Date.ToText([Date], "dddd", Culture),
+		                type text
+		            ),
+		        InsertWeekofYear =
+		            Table.AddColumn(
+		                InsertDayName,
+		                "Week of Year",
+		                each Date.WeekOfYear([Date]),
+		                Int8.Type
+		            )
+		    in
+		        InsertWeekofYear
+	lineageTag: ef662261-7ea3-4f71-b99b-237c08b05fba
+	queryGroup: 'Functions and parameters'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Function
+
+expression 'Start date' = #date(2020, 1, 1) meta [IsParameterQuery=true, Type="Date", IsParameterQueryRequired=true]
+	lineageTag: 37c18294-0c3f-49e2-b093-34d079f22491
+	queryGroup: 'Functions and parameters'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Date
+
+expression 'Language code' = "en-US" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: ab8a9fb2-0813-436d-883f-1de8ad7a059f
+	queryGroup: 'Functions and parameters'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+

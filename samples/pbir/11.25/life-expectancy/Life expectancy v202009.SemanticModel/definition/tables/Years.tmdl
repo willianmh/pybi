@@ -1,0 +1,29 @@
+table Years
+	lineageTag: ab7651ea-ea25-4d29-aa82-3903120080d4
+
+	measure 'Years Value' = SELECTEDVALUE('Years'[Years])
+		lineageTag: bc22fbcd-d19b-41a5-930f-bfb527ea837a
+
+	column Years
+		formatString: 0
+		lineageTag: 198a307e-afbc-4f81-b7d3-b7f4fc65d72f
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+		annotation SummarizationSetBy = User
+
+	column All = "all"
+		lineageTag: 5b682b2a-6415-4e79-a4c9-efcbdb062301
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Years-c641772c-d9bb-48f8-8207-6db7f0ed951e = calculated
+		mode: import
+		source = GENERATESERIES(1800, 2017, 1)
+

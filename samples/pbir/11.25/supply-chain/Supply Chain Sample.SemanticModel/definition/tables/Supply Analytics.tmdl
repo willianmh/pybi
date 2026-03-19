@@ -1,0 +1,176 @@
+table 'Supply Analytics'
+	lineageTag: 5cc5f0de-b295-4ed1-9c7c-23275edff34a
+
+	column 'Manufactured Goods %'
+		dataType: double
+		isHidden
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 77e61d04-2065-4576-bf45-46171d7ffd59
+		summarizeBy: sum
+		sourceColumn: Manufactured Goods %
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Forecast Accuracy'
+		dataType: string
+		isHidden
+		displayFolder: Influencers
+		lineageTag: 0dbc73ae-1ff0-4555-b4c3-722dd6c9912c
+		summarizeBy: none
+		sourceColumn: Forecast Accuracy
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Forecast Bias'
+		dataType: string
+		isHidden
+		displayFolder: Influencers
+		lineageTag: 3b3e526f-5d82-4706-90a0-c7798471fc8b
+		summarizeBy: none
+		sourceColumn: Forecast Bias
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Advertised'
+		dataType: string
+		isHidden
+		lineageTag: 2bce65b0-9a9c-49ba-ba1f-ee166ff2c595
+		summarizeBy: none
+		sourceColumn: Product Advertised
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Multiple Retailers'
+		dataType: string
+		isHidden
+		lineageTag: 5bb68583-5333-4ac4-bba3-40c033009f67
+		summarizeBy: none
+		sourceColumn: Multiple Retailers
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day Contacted'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 28dd4243-1673-4f89-9702-fb32cc2e3837
+		summarizeBy: sum
+		sourceColumn: Day Contacted
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product '
+		dataType: string
+		isHidden
+		lineageTag: 9a56feeb-71af-4ea8-997b-af77df9d6a30
+		summarizeBy: none
+		sourceColumn: "Product "
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Manufactured (%)' = If('Supply Analytics'[Manufactured Goods %] <=0.9, ">125%", if('Supply Analytics'[Manufactured Goods %] >0.9 && [Manufactured Goods %] <= 1.2, "Between 100%-125%", if('Supply Analytics'[Manufactured Goods %] > 1.2 && [Manufactured Goods %] <= 1.2, "Between 75%-100%", "<75%")))
+		isHidden
+		lineageTag: cf3ea8ba-5405-43ec-aa4a-7557e2d45b3b
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Inventory Levels'
+		dataType: string
+		isHidden
+		lineageTag: 3f79f9be-8ced-4d22-8407-43628e7a24ce
+		summarizeBy: none
+		sourceColumn: Inventory Levels
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Manufactured Goods' = If('Supply Analytics'[Manufactured Goods %] <=1.1, ">100%", "<70%")
+		isHidden
+		displayFolder: Influencers
+		lineageTag: a295ff0e-92f2-42c4-a7b5-858843a433ed
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Demand Type'
+		dataType: string
+		isHidden
+		displayFolder: Influencers
+		lineageTag: 32414e87-56b4-4265-8764-5325d5e55e0c
+		summarizeBy: none
+		sourceColumn: Demand Type
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Manufactured Goods (%)'
+		dataType: string
+		isHidden
+		lineageTag: 415f67cf-4d51-44c9-89ba-15d9cc86a90d
+		summarizeBy: none
+		sourceColumn: Manufactured Goods (%)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type
+		dataType: string
+		isHidden
+		lineageTag: 8531e25f-2694-44f8-805e-9418bcf76743
+		summarizeBy: none
+		sourceColumn: Type
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Plant
+		dataType: string
+		isHidden
+		lineageTag: 8ae3ea3e-708a-4f72-8c95-ae1aa036c6d3
+		summarizeBy: none
+		sourceColumn: Plant
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Supply Analytics-b415f3eb-76cb-4172-90fb-8e97ed3589f0' = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Justyna\Documents\MBAS 2019\Backorders2.xlsx"), null, true),
+				    #"bank-full2_Sheet" = Source{[Item="Backorders",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(#"bank-full2_Sheet", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Manufactured Goods %", type number}, {"Demand Type", type text}, {"Forecast Accuracy", type text}, {"Forecast Bias", type text}, {"Product Advertised", type text}, {"Multiple Retailers", type text}, {"Type", type text}, {"Day Contacted", Int64.Type}, {"Plant", type text}, {"Product ", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Manufactured Goods"}),
+				    #"Filtered Rows" = Table.SelectRows(#"Removed Columns", each true)
+				in
+				    #"Filtered Rows"
+
+	annotation PBI_Id = 6a570876-50cb-4351-a1c2-3b1ea0291c67
+
+	annotation LinkedQueryName = Supply Analytics
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+

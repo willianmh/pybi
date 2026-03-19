@@ -1,0 +1,115 @@
+table Countries
+	lineageTag: 35c938ea-2ab9-4237-982e-0654db015441
+
+	measure 'GDP % chg 2020' = CALCULATE(AVERAGE('GDP History'[% change]), 'GDP History'[Year] = 2020)
+		lineageTag: d4cc80c8-f4ef-4800-a56b-b67805b60fad
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'GDP Chg' = [GDP % chg 2020]
+		lineageTag: cd511813-f1d0-4fba-9d99-fe01033aaaa9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ISO
+		dataType: string
+		lineageTag: 9d48d12d-325d-4488-aff0-37f297b5313f
+		summarizeBy: none
+		sourceColumn: ISO
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: 55f4f595-3124-406e-a816-2ac39c032060
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column REGION
+		dataType: string
+		isHidden
+		lineageTag: a6dd3ceb-bc55-467b-9fcf-0e68a622ca74
+		summarizeBy: none
+		sourceColumn: REGION
+
+		annotation SummarizationSetBy = Automatic
+
+	column Continent
+		dataType: string
+		lineageTag: 88a22594-3643-4d88-bf4e-a7fed3e675b6
+		summarizeBy: none
+		sourceColumn: Continent
+
+		annotation SummarizationSetBy = Automatic
+
+	column Population
+		dataType: int64
+		formatString: #,0
+		lineageTag: 65358b45-5308-4fd5-8529-e7afe4efc4aa
+		summarizeBy: sum
+		sourceColumn: Population
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Growth Rate'
+		dataType: double
+		lineageTag: f1263602-39b9-4824-8334-8983efbe9d02
+		summarizeBy: sum
+		sourceColumn: Growth Rate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Flag
+		dataType: string
+		lineageTag: 03441d1b-861b-44a6-98bc-606676985407
+		dataCategory: ImageUrl
+		summarizeBy: none
+		sourceColumn: Flag
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Area (km2)'
+		dataType: double
+		lineageTag: 9c88c617-6602-4bf5-8e7e-c0309a82386e
+		summarizeBy: sum
+		sourceColumn: Area (km2)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Density
+		dataType: double
+		lineageTag: 023b7c64-69b2-4cde-8e13-211824dbf9d1
+		summarizeBy: sum
+		sourceColumn: Density
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Countries-cb321b1c-c134-41e6-80e1-174829998ed1 = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\willthom\Microsoft\Gartner Data and Analytics Summit - Bake-off\acaps_covid19_government_measures_dataset.xlsx"), null, true),
+				    Dataset_Sheet = Source{[Item="Dataset",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Dataset_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ID", Int64.Type}, {"ISO", type text}, {"COUNTRY", type text}, {"REGION", type text}, {"ADMIN_LEVEL_NAME", type text}, {"PCODE", type any}, {"LOG_TYPE", type text}, {"CATEGORY", type text}, {"MEASURE", type text}, {"TARGETED_POP_GROUP", type text}, {"COMMENTS", type text}, {"NON_COMPLIANCE", type text}, {"DATE_IMPLEMENTED", type date}, {"SOURCE", type text}, {"SOURCE_TYPE", type text}, {"LINK", type text}, {"ENTRY_DATE", type date}, {"Alternative source", type text}}),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Changed Type",{"ISO", "COUNTRY", "REGION"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+				    #"Added Custom" = Table.AddColumn(#"Removed Duplicates", "Custom", each if [COUNTRY] = "United States" or [COUNTRY] = "Canada" then "North America" else if [REGION] = "Americas" then "Central and South America" else [REGION]),
+				    #"Renamed Columns" = Table.RenameColumns(#"Added Custom",{{"Custom", "Regions"}}),
+				    #"Merged Queries" = Table.NestedJoin(#"Renamed Columns", {"ISO"}, #"Table 3", {"Text Between Delimiters"}, "Table 3", JoinKind.LeftOuter),
+				    #"Expanded Table 3" = Table.ExpandTableColumn(#"Merged Queries", "Table 3", {"Population", "Growth Rate", "FlagURL", "Area (km2)", "Density"}, {"Population", "Growth Rate", "FlagURL", "Area (km2)", "Density"}),
+				    #"Added Prefix" = Table.TransformColumns(#"Expanded Table 3", {{"FlagURL", each "http://countryflags.azurewebsites.net/" & _, type text}}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Added Prefix",{{"Regions", "Continent"}, {"FlagURL", "Flag"}, {"COUNTRY", "Country"}})
+				in
+				    #"Renamed Columns1"
+
+	annotation PBI_ResultType = Table
+

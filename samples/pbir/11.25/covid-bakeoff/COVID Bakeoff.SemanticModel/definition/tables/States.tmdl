@@ -1,0 +1,356 @@
+table States
+	lineageTag: 09d86ee7-b60b-49a5-ab74-d986c9e15c61
+
+	column State
+		dataType: string
+		lineageTag: b1643da0-19b1-4e73-981c-fababb7c1293
+		dataCategory: StateOrProvince
+		summarizeBy: none
+		sourceColumn: State
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"States","TableItemName":"State (groups)","ObjectType":4},"LinkType":"UsedInGroup"},{"LinkTarget":{"TableName":"States","TableItemName":"Focused on","ObjectType":4},"LinkType":"UsedInGroup"},{"LinkTarget":{"TableName":"States","TableItemName":"March Temperatures","ObjectType":4},"LinkType":"UsedInGroup"}]
+
+	column 'Total cases' = CALCULATE(MAX('Cases per US State'[CumulativeCases]))
+		isHidden
+		formatString: 0
+		lineageTag: 3b86f292-bbbb-4e38-b220-a65cff77d91c
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'State (by cases)' = States[State]
+		isHidden
+		lineageTag: 458776a4-1522-4f12-b9d3-968d3e11ca5d
+		summarizeBy: none
+		sortByColumn: 'Total cases'
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Population
+		dataType: double
+		isHidden
+		formatString: 0
+		lineageTag: 0d9d54fd-03bc-4094-8fe9-c58c557bd7df
+		summarizeBy: none
+		sourceColumn: Population
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	column 'State (groups)' =
+			SWITCH(
+			  TRUE,
+			  ISBLANK('States'[State]),
+			  "(Blank)",
+			  'States'[State] IN {"American Samoa",
+			    "Guam",
+			    "Marshall Islands",
+			    "Puerto Rico",
+			    "Virgin Islands"},
+			  "Islands and Territories",
+			  'States'[State] IN {"Alabama",
+			    "Alaska",
+			    "Arizona",
+			    "Arkansas",
+			    "California",
+			    "Colorado",
+			    "Connecticut",
+			    "Delaware",
+			    "District of Columbia",
+			    "Florida",
+			    "Georgia",
+			    "Hawaii",
+			    "Idaho",
+			    "Illinois",
+			    "Indiana",
+			    "Iowa",
+			    "Kansas",
+			    "Kentucky",
+			    "Louisiana",
+			    "Maine",
+			    "Maryland",
+			    "Massachusetts",
+			    "Michigan",
+			    "Minnesota",
+			    "Mississippi",
+			    "Missouri",
+			    "Montana",
+			    "Nebraska",
+			    "Nevada",
+			    "New Hampshire",
+			    "New Jersey",
+			    "New Mexico",
+			    "New York",
+			    "North Carolina",
+			    "North Dakota",
+			    "Ohio",
+			    "Oklahoma",
+			    "Oregon",
+			    "Pennsylvania",
+			    "Rhode Island",
+			    "South Carolina",
+			    "South Dakota",
+			    "Tennessee",
+			    "Texas",
+			    "Utah",
+			    "Vermont",
+			    "Virginia",
+			    "Washington",
+			    "West Virginia",
+			    "Wisconsin",
+			    "Wyoming"},
+			  "Main states",
+			  'States'[State]
+			)
+		isHidden
+		lineageTag: 5e6bd6c4-69a7-4519-b534-08dd3f1096c8
+		summarizeBy: none
+
+		extendedProperty GroupingMetadata =
+				{
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "States"
+				          }
+				        },
+				        "Property": "State"
+				      }
+				    }
+				  ],
+				  "version": 0
+				}
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"s","Entity":"States"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"s"}},"Property":"State"}}],"GroupItems":[{"DisplayName":"(Blank)","BlankDefaultPlaceholder":true},{"DisplayName":"Islands and Territories","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"s"}},"Property":"State"}}],"Values":[[{"Literal":{"Value":"'American Samoa'"}}],[{"Literal":{"Value":"'Guam'"}}],[{"Literal":{"Value":"'Marshall Islands'"}}],[{"Literal":{"Value":"'Puerto Rico'"}}],[{"Literal":{"Value":"'Virgin Islands'"}}]]}}},{"DisplayName":"Main states","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"s"}},"Property":"State"}}],"Values":[[{"Literal":{"Value":"'Alabama'"}}],[{"Literal":{"Value":"'Alaska'"}}],[{"Literal":{"Value":"'Arizona'"}}],[{"Literal":{"Value":"'Arkansas'"}}],[{"Literal":{"Value":"'California'"}}],[{"Literal":{"Value":"'Colorado'"}}],[{"Literal":{"Value":"'Connecticut'"}}],[{"Literal":{"Value":"'Delaware'"}}],[{"Literal":{"Value":"'District of Columbia'"}}],[{"Literal":{"Value":"'Florida'"}}],[{"Literal":{"Value":"'Georgia'"}}],[{"Literal":{"Value":"'Hawaii'"}}],[{"Literal":{"Value":"'Idaho'"}}],[{"Literal":{"Value":"'Illinois'"}}],[{"Literal":{"Value":"'Indiana'"}}],[{"Literal":{"Value":"'Iowa'"}}],[{"Literal":{"Value":"'Kansas'"}}],[{"Literal":{"Value":"'Kentucky'"}}],[{"Literal":{"Value":"'Louisiana'"}}],[{"Literal":{"Value":"'Maine'"}}],[{"Literal":{"Value":"'Maryland'"}}],[{"Literal":{"Value":"'Massachusetts'"}}],[{"Literal":{"Value":"'Michigan'"}}],[{"Literal":{"Value":"'Minnesota'"}}],[{"Literal":{"Value":"'Mississippi'"}}],[{"Literal":{"Value":"'Missouri'"}}],[{"Literal":{"Value":"'Montana'"}}],[{"Literal":{"Value":"'Nebraska'"}}],[{"Literal":{"Value":"'Nevada'"}}],[{"Literal":{"Value":"'New Hampshire'"}}],[{"Literal":{"Value":"'New Jersey'"}}],[{"Literal":{"Value":"'New Mexico'"}}],[{"Literal":{"Value":"'New York'"}}],[{"Literal":{"Value":"'North Carolina'"}}],[{"Literal":{"Value":"'North Dakota'"}}],[{"Literal":{"Value":"'Ohio'"}}],[{"Literal":{"Value":"'Oklahoma'"}}],[{"Literal":{"Value":"'Oregon'"}}],[{"Literal":{"Value":"'Pennsylvania'"}}],[{"Literal":{"Value":"'Rhode Island'"}}],[{"Literal":{"Value":"'South Carolina'"}}],[{"Literal":{"Value":"'South Dakota'"}}],[{"Literal":{"Value":"'Tennessee'"}}],[{"Literal":{"Value":"'Texas'"}}],[{"Literal":{"Value":"'Utah'"}}],[{"Literal":{"Value":"'Vermont'"}}],[{"Literal":{"Value":"'Virginia'"}}],[{"Literal":{"Value":"'Washington'"}}],[{"Literal":{"Value":"'West Virginia'"}}],[{"Literal":{"Value":"'Wisconsin'"}}],[{"Literal":{"Value":"'Wyoming'"}}]]}}}]}
+
+		annotation SummarizationSetBy = Automatic
+
+	column Flag
+		dataType: string
+		lineageTag: da427ac4-583c-49ff-acd3-ff9aeb0b7f72
+		dataCategory: ImageUrl
+		summarizeBy: none
+		sourceColumn: Flag
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'State sorting' = SWITCH(States[State], "New Hampshire", 1, "New Mexico", 2, "Connecticut", 3, "Rhode Island", 4, "Massachusetts", 5, 7)
+		isHidden
+		formatString: 0
+		lineageTag: 672ed81c-98d3-4d65-8afb-bb70e8111f6a
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Focused on' =
+			SWITCH(
+			  TRUE,
+			  ISBLANK('States'[State]),
+			  "(Blank)",
+			  'States'[State] IN {"New Mexico",
+			    "Rhode Island",
+			    "South Dakota"},
+			  "Fully vaccinated",
+			  'States'[State] IN {"Connecticut",
+			    "Massachusetts",
+			    "New Hampshire"},
+			  "One dose",
+			  "Other"
+			)
+		isHidden
+		lineageTag: 425a00c8-0d93-423f-b4e3-883faea084e3
+		summarizeBy: none
+
+		extendedProperty GroupingMetadata =
+				{
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "States"
+				          }
+				        },
+				        "Property": "State"
+				      }
+				    }
+				  ],
+				  "version": 0
+				}
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"s","Entity":"States"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"s"}},"Property":"State"}}],"GroupItems":[{"DisplayName":"(Blank)","BlankDefaultPlaceholder":true},{"DisplayName":"Fully vaccinated","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"s"}},"Property":"State"}}],"Values":[[{"Literal":{"Value":"'New Mexico'"}}],[{"Literal":{"Value":"'Rhode Island'"}}],[{"Literal":{"Value":"'South Dakota'"}}]]}}},{"DisplayName":"One dose","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"s"}},"Property":"State"}}],"Values":[[{"Literal":{"Value":"'Connecticut'"}}],[{"Literal":{"Value":"'Massachusetts'"}}],[{"Literal":{"Value":"'New Hampshire'"}}]]}}},{"DisplayName":"Other"}]}
+
+		annotation SummarizationSetBy = Automatic
+
+	column Latitude
+		dataType: double
+		isHidden
+		lineageTag: 944c84d1-054e-463f-a59b-fa57a5f821ca
+		summarizeBy: none
+		sourceColumn: Latitude
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Longitude
+		dataType: double
+		isHidden
+		lineageTag: 0f7abef9-f695-44a3-be4c-c3b8e4929034
+		summarizeBy: none
+		sourceColumn: Longitude
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Above or Below' = IF(States[Average Temperature ] < 67.7, "Below", "Above")
+		isHidden
+		lineageTag: 45fbbd2f-b234-4e38-9802-af3a30b73510
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'March Temperatures' =
+			SWITCH(
+			  TRUE,
+			  ISBLANK('States'[State]),
+			  "(Blank)",
+			  'States'[State] IN {"Alaska",
+			    "Colorado",
+			    "Connecticut",
+			    "Delaware",
+			    "District of Columbia",
+			    "Idaho",
+			    "Illinois",
+			    "Indiana",
+			    "Iowa",
+			    "Maine",
+			    "Marshall Islands",
+			    "Maryland",
+			    "Massachusetts",
+			    "Michigan",
+			    "Minnesota",
+			    "Missouri",
+			    "Montana",
+			    "Nebraska",
+			    "New Hampshire",
+			    "New Jersey",
+			    "New York",
+			    "North Dakota",
+			    "Ohio",
+			    "Oklahoma",
+			    "Oregon",
+			    "Pennsylvania",
+			    "Puerto Rico",
+			    "Rhode Island",
+			    "South Dakota",
+			    "Vermont",
+			    "Virgin Islands",
+			    "Virginia",
+			    "Washington",
+			    "West Virginia",
+			    "Wisconsin",
+			    "Wyoming"},
+			  "Cooler",
+			  'States'[State] IN {"Alabama",
+			    "American Samoa",
+			    "Arizona",
+			    "Arkansas",
+			    "California",
+			    "Florida",
+			    "Georgia",
+			    "Guam",
+			    "Hawaii",
+			    "Kansas",
+			    "Kentucky",
+			    "Louisiana",
+			    "Mississippi",
+			    "Nevada",
+			    "New Mexico",
+			    "North Carolina",
+			    "South Carolina",
+			    "Tennessee",
+			    "Texas",
+			    "Utah"},
+			  "Hotter",
+			  'States'[State]
+			)
+		lineageTag: 511b2185-1021-4452-9cbd-bcdf9433cce6
+		summarizeBy: none
+
+		extendedProperty GroupingMetadata =
+				{
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "States"
+				          }
+				        },
+				        "Property": "State"
+				      }
+				    }
+				  ],
+				  "version": 0
+				}
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"s","Entity":"States"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"s"}},"Property":"State"}}],"GroupItems":[{"DisplayName":"(Blank)","BlankDefaultPlaceholder":true},{"DisplayName":"Cooler","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"s"}},"Property":"State"}}],"Values":[[{"Literal":{"Value":"'Alaska'"}}],[{"Literal":{"Value":"'Colorado'"}}],[{"Literal":{"Value":"'Connecticut'"}}],[{"Literal":{"Value":"'Delaware'"}}],[{"Literal":{"Value":"'District of Columbia'"}}],[{"Literal":{"Value":"'Idaho'"}}],[{"Literal":{"Value":"'Illinois'"}}],[{"Literal":{"Value":"'Indiana'"}}],[{"Literal":{"Value":"'Iowa'"}}],[{"Literal":{"Value":"'Maine'"}}],[{"Literal":{"Value":"'Marshall Islands'"}}],[{"Literal":{"Value":"'Maryland'"}}],[{"Literal":{"Value":"'Massachusetts'"}}],[{"Literal":{"Value":"'Michigan'"}}],[{"Literal":{"Value":"'Minnesota'"}}],[{"Literal":{"Value":"'Missouri'"}}],[{"Literal":{"Value":"'Montana'"}}],[{"Literal":{"Value":"'Nebraska'"}}],[{"Literal":{"Value":"'New Hampshire'"}}],[{"Literal":{"Value":"'New Jersey'"}}],[{"Literal":{"Value":"'New York'"}}],[{"Literal":{"Value":"'North Dakota'"}}],[{"Literal":{"Value":"'Ohio'"}}],[{"Literal":{"Value":"'Oklahoma'"}}],[{"Literal":{"Value":"'Oregon'"}}],[{"Literal":{"Value":"'Pennsylvania'"}}],[{"Literal":{"Value":"'Puerto Rico'"}}],[{"Literal":{"Value":"'Rhode Island'"}}],[{"Literal":{"Value":"'South Dakota'"}}],[{"Literal":{"Value":"'Vermont'"}}],[{"Literal":{"Value":"'Virgin Islands'"}}],[{"Literal":{"Value":"'Virginia'"}}],[{"Literal":{"Value":"'Washington'"}}],[{"Literal":{"Value":"'West Virginia'"}}],[{"Literal":{"Value":"'Wisconsin'"}}],[{"Literal":{"Value":"'Wyoming'"}}]]}}},{"DisplayName":"Hotter","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"s"}},"Property":"State"}}],"Values":[[{"Literal":{"Value":"'Alabama'"}}],[{"Literal":{"Value":"'American Samoa'"}}],[{"Literal":{"Value":"'Arizona'"}}],[{"Literal":{"Value":"'Arkansas'"}}],[{"Literal":{"Value":"'California'"}}],[{"Literal":{"Value":"'Florida'"}}],[{"Literal":{"Value":"'Georgia'"}}],[{"Literal":{"Value":"'Guam'"}}],[{"Literal":{"Value":"'Hawaii'"}}],[{"Literal":{"Value":"'Kansas'"}}],[{"Literal":{"Value":"'Kentucky'"}}],[{"Literal":{"Value":"'Louisiana'"}}],[{"Literal":{"Value":"'Mississippi'"}}],[{"Literal":{"Value":"'Nevada'"}}],[{"Literal":{"Value":"'New Mexico'"}}],[{"Literal":{"Value":"'North Carolina'"}}],[{"Literal":{"Value":"'South Carolina'"}}],[{"Literal":{"Value":"'Tennessee'"}}],[{"Literal":{"Value":"'Texas'"}}],[{"Literal":{"Value":"'Utah'"}}]]}}}]}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Average Temperature '
+		dataType: double
+		isHidden
+		formatString: #.#\ \°\F
+		lineageTag: 7475f1d1-7240-4443-a958-719b161e5bd5
+		summarizeBy: average
+		sourceColumn: "Average Temperature "
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	partition States-804c4345-52f7-4135-9b8d-5f44ba337c33 = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Web.Contents("https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/us_state_vaccinations.csv"),[Delimiter=",", Columns=14, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Promoted Headers",{"location"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+				    #"Filtered Rows" = Table.SelectRows(#"Removed Duplicates", each ([location] <> "Bureau of Prisons" and [location] <> "Dept of Defense" and [location] <> "Federated States of Micronesia" and [location] <> "Indian Health Svc" and [location] <> "Long Term Care" and [location] <> "Northern Mariana Islands" and [location] <> "Republic of Palau" and [location] <> "United States" and [location] <> "Veterans Health")),
+				    #"Renamed Columns" = Table.RenameColumns(#"Filtered Rows",{{"location", "State"}}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Renamed Columns"," State","",Replacer.ReplaceText,{"State"}),
+				    #"Merged Queries" = Table.NestedJoin(#"Replaced Value1", {"State"}, #"state population", {"State"}, "Table 1", JoinKind.LeftOuter),
+				    #"Expanded Table 1" = Table.ExpandTableColumn(#"Merged Queries", "Table 1", {"Population estimate, July 1, 2019[2]"}, {"Population estimate, July 1, 2019[2]"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Expanded Table 1",{{"Population estimate, July 1, 2019[2]", "Population"}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Renamed Columns1",null,58791,Replacer.ReplaceValue,{"Population"}),
+				    #"Added Custom" = Table.AddColumn(#"Replaced Value", "Flag", each "https://www.states101.com/img/flags/gif/small/"&[State]&".gif"),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Added Custom"," ","-",Replacer.ReplaceText,{"Flag"}),
+				    #"Lowercased Text" = Table.TransformColumns(#"Replaced Value2",{{"Flag", Text.Lower, type text}}),
+				    #"Merged Queries1" = Table.NestedJoin(#"Lowercased Text", {"State"}, Lats, {"State"}, "Lats", JoinKind.LeftOuter),
+				    #"Expanded Lats" = Table.ExpandTableColumn(#"Merged Queries1", "Lats", {"Average Temperature ", "Latitude", "Longitude"}, {"Average Temperature ", "Latitude", "Longitude"})
+				in
+				    #"Expanded Lats"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

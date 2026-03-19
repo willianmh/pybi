@@ -1,0 +1,49 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "44b1eb99372df10740c4",
+  "position": {
+    "x": 23.162863886703384,
+    "y": 87.616050354051936,
+    "z": 3000,
+    "height": 623.3831628638867,
+    "width": 642.51770259638079,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "qnaVisual",
+    "objects": {
+      "suggestions": [
+        {
+          "properties": {
+            "cardBackground": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 3,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "hiddenProperties": [
+        {
+          "properties": {
+            "savedUtterance": {
+              "expr": {
+                "Literal": {
+                  "Value": "''"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

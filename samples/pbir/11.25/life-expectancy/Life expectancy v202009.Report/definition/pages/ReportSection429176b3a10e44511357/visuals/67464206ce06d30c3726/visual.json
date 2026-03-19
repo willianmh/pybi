@@ -1,0 +1,293 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "67464206ce06d30c3726",
+  "position": {
+    "x": 73.40804218853,
+    "y": 125.72181938035598,
+    "z": 9000,
+    "height": 502.04350692155572,
+    "width": 745.89321028345421,
+    "tabOrder": 9000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "LINKS",
+                    "textStyle": {
+                      "fontFamily": "Segoe (Bold)",
+                      "fontSize": "14pt"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "World Health Organization: ",
+                    "textStyle": {
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "All Health Indicators (link below for the USA)"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "https://data.humdata.org/dataset/who-data-for-united-states-of-america",
+                    "textStyle": {},
+                    "url": "https://data.humdata.org/dataset/who-data-for-united-states-of-america"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "World Bank: ",
+                    "textStyle": {
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Combined Indicators"
+                  },
+                  {
+                    "value": " ",
+                    "textStyle": {
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "(link below for the USA)"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "https://data.humdata.org/dataset/world-bank-combined-indicators-for-united-states",
+                    "textStyle": {},
+                    "url": "https://data.humdata.org/dataset/world-bank-combined-indicators-for-united-states"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "World Population Review: ",
+                    "textStyle": {
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Total Population"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "https://worldpopulationreview.com/countries",
+                    "textStyle": {},
+                    "url": "https://worldpopulationreview.com/countries"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Gap Minder: ",
+                    "textStyle": {
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Life expectancy since 1800"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "https://www.gapminder.org/data/",
+                    "textStyle": {},
+                    "url": "https://www.gapminder.org/data/"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Wikipedia:",
+                    "textStyle": {
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": " Flag images"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "https://en.wikipedia.org/wiki/Gallery_of_sovereign_state_flags",
+                    "textStyle": {},
+                    "url": "https://en.wikipedia.org/wiki/Gallery_of_sovereign_state_flags"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Our World in Data: ",
+                    "textStyle": {
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Life expectancy"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "https://ourworldindata.org/life-expectancy",
+                    "textStyle": {},
+                    "url": "https://ourworldindata.org/life-expectancy"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Our World in Data: ",
+                    "textStyle": {
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Why do women live longer than men?"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "https://ourworldindata.org/why-do-women-live-longer-than-men",
+                    "textStyle": {},
+                    "url": "https://ourworldindata.org/why-do-women-live-longer-than-men"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "BBC:",
+                    "textStyle": {
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": " Do we really live longer than our ancestors?"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "https://www.bbc.com/future/article/20181002-how-long-did-ancient-people-live-life-span-versus-longevity",
+                    "textStyle": {},
+                    "url": "https://www.bbc.com/future/article/20181002-how-long-did-ancient-people-live-life-span-versus-longevity"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

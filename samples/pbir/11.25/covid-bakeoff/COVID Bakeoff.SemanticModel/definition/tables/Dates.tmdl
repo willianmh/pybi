@@ -1,0 +1,39 @@
+table Dates
+	lineageTag: 340e93f0-a194-40e7-8e53-5be02034c0dc
+	dataCategory: Time
+
+	column Date
+		isKey
+		formatString: m/d/yyyy
+		lineageTag: 58b057a3-38b2-4253-85ee-911e9c51f6c4
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'Week Number' = WEEKNUM(Dates[Date])
+		formatString: 0
+		lineageTag: 964e32c5-bbb3-4e69-974b-75911527d585
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Start of week' = (Dates[Date] - WEEKDAY(Dates[Date]))+1
+		isHidden
+		formatString: m/dd
+		lineageTag: 6c29f16b-7632-4174-8823-334b7ee6d83f
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	partition Dates-90053d3d-0bc2-49e0-9c29-aa836f7d789f = calculated
+		mode: import
+		source = CALENDARAUTO()
+
+	annotation PBI_Id = 132fe9645f484436947d1daa9b89a2a3
+

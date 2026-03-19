@@ -1,0 +1,190 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.0.0/schema.json",
+  "themeCollection": {
+    "baseTheme": {
+      "name": "CY19SU06",
+      "reportVersionAtImport": {
+        "visual": "1.8.41",
+        "report": "2.0.41",
+        "page": "1.3.41"
+      },
+      "type": "SharedResources"
+    },
+    "customTheme": {
+      "name": "Miguel1823884563341438.json",
+      "reportVersionAtImport": {
+        "visual": "1.8.44",
+        "report": "2.0.44",
+        "page": "1.3.44"
+      },
+      "type": "RegisteredResources"
+    }
+  },
+  "objects": {
+    "section": [
+      {
+        "properties": {
+          "verticalAlignment": {
+            "expr": {
+              "Literal": {
+                "Value": "'Top'"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outspacePane": [
+      {
+        "properties": {
+          "expanded": {
+            "expr": {
+              "Literal": {
+                "Value": "false"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "resourcePackages": [
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "Back-off_-_Child28697828951887927.png",
+          "path": "Back-off_-_Child28697828951887927.png",
+          "type": "Image"
+        },
+        {
+          "name": "Back-off_-_GDP6058539126827178.png",
+          "path": "Back-off_-_GDP6058539126827178.png",
+          "type": "Image"
+        },
+        {
+          "name": "Back-off_-_Goverment0718952110458031.png",
+          "path": "Back-off_-_Goverment0718952110458031.png",
+          "type": "Image"
+        },
+        {
+          "name": "Back-off_-_Immunization10914032901047599.png",
+          "path": "Back-off_-_Immunization10914032901047599.png",
+          "type": "Image"
+        },
+        {
+          "name": "Back-off_-_Life4642274673533302.png",
+          "path": "Back-off_-_Life4642274673533302.png",
+          "type": "Image"
+        },
+        {
+          "name": "Back-off_-_Map_-_Africa15882794382198284.png",
+          "path": "Back-off_-_Map_-_Africa15882794382198284.png",
+          "type": "Image"
+        },
+        {
+          "name": "Back-off_-_Map_-_Americas6349300237455264.png",
+          "path": "Back-off_-_Map_-_Americas6349300237455264.png",
+          "type": "Image"
+        },
+        {
+          "name": "Back-off_-_Map_-_Asia2897481231504051.png",
+          "path": "Back-off_-_Map_-_Asia2897481231504051.png",
+          "type": "Image"
+        },
+        {
+          "name": "Back-off_-_Map_-_Europe4762560360878674.png",
+          "path": "Back-off_-_Map_-_Europe4762560360878674.png",
+          "type": "Image"
+        },
+        {
+          "name": "Back-off_-_Map_-_Oseania949631876710888.png",
+          "path": "Back-off_-_Map_-_Oseania949631876710888.png",
+          "type": "Image"
+        },
+        {
+          "name": "Gartner_Template-01-0105722006218760467.png",
+          "path": "Gartner_Template-01-0105722006218760467.png",
+          "type": "Image"
+        },
+        {
+          "name": "Gartner_Template-01020560495620805863.png",
+          "path": "Gartner_Template-01020560495620805863.png",
+          "type": "Image"
+        },
+        {
+          "name": "Gartner_Template-0119859008605941275.png",
+          "path": "Gartner_Template-0119859008605941275.png",
+          "type": "Image"
+        },
+        {
+          "name": "Gartner_Template-0120778720506872572.png",
+          "path": "Gartner_Template-0120778720506872572.png",
+          "type": "Image"
+        },
+        {
+          "name": "Miguel1823884563341438.json",
+          "path": "Miguel1823884563341438.json",
+          "type": "CustomTheme"
+        },
+        {
+          "name": "countries_(2).Geo6469508032787596.JSON",
+          "path": "countries_(2).Geo6469508032787596.JSON",
+          "type": "ShapeMap"
+        },
+        {
+          "name": "human7978562865523502.png",
+          "path": "human7978562865523502.png",
+          "type": "Image"
+        },
+        {
+          "name": "woman8474691470737985.png",
+          "path": "woman8474691470737985.png",
+          "type": "Image"
+        }
+      ]
+    },
+    {
+      "name": "CardBrowser8D7CFFDA2E7E400C9474F41B9EDBBA58",
+      "type": "CustomVisual",
+      "items": [
+        {
+          "name": "CardBrowser8D7CFFDA2E7E400C9474F41B9EDBBA58.pbiviz.json",
+          "path": "CardBrowser8D7CFFDA2E7E400C9474F41B9EDBBA58.pbiviz.json",
+          "type": "CustomVisualMetadata"
+        }
+      ]
+    },
+    {
+      "name": "SharedResources",
+      "type": "SharedResources",
+      "items": [
+        {
+          "name": "CY19SU06",
+          "path": "BaseThemes/CY19SU06.json",
+          "type": "BaseTheme"
+        }
+      ]
+    },
+    {
+      "name": "textFilter25A4896A83E0487089E2B90C9AE57C8A",
+      "type": "CustomVisual",
+      "items": [
+        {
+          "name": "textFilter25A4896A83E0487089E2B90C9AE57C8A.pbiviz.json",
+          "path": "textFilter25A4896A83E0487089E2B90C9AE57C8A.pbiviz.json",
+          "type": "CustomVisualMetadata"
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "useStylableVisualContainerHeader": true,
+    "exportDataMode": "AllowSummarized",
+    "defaultDrillFilterOtherVisuals": true,
+    "allowChangeFilterTypes": true,
+    "useEnhancedTooltips": true,
+    "filterPaneHiddenInEditMode": true
+  }
+}

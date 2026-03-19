@@ -1,0 +1,95 @@
+table Sales
+	lineageTag: 75eab034-20f7-4fa0-b260-ec8f45d41aa8
+
+	column ProductID
+		dataType: int64
+		formatString: 0
+		lineageTag: 2f2f0c6b-4341-4743-994d-036b82ae2305
+		summarizeBy: none
+		sourceColumn: ProductID
+
+		annotation SummarizationSetBy = Automatic
+
+	column StoreID
+		dataType: int64
+		formatString: 0
+		lineageTag: 4d9da377-46a0-4d17-8721-a919dcd450c6
+		summarizeBy: none
+		sourceColumn: StoreID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		lineageTag: 02c5b540-3ced-48a6-b7ba-0dacff94a90b
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column ID
+		dataType: int64
+		formatString: 0
+		lineageTag: 482603aa-8554-4103-8d77-57cddb500e2c
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Unit
+		dataType: int64
+		formatString: 0
+		lineageTag: 2446e976-a077-4dcd-b461-e1f29fa92e0c
+		summarizeBy: sum
+		sourceColumn: Unit
+
+		annotation SummarizationSetBy = Automatic
+
+	column Amount
+		dataType: int64
+		formatString: \$#,0;-\$#,0;\$#,0
+		lineageTag: 23b6bfe7-98f0-4730-89af-c6f389cddcbf
+		summarizeBy: sum
+		sourceColumn: Amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-CA"}
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 30951bc2-5c6b-465c-8050-0f9499c61184
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition Sales-113fd51a-9d45-46f4-89f4-240116e9b48a = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\mimyersm\Desktop\Sales & Marketing Datas.xlsx"), null, true),
+				    Data_Sheet = Source{[Item="Data",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Data_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ID", Int64.Type}, {"ProductID", Int64.Type}, {"StoreID", Int64.Type}, {"Unit", Int64.Type}, {"Week", Int64.Type}, {"Gender", type text}, {"Age", Int64.Type}, {"Status", type text}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Changed Type",1,2,Replacer.ReplaceValue,{"Week"}),
+				    #"Merged Queries" = Table.NestedJoin(#"Replaced Value", {"ProductID"}, Product, {"ProductID"}, "Product", JoinKind.LeftOuter),
+				    #"Expanded Product" = Table.ExpandTableColumn(#"Merged Queries", "Product", {"Price"}, {"Price"}),
+				    #"Inserted Multiplication" = Table.AddColumn(#"Expanded Product", "Multiplication", each [Price] * [Unit], Int64.Type),
+				    #"Renamed Columns" = Table.RenameColumns(#"Inserted Multiplication",{{"Multiplication", "Amount"}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Renamed Columns",{"Price"}),
+				    #"Merged Queries1" = Table.NestedJoin(#"Removed Columns", {"Week"}, Calendar, {"Week"}, "Calendar", JoinKind.LeftOuter),
+				    #"Expanded Calendar" = Table.ExpandTableColumn(#"Merged Queries1", "Calendar", {"Date"}, {"Date"}),
+				    #"Removed Columns1" = Table.RemoveColumns(#"Expanded Calendar",{"Week", "Gender", "Age"})
+				in
+				    #"Removed Columns1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_QueryRelationships = {"columnCount":7,"keyColumnNames":[],"queryRelationships":[{"keyColumnCount":1,"keyColumn":1,"otherKeyColumnIdentity":"Section1/Product/Changed Type.{ProductID,1}","KeyColumnCount":1}],"columnIdentities":["Section1/Sales/Changed Type.{ID,0}","Section1/Sales/Changed Type.{ProductID,1}","Section1/Sales/Changed Type.{StoreID,2}","Section1/Sales/Changed Type.{Unit,3}","Section1/Sales/Changed Type.{Status,7}","Section1/Sales/Inserted Multiplication.{Multiplication,9}","Section1/Calendar/Changed Type1.{Date,0}"],"ColumnCount":7,"KeyColumnNames":[],"ColumnIdentities":["Section1/Sales/Changed Type.{ID,0}","Section1/Sales/Changed Type.{ProductID,1}","Section1/Sales/Changed Type.{StoreID,2}","Section1/Sales/Changed Type.{Unit,3}","Section1/Sales/Changed Type.{Status,7}","Section1/Sales/Inserted Multiplication.{Multiplication,9}","Section1/Calendar/Changed Type1.{Date,0}"],"RelationshipInfo":[{"keyColumnCount":1,"keyColumn":1,"otherKeyColumnIdentity":"Section1/Product/Changed Type.{ProductID,1}","KeyColumnCount":1}]}
+
+	annotation PBI_ResultType = Exception
+

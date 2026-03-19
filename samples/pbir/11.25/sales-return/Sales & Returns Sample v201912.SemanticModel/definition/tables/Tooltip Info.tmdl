@@ -1,0 +1,50 @@
+table 'Tooltip Info'
+	lineageTag: 7432e6f3-572b-45c5-8b2c-1b5a40875212
+
+	column nombre
+		dataType: string
+		lineageTag: 3a227d66-6cb1-4b9d-aa63-ab847bc877d1
+		summarizeBy: none
+		sourceColumn: nombre
+
+		annotation SummarizationSetBy = Automatic
+
+	column URL
+		dataType: string
+		lineageTag: 451bbdc7-3d08-4798-9c2d-65716b2e397e
+		dataCategory: ImageUrl
+		summarizeBy: none
+		sourceColumn: URL
+
+		annotation SummarizationSetBy = Automatic
+
+	column DLINK
+		dataType: string
+		lineageTag: 4d307d24-9aed-4bfb-abcd-95c5bcdaf968
+		dataCategory: ImageUrl
+		summarizeBy: none
+		sourceColumn: DLINK
+
+		annotation SummarizationSetBy = Automatic
+
+	column Empty = " "
+		lineageTag: 26a850f3-d918-47ee-8b9b-7fb3c3b1a11e
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Tooltip Info-4aaddac4-c817-4395-8b4c-ecd8d9360389' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("pZJBT8IwGIb/SrMz8o2Wjs0bARLloEjkYAiHbpRtGWtnW8Dx651pQnBoCnprmqd93u/Nt1x6T9wgzbZcozuUMMNTqWoUK86KtTwIr+NlxlT6HiAvWZofuep+HbjOWFJ0E1k292mEMQQhjeCt3i/iXTfNN62H5zxUpeVSb9X5HkAbqfjt9j6QHgngMRTJ/Nlpl5a7tBe8RrnYbHdcJFzpa+09oNj3Ybpm40XltG8tZ+1zbnZK/K/6PlAa+MDHU1nE7uEt19a3ikfXywc4CEHF0xf24ZZbri3/Y+8YaN8PIA9mRZa5d85y526kmtIbvzjtwF6jQ8YMuvjr1xAECKGQPZTvi6Mzg7DcTxlu1GKIKA5hXkyS4at7dstZ70weuBpW1dU9E8DRIIJ1PZqQkXtGyzWu1Sc=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type text) meta [Serialized.Text = true]) in type table [nombre = _t, URL = _t, DLINK = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"nombre", type text}, {"URL", type text}, {"DLINK", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_QueryRelationships = {"columnCount":3,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/Tooltip Info/Changed Type.{nombre,0}","Section1/Tooltip Info/Changed Type.{URL,1}","Section1/Tooltip Info/Changed Type.{DLINK,2}"],"ColumnCount":3,"KeyColumnNames":[],"ColumnIdentities":["Section1/Tooltip Info/Changed Type.{nombre,0}","Section1/Tooltip Info/Changed Type.{URL,1}","Section1/Tooltip Info/Changed Type.{DLINK,2}"],"RelationshipInfo":[]}
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Human Resources Sample PBIX"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "f6a245e0-faa9-4057-85c1-110415dd43ec"
+  }
+}

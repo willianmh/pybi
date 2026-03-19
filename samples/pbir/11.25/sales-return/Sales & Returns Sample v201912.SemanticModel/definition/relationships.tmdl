@@ -1,0 +1,42 @@
+relationship 677d2c0d-f04e-4bfb-ab65-d6e85634f934
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Calendar.Date
+	toColumn: LocalDateTable_d9fbe243-4814-4038-8eec-593e864a563b.Date
+
+relationship 708dbd48-5eb4-4303-9248-e96d09238555
+	fromColumn: Association.RightItemSetId
+	toColumn: 'Associated Product'.ProductID
+
+relationship ebdef1d9-12f1-42bd-8a10-738d6e1c950d
+	fromColumn: Sales.StoreID
+	toColumn: Store.StoreID
+
+relationship a826c6b3-bded-41a8-8f05-5a9ee4812391
+	fromColumn: Sales.ProductID
+	toColumn: Product.ProductID
+
+relationship a3dbf965-d829-4162-96fc-d8c4a82aaefc
+	fromColumn: Sales.Date
+	toColumn: Calendar.Date
+
+relationship bd728e6c-e5e7-4b83-98c6-677efdcc0eb6
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: Customer.ID
+	toColumn: Sales.ID
+
+relationship fc9659a9-cbb8-4acb-9331-54826be4ab0a
+	fromColumn: Association.LeftItemSetId
+	toColumn: Product.ProductID
+
+relationship 5fb6421a-c1c5-4969-95e5-0939e04d5c72
+	isActive: false
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: Product.Product
+	toColumn: 'Associated Product'.Product
+
+relationship a8a5301f-8eb0-4f8a-8182-c2455b89988a
+	fromColumn: Customer.Product
+	toColumn: 'Associated Product'.Product
+

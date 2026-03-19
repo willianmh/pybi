@@ -1,0 +1,132 @@
+{
+  "filters": [
+    {
+      "name": "Filter1ce2d7ed595ee9095ce0",
+      "displayName": "Region",
+      "field": {
+        "Column": {
+          "Expression": {
+            "SourceRef": {
+              "Entity": "Accounts"
+            }
+          },
+          "Property": "Region"
+        }
+      },
+      "type": "Categorical",
+      "howCreated": "Drillthrough"
+    },
+    {
+      "name": "Filter4644741952a7721ce66d",
+      "displayName": "State",
+      "field": {
+        "Column": {
+          "Expression": {
+            "SourceRef": {
+              "Entity": "Accounts"
+            }
+          },
+          "Property": "State"
+        }
+      },
+      "type": "Categorical",
+      "howCreated": "Drillthrough",
+      "isLockedInViewMode": true
+    },
+    {
+      "name": "88236200120de05c8b20",
+      "displayName": "Opportunity Size",
+      "field": {
+        "Column": {
+          "Expression": {
+            "SourceRef": {
+              "Entity": "Opportunities"
+            }
+          },
+          "Property": "Opportunity Size"
+        }
+      },
+      "type": "Categorical"
+    },
+    {
+      "name": "9d18b0af04e8a192816e",
+      "displayName": "Partner",
+      "field": {
+        "Column": {
+          "Expression": {
+            "SourceRef": {
+              "Entity": "Partners"
+            }
+          },
+          "Property": "Partner"
+        }
+      },
+      "type": "Categorical"
+    },
+    {
+      "name": "4b52bc15b78731c52a62",
+      "displayName": "Total Opportunity Count",
+      "field": {
+        "Measure": {
+          "Expression": {
+            "SourceRef": {
+              "Entity": "Sales"
+            }
+          },
+          "Property": "Total Opportunity Count"
+        }
+      },
+      "type": "Advanced",
+      "isLockedInViewMode": true
+    },
+    {
+      "name": "9419ee956de8c0013537",
+      "displayName": "Total Revenue",
+      "field": {
+        "Measure": {
+          "Expression": {
+            "SourceRef": {
+              "Entity": "Sales"
+            }
+          },
+          "Property": "Total Revenue"
+        }
+      },
+      "type": "Advanced",
+      "isLockedInViewMode": true
+    },
+    {
+      "name": "5194235d2d2c0accc5d8",
+      "displayName": "Average Revenue",
+      "field": {
+        "Measure": {
+          "Expression": {
+            "SourceRef": {
+              "Entity": "Sales"
+            }
+          },
+          "Property": "Average Revenue"
+        }
+      },
+      "type": "Advanced",
+      "isLockedInViewMode": true
+    },
+    {
+      "name": "a2ca68e4393ed00c58b8",
+      "displayName": "Average Opportunity Days",
+      "field": {
+        "Measure": {
+          "Expression": {
+            "SourceRef": {
+              "Entity": "Sales"
+            }
+          },
+          "Property": "Average Opportunity Days"
+        }
+      },
+      "type": "Advanced",
+      "isLockedInViewMode": true
+    }
+  ],
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/filterConfiguration/1.1.0/schema.json"
+}

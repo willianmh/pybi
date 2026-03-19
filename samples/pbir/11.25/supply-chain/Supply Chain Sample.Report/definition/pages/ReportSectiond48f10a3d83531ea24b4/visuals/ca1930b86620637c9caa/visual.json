@@ -1,0 +1,114 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "ca1930b86620637c9caa",
+  "position": {
+    "x": 499.51219512195127,
+    "y": 31.219512195121954,
+    "z": 3000,
+    "height": 664.67348544453193,
+    "width": 770.41699449252565
+  },
+  "visual": {
+    "visualType": "keyDriversVisual",
+    "query": {
+      "queryState": {
+        "ExplainBy": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Supply Analytics"
+                    }
+                  },
+                  "Property": "Demand Type"
+                }
+              },
+              "queryRef": "Supply Analytics.Demand Type"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Supply Analytics"
+                    }
+                  },
+                  "Property": "Forecast Accuracy"
+                }
+              },
+              "queryRef": "Supply Analytics.Forecast Accuracy"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Supply Analytics"
+                    }
+                  },
+                  "Property": "Forecast Bias"
+                }
+              },
+              "queryRef": "Supply Analytics.Forecast Bias"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Supply Analytics"
+                    }
+                  },
+                  "Property": "Manufactured Goods"
+                }
+              },
+              "queryRef": "Supply Analytics.Manufactured Goods"
+            }
+          ]
+        },
+        "Target": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Supply Analytics"
+                    }
+                  },
+                  "Property": "Product "
+                }
+              },
+              "queryRef": "Supply Analytics.Product "
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "keyDrivers": [
+        {
+          "properties": {
+            "targetValue": {
+              "expr": {
+                "Literal": {
+                  "Value": "'''on backorder'''"
+                }
+              }
+            },
+            "selectedAnalysis": {
+              "expr": {
+                "Literal": {
+                  "Value": "'keyInfluencers'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

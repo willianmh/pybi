@@ -1,0 +1,154 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "1c0a2af96d0960019b6a",
+  "position": {
+    "x": 73.895155938951561,
+    "y": 170.72329130723293,
+    "z": 17000,
+    "height": 485.83941605839419,
+    "width": 752.54147312541477,
+    "tabOrder": 17000
+  },
+  "visual": {
+    "visualType": "keyDriversVisual",
+    "query": {
+      "queryState": {
+        "Details": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Indicators"
+                    }
+                  },
+                  "Property": "Year"
+                }
+              },
+              "queryRef": "Indicators.Year"
+            }
+          ]
+        },
+        "ExplainBy": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Indicators"
+                    }
+                  },
+                  "Property": "Female pupils below minimum reading proficiency at end of primary (%)"
+                }
+              },
+              "queryRef": "Indicators.Female pupils below minimum reading proficiency at end of primary (%)"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Indicators"
+                    }
+                  },
+                  "Property": "GDP per capita (US $)"
+                }
+              },
+              "queryRef": "Indicators.GDP per capita (US $)"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Indicators"
+                    }
+                  },
+                  "Property": "Net national income per capita"
+                }
+              },
+              "queryRef": "Indicators.Net national income per capita"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Indicators"
+                    }
+                  },
+                  "Property": "People using safely managed drinking water services (% of population)"
+                }
+              },
+              "queryRef": "Indicators.People using safely managed drinking water services (% of population)"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Indicators"
+                    }
+                  },
+                  "Property": "Percentage of female population with no education"
+                }
+              },
+              "queryRef": "Indicators.Percentage of female population with no education"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Indicators"
+                    }
+                  },
+                  "Property": "Safe drinking water services (% of population)"
+                }
+              },
+              "queryRef": "Indicators.Safe drinking water services (% of population)"
+            }
+          ]
+        },
+        "Target": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Indicators"
+                    }
+                  },
+                  "Property": "Life expectancy"
+                }
+              },
+              "queryRef": "Indicators.Life expectancy"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Indicators"
+                  }
+                },
+                "Property": "Life expectancy"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}
