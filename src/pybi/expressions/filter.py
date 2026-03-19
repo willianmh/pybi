@@ -1,6 +1,6 @@
 from enum import Enum
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, field_serializer
 
 from ..report.models.semanticquery.expressions import (
     FilterDefinition,
@@ -34,7 +34,7 @@ class FilterObjects(BaseModel):
 
 class Filter(BaseModel):
     model_config = ConfigDict(
-        extra="forbid",
+        extra="allow",
     )
     name: str | None = None
     expression: QueryExpressionContainer | None = None
@@ -47,3 +47,8 @@ class Filter(BaseModel):
     isLockedInViewMode: bool | None = None
     displayName: str | None = None
     ordinal: int | None = None
+
+    @field_serializer("type", when_used="always")
+    @classmethod
+    def ser_type(cls, type: FilterTypeEnum) -> str:
+        return type.value
