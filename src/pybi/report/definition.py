@@ -1,0 +1,3 @@
+class ReportDefinitionProtocol:
+    @property
+    def sections(self) -> list: ...

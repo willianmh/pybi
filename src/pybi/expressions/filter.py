@@ -2,7 +2,7 @@ from enum import Enum
 
 from pydantic import BaseModel, ConfigDict, field_serializer
 
-from ..report.models.semanticquery.expressions import (
+from ..report.pbir.models.semanticquery.expressions import (
     FilterDefinition,
     QueryExpressionContainer,
 )
