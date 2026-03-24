@@ -63,7 +63,29 @@ class Token:
 
 
 class TMDLLexer:
-    """Tokenizer for TMDL files."""
+    """Tokenizer for TMDL files.
+
+    Design decisions
+    ----------------
+    * **Rest-of-line capture after ``:`` / ``=``**:  After a COLON or EQUALS
+      token the entire remaining line text is emitted as a single STRING
+      token.  This means ``isActive: false`` produces IDENTIFIER COLON
+      STRING("false"), *not* IDENTIFIER COLON BOOLEAN.  The parser layer
+      is responsible for type interpretation.  This is intentional because
+      TMDL colon/equals values can contain arbitrary text (format strings,
+      column references, expressions) that must not be sub-tokenized.
+
+    * **Tab-only structural indentation**:  Indentation depth is measured
+      exclusively by leading tab characters.  Spaces within line content
+      (e.g. M expression continuation lines) are not structural.
+
+    * **Flexible intermediate indent levels**:  When dedenting to a level
+      not previously on the indent stack the lexer creates a new level.
+      This supports TMDL patterns where multi-line expression bodies are
+      indented deeper than the properties that follow them (e.g. body at
+      level 3, next property at level 2).  The trade-off is that genuine
+      indentation errors at intermediate levels are not caught here.
+    """
 
     def __init__(self, text: str, file_path: str | None = None):
         self.text = text.replace("\r\n", "\n").replace("\r", "\n")
@@ -74,9 +96,23 @@ class TMDLLexer:
     def _error(self, message: str) -> TMDLLexerError:
         return TMDLLexerError(message, line=self.line, file_path=self.file_path)
 
-    def _count_leading_tabs(self, line: str) -> int:
-        """Count the number of leading tabs in a line."""
-        return len(line) - len(line.lstrip("\t"))
+    @staticmethod
+    def _is_comment_line(content: str) -> bool:
+        """Return True if content is a // comment (but not a /// description).
+
+        Handles both lines starting with '/' and M expression continuation
+        lines where spaces precede the '//' comment marker.
+        """
+        c0 = content[0]
+        if c0 != "/" and c0 != " ":
+            return False
+        stripped = content if c0 == "/" else content.lstrip()
+        return (
+            len(stripped) >= 2
+            and stripped[0] == "/"
+            and stripped[1] == "/"
+            and (len(stripped) < 3 or stripped[2] != "/")
+        )
 
     def _handle_backtick_expression(
         self, content: str, lines: list[str], line_idx: int, indent_level: int
@@ -102,12 +138,10 @@ class TMDLLexer:
         tokens: list[Token] = []
         opening_line = self.line  # STRING token always references the opening line
 
-        # Bug fix (Bug 3): use the regex so any amount of whitespace between
-        # '=' and '```' is handled correctly (e.g. '=```' or '=   ```').
+        # Use the regex so any amount of whitespace between '=' and '```'
+        # is handled correctly (e.g. '=```' or '=   ```').
         bt_match = BACKTICK_ASSIGN_RE.search(content)
-        if bt_match is None:
-            # Should never happen — caller already verified the match.
-            raise self._error("Internal error: backtick pattern not found in line")
+        assert bt_match is not None  # Caller already verified the match
 
         # Everything up to and including '='
         before_backtick = content[: bt_match.start() + 1].strip()
@@ -151,9 +185,9 @@ class TMDLLexer:
                 expr_lines.append(after_backtick)
 
         # Multi-line form: read lines until ``` appears alone on a line.
-        # Bug fix (Bug 1): only a line whose *entire* stripped content is ```
-        # counts as the closing marker.  A line that merely ends with ```
-        # (e.g. a DAX comment or string literal) is expression content.
+        # Only a line whose *entire* stripped content is ``` counts as the
+        # closing marker.  A line that merely ends with ``` (e.g. a DAX
+        # comment or string literal) is expression content.
         current_line_idx += 1
         found_closing = False
         closing_line_idx = current_line_idx
@@ -173,9 +207,9 @@ class TMDLLexer:
             raise self._error("Unterminated backtick expression")
 
         expr_value = "\n".join(expr_lines)
-        # Bug fix (Bug 4): the NEWLINE token carries the line number of the
-        # *closing* ```, not of the opening line, so error messages after a
-        # large expression point to the right location.
+        # The NEWLINE token carries the line number of the *closing* ```,
+        # not of the opening line, so error messages after a large
+        # expression point to the right location.
         closing_line = closing_line_idx + 1  # convert to 1-based
         tokens.append(
             Token(
@@ -347,22 +381,13 @@ class TMDLLexer:
             indent_level = len(line) - len(_stripped)
             content = _stripped  # tab-free line content
 
-            # Bug fix (Bug 7): skip // comment lines (but not /// descriptions).
+            # Skip // comment lines (but not /// descriptions).
             # M expression bodies use spaces for internal indentation, so
             # "    // comment" (tabs stripped, spaces remain) must also be
-            # caught — but only pay the cost of lstrip() when content starts
-            # with '/' or ' '.
-            c0 = content[0]
-            if c0 == "/" or c0 == " ":
-                _cs = content if c0 == "/" else content.lstrip()
-                if (
-                    len(_cs) >= 2
-                    and _cs[0] == "/"
-                    and _cs[1] == "/"
-                    and (len(_cs) < 3 or _cs[2] != "/")
-                ):
-                    line_idx += 1
-                    continue
+            # caught.
+            if self._is_comment_line(content):
+                line_idx += 1
+                continue
 
             # Generate INDENT/DEDENT tokens
             current_indent = self.indent_stack[-1]
@@ -374,8 +399,10 @@ class TMDLLexer:
                     self.indent_stack.pop()
                     yield Token(TokenType.DEDENT, "", self.line, 1, indent_level)
                 # Allow dedenting to an intermediate level not previously seen.
-                # TMDL permits flexible indentation (e.g., multi-line JSON values
-                # indented at level 3, followed by properties at level 2).
+                # TMDL permits flexible indentation (e.g., multi-line JSON
+                # values indented at level 3, followed by properties at
+                # level 2).  The trade-off is that genuine indentation
+                # errors at intermediate levels are not caught here.
                 if self.indent_stack[-1] < indent_level:
                     self.indent_stack.append(indent_level)
                     yield Token(TokenType.INDENT, "", self.line, 1, indent_level)
@@ -402,12 +429,10 @@ class TMDLLexer:
                 continue
 
             # Check for backtick expression (= ```).
-            # Bug fix (Bug 2): guard with a colon-prefix check so that a
-            # colon-value line such as "desc: some = ``` text" is never
-            # mistaken for a backtick assignment.
-            # Bug fix (Bug 3): use a regex so '=```' (no space) and
-            # '=   ```' (extra spaces) are both recognised.
-            # Perf: guard the regex with a cheap substring check.
+            # Guard with a colon-prefix check so that a colon-value line
+            # such as "desc: some = ``` text" is never mistaken for a
+            # backtick assignment.  The regex handles flexible whitespace
+            # between '=' and '```' (e.g. '=```' and '=   ```').
             if "=" in content and "```" in content:
                 _bt_match = BACKTICK_ASSIGN_RE.search(content)
                 if _bt_match and ":" not in content[: _bt_match.start()]:
@@ -447,11 +472,10 @@ class TMDLLexer:
     def _tokenize_line(self, content: str, indent_level: int) -> list[Token]:
         """Tokenize a single line of content by dispatching to character handlers."""
         tokens: list[Token] = []
-        _append = tokens.append
         pos = 0
         col = indent_level + 1
         content_len = len(content)
-        line = self.line
+        line = self.line  # Local copy — constant within _tokenize_line
 
         while pos < content_len:
             char = content[pos]
@@ -463,7 +487,7 @@ class TMDLLexer:
                 continue
 
             if char == ":":
-                _append(Token(TokenType.COLON, ":", line, col, indent_level))
+                tokens.append(Token(TokenType.COLON, ":", line, col, indent_level))
                 pos += 1
                 col += 1
                 # Skip leading whitespace after colon
@@ -472,11 +496,11 @@ class TMDLLexer:
                     col += 1
                 remaining = content[pos:].rstrip()
                 if remaining:
-                    _append(Token(TokenType.STRING, remaining, line, col, indent_level))
+                    tokens.append(Token(TokenType.STRING, remaining, line, col, indent_level))
                 return tokens
 
             if char == "=":
-                _append(Token(TokenType.EQUALS, "=", line, col, indent_level))
+                tokens.append(Token(TokenType.EQUALS, "=", line, col, indent_level))
                 pos += 1
                 col += 1
                 # Skip leading whitespace after equals
@@ -485,21 +509,21 @@ class TMDLLexer:
                     col += 1
                 remaining = content[pos:].rstrip()
                 if remaining:
-                    _append(Token(TokenType.STRING, remaining, line, col, indent_level))
+                    tokens.append(Token(TokenType.STRING, remaining, line, col, indent_level))
                 return tokens
 
             if char == "'":
                 token, pos, col = self._tokenize_quoted_name(
                     content, pos, col, indent_level
                 )
-                _append(token)
+                tokens.append(token)
                 continue
 
             if char == '"':
                 token, pos, col = self._tokenize_string_literal(
                     content, pos, col, indent_level
                 )
-                _append(token)
+                tokens.append(token)
                 continue
 
             if char.isdigit() or (
@@ -508,28 +532,30 @@ class TMDLLexer:
                 token, pos, col = self._tokenize_number_or_uuid(
                     content, pos, col, indent_level
                 )
-                _append(token)
+                tokens.append(token)
                 continue
 
             if char.isalpha() or char == "_":
                 token, pos, col = self._tokenize_identifier_or_keyword(
                     content, pos, col, indent_level
                 )
-                _append(token)
+                tokens.append(token)
                 continue
 
             if char == "#" and pos + 1 < content_len and content[pos + 1] == '"':
                 token, pos, col = self._tokenize_m_quoted_identifier(
                     content, pos, col, indent_level
                 )
-                _append(token)
+                tokens.append(token)
                 continue
 
             # Unrecognized character — emit as STRING to preserve in expression
-            # content. The lexer cannot distinguish structural lines from
-            # multi-line expression continuation, so strictness for unknown
+            # content.  In practice this handles M expression punctuation
+            # such as (, ), [, ], {, }, ;, and comma that appear on
+            # continuation lines.  The lexer cannot distinguish structural
+            # lines from expression content, so validation of unexpected
             # characters is deferred to the parser layer.
-            _append(Token(TokenType.STRING, char, line, col, indent_level))
+            tokens.append(Token(TokenType.STRING, char, line, col, indent_level))
             pos += 1
             col += 1
 
