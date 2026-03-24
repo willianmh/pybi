@@ -134,29 +134,38 @@ DEFAULT_SCHEMA_ROOT = Path(
     r"/Users/willian/Documents/coding/json-schemas/fabric/item/report/definition"
 )
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-OUTPUT_ROOT = PROJECT_ROOT / "src" / "pybi" / "report" / "models"
+OUTPUT_ROOT = PROJECT_ROOT / "src" / "pybi" / "report" / "pbir" / "models"
 
 # Target schemas to generate: (directory_name, version, schema_filename)
 # Order does NOT matter - the script resolves dependency order automatically.
 TARGET_SCHEMAS: list[tuple[str, str, str]] = [
     ("semanticQuery", "1.2.0", "schema.json"),
     ("semanticQuery", "1.3.0", "schema.json"),
+    ("semanticQuery", "1.4.0", "schema.json"),
     ("formattingObjectDefinitions", "1.4.0", "schema.json"),
+    ("formattingObjectDefinitions", "1.5.0", "schema.json"),
     ("filterConfiguration", "1.2.0", "schema-embedded.json"),
+    ("filterConfiguration", "1.3.0", "schema-embedded.json"),
     ("visualConfiguration", "2.2.0", "schema-embedded.json"),
+    ("visualConfiguration", "2.3.0", "schema-embedded.json"),
     ("visualContainer", "2.3.0", "schema.json"),
     ("visualContainer", "2.4.0", "schema.json"),
     ("visualContainer", "2.5.0", "schema.json"),
     ("visualContainer", "2.6.0", "schema.json"),
+    ("visualContainer", "2.7.0", "schema.json"),
     # PBIR-specific schemas
-    ("versionMetadata", "1.0.0", "schema.json"),
+    # ("versionMetadata", "1.0.0", "schema.json"), # There is a bug in the script that removes the version metadata
     ("pagesMetadata", "1.0.0", "schema.json"),
     ("page", "1.4.0", "schema.json"),
     ("page", "2.0.0", "schema.json"),
+    ("page", "2.1.0", "schema.json"),
+    ("report", "3.0.0", "schema.json"),
     ("report", "3.1.0", "schema.json"),
+    ("report", "3.2.0", "schema.json"),
     ("bookmarksMetadata", "1.0.0", "schema.json"),
     ("bookmark", "1.4.0", "schema.json"),
     ("bookmark", "2.0.0", "schema.json"),
+    ("bookmark", "2.1.0", "schema.json"),
     ("reportExtension", "1.0.0", "schema.json"),
     ("visualContainerMobileState", "2.2.0", "schema.json"),
 ]
@@ -441,10 +450,6 @@ def _fix_optional_field_defaults(source: str) -> str:
     return result
 
 
-# Regex matching constr(...) calls — captures the kwargs inside the parens.
-_CONSTR_CALL = re.compile(r"\bconstr\(([^)]+)\)")
-
-
 def _replace_constr_with_annotated(source: str) -> str:
     """Replace ``constr(...)`` with ``Annotated[str, StringConstraints(...)]``.
 
@@ -452,14 +457,36 @@ def _replace_constr_with_annotated(source: str) -> str:
     calls.  This function rewrites them to the modern Pydantic V2 form using
     ``Annotated`` and ``StringConstraints``, and adjusts the import block
     accordingly.
+
+    Uses parenthesis counting instead of a regex to correctly handle pattern
+    strings that contain ``)`` characters (e.g. ``r'^(a|b)$'``).
     """
     if "constr(" not in source:
         return source
 
-    def _rewrite(match: re.Match) -> str:
-        return f"Annotated[str, StringConstraints({match.group(1)})]"
+    result: list[str] = []
+    i = 0
+    changed = False
+    while i < len(source):
+        if source[i : i + 7] == "constr(":
+            start = i + 7  # position after the opening (
+            depth = 1
+            j = start
+            while j < len(source) and depth > 0:
+                if source[j] == "(":
+                    depth += 1
+                elif source[j] == ")":
+                    depth -= 1
+                j += 1
+            args = source[start : j - 1]
+            result.append(f"Annotated[str, StringConstraints({args})]")
+            i = j
+            changed = True
+        else:
+            result.append(source[i])
+            i += 1
 
-    new_source = _CONSTR_CALL.sub(_rewrite, source)
+    new_source = "".join(result) if changed else source
 
     if new_source != source:
         # Remove constr from pydantic imports if present
@@ -478,7 +505,9 @@ def _replace_constr_with_annotated(source: str) -> str:
         )
 
         # Add Annotated to existing typing import, or create one
-        typing_import = re.search(r"^from typing import (.+)$", new_source, re.MULTILINE)
+        typing_import = re.search(
+            r"^from typing import (.+)$", new_source, re.MULTILINE
+        )
         if typing_import:
             if "Annotated" not in typing_import.group(1):
                 new_source = new_source.replace(
@@ -489,7 +518,9 @@ def _replace_constr_with_annotated(source: str) -> str:
             new_source = _insert_imports(new_source, ["from typing import Annotated"])
 
         # Add StringConstraints to existing pydantic import, or create one
-        pydantic_import = re.search(r"^from pydantic import (.+)$", new_source, re.MULTILINE)
+        pydantic_import = re.search(
+            r"^from pydantic import (.+)$", new_source, re.MULTILINE
+        )
         if pydantic_import:
             if "StringConstraints" not in pydantic_import.group(1):
                 new_source = new_source.replace(
@@ -497,10 +528,15 @@ def _replace_constr_with_annotated(source: str) -> str:
                     pydantic_import.group(0).rstrip() + ", StringConstraints",
                 )
         else:
-            new_source = _insert_imports(new_source, ["from pydantic import StringConstraints"])
+            new_source = _insert_imports(
+                new_source, ["from pydantic import StringConstraints"]
+            )
 
         count = source.count("constr(")
-        log.info("  Replaced %d constr() call(s) with Annotated[str, StringConstraints(...)]", count)
+        log.info(
+            "  Replaced %d constr() call(s) with Annotated[str, StringConstraints(...)]",
+            count,
+        )
 
     return new_source
 
