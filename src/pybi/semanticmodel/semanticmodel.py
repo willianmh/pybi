@@ -1,10 +1,28 @@
 import uuid
 from typing import Any
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, RootModel
 
 from ..fabric.fabric import DefinitionPbism, Platform
-from .types import ColumnType, DataCategory, DataType, PartitionMode, SourceType
+from .types import (
+    ColumnType,
+    DataCategory,
+    DataType,
+    PartitionMode,
+    SourceType,
+    SummarizeBy,
+)
+
+
+class Variation(BaseModel):
+    name: str | None = None
+    annotations: Any | None = None
+    defaultHierarchy: Any | None = None
+    isDefault: bool = False
+    relationship: str | None = None
+
+
+class VariationCollection(RootModel[list[Variation]]): ...
 
 
 class Culture(BaseModel):
@@ -31,6 +49,11 @@ class Partition(BaseModel):
 
 
 class Relationship(BaseModel):
+    """
+    See: https://docs.tabulareditor.com/en/api/TabularEditor.TOMWrapper.SingleColumnRelationship.html
+    See: https://docs.tabulareditor.com/en/api/TabularEditor.TOMWrapper.Relationship.html
+    """
+
     name: str
     annotations: list[dict] | None = None
     crossFilteringBehavior: str | None = None
@@ -74,9 +97,13 @@ class Measure(BaseModel):
 
 
 class Column(BaseModel):
+    """
+    See: https://docs.tabulareditor.com/en/api/TabularEditor.TOMWrapper.Column.html
+    """
+
     name: str
     annotations: list[dict] | None = None
-    changedProperties: Any | None = None
+    changedProperties: list[Any] | None = None
     dataCategory: DataCategory | None = None
     dataType: DataType | None = None
     expression: list[str] | str | None = None
@@ -93,9 +120,9 @@ class Column(BaseModel):
     sourceColumn: str | None = None
     sourceLineageTag: str | None = None
     sourceProviderType: str | None = None
-    summarizeBy: str | None = None
+    summarizeBy: SummarizeBy | None = "default"
     type: ColumnType | None = None
-    variations: list[dict] | None = None
+    variations: VariationCollection | None = None
     displayFolder: str | None = None
 
 
@@ -123,7 +150,7 @@ class Model(BaseModel):
     culture: str = "en-US"
     cultures: list[Culture] = [Culture()]
     dataAccessOptions: dict | None = None  # TODO: discover and implement
-    defaultPowerBIDataSourceVesion: str = "powerBI_V3"
+    defaultPowerBIDataSourceVersion: str = "powerBI_V3"
     discourageImplicitMeasures: bool | None = None
     expressions: list[Expression]
     maxParallelismPerRefresh: int | None = None
