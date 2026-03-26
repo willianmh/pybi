@@ -4,20 +4,46 @@ from typing import TypeVar
 from pydantic import BaseModel
 
 from ...semanticmodel.semanticmodel import SemanticModelDefinition
+from ...report.legacy.legacy_model import ReportJsonDefinition
 from ...fabric.fabric import DefinitionPbir, DefinitionPbism, Platform
 from ..types import Part
 
-StorableModel = DefinitionPbir | DefinitionPbism | Platform | SemanticModelDefinition
+StorableModel = (
+    DefinitionPbir
+    | DefinitionPbism
+    | Platform
+    | SemanticModelDefinition
+    | ReportJsonDefinition
+)
 
-T = TypeVar("T", DefinitionPbir, DefinitionPbism, Platform, SemanticModelDefinition)
+T = TypeVar(
+    "T",
+    DefinitionPbir,
+    DefinitionPbism,
+    Platform,
+    SemanticModelDefinition,
+    ReportJsonDefinition,
+)
 
 
 def dump_json_bytes(
-    model: BaseModel, indent: int = 2, encoding: str = "utf-8"
+    model: BaseModel,
+    exclude: set[str] | None = None,
+    exclude_none: bool = True,
+    exclude_unset: bool = True,
+    by_alias: bool = True,
+    indent: int = 2,
+    encoding: str = "utf-8",
 ) -> bytes:
-    data = model.model_dump()
+    data = model.model_dump(
+        mode="json",
+        exclude_none=exclude_none,
+        exclude_unset=exclude_unset,
+        by_alias=by_alias,
+        exclude=exclude,
+    )
     text = json.dumps(data, indent=indent)
-    return text.encode(encoding=encoding)
+    return text.encode(encoding)
 
 
 def find_part(parts: list[Part], path: str) -> Part | None:

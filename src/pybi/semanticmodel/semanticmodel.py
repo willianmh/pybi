@@ -175,8 +175,6 @@ class SemanticModelDefinition(BaseModel):
     FILENAME: ClassVar[str] = "model.bim"
     compatibilityLevel: int = 1600
     model: Model
-    name: str | None = None
-    path: str | None = None
 
 
 class SemanticModel(BaseModel):
