@@ -7,6 +7,15 @@ FABRIC_SCHEMA_URL = "https://developer.microsoft.com/json-schemas/fabric/gitInte
 SM_SCHEMA_URL = "https://developer.microsoft.com/json-schemas/fabric/item/semanticModel/definitionProperties/1.0.0/schema.json"
 
 
+# Definition Pbism
+class DatasetSettings(BaseModel):
+    qnaEnabled: bool | None = None
+    qnaLsdlSharingPermissions: int | None = None
+
+
+# Definition Pbir
+
+
 class ByConnection(BaseModel):
     connectionString: str
     pbiserviceModelId: int | None = None
@@ -74,6 +83,8 @@ class DefinitionPbism(BaseModel):
     )
 
     schema_: str = Field(default=SM_SCHEMA_URL, alias="$schema")
+    version: str = "2.0"
+    settings: DatasetSettings = Field(default_factory=DatasetSettings)
 
 
 class Platform(BaseModel):
@@ -88,6 +99,10 @@ class Platform(BaseModel):
     config: ConfigPlatform = Field(default_factory=ConfigPlatform)
 
 
+def default_semanticmodel_platform() -> Platform:
+    return Platform(metadata=Metadata(type="Report", displayName="SM"))
+
+
 def default_report_platform() -> Platform:
     return Platform(metadata=Metadata(type="Report", displayName="Report"))
 
@@ -96,3 +111,7 @@ def default_definition_pbir() -> DefinitionPbir:
     return DefinitionPbir(
         datasetReference=DatasetReference(byPath=ByPath(path="../This.SemanticModel"))
     )
+
+
+def default_definition_pbism() -> DefinitionPbism:
+    return DefinitionPbism()

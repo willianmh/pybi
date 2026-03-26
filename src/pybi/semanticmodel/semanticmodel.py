@@ -1,10 +1,12 @@
 import uuid
-from typing import Any
+from typing import Any, ClassVar
 
-from pydantic import BaseModel, Field, RootModel
+from pydantic import BaseModel, Field
 
 from ..fabric.fabric import DefinitionPbism, Platform
+from ..serialization.detect import detect_from_disk
 from .types import (
+    SemanticModelFormat,
     ColumnType,
     DataCategory,
     DataType,
@@ -14,15 +16,21 @@ from .types import (
 )
 
 
+class Annotation(BaseModel):
+    """
+    See: https://learn.microsoft.com/en-us/openspecs/sql_server_protocols/ms-ssas-t/7a16a837-cb88-4cb2-a766-a97c4d0e1f43
+    See: https://docs.tabulareditor.com/en/api/TabularEditor.TOMWrapper.Annotation.html"""
+
+    name: str | None = None
+    value: str | None = None
+
+
 class Variation(BaseModel):
     name: str | None = None
     annotations: Any | None = None
-    defaultHierarchy: Any | None = None
     isDefault: bool = False
     relationship: str | None = None
-
-
-class VariationCollection(RootModel[list[Variation]]): ...
+    defaultHierarchy: Any | None = None
 
 
 class Culture(BaseModel):
@@ -86,7 +94,7 @@ class Measure(BaseModel):
     changedProperties: Any | None = None
     dataCategory: DataCategory | None = None
     displayFolder: str | None = None
-    expression: list[str] | str
+    expression: list[str] | str | None = None
     extendedProperties: list[dict] | None = None  # TODO: discover and implement
     formatString: str | None = None
     formatStringDefinition: dict | None = None
@@ -122,7 +130,7 @@ class Column(BaseModel):
     sourceProviderType: str | None = None
     summarizeBy: SummarizeBy | None = "default"
     type: ColumnType | None = None
-    variations: VariationCollection | None = None
+    variations: list[Variation] | None = None
     displayFolder: str | None = None
 
 
@@ -139,7 +147,7 @@ class Table(BaseModel):
     isPrivate: bool | None = None
     lineageTag: str = Field(default_factory=lambda: str(uuid.uuid4()))
     measures: list[Measure] | None = None
-    partitions: list[Partition]
+    partitions: list[Partition] = Field(default_factory=list)
     showAsVariationsOnly: bool | None = None
     sourceLineageTag: str | None = None
     description: str | None = None
@@ -152,7 +160,7 @@ class Model(BaseModel):
     dataAccessOptions: dict | None = None  # TODO: discover and implement
     defaultPowerBIDataSourceVersion: str = "powerBI_V3"
     discourageImplicitMeasures: bool | None = None
-    expressions: list[Expression]
+    expressions: list[Expression] = Field(default_factory=list)
     maxParallelismPerRefresh: int | None = None
     queryGroups: Any | None = None
     relationships: list[Relationship] | None = None
@@ -162,10 +170,11 @@ class Model(BaseModel):
 
 
 class SemanticModelDefinition(BaseModel):
+    FILENAME: ClassVar[str] = "model.bim"
     compatibilityLevel: int = 1600
     model: Model
-    name: str | None
-    path: str | None
+    name: str | None = None
+    path: str | None = None
 
 
 class SemanticModel(BaseModel):
@@ -174,4 +183,15 @@ class SemanticModel(BaseModel):
     platform: Platform
 
     @classmethod
-    def read(cls, root_path: str) -> SemanticModel: ...
+    def read(cls, root_path: str) -> SemanticModel:
+        from ..serialization.strategies import TmdlStrategy, ModelBimStrategy
+        from ..serialization.transport import LocalTransport
+
+        fmt = detect_from_disk(root=root_path)
+        strategy = (
+            TmdlStrategy() if fmt is SemanticModelFormat.TMDL else ModelBimStrategy()
+        )
+        transport = LocalTransport()
+
+        parts = transport.read_parts(root_path)
+        return strategy.deserialize(parts=parts)

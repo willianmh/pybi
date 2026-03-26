@@ -2,14 +2,12 @@
 
 Single source of truth for all TMDL grammar-level definitions:
 - Token-level constants (keywords, flags, character sets)
-- Property name enums grouped by TMDL object type
 - Syntax token constants
 - Definition folder/file structure registry
 - Shared name quoting/unquoting and column reference operations
 """
 
 import re
-from enum import Enum
 
 # ---------------------------------------------------------------------------
 # 1a. Token-level constants
@@ -65,6 +63,14 @@ FLAG_PROPERTIES = frozenset(
     }
 )
 
+# TMDL uses singular keyword names for repeated child entries.
+# The Pydantic models use plural field names.
+CHILDREN_NAMING_MAP: dict[str, str] = {
+    "annotation": "annotations",
+    "changedProperty": "changedProperties",
+    "extendedProperty": "extendedProperties",
+}
+
 # Characters allowed in unquoted identifiers (beyond alphanumeric)
 IDENTIFIER_CONTINUATION_CHARS = frozenset("_-/+.\\@")
 
@@ -81,102 +87,6 @@ BACKTICK_ASSIGN = "= ```"
 # Used by the lexer so that '=```' and '=   ```' are both recognised correctly.
 BACKTICK_ASSIGN_RE: re.Pattern[str] = re.compile(r"=\s*```")
 DESCRIPTION_PREFIX = "///"
-
-# ---------------------------------------------------------------------------
-# 1a-iii. Property name enums grouped by TMDL object type
-# ---------------------------------------------------------------------------
-
-
-class ColumnProp(str, Enum):
-    DATA_TYPE = "dataType"
-    IS_HIDDEN = "isHidden"
-    IS_KEY = "isKey"
-    IS_NULLABLE = "isNullable"
-    FORMAT_STRING = "formatString"
-    LINEAGE_TAG = "lineageTag"
-    SOURCE_LINEAGE_TAG = "sourceLineageTag"
-    DATA_CATEGORY = "dataCategory"
-    SUMMARIZE_BY = "summarizeBy"
-    IS_NAME_INFERRED = "isNameInferred"
-    SOURCE_COLUMN = "sourceColumn"
-    SORT_BY_COLUMN = "sortByColumn"
-    DISPLAY_FOLDER = "displayFolder"
-    EXPRESSION = "expression"
-
-
-class MeasureProp(str, Enum):
-    FORMAT_STRING = "formatString"
-    DISPLAY_FOLDER = "displayFolder"
-    LINEAGE_TAG = "lineageTag"
-    SOURCE_LINEAGE_TAG = "sourceLineageTag"
-    DATA_CATEGORY = "dataCategory"
-    IS_HIDDEN = "isHidden"
-    EXPRESSION = "expression"
-
-
-class RelationshipProp(str, Enum):
-    FROM_COLUMN = "fromColumn"
-    TO_COLUMN = "toColumn"
-    IS_ACTIVE = "isActive"
-    CROSS_FILTERING_BEHAVIOR = "crossFilteringBehavior"
-    FROM_CARDINALITY = "fromCardinality"
-    TO_CARDINALITY = "toCardinality"
-    SECURITY_FILTERING_BEHAVIOR = "securityFilteringBehavior"
-    JOIN_ON_DATE_BEHAVIOR = "joinOnDateBehavior"
-
-
-class TableProp(str, Enum):
-    SHOW_AS_VARIATIONS_ONLY = "showAsVariationsOnly"
-    LINEAGE_TAG = "lineageTag"
-    SOURCE_LINEAGE_TAG = "sourceLineageTag"
-    IS_HIDDEN = "isHidden"
-    IS_PRIVATE = "isPrivate"
-    EXCLUDE_FROM_MODEL_REFRESH = "excludeFromModelRefresh"
-
-
-class ExpressionProp(str, Enum):
-    LINEAGE_TAG = "lineageTag"
-    QUERY_GROUP = "queryGroup"
-    KIND = "kind"
-
-
-class PartitionProp(str, Enum):
-    MODE = "mode"
-    TYPE = "type"
-    ENTITY_NAME = "entityName"
-    EXPRESSION_SOURCE = "expressionSource"
-    QUERY_GROUP = "queryGroup"
-
-
-class ModelProp(str, Enum):
-    CULTURE = "culture"
-    SOURCE_QUERY_CULTURE = "sourceQueryCulture"
-    COMPATIBILITY_LEVEL = "compatibilityLevel"
-    DEFAULT_POWER_BI_DATA_SOURCE_VERSION = "defaultPowerBIDataSourceVersion"
-    DISCOURAGE_IMPLICIT_MEASURES = "discourageImplicitMeasures"
-
-
-class VariationProp(str, Enum):
-    IS_DEFAULT = "isDefault"
-    RELATIONSHIP = "relationship"
-    DEFAULT_HIERARCHY = "defaultHierarchy"
-
-
-class HierarchyProp(str, Enum):
-    LINEAGE_TAG = "lineageTag"
-    SOURCE_LINEAGE_TAG = "sourceLineageTag"
-
-
-class LevelProp(str, Enum):
-    ORDINAL = "ordinal"
-    COLUMN = "column"
-    LINEAGE_TAG = "lineageTag"
-    SOURCE_LINEAGE_TAG = "sourceLineageTag"
-
-
-class CultureProp(str, Enum):
-    CONTENT_TYPE = "contentType"
-
 
 # ---------------------------------------------------------------------------
 # 1b. TMDL definition structure registry
@@ -337,35 +247,35 @@ def format_column_reference(ref: str) -> str:
 #   "quoted_property" — emit  key: quote(v) when value is truthy
 
 COLUMN_PROPERTY_ORDER: list[tuple[str, str]] = [
-    (ColumnProp.DATA_TYPE, "property"),
-    (ColumnProp.IS_HIDDEN, "flag"),
-    (ColumnProp.IS_KEY, "flag"),
-    (ColumnProp.IS_NULLABLE, "flag_false"),
-    (ColumnProp.FORMAT_STRING, "property"),
-    (ColumnProp.LINEAGE_TAG, "property"),
-    (ColumnProp.SOURCE_LINEAGE_TAG, "property"),
-    (ColumnProp.DATA_CATEGORY, "property"),
-    (ColumnProp.SUMMARIZE_BY, "property"),
-    (ColumnProp.IS_NAME_INFERRED, "flag"),
-    (ColumnProp.SOURCE_COLUMN, "property"),
-    (ColumnProp.SORT_BY_COLUMN, "quoted_property"),
-    (ColumnProp.DISPLAY_FOLDER, "property"),
+    ("dataType", "property"),
+    ("isHidden", "flag"),
+    ("isKey", "flag"),
+    ("isNullable", "flag_false"),
+    ("formatString", "property"),
+    ("lineageTag", "property"),
+    ("sourceLineageTag", "property"),
+    ("dataCategory", "property"),
+    ("summarizeBy", "property"),
+    ("isNameInferred", "flag"),
+    ("sourceColumn", "property"),
+    ("sortByColumn", "quoted_property"),
+    ("displayFolder", "property"),
 ]
 
 MEASURE_PROPERTY_ORDER: list[tuple[str, str]] = [
-    (MeasureProp.FORMAT_STRING, "property"),
-    (MeasureProp.DISPLAY_FOLDER, "property"),
-    (MeasureProp.LINEAGE_TAG, "property"),
-    (MeasureProp.SOURCE_LINEAGE_TAG, "property"),
-    (MeasureProp.DATA_CATEGORY, "property"),
-    (MeasureProp.IS_HIDDEN, "flag"),
+    ("formatString", "property"),
+    ("displayFolder", "property"),
+    ("lineageTag", "property"),
+    ("sourceLineageTag", "property"),
+    ("dataCategory", "property"),
+    ("isHidden", "flag"),
 ]
 
 TABLE_PROPERTY_ORDER: list[tuple[str, str]] = [
-    (TableProp.SHOW_AS_VARIATIONS_ONLY, "flag"),
-    (TableProp.LINEAGE_TAG, "property"),
-    (TableProp.SOURCE_LINEAGE_TAG, "property"),
-    (TableProp.IS_HIDDEN, "flag"),
-    (TableProp.IS_PRIVATE, "flag"),
-    (TableProp.EXCLUDE_FROM_MODEL_REFRESH, "flag"),
+    ("showAsVariationsOnly", "flag"),
+    ("lineageTag", "property"),
+    ("sourceLineageTag", "property"),
+    ("isHidden", "flag"),
+    ("isPrivate", "flag"),
+    ("excludeFromModelRefresh", "flag"),
 ]

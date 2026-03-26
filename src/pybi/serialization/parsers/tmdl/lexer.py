@@ -496,7 +496,9 @@ class TMDLLexer:
                     col += 1
                 remaining = content[pos:].rstrip()
                 if remaining:
-                    tokens.append(Token(TokenType.STRING, remaining, line, col, indent_level))
+                    tokens.append(
+                        Token(TokenType.STRING, remaining, line, col, indent_level)
+                    )
                 return tokens
 
             if char == "=":
@@ -509,7 +511,9 @@ class TMDLLexer:
                     col += 1
                 remaining = content[pos:].rstrip()
                 if remaining:
-                    tokens.append(Token(TokenType.STRING, remaining, line, col, indent_level))
+                    tokens.append(
+                        Token(TokenType.STRING, remaining, line, col, indent_level)
+                    )
                 return tokens
 
             if char == "'":

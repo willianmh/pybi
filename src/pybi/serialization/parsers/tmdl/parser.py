@@ -23,15 +23,6 @@ class PropertyNode:
 
 
 @dataclass
-class AnnotationNode:
-    """Represents an annotation in TMDL."""
-
-    name: str
-    value: str
-    line: int
-
-
-@dataclass
 class ObjectDeclaration:
     """Represents an object declaration in TMDL."""
 
@@ -39,7 +30,6 @@ class ObjectDeclaration:
     name: str | None  # Name of the object (optional for some types)
     expression: str | None  # Expression value (for measure/expression with =)
     properties: list[PropertyNode] = field(default_factory=list)
-    annotations: list[AnnotationNode] = field(default_factory=list)
     children: list["ObjectDeclaration"] = field(default_factory=list)
     description: str | None = None
     line: int = 0
@@ -48,11 +38,12 @@ class ObjectDeclaration:
 class TMDLParser:
     """Recursive-descent parser that converts a TMDL token stream into AST nodes.
 
-    Produces three node types:
+    Produces two node types:
 
-    * ``ObjectDeclaration`` — keyword-introduced objects (table, column, …)
+    * ``ObjectDeclaration`` — keyword-introduced objects (table, column,
+      annotation, …).  Annotations are regular children with
+      ``object_type="annotation"``.
     * ``PropertyNode`` — ``key: value`` or ``key = expression`` pairs
-    * ``AnnotationNode`` — ``annotation Name = value`` declarations
 
     Lexer contract
     --------------
@@ -268,11 +259,7 @@ class TMDLParser:
                 # Description applies to the next child object
                 next_token = self._current()
                 if next_token.type == TokenType.KEYWORD:
-                    if next_token.value == "annotation":
-                        annotation = self._parse_annotation()
-                        if annotation:
-                            parent.annotations.append(annotation)
-                    elif self._peek(offset=1).type == TokenType.COLON:
+                    if self._peek(offset=1).type == TokenType.COLON:
                         prop = self._parse_property()
                         if prop:
                             parent.properties.append(prop)
@@ -289,22 +276,17 @@ class TMDLParser:
 
             # Keyword (child object or property with keyword name)
             if token.type == TokenType.KEYWORD:
-                if token.value == "annotation":
-                    annotation = self._parse_annotation()
-                    if annotation:
-                        parent.annotations.append(annotation)
+                # Check if this is a property (keyword followed by colon)
+                if self._peek(offset=1).type == TokenType.COLON:
+                    # It's a property using a keyword as the name
+                    prop = self._parse_property()
+                    if prop:
+                        parent.properties.append(prop)
                 else:
-                    # Check if this is a property (keyword followed by colon)
-                    if self._peek(offset=1).type == TokenType.COLON:
-                        # It's a property using a keyword as the name
-                        prop = self._parse_property()
-                        if prop:
-                            parent.properties.append(prop)
-                    else:
-                        # It's an object declaration
-                        child = self._parse_object_declaration()
-                        if child:
-                            parent.children.append(child)
+                    # It's an object declaration (column, annotation, etc.)
+                    child = self._parse_object_declaration()
+                    if child:
+                        parent.children.append(child)
                 continue
 
             # Identifier (property or flag)
@@ -321,44 +303,6 @@ class TMDLParser:
         # Consume DEDENT if present
         if self._current().type == TokenType.DEDENT:
             self._advance()
-
-    def _parse_annotation(self) -> AnnotationNode | None:
-        """Parse an annotation declaration."""
-        keyword_token = self._expect(TokenType.KEYWORD)  # 'annotation'
-        line = keyword_token.line
-
-        # Get annotation name
-        token = self._current()
-        if token.type == TokenType.IDENTIFIER:
-            name = self._advance().value
-        elif token.type == TokenType.QUOTED_NAME:
-            name = self._advance().value
-        else:
-            self._skip_to_newline()
-            self._skip_newlines()
-            return None
-
-        # Check for = (value)
-        value = ""
-        if self._current().type == TokenType.EQUALS:
-            self._advance()  # consume =
-            # Collect the rest of the line as value
-            value = self._collect_expression_value()
-        else:
-            # Value may be on the same line after the name
-            token = self._current()
-            if token.type == TokenType.STRING:
-                value = self._advance().value
-
-        self._skip_to_newline()
-        self._skip_newlines()
-
-        # Check for multi-line annotation (indented content)
-        if self._current().type == TokenType.INDENT:
-            self._advance()
-            value = self._collect_indented_content()
-
-        return AnnotationNode(name=name, value=value, line=line)
 
     def _parse_property(self) -> PropertyNode | None:
         """Parse a property declaration."""
@@ -422,54 +366,34 @@ class TMDLParser:
         """Collect the property value after a colon.
 
         The lexer emits at most one STRING token after COLON (rest-of-line
-        capture).  This method reads that token and converts booleans and
-        numbers to their Python types.  STRING values like format strings
-        ("0.00") are preserved as-is.
+        capture).  This method returns the raw string — type coercion is
+        deferred to the transformer / Pydantic layer which has schema
+        awareness.
         """
         token = self._current()
         if token.type in (TokenType.NEWLINE, TokenType.EOF):
             return None
 
-        raw = self._advance().value
-
-        # Boolean conversion (lexer normalises to lowercase)
-        lower = raw.lower()
-        if lower == "true":
-            return True
-        if lower == "false":
-            return False
-
-        # Numeric conversion — only for pure numeric strings.
-        # Format strings like "0.00" or "#,0" will fail the conversion
-        # and be returned as strings, which is the correct behaviour.
-        try:
-            if "." in raw:
-                return float(raw)
-            return int(raw)
-        except ValueError:
-            pass
-
-        return raw
+        return self._advance().value
 
     def _parse_property_value(self) -> Any:
-        """Parse a single property value token."""
+        """Parse a single property value token.
+
+        Returns the raw string value — type coercion is deferred to the
+        transformer / Pydantic layer.
+        """
         token = self._current()
 
-        if token.type == TokenType.STRING:
+        if token.type in (
+            TokenType.STRING,
+            TokenType.QUOTED_NAME,
+            TokenType.NUMBER,
+            TokenType.BOOLEAN,
+            TokenType.IDENTIFIER,
+        ):
             return self._advance().value
-        elif token.type == TokenType.QUOTED_NAME:
-            return self._advance().value
-        elif token.type == TokenType.NUMBER:
-            num_str = self._advance().value
-            if "." in num_str:
-                return float(num_str)
-            return int(num_str)
-        elif token.type == TokenType.BOOLEAN:
-            return self._advance().value.lower() == "true"
-        elif token.type == TokenType.IDENTIFIER:
-            return self._advance().value
-        else:
-            return None
+
+        return None
 
     def _collect_expression_value(self) -> str:
         """Collect the expression value after an equals sign.
