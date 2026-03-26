@@ -219,14 +219,17 @@ class TMDLParser:
                 # Multi-line expression: body follows on indented lines
                 expr_body = self._collect_indented_content()
                 obj.expression = expr_body
-                # After expression body, there may be properties/annotations at a shallower indent
-                # We may see one or more DEDENT tokens, then possibly an INDENT token
-                # Consume all DEDENT tokens
-                while self._current().type == TokenType.DEDENT:
-                    self._advance()
-                # Now check if there's an INDENT (properties at shallower level than expression body)
-                if self._current().type == TokenType.INDENT:
-                    self._advance()  # consume INDENT to property level
+                # After expression body, there may be properties/annotations at a shallower indent.
+                # We may see DEDENT tokens followed by an INDENT token to reach property scope.
+                # Only consume DEDENTs if they are followed by an INDENT (property scope).
+                # Otherwise, leave them for the parent's _parse_nested_content to terminate on.
+                count = 0
+                while self._peek(count).type == TokenType.DEDENT:
+                    count += 1
+                if self._peek(count).type == TokenType.INDENT:
+                    for _ in range(count):
+                        self._advance()  # consume DEDENTs
+                    self._advance()  # consume INDENT to enter property scope
                     self._parse_nested_content(obj)
             else:
                 # Single-line expression or no expression: indented content is properties
@@ -407,25 +410,47 @@ class TMDLParser:
         return self._advance().value
 
     def _collect_indented_content(self) -> str:
-        """Collect indented content as a multi-line string."""
+        """Collect indented content as a multi-line string.
+
+        Tracks INDENT/DEDENT nesting so that internal indent changes
+        within the expression body (e.g. DAX with varying indentation)
+        are correctly captured.
+        """
         lines = []
         base_indent = 0
+        nesting_depth = 0
 
-        while self._current().type not in (TokenType.DEDENT, TokenType.EOF):
+        while True:
+            current = self._current()
+            if current.type == TokenType.EOF:
+                break
+            if current.type == TokenType.DEDENT:
+                if nesting_depth <= 0:
+                    # This DEDENT exits our scope — consume it and stop
+                    self._advance()
+                    break
+                # Internal DEDENT (within the expression body)
+                self._advance()
+                nesting_depth -= 1
+                continue
+            if current.type == TokenType.INDENT:
+                # Internal INDENT (within the expression body)
+                self._advance()
+                nesting_depth += 1
+                continue
+
             line_parts = []
-            # Calculate relative indentation
-            current_indent = self._current().indent_level
+            current_indent = current.indent_level
 
             # Collect tokens on this line
             while self._current().type not in (
                 TokenType.NEWLINE,
                 TokenType.DEDENT,
+                TokenType.INDENT,
                 TokenType.EOF,
             ):
                 token = self._advance()
-                if token.type == TokenType.INDENT:
-                    continue
-                elif token.type == TokenType.STRING:
+                if token.type == TokenType.STRING:
                     line_parts.append(token.value)
                 elif token.type == TokenType.QUOTED_NAME:
                     line_parts.append(f"'{token.value}'")
@@ -437,18 +462,12 @@ class TMDLParser:
                     line_parts.append(str(token.value))
 
             if line_parts:
-                # Calculate indentation prefix (tabs relative to base)
                 indent_prefix = "\t" * max(0, current_indent - base_indent - 1)
-                # Smart join: no space before/after punctuation
                 result = self._smart_join_expression(line_parts)
                 lines.append(indent_prefix + result)
 
             if self._current().type == TokenType.NEWLINE:
                 self._advance()
-
-        # Consume DEDENT
-        if self._current().type == TokenType.DEDENT:
-            self._advance()
 
         return "\n".join(lines)
 

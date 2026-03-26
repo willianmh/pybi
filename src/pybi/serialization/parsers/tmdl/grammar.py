@@ -69,6 +69,7 @@ CHILDREN_NAMING_MAP: dict[str, str] = {
     "annotation": "annotations",
     "changedProperty": "changedProperties",
     "extendedProperty": "extendedProperties",
+    "variation": "variations",
 }
 
 # Characters allowed in unquoted identifiers (beyond alphanumeric)

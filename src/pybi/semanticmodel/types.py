@@ -299,6 +299,8 @@ DataCategory = Literal[
 
 ColumnType = Literal["calculated", "calculatedTableColumn"]
 
+Alignment = Literal["default", "left", "right", "center"]
+
 """
 See: https://learn.microsoft.com/en-us/openspecs/sql_server_protocols/ms-ssas-t/00a9ec7a-5f4d-4517-8091-b370fe2dc18b
 See: https://docs.tabulareditor.com/en/api/TabularEditor.TOMWrapper.Column.html#TabularEditor_TOMWrapper_Column_SummarizeBy

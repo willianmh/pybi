@@ -35,6 +35,8 @@ def expand_node(node: ObjectDeclaration) -> dict:
     expanded["name"] = node.name
     if node.expression is not None:
         expanded["expression"] = node.expression
+    if node.description is not None:
+        expanded["description"] = node.description
 
     for c in node.children:
         key = CHILDREN_NAMING_MAP.get(c.object_type, c.object_type)
@@ -73,6 +75,14 @@ class TMDLTransformer:
     def transform_column(self, node: ObjectDeclaration) -> Column:
         """Transform a column node to a Column model."""
         raw = expand_node(node)
+        if node.expression is not None:
+            raw["type"] = "calculated"
+        # Rewrite changedProperty dicts from {name, expression} to {property}
+        if "changedProperties" in raw:
+            raw["changedProperties"] = [
+                {"property": cp.get("expression", cp.get("name", ""))}
+                for cp in raw["changedProperties"]
+            ]
         return Column.model_validate(raw)
 
     def transform_measure(self, node: ObjectDeclaration) -> Measure:

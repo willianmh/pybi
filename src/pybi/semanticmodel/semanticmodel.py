@@ -1,11 +1,12 @@
 import uuid
 from typing import Any, ClassVar
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, PrivateAttr
 
 from ..fabric.fabric import DefinitionPbism, Platform
 from ..serialization.detect import detect_from_disk
 from .types import (
+    Alignment,
     SemanticModelFormat,
     ColumnType,
     DataCategory,
@@ -123,6 +124,7 @@ class Column(BaseModel):
     isNameInferred: bool | None = None
     isNullable: bool | None = None
     lineageTag: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    alignment: Alignment | None = None
     relatedColumnDetails: dict | None = None
     sortByColumn: str | None = None
     sourceColumn: str | None = None
@@ -182,6 +184,9 @@ class SemanticModel(BaseModel):
     definition: SemanticModelDefinition
     platform: Platform
 
+    _ROOT_PATH: str | None = PrivateAttr(default=None)
+    _source_format: SemanticModelFormat | None = PrivateAttr(default=None)
+
     @classmethod
     def read(cls, root_path: str) -> SemanticModel:
         from ..serialization.strategies import TmdlStrategy, ModelBimStrategy
@@ -194,4 +199,28 @@ class SemanticModel(BaseModel):
         transport = LocalTransport()
 
         parts = transport.read_parts(root_path)
-        return strategy.deserialize(parts=parts)
+        sm = strategy.deserialize(parts=parts)
+        sm._ROOT_PATH = root_path
+        sm._source_format = fmt
+        return sm
+
+    def write(
+        self,
+        root_path: str | None,
+        format: SemanticModelFormat | None = None,
+    ):
+        from ..serialization.strategies import TmdlStrategy, ModelBimStrategy
+        from ..serialization.transport import LocalTransport
+
+        root_path = root_path or self._ROOT_PATH
+        if not root_path:
+            raise ValueError("You must provide a root_path.")
+
+        fmt = format or self._source_format or SemanticModelFormat.TMDL
+        strategy = (
+            TmdlStrategy() if fmt is SemanticModelFormat.TMDL else ModelBimStrategy()
+        )
+        transport = LocalTransport()
+
+        parts = strategy.serialize(self)
+        transport.write_parts(parts, root_path)
