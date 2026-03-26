@@ -13,27 +13,27 @@ from pydantic import Field, RootModel
 class SemanticQuery(RootModel[Any]):
     root: Any = Field(
         ...,
-        description='Defines shared definitions for queries and filters.',
-        title='Semantic Query',
+        description="Defines shared definitions for queries and filters.",
+        title="Semantic Query",
     )
 
 
 class DataType(Enum):
-    Binary = 'Binary'
-    Boolean = 'Boolean'
-    Date = 'Date'
-    DateTime = 'DateTime'
-    DateTimeZone = 'DateTimeZone'
-    Decimal = 'Decimal'
-    Double = 'Double'
-    Duration = 'Duration'
-    Integer = 'Integer'
-    Json = 'Json'
-    None_ = 'None'
-    Null = 'Null'
-    Text = 'Text'
-    Time = 'Time'
-    Variant = 'Variant'
+    Binary = "Binary"
+    Boolean = "Boolean"
+    Date = "Date"
+    DateTime = "DateTime"
+    DateTimeZone = "DateTimeZone"
+    Decimal = "Decimal"
+    Double = "Double"
+    Duration = "Duration"
+    Integer = "Integer"
+    Json = "Json"
+    None_ = "None"
+    Null = "Null"
+    Text = "Text"
+    Time = "Time"
+    Variant = "Variant"
 
 
 class TimeUnit(Enum):
@@ -78,5 +78,3 @@ class QueryAggregateFunction(Enum):
     number_6 = 6
     number_7 = 7
     number_8 = 8
-
-

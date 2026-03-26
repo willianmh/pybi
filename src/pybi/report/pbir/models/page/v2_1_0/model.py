@@ -10,484 +10,550 @@ from pydantic import BaseModel, ConfigDict, Field, StringConstraints
 from ...semanticquery.expressions import FilterDefinition, QueryExpressionContainer
 from ...filterconfiguration.v1_1_0.model import FilterSortOrder
 from ...formattingobjectdefinitions.v1_3_0.model import HierarchyMatching
-from ...page.v1_4_0.model import AcceptsFilterContext, Annotation, BindingType, HowCreated1, PageDisplayOption, ReferenceScope, Visibility, VisualInteraction
+from ...page.v1_4_0.model import (
+    AcceptsFilterContext,
+    Annotation,
+    BindingType,
+    HowCreated1,
+    PageDisplayOption,
+    ReferenceScope,
+    Visibility,
+    VisualInteraction,
+)
 from ...semanticquery.v1_4_0.model import QueryCustomTotalMetadata
 
 
 class Type(Enum):
-    Drillthrough = 'Drillthrough'
-    Tooltip = 'Tooltip'
+    Drillthrough = "Drillthrough"
+    Tooltip = "Tooltip"
 
 
 class HowCreated(Enum):
-    Default = 'Default'
-    Copilot = 'Copilot'
+    Default = "Default"
+    Copilot = "Copilot"
 
 
 class FilterContainerFormattingObjectsProperties(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
-    requireSingleSelect: Any | None= None
-    isInvertedSelectionMode: Any | None= None
+    requireSingleSelect: Any | None = None
+    isInvertedSelectionMode: Any | None = None
 
 
 class PageInformation(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
-    pageInformationName: Any | None= None
-    pageInformationQnaPodEnabled: Any | None= None
-    pageInformationAltName: Any | None= None
-    pageInformationType: Any | None= None
+    pageInformationName: Any | None = None
+    pageInformationQnaPodEnabled: Any | None = None
+    pageInformationAltName: Any | None = None
+    pageInformationType: Any | None = None
 
 
 class PageSize(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
-    pageSizeTypes: Any | None= None
-    pageSizeWidth: Any | None= None
-    pageSizeHeight: Any | None= None
+    pageSizeTypes: Any | None = None
+    pageSizeWidth: Any | None = None
+    pageSizeHeight: Any | None = None
 
 
 class Background(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
-    color: Any | None= None
-    image: Any | None= None
-    transparency: Any | None= None
+    color: Any | None = None
+    image: Any | None = None
+    transparency: Any | None = None
 
 
 class DisplayArea(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
-    verticalAlignment: Any | None= None
+    verticalAlignment: Any | None = None
 
 
 class OutspacePane(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
-    backgroundColor: Any | None= None
-    transparency: Any | None= None
-    foregroundColor: Any | None= None
-    titleSize: Any | None= None
-    searchTextSize: Any | None= None
-    headerSize: Any | None= None
-    fontFamily: Any | None= None
-    border: Any | None= None
-    borderColor: Any | None= None
-    checkboxAndApplyColor: Any | None= None
-    inputBoxColor: Any | None= None
-    width: Any | None= None
+    backgroundColor: Any | None = None
+    transparency: Any | None = None
+    foregroundColor: Any | None = None
+    titleSize: Any | None = None
+    searchTextSize: Any | None = None
+    headerSize: Any | None = None
+    fontFamily: Any | None = None
+    border: Any | None = None
+    borderColor: Any | None = None
+    checkboxAndApplyColor: Any | None = None
+    inputBoxColor: Any | None = None
+    width: Any | None = None
 
 
 class FilterCard(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
-    backgroundColor: Any | None= None
-    transparency: Any | None= None
-    border: Any | None= None
-    borderColor: Any | None= None
-    foregroundColor: Any | None= None
-    textSize: Any | None= None
-    fontFamily: Any | None= None
-    inputBoxColor: Any | None= None
+    backgroundColor: Any | None = None
+    transparency: Any | None = None
+    border: Any | None = None
+    borderColor: Any | None = None
+    foregroundColor: Any | None = None
+    textSize: Any | None = None
+    fontFamily: Any | None = None
+    inputBoxColor: Any | None = None
 
 
 class PageRefresh(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
-    show: Any | None= None
-    refreshType: Any | None= None
-    duration: Any | None= None
-    dialogLauncher: Any | None= None
-    measure: Any | None= None
-    checkEvery: Any | None= None
+    show: Any | None = None
+    refreshType: Any | None = None
+    duration: Any | None = None
+    dialogLauncher: Any | None = None
+    measure: Any | None = None
+    checkEvery: Any | None = None
 
 
 class PersonalizeVisual(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
-    show: Any | None= None
-    perspectiveRef: Any | None= None
-    applyToAllPages: Any | None= None
+    show: Any | None = None
+    perspectiveRef: Any | None = None
+    applyToAllPages: Any | None = None
 
 
 class QuickExploreRelatedLayout(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
     version: float
-    dataTableName: str | None= Field(None, description='If data table is shown, then the name of that visual'
+    dataTableName: str | None = Field(
+        None, description="If data table is shown, then the name of that visual"
     )
 
 
 class Annotations(BaseModel):
-    customTotalMetadata: QueryCustomTotalMetadata | None= None
+    customTotalMetadata: QueryCustomTotalMetadata | None = None
 
 
 class DataViewWildcard(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
-    matchingOption: Type = Field(
-        ..., description='Defines the matching option to use.'
-    )
+    matchingOption: Type = Field(..., description="Defines the matching option to use.")
 
 
 class QuickExploreLayoutContainer(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
-    related: QuickExploreRelatedLayout | None= Field(None, description='A layout that has 1 hero visual and some related visuals'
+    related: QuickExploreRelatedLayout | None = Field(
+        None, description="A layout that has 1 hero visual and some related visuals"
     )
-    combination: QuickExploreRelatedLayout | None= Field(None,
-        description='Layout that generates visuals purely based on combination of fields\nDeprecated: Use related layout instead.',
+    combination: QuickExploreRelatedLayout | None = Field(
+        None,
+        description="Layout that generates visuals purely based on combination of fields\nDeprecated: Use related layout instead.",
     )
 
 
 class Page(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
-    field_schema: Literal['https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json'] = Field(
-        ..., alias='$schema', description='Defines the schema to use for an item.'
+    field_schema: Literal[
+        "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json"
+    ] = Field(
+        ..., alias="$schema", description="Defines the schema to use for an item."
     )
     name: Annotated[str, StringConstraints(max_length=50)] = Field(
-        ..., description='A unique identifier for the page across the whole report.'
+        ..., description="A unique identifier for the page across the whole report."
     )
-    displayName: str = Field(..., description='A user facing name for this page.')
+    displayName: str = Field(..., description="A user facing name for this page.")
     displayOption: PageDisplayOption = Field(
-        ..., description='Defines how the page is scaled.'
+        ..., description="Defines how the page is scaled."
     )
-    height: float | None= Field(None,
+    height: float | None = Field(
+        None,
         description="Height of the page (in pixels) - optional only for 'DeprecatedDynamic' option, required otherwise.",
     )
-    width: float | None= Field(None,
+    width: float | None = Field(
+        None,
         description="Width of the page (in pixels) - optional only for 'DeprecatedDynamic' option, required otherwise.",
     )
-    filterConfig: SchemaEmbedded | None= Field(None,
-        description='Filters that apply to all the visuals on this page - on top of the filters defined for the whole report.',
+    filterConfig: SchemaEmbedded | None = Field(
+        None,
+        description="Filters that apply to all the visuals on this page - on top of the filters defined for the whole report.",
     )
-    pageBinding: PageBinding | None= Field(None,
-        description='Additional metadata defined for how this page is used (tooltip, drillthrough, etc).',
+    pageBinding: PageBinding | None = Field(
+        None,
+        description="Additional metadata defined for how this page is used (tooltip, drillthrough, etc).",
     )
-    objects: PageFormattingObjects | None= Field(None, description='Defines the formatting for different objects on a page.'
+    objects: PageFormattingObjects | None = Field(
+        None, description="Defines the formatting for different objects on a page."
     )
-    type: Type | None= Field(None, description='Specific usage of this page (for example drillthrough).'
+    type: Type | None = Field(
+        None, description="Specific usage of this page (for example drillthrough)."
     )
-    visibility: Visibility | None= Field(None,
-        description='Defines when this page should be visible - by default it is always visible.',
+    visibility: Visibility | None = Field(
+        None,
+        description="Defines when this page should be visible - by default it is always visible.",
     )
-    visualInteractions: list[VisualInteraction] | None= Field(None,
-        description='Defines how data point selection on a specific visual flow (as filters) to other visuals on the page.\nBy default it is up-to the visual to apply it either as a cross-highlight or as a filter.',
+    visualInteractions: list[VisualInteraction] | None = Field(
+        None,
+        description="Defines how data point selection on a specific visual flow (as filters) to other visuals on the page.\nBy default it is up-to the visual to apply it either as a cross-highlight or as a filter.",
     )
-    autoPageGenerationConfig: AutoPageGenerationConfig | None= Field(None,
+    autoPageGenerationConfig: AutoPageGenerationConfig | None = Field(
+        None,
         description="Configuration that was used to automatically generate a page (for example using 'Auto create the report' option).",
     )
-    annotations: list[Annotation] | None= Field(None,
-        description='Additional information to be saved (for example comments, readme, etc) for this page.',
+    annotations: list[Annotation] | None = Field(
+        None,
+        description="Additional information to be saved (for example comments, readme, etc) for this page.",
     )
-    howCreated: HowCreated | None= Field(None, description='Source of creation of this page.'
+    howCreated: HowCreated | None = Field(
+        None, description="Source of creation of this page."
     )
 
 
 class SchemaEmbedded(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
-    filters: list[FilterContainer] | None= Field(None, description='Defines the definitions and metadata for the filters.'
+    filters: list[FilterContainer] | None = Field(
+        None, description="Defines the definitions and metadata for the filters."
     )
-    filterSortOrder: FilterSortOrder | None= Field(None,
-        description='Defines how the filters sorted - by name or custom sorting\nIf custom sorting, then ordinal property of every filter is used as the sort order,\nfilters where ordinal is skipped will be shown at the end; ordering will fallback to display name of the field.',
+    filterSortOrder: FilterSortOrder | None = Field(
+        None,
+        description="Defines how the filters sorted - by name or custom sorting\nIf custom sorting, then ordinal property of every filter is used as the sort order,\nfilters where ordinal is skipped will be shown at the end; ordering will fallback to display name of the field.",
     )
 
 
 class FilterContainer(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
     name: str = Field(
         ...,
-        description='A unique name (across the whole report definition) defined for this filter.',
+        description="A unique name (across the whole report definition) defined for this filter.",
     )
-    displayName: str | None= Field(None,
-        description='An alternate name to use when displaying this filter - by default the display name of the field will be used, if there is no field or display name,\nthen restatement of the filter will be shown. Only applies to certain filter types.',
+    displayName: str | None = Field(
+        None,
+        description="An alternate name to use when displaying this filter - by default the display name of the field will be used, if there is no field or display name,\nthen restatement of the filter will be shown. Only applies to certain filter types.",
     )
-    ordinal: float | None= Field(None,
-        description='Defines the ordering of this filter w.r.t. other filters - only applies when Custom sort order is set.',
+    ordinal: float | None = Field(
+        None,
+        description="Defines the ordering of this filter w.r.t. other filters - only applies when Custom sort order is set.",
     )
-    field: QueryExpressionContainer | None= Field(None, description='Defines the field from your data that is filtered.')
-    type: Type | None= Field(None, description='The type of a filter.')
-    filter: FilterDefinition | None= Field(None,
-        description='Defines the actual filter definition - it is dependent on the type of filter.',
+    field: QueryExpressionContainer | None = Field(
+        None, description="Defines the field from your data that is filtered."
     )
-    restatement: str | None= Field(None,
-        description='A custom restatement to show for the filter - only applies to Passthrough filter type. For all other filters, a restatement is generated based on the filter definition.',
+    type: Type | None = Field(None, description="The type of a filter.")
+    filter: FilterDefinition | None = Field(
+        None,
+        description="Defines the actual filter definition - it is dependent on the type of filter.",
     )
-    howCreated: HowCreated1 | None= Field(None, description='Specifies how this filter was first created.'
+    restatement: str | None = Field(
+        None,
+        description="A custom restatement to show for the filter - only applies to Passthrough filter type. For all other filters, a restatement is generated based on the filter definition.",
     )
-    isHiddenInViewMode: bool | None= Field(None, description='Defines whether to hide this filter when viewing the report.'
+    howCreated: HowCreated1 | None = Field(
+        None, description="Specifies how this filter was first created."
     )
-    isLockedInViewMode: bool | None= Field(None,
-        description='Defines whether the filter value can be changed when viewing the report.',
+    isHiddenInViewMode: bool | None = Field(
+        None, description="Defines whether to hide this filter when viewing the report."
     )
-    objects: FilterContainerFormattingObjects | None= Field(None, description='Formatting for different "objects" of a filter card'
+    isLockedInViewMode: bool | None = Field(
+        None,
+        description="Defines whether the filter value can be changed when viewing the report.",
+    )
+    objects: FilterContainerFormattingObjects | None = Field(
+        None, description='Formatting for different "objects" of a filter card'
     )
 
 
 class GeneralItem(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
-    selector: Selector | None= Field(None,
-        description='Defines the scope at which to apply the formatting for this object.\nCan also define rules for matching highlighted values and how multiple definitions for the same property should be ordered.',
+    selector: Selector | None = Field(
+        None,
+        description="Defines the scope at which to apply the formatting for this object.\nCan also define rules for matching highlighted values and how multiple definitions for the same property should be ordered.",
     )
     properties: FilterContainerFormattingObjectsProperties = Field(
         ...,
-        description='Describes the properties of the object to apply formatting changes to.',
+        description="Describes the properties of the object to apply formatting changes to.",
     )
 
 
 class FilterContainerFormattingObjects(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
-    general: list[GeneralItem] | None= None
+    general: list[GeneralItem] | None = None
 
 
 class Selector(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
-    data: list[DataRepetitionSelector] | None= Field(None, description='Scope is defined by data bound to the visual.'
+    data: list[DataRepetitionSelector] | None = Field(
+        None, description="Scope is defined by data bound to the visual."
     )
-    metadata: str | None= Field(None, description='Defines the scope to a specific field.'
+    metadata: str | None = Field(
+        None, description="Defines the scope to a specific field."
     )
-    id: str | None= Field(None, description='User defined scope.')
-    highlightMatching: Type | None= Field(None,
-        description='Describes how the Selector should behave towards Highlighted Values within the Scope matched by that Selector.',
+    id: str | None = Field(None, description="User defined scope.")
+    highlightMatching: Type | None = Field(
+        None,
+        description="Describes how the Selector should behave towards Highlighted Values within the Scope matched by that Selector.",
     )
-    hierarchyMatching: HierarchyMatching | None= Field(None,
-        description='Describes how the selector matches hierarchy values.\nThis also changes how the query is generated for {@link DataViewScopeWildcard} selectors.\nNow those selectors can produce scopedValues for the level those match.\n\nThere are two ways that we can match values in the hierarchy:\n1.',
+    hierarchyMatching: HierarchyMatching | None = Field(
+        None,
+        description="Describes how the selector matches hierarchy values.\nThis also changes how the query is generated for {@link DataViewScopeWildcard} selectors.\nNow those selectors can produce scopedValues for the level those match.\n\nThere are two ways that we can match values in the hierarchy:\n1.",
     )
-    order: float | None= Field(None,
-        description='Specifies a user-defined ordering of identical properties.\nSelector constructors should strive to monitonically increase this number across identical properties differing by id.',
+    order: float | None = Field(
+        None,
+        description="Specifies a user-defined ordering of identical properties.\nSelector constructors should strive to monitonically increase this number across identical properties differing by id.",
     )
 
 
 class DataViewObjectDefinition(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
-    selector: Selector | None= None
+    selector: Selector | None = None
     properties: dict[str, Any]
 
 
 class DataRepetitionSelector(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
-    scopeId: QueryExpressionContainer | None= Field(None,
-        description='Defines the intersection of scopes. For example - product color = red.',
+    scopeId: QueryExpressionContainer | None = Field(
+        None,
+        description="Defines the intersection of scopes. For example - product color = red.",
     )
-    wildcard: list[QueryExpressionContainer] | None= Field(None,
-        description='Defines a match against all instances of a given DataView scope. Does not match Subtotals.\nDeprecated: - Use roles instead.',
+    wildcard: list[QueryExpressionContainer] | None = Field(
+        None,
+        description="Defines a match against all instances of a given DataView scope. Does not match Subtotals.\nDeprecated: - Use roles instead.",
     )
-    roles: list[str] | None= Field(None, description='Matches against all fields in a role.'
+    roles: list[str] | None = Field(
+        None, description="Matches against all fields in a role."
     )
-    total: list[QueryExpressionContainer] | None= Field(None, description='Matches against the totals and subtotals.')
-    dataViewWildcard: DataViewWildcard | None= Field(None, description='Matches all instances or all totals or both.'
+    total: list[QueryExpressionContainer] | None = Field(
+        None, description="Matches against the totals and subtotals."
+    )
+    dataViewWildcard: DataViewWildcard | None = Field(
+        None, description="Matches all instances or all totals or both."
     )
 
 
 class PageBinding(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
     name: str = Field(
-        ..., description='Name of this binding - unique across the report.'
+        ..., description="Name of this binding - unique across the report."
     )
     type: BindingType = Field(
-        ..., description='Specific usage of this binding (for example drillthrough).'
+        ..., description="Specific usage of this binding (for example drillthrough)."
     )
-    referenceScope: ReferenceScope | None= Field(None, description='What is the scope under which the binding applies.'
+    referenceScope: ReferenceScope | None = Field(
+        None, description="What is the scope under which the binding applies."
     )
-    parameters: list[BindingParameter] | None= Field(None, description='Additional parameters to apply when the binding is invoked.'
+    parameters: list[BindingParameter] | None = Field(
+        None, description="Additional parameters to apply when the binding is invoked."
     )
-    acceptsFilterContext: AcceptsFilterContext | None= Field(None,
-        description='Should additional filter context flow when applying the binding.',
+    acceptsFilterContext: AcceptsFilterContext | None = Field(
+        None,
+        description="Should additional filter context flow when applying the binding.",
     )
 
 
 class BindingParameter(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
     name: str = Field(
-        ..., description='Name of the parameter - unique across the report.'
+        ..., description="Name of the parameter - unique across the report."
     )
-    boundFilter: str | None= Field(None, description='Name of the filter which this parameter affects.'
+    boundFilter: str | None = Field(
+        None, description="Name of the filter which this parameter affects."
     )
-    asAggregation: bool | None= Field(None,
-        description='The parameter should be applied when the field of the filter is aggregated.',
+    asAggregation: bool | None = Field(
+        None,
+        description="The parameter should be applied when the field of the filter is aggregated.",
     )
-    qnaSingleSelectRequired: bool | None= Field(None,
-        description='Exactly one instance value should be picked as a filter for this parameter.',
+    qnaSingleSelectRequired: bool | None = Field(
+        None,
+        description="Exactly one instance value should be picked as a filter for this parameter.",
     )
-    fieldExpr: QueryExpressionContainer | None= Field(None, description='Field expression for page binding')
+    fieldExpr: QueryExpressionContainer | None = Field(
+        None, description="Field expression for page binding"
+    )
 
 
 class PageInformationModel(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
-    selector: Selector | None= Field(None,
-        description='Defines the scope at which to apply the formatting for this object.\nCan also define rules for matching highlighted values and how multiple definitions for the same property should be ordered.',
+    selector: Selector | None = Field(
+        None,
+        description="Defines the scope at which to apply the formatting for this object.\nCan also define rules for matching highlighted values and how multiple definitions for the same property should be ordered.",
     )
     properties: PageInformation = Field(
         ...,
-        description='Describes the properties of the object to apply formatting changes to.',
+        description="Describes the properties of the object to apply formatting changes to.",
     )
 
 
 class PageSizeItem(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
-    selector: Selector | None= Field(None,
-        description='Defines the scope at which to apply the formatting for this object.\nCan also define rules for matching highlighted values and how multiple definitions for the same property should be ordered.',
+    selector: Selector | None = Field(
+        None,
+        description="Defines the scope at which to apply the formatting for this object.\nCan also define rules for matching highlighted values and how multiple definitions for the same property should be ordered.",
     )
     properties: PageSize = Field(
         ...,
-        description='Describes the properties of the object to apply formatting changes to.',
+        description="Describes the properties of the object to apply formatting changes to.",
     )
 
 
 class BackgroundItem(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
-    selector: Selector | None= Field(None,
-        description='Defines the scope at which to apply the formatting for this object.\nCan also define rules for matching highlighted values and how multiple definitions for the same property should be ordered.',
+    selector: Selector | None = Field(
+        None,
+        description="Defines the scope at which to apply the formatting for this object.\nCan also define rules for matching highlighted values and how multiple definitions for the same property should be ordered.",
     )
     properties: Background = Field(
         ...,
-        description='Describes the properties of the object to apply formatting changes to.',
+        description="Describes the properties of the object to apply formatting changes to.",
     )
 
 
 class DisplayAreaItem(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
-    selector: Selector | None= Field(None,
-        description='Defines the scope at which to apply the formatting for this object.\nCan also define rules for matching highlighted values and how multiple definitions for the same property should be ordered.',
+    selector: Selector | None = Field(
+        None,
+        description="Defines the scope at which to apply the formatting for this object.\nCan also define rules for matching highlighted values and how multiple definitions for the same property should be ordered.",
     )
     properties: DisplayArea = Field(
         ...,
-        description='Describes the properties of the object to apply formatting changes to.',
+        description="Describes the properties of the object to apply formatting changes to.",
     )
 
 
 class OutspacePaneItem(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
-    selector: Selector | None= Field(None,
-        description='Defines the scope at which to apply the formatting for this object.\nCan also define rules for matching highlighted values and how multiple definitions for the same property should be ordered.',
+    selector: Selector | None = Field(
+        None,
+        description="Defines the scope at which to apply the formatting for this object.\nCan also define rules for matching highlighted values and how multiple definitions for the same property should be ordered.",
     )
     properties: OutspacePane = Field(
         ...,
-        description='Describes the properties of the object to apply formatting changes to.',
+        description="Describes the properties of the object to apply formatting changes to.",
     )
 
 
 class FilterCardItem(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
-    selector: Selector | None= Field(None,
-        description='Defines the scope at which to apply the formatting for this object.\nCan also define rules for matching highlighted values and how multiple definitions for the same property should be ordered.',
+    selector: Selector | None = Field(
+        None,
+        description="Defines the scope at which to apply the formatting for this object.\nCan also define rules for matching highlighted values and how multiple definitions for the same property should be ordered.",
     )
     properties: FilterCard = Field(
         ...,
-        description='Describes the properties of the object to apply formatting changes to.',
+        description="Describes the properties of the object to apply formatting changes to.",
     )
 
 
 class PageRefreshItem(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
-    selector: Selector | None= Field(None,
-        description='Defines the scope at which to apply the formatting for this object.\nCan also define rules for matching highlighted values and how multiple definitions for the same property should be ordered.',
+    selector: Selector | None = Field(
+        None,
+        description="Defines the scope at which to apply the formatting for this object.\nCan also define rules for matching highlighted values and how multiple definitions for the same property should be ordered.",
     )
     properties: PageRefresh = Field(
         ...,
-        description='Describes the properties of the object to apply formatting changes to.',
+        description="Describes the properties of the object to apply formatting changes to.",
     )
 
 
 class PersonalizeVisualItem(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
-    selector: Selector | None= Field(None,
-        description='Defines the scope at which to apply the formatting for this object.\nCan also define rules for matching highlighted values and how multiple definitions for the same property should be ordered.',
+    selector: Selector | None = Field(
+        None,
+        description="Defines the scope at which to apply the formatting for this object.\nCan also define rules for matching highlighted values and how multiple definitions for the same property should be ordered.",
     )
     properties: PersonalizeVisual = Field(
         ...,
-        description='Describes the properties of the object to apply formatting changes to.',
+        description="Describes the properties of the object to apply formatting changes to.",
     )
 
 
 class PageFormattingObjects(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
-    pageInformation: list[PageInformationModel] | None= None
-    pageSize: list[PageSizeItem] | None= None
-    background: list[BackgroundItem] | None= None
-    displayArea: list[DisplayAreaItem] | None= None
-    outspace: list[BackgroundItem] | None= None
-    outspacePane: list[OutspacePaneItem] | None= None
-    filterCard: list[FilterCardItem] | None= None
-    pageRefresh: list[PageRefreshItem] | None= None
-    personalizeVisual: list[PersonalizeVisualItem] | None= None
+    pageInformation: list[PageInformationModel] | None = None
+    pageSize: list[PageSizeItem] | None = None
+    background: list[BackgroundItem] | None = None
+    displayArea: list[DisplayAreaItem] | None = None
+    outspace: list[BackgroundItem] | None = None
+    outspacePane: list[OutspacePaneItem] | None = None
+    filterCard: list[FilterCardItem] | None = None
+    pageRefresh: list[PageRefreshItem] | None = None
+    personalizeVisual: list[PersonalizeVisualItem] | None = None
 
 
 class AutoPageGenerationConfig(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
-    selectedFields: list[QueryExpressionContainer] = Field(..., description='Data fields to use for the auto page generation')
+    selectedFields: list[QueryExpressionContainer] = Field(
+        ..., description="Data fields to use for the auto page generation"
+    )
     visualContainerConfigurations: list[QuickExploreVisualContainerConfig] = Field(
         ...,
-        description='Visuals already on the page previously generated by the auto-config',
+        description="Visuals already on the page previously generated by the auto-config",
     )
-    layout: QuickExploreLayoutContainer | None= Field(None, description='The specific layout chosen to render the auto-visuals'
+    layout: QuickExploreLayoutContainer | None = Field(
+        None, description="The specific layout chosen to render the auto-visuals"
     )
 
 
 class QuickExploreVisualContainerConfig(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
     name: str = Field(
         ...,
-        description='Name of the visual - matches the name property in visual.json files',
+        description="Name of the visual - matches the name property in visual.json files",
     )
     fields: list[QueryExpressionContainer] = Field(
         ...,
-        description='Specific data fields used to build this visual from the full set of selected fields',
+        description="Specific data fields used to build this visual from the full set of selected fields",
     )
 
 

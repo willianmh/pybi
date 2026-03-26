@@ -9,34 +9,34 @@ from pydantic import BaseModel, ConfigDict, Field
 
 class SingleBookmarkMetadata(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
     name: str = Field(
         ...,
-        description='Name of the bookmark - use if not under a specific group. Should be unique across the report.',
+        description="Name of the bookmark - use if not under a specific group. Should be unique across the report.",
     )
 
 
 class BookmarkGroupMetadata(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
     name: str = Field(
-        ..., description='Name of the bookmark group - unique across the report.'
+        ..., description="Name of the bookmark group - unique across the report."
     )
-    displayName: str = Field(..., description='Display name of the group.')
+    displayName: str = Field(..., description="Display name of the group.")
     children: list[str] = Field(
-        ..., description='Name of the bookmarks under this group.'
+        ..., description="Name of the bookmarks under this group."
     )
 
 
 class BookmarksMetadata(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
     items: list[SingleBookmarkMetadata | BookmarkGroupMetadata]
     field_schema: Literal[
-        'https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmarksMetadata/1.0.0/schema.json'
+        "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmarksMetadata/1.0.0/schema.json"
     ] = Field(
-        ..., alias='$schema', description='Defines the schema to use for an item.'
+        ..., alias="$schema", description="Defines the schema to use for an item."
     )

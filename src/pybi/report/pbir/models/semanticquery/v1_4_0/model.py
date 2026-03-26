@@ -2,7 +2,6 @@
 #   filename:  schema.json
 
 
-
 from pydantic import BaseModel, ConfigDict, Field
 
 # --- Imports from dependency schemas (auto-generated) ---
@@ -10,18 +9,15 @@ from pydantic import BaseModel, ConfigDict, Field
 # --- Imports from dependency schemas (auto-generated) ---
 
 
-
 class QueryCustomTotalMetadata(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
     baseQueryName: str = Field(
         ...,
-        description='The query name of the base column that this custom total references. This establishes the relationship between a custom total and the column it refers to.',
+        description="The query name of the base column that this custom total references. This establishes the relationship between a custom total and the column it refers to.",
     )
 
 
 class Annotations(BaseModel):
-    customTotalMetadata: QueryCustomTotalMetadata | None= None
-
-
+    customTotalMetadata: QueryCustomTotalMetadata | None = None

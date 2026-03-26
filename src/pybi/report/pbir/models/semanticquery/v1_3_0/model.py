@@ -10,14 +10,11 @@ from enum import Enum
 # --- Imports from dependency schemas (auto-generated) ---
 
 
-
 class ApplyCalculationGroupTo(Enum):
-    Sparkline = 'Sparkline'
-    Point = 'Point'
+    Sparkline = "Sparkline"
+    Point = "Point"
 
 
 class SortDirection(Enum):
     number_1 = 1
     number_2 = 2
-
-

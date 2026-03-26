@@ -15,146 +15,170 @@ from ...semanticquery.v1_4_0.model import QueryCustomTotalMetadata
 
 
 class Type(Enum):
-    Categorical = 'Categorical'
-    Range = 'Range'
-    Advanced = 'Advanced'
-    Passthrough = 'Passthrough'
-    TopN = 'TopN'
-    Include = 'Include'
-    Exclude = 'Exclude'
-    RelativeDate = 'RelativeDate'
-    Tuple = 'Tuple'
-    RelativeTime = 'RelativeTime'
-    VisualTopN = 'VisualTopN'
+    Categorical = "Categorical"
+    Range = "Range"
+    Advanced = "Advanced"
+    Passthrough = "Passthrough"
+    TopN = "TopN"
+    Include = "Include"
+    Exclude = "Exclude"
+    RelativeDate = "RelativeDate"
+    Tuple = "Tuple"
+    RelativeTime = "RelativeTime"
+    VisualTopN = "VisualTopN"
 
 
 class FilterContainerFormattingObjectsProperties(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
-    requireSingleSelect: Any | None= None
-    isInvertedSelectionMode: Any | None= None
+    requireSingleSelect: Any | None = None
+    isInvertedSelectionMode: Any | None = None
 
 
 class Annotations(BaseModel):
-    customTotalMetadata: QueryCustomTotalMetadata | None= None
+    customTotalMetadata: QueryCustomTotalMetadata | None = None
 
 
 class DataViewWildcard(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
     matchingOption: Type1 = Field(
-        ..., description='Defines the matching option to use.'
+        ..., description="Defines the matching option to use."
     )
 
 
 class FilterConfiguration(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
-    filters: list[FilterContainer] | None= Field(None, description='Defines the definitions and metadata for the filters.'
+    filters: list[FilterContainer] | None = Field(
+        None, description="Defines the definitions and metadata for the filters."
     )
-    filterSortOrder: FilterSortOrder | None= Field(None,
-        description='Defines how the filters sorted - by name or custom sorting\nIf custom sorting, then ordinal property of every filter is used as the sort order,\nfilters where ordinal is skipped will be shown at the end; ordering will fallback to display name of the field.',
+    filterSortOrder: FilterSortOrder | None = Field(
+        None,
+        description="Defines how the filters sorted - by name or custom sorting\nIf custom sorting, then ordinal property of every filter is used as the sort order,\nfilters where ordinal is skipped will be shown at the end; ordering will fallback to display name of the field.",
     )
 
 
 class FilterContainer(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
     name: str = Field(
         ...,
-        description='A unique name (across the whole report definition) defined for this filter.',
+        description="A unique name (across the whole report definition) defined for this filter.",
     )
-    displayName: str | None= Field(None,
-        description='An alternate name to use when displaying this filter - by default the display name of the field will be used, if there is no field or display name,\nthen restatement of the filter will be shown. Only applies to certain filter types.',
+    displayName: str | None = Field(
+        None,
+        description="An alternate name to use when displaying this filter - by default the display name of the field will be used, if there is no field or display name,\nthen restatement of the filter will be shown. Only applies to certain filter types.",
     )
-    ordinal: float | None= Field(None,
-        description='Defines the ordering of this filter w.r.t. other filters - only applies when Custom sort order is set.',
+    ordinal: float | None = Field(
+        None,
+        description="Defines the ordering of this filter w.r.t. other filters - only applies when Custom sort order is set.",
     )
-    field: QueryExpressionContainer | None= Field(None, description='Defines the field from your data that is filtered.')
-    type: Type | None= Field(None, description='The type of a filter.')
-    filter: FilterDefinition | None= Field(None,
-        description='Defines the actual filter definition - it is dependent on the type of filter.',
+    field: QueryExpressionContainer | None = Field(
+        None, description="Defines the field from your data that is filtered."
     )
-    restatement: str | None= Field(None,
-        description='A custom restatement to show for the filter - only applies to Passthrough filter type. For all other filters, a restatement is generated based on the filter definition.',
+    type: Type | None = Field(None, description="The type of a filter.")
+    filter: FilterDefinition | None = Field(
+        None,
+        description="Defines the actual filter definition - it is dependent on the type of filter.",
     )
-    howCreated: HowCreated | None= Field(None, description='Specifies how this filter was first created.'
+    restatement: str | None = Field(
+        None,
+        description="A custom restatement to show for the filter - only applies to Passthrough filter type. For all other filters, a restatement is generated based on the filter definition.",
     )
-    isHiddenInViewMode: bool | None= Field(None, description='Defines whether to hide this filter when viewing the report.'
+    howCreated: HowCreated | None = Field(
+        None, description="Specifies how this filter was first created."
     )
-    isLockedInViewMode: bool | None= Field(None,
-        description='Defines whether the filter value can be changed when viewing the report.',
+    isHiddenInViewMode: bool | None = Field(
+        None, description="Defines whether to hide this filter when viewing the report."
     )
-    objects: FilterContainerFormattingObjects | None= Field(None, description='Formatting for different "objects" of a filter card'
+    isLockedInViewMode: bool | None = Field(
+        None,
+        description="Defines whether the filter value can be changed when viewing the report.",
+    )
+    objects: FilterContainerFormattingObjects | None = Field(
+        None, description='Formatting for different "objects" of a filter card'
     )
 
 
 class GeneralItem(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
-    selector: Selector | None= Field(None,
-        description='Defines the scope at which to apply the formatting for this object.\nCan also define rules for matching highlighted values and how multiple definitions for the same property should be ordered.',
+    selector: Selector | None = Field(
+        None,
+        description="Defines the scope at which to apply the formatting for this object.\nCan also define rules for matching highlighted values and how multiple definitions for the same property should be ordered.",
     )
     properties: FilterContainerFormattingObjectsProperties = Field(
         ...,
-        description='Describes the properties of the object to apply formatting changes to.',
+        description="Describes the properties of the object to apply formatting changes to.",
     )
 
 
 class FilterContainerFormattingObjects(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
-    general: list[GeneralItem] | None= None
+    general: list[GeneralItem] | None = None
 
 
 class Selector(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
-    data: list[DataRepetitionSelector] | None= Field(None, description='Scope is defined by data bound to the visual.'
+    data: list[DataRepetitionSelector] | None = Field(
+        None, description="Scope is defined by data bound to the visual."
     )
-    metadata: str | None= Field(None, description='Defines the scope to a specific field.'
+    metadata: str | None = Field(
+        None, description="Defines the scope to a specific field."
     )
-    id: str | None= Field(None, description='User defined scope.')
-    highlightMatching: Type1 | None= Field(None,
-        description='Describes how the Selector should behave towards Highlighted Values within the Scope matched by that Selector.',
+    id: str | None = Field(None, description="User defined scope.")
+    highlightMatching: Type1 | None = Field(
+        None,
+        description="Describes how the Selector should behave towards Highlighted Values within the Scope matched by that Selector.",
     )
-    hierarchyMatching: HierarchyMatching | None= Field(None,
-        description='Describes how the selector matches hierarchy values.\nThis also changes how the query is generated for {@link DataViewScopeWildcard} selectors.\nNow those selectors can produce scopedValues for the level those match.\n\nThere are two ways that we can match values in the hierarchy:\n1.',
+    hierarchyMatching: HierarchyMatching | None = Field(
+        None,
+        description="Describes how the selector matches hierarchy values.\nThis also changes how the query is generated for {@link DataViewScopeWildcard} selectors.\nNow those selectors can produce scopedValues for the level those match.\n\nThere are two ways that we can match values in the hierarchy:\n1.",
     )
-    order: float | None= Field(None,
-        description='Specifies a user-defined ordering of identical properties.\nSelector constructors should strive to monitonically increase this number across identical properties differing by id.',
+    order: float | None = Field(
+        None,
+        description="Specifies a user-defined ordering of identical properties.\nSelector constructors should strive to monitonically increase this number across identical properties differing by id.",
     )
 
 
 class DataViewObjectDefinition(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
-    selector: Selector | None= None
+    selector: Selector | None = None
     properties: dict[str, Any]
 
 
 class DataRepetitionSelector(BaseModel):
     model_config = ConfigDict(
-        extra='forbid',
+        extra="forbid",
     )
-    scopeId: QueryExpressionContainer | None= Field(None,
-        description='Defines the intersection of scopes. For example - product color = red.',
+    scopeId: QueryExpressionContainer | None = Field(
+        None,
+        description="Defines the intersection of scopes. For example - product color = red.",
     )
-    wildcard: list[QueryExpressionContainer] | None= Field(None,
-        description='Defines a match against all instances of a given DataView scope. Does not match Subtotals.\nDeprecated: - Use roles instead.',
+    wildcard: list[QueryExpressionContainer] | None = Field(
+        None,
+        description="Defines a match against all instances of a given DataView scope. Does not match Subtotals.\nDeprecated: - Use roles instead.",
     )
-    roles: list[str] | None= Field(None, description='Matches against all fields in a role.'
+    roles: list[str] | None = Field(
+        None, description="Matches against all fields in a role."
     )
-    total: list[QueryExpressionContainer] | None= Field(None, description='Matches against the totals and subtotals.')
-    dataViewWildcard: DataViewWildcard | None= Field(None, description='Matches all instances or all totals or both.'
+    total: list[QueryExpressionContainer] | None = Field(
+        None, description="Matches against the totals and subtotals."
+    )
+    dataViewWildcard: DataViewWildcard | None = Field(
+        None, description="Matches all instances or all totals or both."
     )
 
 
