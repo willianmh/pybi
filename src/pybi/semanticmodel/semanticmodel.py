@@ -4,7 +4,6 @@ from typing import Any, ClassVar
 from pydantic import BaseModel, Field, PrivateAttr
 
 from ..fabric.fabric import DefinitionPbism, Platform
-from ..serialization.detect import detect_from_disk
 from .types import (
     Alignment,
     SemanticModelFormat,
@@ -189,8 +188,9 @@ class SemanticModel(BaseModel):
     def read(cls, root_path: str) -> SemanticModel:
         from ..serialization.strategies import TmdlStrategy, ModelBimStrategy
         from ..serialization.transport import LocalTransport
+        from ..serialization.detect import detect_semantic_model_format
 
-        fmt = detect_from_disk(root=root_path)
+        fmt = detect_semantic_model_format(root_path=root_path)
         strategy = (
             TmdlStrategy() if fmt is SemanticModelFormat.TMDL else ModelBimStrategy()
         )

@@ -40,9 +40,9 @@ class Filter(BaseModel):
     expression: QueryExpressionContainer | None = None
     filter: FilterDefinition | None = None
     type: FilterTypeEnum = FilterTypeEnum("Categorical")
-    cachedDisplayNames: list | None = None  # Todo: list of what?
+    cachedDisplayNames: list | None = None  # TODO: list of what?
     howCreated: int | None = None
-    objects: FilterObjects | None = None  # Todo: Any?
+    objects: FilterObjects | None = None
     isHiddenInViewMode: bool | None = None
     isLockedInViewMode: bool | None = None
     displayName: str | None = None
