@@ -1,7 +1,3 @@
-import json
-
-from pydantic import BaseModel
-
 from ..types import Part
 from ...report.report import Report
 from ...report.pbir.definition import PbirReportDefinition
