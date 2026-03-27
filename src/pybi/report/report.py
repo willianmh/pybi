@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from pydantic import BaseModel, PrivateAttr
 
 from ..fabric.fabric import Platform, DefinitionPbir
@@ -15,7 +17,7 @@ class Report(BaseModel):
     _source_format: ReportFormat | None = PrivateAttr(default=None)
 
     @classmethod
-    def read(cls, root_path: str) -> Report:
+    def read(cls, root_path: str | Path) -> Report:
         from ..serialization.strategies import PbirStrategy, ReportJsonStrategy
         from ..serialization.transport import LocalTransport
         from ..serialization.detect import detect_report_format
@@ -26,13 +28,13 @@ class Report(BaseModel):
 
         parts = transport.read_parts(root=root_path)
         report = strategy.deserialize(parts=parts)
-        report._ROOT_PATH = root_path
+        report._ROOT_PATH = str(root_path)
         report._source_format = fmt
         return report
 
     def write(
         self,
-        root_path: str | None,
+        root_path: str | Path | None,
         format: ReportFormat | None,
     ):
         from ..serialization.strategies import PbirStrategy, ReportJsonStrategy

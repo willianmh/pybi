@@ -3,8 +3,8 @@ from typing import Literal
 
 
 class SemanticModelFormat(Enum):
-    TMDL = 1
-    LEGACY = 2
+    TMDL = "definition"
+    LEGACY = "model.bim"
 
 
 SourceType = Literal["calculated", "calculationGroup", "entity", "m"]

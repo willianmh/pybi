@@ -1,7 +1,7 @@
-import os
 import logging
 
 from pydantic import BaseModel
+from pathlib import Path
 
 from .fabric import PBIProject
 from .report import Report
@@ -28,23 +28,26 @@ class PowerBI(BaseModel):
 
     @classmethod
     def from_pbip(cls, pbip_path: str) -> PowerBI:
-        filename_w_extension = os.path.basename(pbip_path)
-        name, _ = os.path.splitext(filename_w_extension)
-        root_path = os.path.dirname(pbip_path)
+        p = Path(pbip_path)
+        name = p.stem
+        root_path = p.parent
 
         pbip = PBIProject.read(pbip_path)
 
-        report_root_path = pbip.artifacts[0].report.path
-        report = Report.read(report_root_path)
+        report_root_path = root_path / pbip.artifacts[0].report.path
+        # logger.info(f"report_root_path: {report_root_path}")
+
+        report = Report.read(str(report_root_path))
         semantic_model_root_path = report.item_definition.get_semantic_model_root_path()
 
         semantic_model = None
         if semantic_model_root_path:
-            semantic_model = SemanticModel.read(semantic_model_root_path)
+            semantic_model_root_path = report_root_path / semantic_model_root_path
+            semantic_model = SemanticModel.read(str(semantic_model_root_path))
 
         return PowerBI(
             name=name,
-            root_path=root_path,
+            root_path=str(root_path),
             report=report,
             semantic_model=semantic_model,
             pbip=pbip,

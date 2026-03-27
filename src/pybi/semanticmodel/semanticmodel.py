@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from pydantic import BaseModel, PrivateAttr
 
 from ..fabric.fabric import DefinitionPbism, Platform
@@ -11,10 +13,11 @@ class SemanticModel(BaseModel):
     platform: Platform
 
     _ROOT_PATH: str | None = PrivateAttr(default="MyPowerBIDashboard.SemanticModel")
+
     _source_format: SemanticModelFormat | None = PrivateAttr(default=None)
 
     @classmethod
-    def read(cls, root_path: str) -> SemanticModel:
+    def read(cls, root_path: str | Path) -> SemanticModel:
         from ..serialization.strategies import TmdlStrategy, ModelBimStrategy
         from ..serialization.transport import LocalTransport
         from ..serialization.detect import detect_semantic_model_format
@@ -27,13 +30,13 @@ class SemanticModel(BaseModel):
 
         parts = transport.read_parts(root_path)
         sm = strategy.deserialize(parts=parts)
-        sm._ROOT_PATH = root_path
+        sm._ROOT_PATH = str(root_path)
         sm._source_format = fmt
         return sm
 
     def write(
         self,
-        root_path: str | None,
+        root_path: str | Path | None,
         format: SemanticModelFormat | None = None,
     ):
         from ..serialization.strategies import TmdlStrategy, ModelBimStrategy

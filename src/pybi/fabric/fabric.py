@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 from typing import ClassVar, Literal
 import uuid
 
@@ -128,19 +128,19 @@ class PBIProject(BaseModel):
     _FILENAME: str = PrivateAttr(default="MyPowerBIDashboard.pbip")
 
     @classmethod
-    def read(cls, pbip_path: str) -> PBIProject:
+    def read(cls, pbip_path: str | Path) -> PBIProject:
         from ..serialization.strategies import PbipStrategy
         from ..serialization.transport import LocalTransport
 
-        filename = os.path.basename(pbip_path)
+        filename = Path(pbip_path).name
 
         pbip_part = LocalTransport().read_part(pbip_path)
         pbip = PbipStrategy().deserialize([pbip_part])
         pbip._FILENAME = filename
-        pbip._PBIP_PATH = pbip_path
+        pbip._PBIP_PATH = str(pbip_path)
         return pbip
 
-    def write(self, pbip_path: str | None) -> None:
+    def write(self, pbip_path: str | Path | None) -> None:
         from ..serialization.strategies import PbipStrategy
         from ..serialization.transport import LocalTransport
 
@@ -148,10 +148,10 @@ class PBIProject(BaseModel):
         if pbip_path is None:
             raise ValueError("You must provide a valid path.")
 
-        self._FILENAME = os.path.basename(pbip_path)
-        self._PBIP_PATH = pbip_path
+        self._FILENAME = Path(pbip_path).name
+        self._PBIP_PATH = str(pbip_path)
 
-        root_path = os.path.dirname(pbip_path)
+        root_path = Path(pbip_path).parent
 
         parts = PbipStrategy().serialize(self)
         LocalTransport().write_parts(parts, root_path)
