@@ -2,7 +2,7 @@ from pydantic import BaseModel
 
 
 class ReportDefinition(BaseModel):
-    FILENAME: str
+    _FILENAME: str
 
     @property
     def sections(self) -> list: ...

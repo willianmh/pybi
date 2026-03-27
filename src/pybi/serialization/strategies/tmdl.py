@@ -9,7 +9,7 @@ from ..types import Part
 from ..parsers.tmdl.loader import TMDLPartsLoader
 from ..parsers.tmdl.writer import TMDLPartsWriter
 from ..parsers.tmdl.grammar import DEFINITION_PREFIX
-from .helpers import serialize_item, deserialize_item
+from .helpers import to_part, from_parts
 
 
 class TmdlStrategy:
@@ -20,8 +20,8 @@ class TmdlStrategy:
         for rel_path, text in tmdl_files.items():
             parts.append(Part.from_text(f"{DEFINITION_PREFIX}{rel_path}", text))
 
-        parts.extend(serialize_item(model.platform))
-        parts.extend(serialize_item(model.item_definition))
+        parts.append(to_part(model.platform))
+        parts.append(to_part(model.item_definition))
 
         return parts
 
@@ -36,9 +36,9 @@ class TmdlStrategy:
         model_data = TMDLPartsLoader(tmdl_files).load()
         definition = SemanticModelDefinition(**model_data)
 
-        platform = deserialize_item(parts, Platform) or default_semanticmodel_platform()
+        platform = from_parts(parts, Platform) or default_semanticmodel_platform()
         item_definition = (
-            deserialize_item(parts, DefinitionPbism) or default_definition_pbism()
+            from_parts(parts, DefinitionPbism) or default_definition_pbism()
         )
 
         return SemanticModel(

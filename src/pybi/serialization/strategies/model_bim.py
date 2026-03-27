@@ -6,28 +6,26 @@ from ...fabric.fabric import (
 )
 from ...semanticmodel.semanticmodel import SemanticModel, SemanticModelDefinition
 from ..types import Part
-from .helpers import serialize_item, deserialize_item
+from .helpers import to_part, from_parts
 
 
 class ModelBimStrategy:
     def serialize(self, model: SemanticModel) -> list[Part]:
-        parts: list[Part] = []
-
-        parts.extend(serialize_item(model.definition))
-        parts.extend(serialize_item(model.platform))
-        parts.extend(serialize_item(model.item_definition))
-
-        return parts
+        return [
+            to_part(model.definition),
+            to_part(model.platform),
+            to_part(model.item_definition),
+        ]
 
     def deserialize(self, parts: list[Part]) -> SemanticModel:
-        definition = deserialize_item(parts, SemanticModelDefinition)
+        definition = from_parts(parts, SemanticModelDefinition)
 
         if not definition:
             raise ValueError("Semantic Model definition not found.")
 
-        platform = deserialize_item(parts, Platform) or default_semanticmodel_platform()
+        platform = from_parts(parts, Platform) or default_semanticmodel_platform()
         item_definition = (
-            deserialize_item(parts, DefinitionPbism) or default_definition_pbism()
+            from_parts(parts, DefinitionPbism) or default_definition_pbism()
         )
 
         return SemanticModel(

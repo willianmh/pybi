@@ -11,7 +11,11 @@ logger = logging.getLogger(__name__)
 
 
 class LocalTransport:
-    def read_parts(self, root: str):
+    def read_part(self, path: str) -> Part:
+        payload = Path(path).read_bytes()
+        return Part(path=path, payload=payload)
+
+    def read_parts(self, root: str) -> list[Part]:
         root_path = Path(root)
 
         if not root_path.is_dir():

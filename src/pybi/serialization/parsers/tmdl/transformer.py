@@ -1,16 +1,14 @@
-"""TMDL transformer - converts AST nodes to Pydantic models."""
-
 import json
 from typing import Any
 
-from pybi.serialization.parsers.tmdl.exceptions import TMDLTransformError
-from pybi.serialization.parsers.tmdl.grammar import (
+from .exceptions import TMDLTransformError
+from .grammar import (
     CHILDREN_NAMING_MAP,
     parse_column_reference,
     unquote_name,
 )
-from pybi.serialization.parsers.tmdl.parser import ObjectDeclaration
-from pybi.semanticmodel.semanticmodel import (
+from .parser import ObjectDeclaration
+from ....semanticmodel.definition import (
     Column,
     Culture,
     Expression,

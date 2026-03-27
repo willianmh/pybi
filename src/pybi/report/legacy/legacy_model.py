@@ -305,7 +305,7 @@ StrReportConfig = Annotated[
 
 
 class ReportJsonDefinition(BaseModel):
-    FILENAME: ClassVar[str] = "report.json"
+    _FILENAME: ClassVar[str] = "report.json"
     model_config = ConfigDict(extra="allow")
 
     config: StrReportConfig

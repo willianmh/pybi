@@ -16,7 +16,7 @@ from pybi.serialization.parsers.tmdl.grammar import (
     format_column_reference,
     quote_name,
 )
-from pybi.semanticmodel.semanticmodel import (
+from pybi.semanticmodel.definition import (
     Column,
     Culture,
     Expression,

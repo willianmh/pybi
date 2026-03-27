@@ -8,7 +8,7 @@ from ...fabric.fabric import (
     default_definition_pbir,
     default_report_platform,
 )
-from .helpers import serialize_item, deserialize_item
+from .helpers import to_part, from_parts
 
 
 class ReportJsonStrategy:
@@ -17,9 +17,9 @@ class ReportJsonStrategy:
         if isinstance(model.definition, PbirReportDefinition):
             raise ValueError("Pbir cannot be serialized as report json.")
 
-        parts.extend(serialize_item(model.definition))
-        parts.extend(serialize_item(model.platform))
-        parts.extend(serialize_item(model.item_definition))
+        parts.append(to_part(model.definition))
+        parts.append(to_part(model.platform))
+        parts.append(to_part(model.item_definition))
 
         static = getattr(model, "_static_resources", None)
         if static:
@@ -29,15 +29,13 @@ class ReportJsonStrategy:
         return parts
 
     def deserialize(self, parts: list[Part]) -> Report:
-        definition = deserialize_item(parts, ReportJsonDefinition)
+        definition = from_parts(parts, ReportJsonDefinition)
 
         if not definition:
             raise ValueError("Report Json not found.")
 
-        platform = deserialize_item(parts, Platform) or default_report_platform()
-        item_definition = (
-            deserialize_item(parts, DefinitionPbir) or default_definition_pbir()
-        )
+        platform = from_parts(parts, Platform) or default_report_platform()
+        item_definition = from_parts(parts, DefinitionPbir) or default_definition_pbir()
 
         report = Report(
             item_definition=item_definition,

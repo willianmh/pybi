@@ -8,7 +8,7 @@ from ..types import Part
 from ...report.report import Report
 from ...report.pbir.definition import PbirReportDefinition
 from ...report.pbir.types import PbirPageWithVisuals
-from ...report.pbir.dispatcher import init_model, strict_models_registry
+from ...report.pbir.dispatcher import init_model
 from ...report.pbir.models.versionmetadata.model import PbirVersion
 from ...report.pbir.models.report.model import PbirReport
 from ...report.pbir.models.pagesmetadata.model import PbirPagesMetadata
@@ -26,7 +26,7 @@ from ...fabric.fabric import (
     default_definition_pbir,
     default_report_platform,
 )
-from .helpers import dump_json_bytes, serialize_item, deserialize_item
+from .helpers import to_part, from_parts
 
 # PbirPageWithVisuals and PbirReportDefinition use TYPE_CHECKING-guarded
 # forward references (e.g. "PageV210", "VisualContainerV270").  We import
@@ -122,10 +122,6 @@ def _get_name(model: BaseModel) -> str:
     return name
 
 
-def _serialize_model(model: BaseModel, path: str) -> Part:
-    return Part(path=path, payload=dump_json_bytes(model))
-
-
 class PbirStrategy:
     def serialize(self, model: Report) -> list[Part]:
         if not isinstance(model.definition, PbirReportDefinition):
@@ -135,18 +131,18 @@ class PbirStrategy:
         defn = model.definition
 
         if defn.version is not None:
-            parts.append(_serialize_model(defn.version, _VERSION_PATH))
+            parts.append(to_part(defn.version, _VERSION_PATH))
 
         if defn.report_metadata is not None:
-            parts.append(_serialize_model(defn.report_metadata, _REPORT_PATH))
+            parts.append(to_part(defn.report_metadata, _REPORT_PATH))
 
         if defn.pages_metadata is not None:
-            parts.append(_serialize_model(defn.pages_metadata, _PAGES_METADATA_PATH))
+            parts.append(to_part(defn.pages_metadata, _PAGES_METADATA_PATH))
 
         for page_with_visuals in defn.pages:
             page_name = _get_name(page_with_visuals.page)
             parts.append(
-                _serialize_model(
+                to_part(
                     page_with_visuals.page,
                     f"definition/pages/{page_name}/page.json",
                 )
@@ -155,7 +151,7 @@ class PbirStrategy:
             for visual in page_with_visuals.visuals:
                 visual_name = _get_name(visual)
                 parts.append(
-                    _serialize_model(
+                    to_part(
                         visual,
                         f"definition/pages/{page_name}/visuals/{visual_name}/visual.json",
                     )
@@ -163,33 +159,29 @@ class PbirStrategy:
 
             for visual_name, mobile_state in page_with_visuals.mobile_states.items():
                 parts.append(
-                    _serialize_model(
+                    to_part(
                         mobile_state,
                         f"definition/pages/{page_name}/visuals/{visual_name}/mobile.json",
                     )
                 )
 
         if defn.bookmarks_metadata is not None:
-            parts.append(
-                _serialize_model(defn.bookmarks_metadata, _BOOKMARKS_METADATA_PATH)
-            )
+            parts.append(to_part(defn.bookmarks_metadata, _BOOKMARKS_METADATA_PATH))
 
         for bookmark in defn.bookmarks:
             bookmark_name = _get_name(bookmark)
             parts.append(
-                _serialize_model(
+                to_part(
                     bookmark,
                     f"definition/bookmarks/{bookmark_name}.bookmark.json",
                 )
             )
 
         if defn.report_extensions is not None:
-            parts.append(
-                _serialize_model(defn.report_extensions, _REPORT_EXTENSIONS_PATH)
-            )
+            parts.append(to_part(defn.report_extensions, _REPORT_EXTENSIONS_PATH))
 
-        parts.extend(serialize_item(model.platform))
-        parts.extend(serialize_item(model.item_definition))
+        parts.append(to_part(model.platform))
+        parts.append(to_part(model.item_definition))
 
         static = getattr(model, "_static_resources", None)
         if static:
@@ -297,10 +289,8 @@ class PbirStrategy:
             report_extensions=report_extensions,
         )
 
-        platform = deserialize_item(parts, Platform) or default_report_platform()
-        item_definition = (
-            deserialize_item(parts, DefinitionPbir) or default_definition_pbir()
-        )
+        platform = from_parts(parts, Platform) or default_report_platform()
+        item_definition = from_parts(parts, DefinitionPbir) or default_definition_pbir()
 
         report = Report(
             item_definition=item_definition,

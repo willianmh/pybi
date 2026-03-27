@@ -1,10 +1,24 @@
+import os
 from typing import ClassVar, Literal
 import uuid
 
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, PrivateAttr, model_validator
 
 FABRIC_SCHEMA_URL = "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json"
 SM_SCHEMA_URL = "https://developer.microsoft.com/json-schemas/fabric/item/semanticModel/definitionProperties/1.0.0/schema.json"
+
+
+# pbip
+class Report(BaseModel):
+    path: str
+
+
+class Artifact(BaseModel):
+    report: Report
+
+
+class Settings(BaseModel):
+    enableAutoRecovery: bool
 
 
 # Definition Pbism
@@ -39,6 +53,9 @@ class DatasetReference(BaseModel):
             raise ValueError("Provide only from `byPath` or `byConnection`")
         return self
 
+    def get_semantic_model_root_path(self) -> str | None:
+        return self.byPath.path if self.byPath else None
+
 
 # Platform
 
@@ -62,7 +79,7 @@ class ConfigPlatform(BaseModel):
 
 
 class DefinitionPbir(BaseModel):
-    FILENAME: ClassVar[str] = "definition.pbir"
+    _FILENAME: ClassVar[str] = "definition.pbir"
     model_config = ConfigDict(
         populate_by_name=True,
         serialize_by_alias=True,
@@ -73,9 +90,12 @@ class DefinitionPbir(BaseModel):
     version: str = "2.0"
     datasetReference: DatasetReference
 
+    def get_semantic_model_root_path(self) -> str | None:
+        return self.datasetReference.get_semantic_model_root_path()
+
 
 class DefinitionPbism(BaseModel):
-    FILENAME: ClassVar[str] = "definition.pbism"
+    _FILENAME: ClassVar[str] = "definition.pbism"
     model_config = ConfigDict(
         populate_by_name=True,
         serialize_by_alias=True,
@@ -88,7 +108,7 @@ class DefinitionPbism(BaseModel):
 
 
 class Platform(BaseModel):
-    FILENAME: ClassVar[str] = ".platform"
+    _FILENAME: ClassVar[str] = ".platform"
     model_config = ConfigDict(
         populate_by_name=True,
         serialize_by_alias=True,
@@ -97,6 +117,47 @@ class Platform(BaseModel):
     schema_: str = Field(default=FABRIC_SCHEMA_URL, alias="$schema")
     metadata: Metadata
     config: ConfigPlatform = Field(default_factory=ConfigPlatform)
+
+
+class PBIProject(BaseModel):
+    version: str
+    artifacts: list[Artifact]
+    settings: Settings
+
+    _PBIP_PATH: str | None = PrivateAttr(default=None)
+    _FILENAME: str = PrivateAttr(default="MyPowerBIDashboard.pbip")
+
+    @classmethod
+    def read(cls, pbip_path: str) -> PBIProject:
+        from ..serialization.strategies import PbipStrategy
+        from ..serialization.transport import LocalTransport
+
+        filename = os.path.basename(pbip_path)
+
+        pbip_part = LocalTransport().read_part(pbip_path)
+        pbip = PbipStrategy().deserialize([pbip_part])
+        pbip._FILENAME = filename
+        pbip._PBIP_PATH = pbip_path
+        return pbip
+
+    def write(self, pbip_path: str | None) -> None:
+        from ..serialization.strategies import PbipStrategy
+        from ..serialization.transport import LocalTransport
+
+        pbip_path = pbip_path or self._PBIP_PATH
+        if pbip_path is None:
+            raise ValueError("You must provide a valid path.")
+
+        self._FILENAME = os.path.basename(pbip_path)
+        self._PBIP_PATH = pbip_path
+
+        root_path = os.path.dirname(pbip_path)
+
+        parts = PbipStrategy().serialize(self)
+        LocalTransport().write_parts(parts, root_path)
+
+
+# helpers
 
 
 def default_semanticmodel_platform() -> Platform:

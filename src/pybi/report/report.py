@@ -11,7 +11,7 @@ class Report(BaseModel):
     definition: ReportJsonDefinition | PbirReportDefinition
     platform: Platform
 
-    _ROOT_PATH: str | None = PrivateAttr(default=None)
+    _ROOT_PATH: str | None = PrivateAttr(default="MyPowerBIDashboard.Report")
     _source_format: ReportFormat | None = PrivateAttr(default=None)
 
     @classmethod

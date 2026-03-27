@@ -3,7 +3,7 @@
 import logging
 from typing import Any
 
-from ....semanticmodel.semanticmodel import (
+from ....semanticmodel.definition import (
     Culture,
     Expression,
     Model,
