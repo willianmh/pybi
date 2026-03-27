@@ -8,8 +8,6 @@ authors = [
 ]
 requires-python = ">=3.14"
 dependencies = [
-    "cryptography>=46.0.5",
-    "datamodel-code-generator>=0.55.0",
     "pydantic>=2.12.5",
 ]
 
@@ -19,5 +17,6 @@ build-backend = "uv_build"
 
 [dependency-groups]
 dev = [
+    "datamodel-code-generator>=0.55.0",
     "pytest>=9.0.2",
 ]
