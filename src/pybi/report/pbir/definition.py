@@ -5,7 +5,7 @@ from .types import (
     AnyBookmarksMetadata,
     AnyPagesMetadata,
     AnyReportExtension,
-    AnyReportMetadata,
+    AnyReport,
     AnyVersion,
     PbirPageWithVisuals,
 )
@@ -13,7 +13,7 @@ from .types import (
 
 class PbirReportDefinition(BaseModel):
     version: AnyVersion | None = None
-    report_metadata: AnyReportMetadata | None = None
+    report: AnyReport | None = None
     pages_metadata: AnyPagesMetadata | None = None
     pages: list[PbirPageWithVisuals] = Field(default_factory=list)
     bookmarks_metadata: AnyBookmarksMetadata | None = None

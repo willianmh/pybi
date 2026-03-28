@@ -41,7 +41,7 @@ from .models.visualcontainer.model import PbirVisualContainer
 
 AnyVersion = Union[PbirVersion, "VersionMetadataV100"]
 AnyBookmark = Union[PbirBookmark, "BookmarkV210", "BookmarkV200", "BookmarkV140"]
-AnyReportMetadata = Union[PbirReport, "ReportV320", "ReportV310", "ReportV300"]
+AnyReport = Union[PbirReport, "ReportV320", "ReportV310", "ReportV300"]
 AnyPage = Union[PbirPage, "PageV210", "PageV200", "PageV140"]
 AnyPagesMetadata = Union[PbirPagesMetadata, "PagesMetadataV100"]
 AnyBookmarksMetadata = Union[PbirBookmarksMetadata, "BookmarkMetadataV100"]
