@@ -18,9 +18,7 @@ from pybi.semanticmodel.semanticmodel import SemanticModel
 _SAMPLES_ROOT = Path("samples/pbir/11.25")
 
 _SAMPLE_DIRS: dict[str, Path] = {
-    "ai": _SAMPLES_ROOT
-    / "ai"
-    / "Artificial Intelligence Sample.SemanticModel",
+    "ai": _SAMPLES_ROOT / "ai" / "Artificial Intelligence Sample.SemanticModel",
     "human-resources": _SAMPLES_ROOT
     / "human-resources"
     / "Human Resources Sample PBIX.SemanticModel",
@@ -99,15 +97,11 @@ class TestWriteRoundtripAllSamples:
 
     def test_culture_count_preserved(self, roundtripped):
         sm1, sm2 = roundtripped
-        assert len(sm1.definition.model.cultures) == len(
-            sm2.definition.model.cultures
-        )
+        assert len(sm1.definition.model.cultures) == len(sm2.definition.model.cultures)
 
     def test_compatibility_level_preserved(self, roundtripped):
         sm1, sm2 = roundtripped
-        assert (
-            sm1.definition.compatibilityLevel == sm2.definition.compatibilityLevel
-        )
+        assert sm1.definition.compatibilityLevel == sm2.definition.compatibilityLevel
 
     def test_all_table_names_preserved(self, roundtripped):
         sm1, sm2 = roundtripped
@@ -177,9 +171,7 @@ class TestWriteRoundtripColumnDetails:
         for t1 in sm1.definition.model.tables:
             t2 = next(t for t in sm2.definition.model.tables if t.name == t1.name)
             for c1 in t1.columns or []:
-                c2 = next(
-                    (c for c in (t2.columns or []) if c.name == c1.name), None
-                )
+                c2 = next((c for c in (t2.columns or []) if c.name == c1.name), None)
                 assert c2 is not None, f"Missing column {t1.name}.{c1.name}"
                 assert c1.expression == c2.expression, (
                     f"Expression mismatch: {t1.name}.{c1.name}"
@@ -192,8 +184,7 @@ class TestWriteRoundtripColumnDetails:
             for c1 in t1.columns or []:
                 c2 = next(c for c in (t2.columns or []) if c.name == c1.name)
                 assert c1.type == c2.type, (
-                    f"Type mismatch: {t1.name}.{c1.name}: "
-                    f"{c1.type} -> {c2.type}"
+                    f"Type mismatch: {t1.name}.{c1.name}: {c1.type} -> {c2.type}"
                 )
 
     def test_column_annotations_preserved(self, roundtripped):
@@ -214,9 +205,7 @@ class TestWriteRoundtripColumnDetails:
                 c2 = next(c for c in (t2.columns or []) if c.name == c1.name)
                 has_var1 = c1.variations is not None
                 has_var2 = c2.variations is not None
-                assert has_var1 == has_var2, (
-                    f"Variation mismatch: {t1.name}.{c1.name}"
-                )
+                assert has_var1 == has_var2, f"Variation mismatch: {t1.name}.{c1.name}"
 
 
 # ---------------------------------------------------------------------------
@@ -241,9 +230,7 @@ class TestWriteRoundtripMeasureDetails:
         for t1 in sm1.definition.model.tables:
             t2 = next(t for t in sm2.definition.model.tables if t.name == t1.name)
             for m1 in t1.measures or []:
-                m2 = next(
-                    (m for m in (t2.measures or []) if m.name == m1.name), None
-                )
+                m2 = next((m for m in (t2.measures or []) if m.name == m1.name), None)
                 assert m2 is not None, f"Missing measure {t1.name}.{m1.name}"
                 assert _expr_str(m1.expression) == _expr_str(m2.expression), (
                     f"Expression mismatch: {t1.name}.{m1.name}"

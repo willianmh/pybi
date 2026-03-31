@@ -54,7 +54,9 @@ def patch_registry():
 
 class TestFalsySchemaUrl:
     def test_none_compatible_returns_fallback(self):
-        result = get_model_for_schema(None, "report", FallbackModel, ParseMode.COMPATIBLE)
+        result = get_model_for_schema(
+            None, "report", FallbackModel, ParseMode.COMPATIBLE
+        )
         assert result is FallbackModel
 
     def test_none_strict_raises(self):
@@ -77,12 +79,16 @@ class TestFalsySchemaUrl:
 
 class TestUrlPatternMismatch:
     def test_no_pattern_match_compatible_returns_fallback(self):
-        result = get_model_for_schema(NO_MATCH_URL, "report", FallbackModel, ParseMode.COMPATIBLE)
+        result = get_model_for_schema(
+            NO_MATCH_URL, "report", FallbackModel, ParseMode.COMPATIBLE
+        )
         assert result is FallbackModel
 
     def test_no_pattern_match_strict_raises_missing(self):
         with pytest.raises(UnsupportedReportSchemaVersionError, match="Missing"):
-            get_model_for_schema(NO_MATCH_URL, "report", FallbackModel, ParseMode.STRICT)
+            get_model_for_schema(
+                NO_MATCH_URL, "report", FallbackModel, ParseMode.STRICT
+            )
 
 
 # ---------------------------------------------------------------------------
@@ -92,13 +98,17 @@ class TestUrlPatternMismatch:
 
 class TestModelTypeMismatch:
     def test_type_mismatch_compatible_returns_fallback(self):
-        result = get_model_for_schema(WRONG_TYPE_URL, "report", FallbackModel, ParseMode.COMPATIBLE)
+        result = get_model_for_schema(
+            WRONG_TYPE_URL, "report", FallbackModel, ParseMode.COMPATIBLE
+        )
         assert result is FallbackModel
 
     def test_type_mismatch_strict_still_returns_fallback(self):
         # STRICT only raises for missing/unknown versions — a type mismatch is
         # treated as "not my URL" and falls back immediately, even in strict mode.
-        result = get_model_for_schema(WRONG_TYPE_URL, "report", FallbackModel, ParseMode.STRICT)
+        result = get_model_for_schema(
+            WRONG_TYPE_URL, "report", FallbackModel, ParseMode.STRICT
+        )
         assert result is FallbackModel
 
 
@@ -109,11 +119,15 @@ class TestModelTypeMismatch:
 
 class TestKnownVersion:
     def test_compatible_returns_registered_class(self):
-        result = get_model_for_schema(KNOWN_URL, "report", FallbackModel, ParseMode.COMPATIBLE)
+        result = get_model_for_schema(
+            KNOWN_URL, "report", FallbackModel, ParseMode.COMPATIBLE
+        )
         assert result is ReportV300
 
     def test_strict_returns_registered_class(self):
-        result = get_model_for_schema(KNOWN_URL, "report", FallbackModel, ParseMode.STRICT)
+        result = get_model_for_schema(
+            KNOWN_URL, "report", FallbackModel, ParseMode.STRICT
+        )
         assert result is ReportV300
 
 
@@ -150,7 +164,9 @@ class TestUnknownVersion:
 class TestModelTypeNotInRegistry:
     def test_compatible_returns_fallback(self):
         url = "https://example.com/unknownModel/1.0.0/schema.json"
-        result = get_model_for_schema(url, "unknownModel", FallbackModel, ParseMode.COMPATIBLE)
+        result = get_model_for_schema(
+            url, "unknownModel", FallbackModel, ParseMode.COMPATIBLE
+        )
         assert result is FallbackModel
 
     def test_strict_raises(self):

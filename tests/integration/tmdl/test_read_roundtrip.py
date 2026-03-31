@@ -17,18 +17,14 @@ from pybi.semanticmodel.semanticmodel import SemanticModel
 _SAMPLES_ROOT = Path("samples/pbir/11.25")
 
 _SAMPLE_DIRS: dict[str, Path] = {
-    "ai": _SAMPLES_ROOT
-    / "ai"
-    / "Artificial Intelligence Sample.SemanticModel",
+    "ai": _SAMPLES_ROOT / "ai" / "Artificial Intelligence Sample.SemanticModel",
     "human-resources": _SAMPLES_ROOT
     / "human-resources"
     / "Human Resources Sample PBIX.SemanticModel",
     "covid-19-us": _SAMPLES_ROOT
     / "covid-19-us"
     / "COVID-19 US Tracking Sample.SemanticModel",
-    "covid-bakeoff": _SAMPLES_ROOT
-    / "covid-bakeoff"
-    / "COVID Bakeoff.SemanticModel",
+    "covid-bakeoff": _SAMPLES_ROOT / "covid-bakeoff" / "COVID Bakeoff.SemanticModel",
     "life-expectancy": _SAMPLES_ROOT
     / "life-expectancy"
     / "Life expectancy v202009.SemanticModel",
@@ -124,15 +120,15 @@ class TestReadAISample:
         col = next((c for c in t.columns if c.name == "Industry Lookup"), None)
         assert col is not None
         assert col.expression is not None
-        expr_str = col.expression if isinstance(col.expression, str) else col.expression[0]
+        expr_str = (
+            col.expression if isinstance(col.expression, str) else col.expression[0]
+        )
         assert "LOOKUPVALUE" in expr_str
 
     def test_column_variation_preserved(self, model):
         """'Opportunity Created On' column should have a variation."""
         t = next(t for t in model.tables if t.name == "Opportunities")
-        col = next(
-            (c for c in t.columns if c.name == "Opportunity Created On"), None
-        )
+        col = next((c for c in t.columns if c.name == "Opportunity Created On"), None)
         assert col is not None
         assert col.variations is not None
         assert len(col.variations) == 1

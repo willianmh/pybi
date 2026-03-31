@@ -87,7 +87,9 @@ class TestReadParts:
             return original(self)
 
         with patch.object(pathlib.Path, "read_bytes", patched):
-            with caplog.at_level(logging.WARNING, logger="pybi.serialization.transport.local"):
+            with caplog.at_level(
+                logging.WARNING, logger="pybi.serialization.transport.local"
+            ):
                 parts = transport.read_parts(str(tmp_path))
 
         assert len(parts) == 1

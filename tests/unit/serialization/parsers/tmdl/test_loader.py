@@ -11,7 +11,9 @@ from pybi.serialization.parsers.tmdl.loader import TMDLPartsLoader
 
 _DATABASE = "database\n\tcompatibilityLevel: 1600\n"
 _DATABASE_1567 = "database\n\tcompatibilityLevel: 1567\n"
-_MODEL = "model Model\n\tculture: en-US\n\tdefaultPowerBIDataSourceVersion: powerBI_V3\n"
+_MODEL = (
+    "model Model\n\tculture: en-US\n\tdefaultPowerBIDataSourceVersion: powerBI_V3\n"
+)
 
 
 # ---------------------------------------------------------------------------
@@ -94,8 +96,7 @@ class TestLoaderComponents:
             "database.tmdl": _DATABASE,
             "model.tmdl": _MODEL,
             "expressions.tmdl": (
-                "expression MySource = let x = 1 in x\n"
-                "\tlineageTag: expr-1\n"
+                "expression MySource = let x = 1 in x\n\tlineageTag: expr-1\n"
             ),
         }
         result = TMDLPartsLoader(files).load()
@@ -109,13 +110,13 @@ class TestLoaderComponents:
             "model.tmdl": _MODEL,
             "cultures/en-US.tmdl": (
                 "cultureInfo en-US\n"
-                '\n'
-                '\tlinguisticMetadata =\n'
-                '\t\t\t{\n'
+                "\n"
+                "\tlinguisticMetadata =\n"
+                "\t\t\t{\n"
                 '\t\t\t  "Language": "en-US",\n'
                 '\t\t\t  "Version": "1.0.0"\n'
-                '\t\t\t}\n'
-                '\t\tcontentType: json\n'
+                "\t\t\t}\n"
+                "\t\tcontentType: json\n"
             ),
         }
         result = TMDLPartsLoader(files).load()
@@ -135,18 +136,10 @@ class TestLoaderComponents:
             "database.tmdl": _DATABASE,
             "model.tmdl": _MODEL,
             "tables/A.tmdl": (
-                "table A\n"
-                "\tlineageTag: a-1\n"
-                "\n"
-                "\tpartition A-p = m\n"
-                "\t\tmode: import\n"
+                "table A\n\tlineageTag: a-1\n\n\tpartition A-p = m\n\t\tmode: import\n"
             ),
             "tables/B.tmdl": (
-                "table B\n"
-                "\tlineageTag: b-1\n"
-                "\n"
-                "\tpartition B-p = m\n"
-                "\t\tmode: import\n"
+                "table B\n\tlineageTag: b-1\n\n\tpartition B-p = m\n\t\tmode: import\n"
             ),
         }
         result = TMDLPartsLoader(files).load()

@@ -124,6 +124,5 @@ class TestReadConsistency:
         pbir = SemanticModel.read(str(_AI_PBIR))
         legacy = SemanticModel.read(str(_AI_LEGACY))
         assert (
-            pbir.definition.compatibilityLevel
-            == legacy.definition.compatibilityLevel
+            pbir.definition.compatibilityLevel == legacy.definition.compatibilityLevel
         )

@@ -197,7 +197,9 @@ class TestIndentation:
         text = "table Foo\n\tisHidden"
         toks = tokens(text)
         # "Foo" is at indent_level=0; "isHidden" is the nested one at level=1
-        nested = next(t for t in toks if t.type == TokenType.IDENTIFIER and t.value == "isHidden")
+        nested = next(
+            t for t in toks if t.type == TokenType.IDENTIFIER and t.value == "isHidden"
+        )
         assert nested.indent_level == 1
 
     def test_multiple_dedents_emitted_correctly(self):
@@ -232,7 +234,11 @@ class TestIndentation:
         # A line with leading spaces has indent_level=0.
         text = "table Foo\n    spaceIndented"
         toks = tokens(text)
-        space_tok = next(t for t in toks if t.type == TokenType.IDENTIFIER and t.value == "spaceIndented")
+        space_tok = next(
+            t
+            for t in toks
+            if t.type == TokenType.IDENTIFIER and t.value == "spaceIndented"
+        )
         assert space_tok.indent_level == 0
 
 
@@ -682,13 +688,17 @@ class TestLineAndColumnNumbers:
     def test_token_on_second_line(self):
         toks = tokens("table Foo\n\tdataType: string")
         # "dataType" is on line 2; "Foo" is on line 1
-        ident = next(t for t in toks if t.type == TokenType.IDENTIFIER and t.value == "dataType")
+        ident = next(
+            t for t in toks if t.type == TokenType.IDENTIFIER and t.value == "dataType"
+        )
         assert ident.line == 2
 
     def test_column_reset_on_new_line(self):
         # indent_level=1 → col starts at 2 for nested tokens
         toks = tokens("table Foo\n\tdataType: string")
-        ident = next(t for t in toks if t.type == TokenType.IDENTIFIER and t.value == "dataType")
+        ident = next(
+            t for t in toks if t.type == TokenType.IDENTIFIER and t.value == "dataType"
+        )
         assert ident.column == 2
 
     def test_eof_line_matches_last_content_line(self):
@@ -754,13 +764,7 @@ class TestSequenceInvariants:
             next(gen)
 
     def test_indent_dedent_balance(self):
-        text = (
-            "table Foo\n"
-            "\tcolumn Bar\n"
-            "\t\tdataType: string\n"
-            "table Baz\n"
-            "\tisHidden\n"
-        )
+        text = "table Foo\n\tcolumn Bar\n\t\tdataType: string\ntable Baz\n\tisHidden\n"
         toks = tokens(text)
         indent_count = sum(1 for t in toks if t.type == TokenType.INDENT)
         dedent_count = sum(1 for t in toks if t.type == TokenType.DEDENT)
@@ -770,9 +774,9 @@ class TestSequenceInvariants:
         text = "table Foo\n\n\n\tcolumn Bar\n\n\t\tdataType: string"
         toks = tokens(text)
         for a, b in zip(toks, toks[1:]):
-            assert not (
-                a.type == TokenType.NEWLINE and b.type == TokenType.NEWLINE
-            ), f"Consecutive NEWLINEs at line {b.line}"
+            assert not (a.type == TokenType.NEWLINE and b.type == TokenType.NEWLINE), (
+                f"Consecutive NEWLINEs at line {b.line}"
+            )
 
     def test_no_token_has_line_zero(self):
         toks = tokens("table Foo\n\tisHidden\ntable Bar")
@@ -809,5 +813,14 @@ class TestUnrecognizedCharacters:
     def test_unrecognized_mixed_with_identifiers(self):
         # Simulates M expression content: SUM(x)
         toks = tokens("SUM(x)")
-        tt = [t.type for t in toks if t.type != TokenType.NEWLINE and t.type != TokenType.EOF]
-        assert tt == [TokenType.IDENTIFIER, TokenType.STRING, TokenType.IDENTIFIER, TokenType.STRING]
+        tt = [
+            t.type
+            for t in toks
+            if t.type != TokenType.NEWLINE and t.type != TokenType.EOF
+        ]
+        assert tt == [
+            TokenType.IDENTIFIER,
+            TokenType.STRING,
+            TokenType.IDENTIFIER,
+            TokenType.STRING,
+        ]
