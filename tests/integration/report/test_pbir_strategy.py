@@ -22,15 +22,11 @@ from pybi.report.pbir.definition import PbirReportDefinition
 _SAMPLES_ROOT = Path("samples/pbir/11.25")
 
 _SAMPLE_DIRS: dict[str, Path] = {
-    "ai": _SAMPLES_ROOT
-    / "ai"
-    / "Artificial Intelligence Sample.Report",
+    "ai": _SAMPLES_ROOT / "ai" / "Artificial Intelligence Sample.Report",
     "human-resources": _SAMPLES_ROOT
     / "human-resources"
     / "Human Resources Sample PBIX.Report",
-    "covid-19-us": _SAMPLES_ROOT
-    / "covid-19-us"
-    / "COVID-19 US Tracking Sample.Report",
+    "covid-19-us": _SAMPLES_ROOT / "covid-19-us" / "COVID-19 US Tracking Sample.Report",
     "life-expectancy": _SAMPLES_ROOT
     / "life-expectancy"
     / "Life expectancy v202009.Report",
@@ -40,9 +36,7 @@ _SAMPLE_DIRS: dict[str, Path] = {
     "sales-return": _SAMPLES_ROOT
     / "sales-return"
     / "Sales & Returns Sample v201912.Report",
-    "supply-chain": _SAMPLES_ROOT
-    / "supply-chain"
-    / "Supply Chain Sample.Report",
+    "supply-chain": _SAMPLES_ROOT / "supply-chain" / "Supply Chain Sample.Report",
 }
 
 
@@ -109,7 +103,7 @@ class TestReadOnAllSamples:
         assert defn.version.version is not None
 
     def test_has_report_metadata(self, defn):
-        assert defn.report_metadata is not None
+        assert defn.report is not None
 
     def test_has_pages_metadata(self, defn):
         assert defn.pages_metadata is not None
@@ -133,8 +127,7 @@ class TestReadOnAllSamples:
             for vis in page.visuals:
                 name = getattr(vis, "name", None)
                 assert name, (
-                    f"Visual without name in page "
-                    f"{getattr(page.page, 'name', '?')}"
+                    f"Visual without name in page {getattr(page.page, 'name', '?')}"
                 )
 
     def test_platform_is_report(self, report):
@@ -300,12 +293,10 @@ class TestRoundtripAIDetails:
     def test_visuals_per_page_preserved(self, roundtripped):
         original, reread = roundtripped
         orig_by_page = {
-            getattr(p.page, "name"): len(p.visuals)
-            for p in original.definition.pages
+            getattr(p.page, "name"): len(p.visuals) for p in original.definition.pages
         }
         reread_by_page = {
-            getattr(p.page, "name"): len(p.visuals)
-            for p in reread.definition.pages
+            getattr(p.page, "name"): len(p.visuals) for p in reread.definition.pages
         }
         assert reread_by_page == orig_by_page
 
@@ -372,32 +363,28 @@ class TestSerializePartPaths:
         assert "definition/pages/pages.json" in paths
 
     def test_page_paths_are_nested(self, parts):
-        page_paths = [
-            p.path for p in parts if p.path.endswith("/page.json")
-        ]
+        page_paths = [p.path for p in parts if p.path.endswith("/page.json")]
         assert len(page_paths) == 4
         for path in page_paths:
             assert path.startswith("definition/pages/")
 
     def test_visual_paths_are_nested(self, parts):
-        visual_paths = [
-            p.path for p in parts if p.path.endswith("/visual.json")
-        ]
+        visual_paths = [p.path for p in parts if p.path.endswith("/visual.json")]
         assert len(visual_paths) == 23
         for path in visual_paths:
             assert "/visuals/" in path
 
     def test_bookmark_paths(self, parts):
-        bm_paths = [
-            p.path for p in parts if ".bookmark.json" in p.path
-        ]
+        bm_paths = [p.path for p in parts if ".bookmark.json" in p.path]
         assert len(bm_paths) == 4
         for path in bm_paths:
             assert path.startswith("definition/bookmarks/")
 
     def test_serialized_json_is_valid(self, parts):
         json_parts = [
-            p for p in parts if p.path.endswith(".json") and not p.path.startswith("StaticResources")
+            p
+            for p in parts
+            if p.path.endswith(".json") and not p.path.startswith("StaticResources")
         ]
         for part in json_parts:
             data = json.loads(part.payload)

@@ -297,7 +297,7 @@ class TestSerializeFull:
         bookmark = _make_bookmark("bm1", "My Bookmark")
         defn = PbirReportDefinition(
             version=_make_version(),
-            report_metadata=_make_report_metadata(),
+            report=_make_report_metadata(),
             pages_metadata=_make_pages_metadata(["Page1"]),
             pages=pages,
             bookmarks_metadata=_make_bookmarks_metadata(["bm1"]),
@@ -412,7 +412,7 @@ class TestDeserializeMinimal:
         assert isinstance(report.definition, PbirReportDefinition)
         defn = report.definition
         assert defn.version is None
-        assert defn.report_metadata is None
+        assert defn.report is None
         assert defn.pages_metadata is None
         assert defn.pages == []
         assert defn.bookmarks_metadata is None
@@ -503,7 +503,7 @@ class TestDeserializeFull:
         assert defn.version.version == "2.0.0"
 
     def test_report_metadata(self, defn):
-        assert defn.report_metadata is not None
+        assert defn.report is not None
 
     def test_pages_metadata(self, defn):
         assert defn.pages_metadata is not None
@@ -590,7 +590,7 @@ class TestRoundtrip:
 
         defn = PbirReportDefinition(
             version=_make_version("2.0.0"),
-            report_metadata=_make_report_metadata(),
+            report=_make_report_metadata(),
             pages_metadata=_make_pages_metadata(["MainPage"]),
             pages=[
                 PbirPageWithVisuals(

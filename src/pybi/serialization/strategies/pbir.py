@@ -281,7 +281,7 @@ class PbirStrategy:
 
         definition = PbirReportDefinition(
             version=version,
-            report_metadata=report_metadata,
+            report=report_metadata,
             pages_metadata=pages_metadata,
             pages=pages,
             bookmarks_metadata=bookmarks_metadata,
