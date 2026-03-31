@@ -62,6 +62,8 @@ DataCategory = Literal[
     "ShortCaption",
     "CaptionDescription",
     "CaptionAbbreviation",
+    "Uncategorized",  # not documented
+    "WebUrl",  # alternative casing
     "WebURL",
     "WebHTML",
     "WebXMLOrXSL",

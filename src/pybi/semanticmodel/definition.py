@@ -60,7 +60,7 @@ class Relationship(BaseModel):
     See: https://docs.tabulareditor.com/en/api/TabularEditor.TOMWrapper.Relationship.html
     """
 
-    name: str
+    name: str | None = None
     annotations: list[dict] | None = None
     crossFilteringBehavior: str | None = None
     fromCardinality: str | None = None
@@ -87,7 +87,7 @@ class Expression(BaseModel):
 
 
 class Measure(BaseModel):
-    name: str
+    name: str | None = None
     annotations: list[dict] | None = None
     changedProperties: Any | None = None
     dataCategory: DataCategory | None = None
@@ -107,7 +107,7 @@ class Column(BaseModel):
     See: https://docs.tabulareditor.com/en/api/TabularEditor.TOMWrapper.Column.html
     """
 
-    name: str
+    name: str | None = None
     annotations: list[dict] | None = None
     changedProperties: list[Any] | None = None
     dataCategory: DataCategory | None = None
@@ -122,7 +122,7 @@ class Column(BaseModel):
     isNullable: bool | None = None
     lineageTag: str = Field(default_factory=lambda: str(uuid.uuid4()))
     alignment: Alignment | None = None
-    relatedColumnDetails: dict | None = None
+    relatedColumnDetails: dict | str | None = None
     sortByColumn: str | None = None
     sourceColumn: str | None = None
     sourceLineageTag: str | None = None
@@ -137,7 +137,7 @@ class Table(BaseModel):
     name: str
     annotations: list[dict] | None = None
     changedProperties: list[Any] | None = None
-    calculationGroup: dict | None = None
+    calculationGroup: dict | list | None = None
     columns: list[Column] | None = None
     dataCategory: str | None = None
     excludeFromModelRefresh: bool | None = None
