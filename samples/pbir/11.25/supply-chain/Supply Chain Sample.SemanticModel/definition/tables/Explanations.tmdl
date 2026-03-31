@@ -1,0 +1,71 @@
+table Explanations
+	isHidden
+	lineageTag: 88e038cb-b6bc-4aea-b0a7-4a5553a79c48
+
+	column 'Product ID'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 7a967f4c-b606-4a8c-9ff4-9a02d1c76f66
+		summarizeBy: none
+		sourceColumn: Product ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Location
+		dataType: string
+		isHidden
+		lineageTag: 9c9d0a70-8e79-4b75-bb51-04a73259dab6
+		summarizeBy: none
+		sourceColumn: Location
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Factor
+		dataType: string
+		isHidden
+		lineageTag: ac3176be-cd8d-4a46-aac0-a06b58816cde
+		summarizeBy: none
+		sourceColumn: Factor
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Risk
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 1ce170f3-822b-46df-aa96-64b9d0f46325
+		summarizeBy: sum
+		sourceColumn: Risk
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Explanations-da57eca1-da42-4086-8190-eab8106fff57 = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\juluczni\Documents\Explanations.xlsx"), null, true),
+				    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Product ID", Int64.Type}, {"Location", type text}, {"Factor", type text}, {"Risk", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_Id = 545aed8a-9467-4e7a-ba70-0d4936a7b9dc
+
+	annotation LinkedQueryName = Explanations
+
+	annotation PBI_QueryRelationships = {"columnCount":4,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/Explanations/Changed Type.{Product ID,0}","Section1/Explanations/Changed Type.{Location,1}","Section1/Explanations/Changed Type.{Factor,2}","Section1/Explanations/Changed Type.{Risk,3}"],"ColumnCount":4,"KeyColumnNames":[],"ColumnIdentities":["Section1/Explanations/Changed Type.{Product ID,0}","Section1/Explanations/Changed Type.{Location,1}","Section1/Explanations/Changed Type.{Factor,2}","Section1/Explanations/Changed Type.{Risk,3}"],"RelationshipInfo":[]}
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

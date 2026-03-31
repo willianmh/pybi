@@ -1,0 +1,151 @@
+{
+  "triggerPrompts": [
+    {
+      "prompt": "What is the monthly revenue trend?"
+    },
+    {
+      "prompt": "How does the opportunity count vary by month?"
+    },
+    {
+      "prompt": "What is the total revenue for each month?"
+    },
+    {
+      "prompt": "Can you show the revenue for each month?"
+    }
+  ],
+  "contactObjectId": "ae4a1fc7-4395-46d3-b2f1-3b3c37036ad1",
+  "sourceMetadata": {
+    "visualMetadata": {
+      "themeCollection": {
+        "baseTheme": {
+          "name": "CY20SU09",
+          "reportVersionAtImport": "5.16",
+          "type": "SharedResources"
+        },
+        "customTheme": {
+          "name": "Classroom10888586425032654.json",
+          "reportVersionAtImport": "5.16",
+          "type": "RegisteredResources"
+        }
+      },
+      "resourcePackages": [
+        {
+          "name": "SharedResources",
+          "type": "SharedResources",
+          "items": [
+            {
+              "name": "CY20SU09",
+              "path": "ResourcePackages/SharedResources/5daaf5a5f5cf5bd00c1a65dbcaf04b1a-CY20SU09.json",
+              "type": "BaseTheme"
+            }
+          ]
+        },
+        {
+          "name": "RegisteredResources",
+          "type": "RegisteredResources",
+          "items": [
+            {
+              "name": "Classroom10888586425032654.json",
+              "path": "ResourcePackages/RegisteredResources/ee821d720a30eaf53e30098633110475-Classroom10888586425032654.json",
+              "type": "Image"
+            }
+          ]
+        }
+      ],
+      "cache": {
+        "key": "eyJ2aXN1YWxUeXBlIjoibGluZVN0YWNrZWRDb2x1bW5Db21ib0NoYXJ0IiwicXVlcnkiOnsicXVlcnlTdGF0ZSI6eyJDYXRlZ29yeSI6eyJwcm9qZWN0aW9ucyI6W3siZmllbGQiOnsiQ29sdW1uIjp7IkV4cHJlc3Npb24iOnsiU291cmNlUmVmIjp7IkVudGl0eSI6IkRhdGVzIn19LCJQcm9wZXJ0eSI6Ik1vbnRoIn19LCJxdWVyeVJlZiI6IkRhdGVzLk1vbnRoIiwibmF0aXZlUXVlcnlSZWYiOiJNb250aCIsImFjdGl2ZSI6dHJ1ZX1dfSwiWSI6eyJwcm9qZWN0aW9ucyI6W3siZmllbGQiOnsiTWVhc3VyZSI6eyJFeHByZXNzaW9uIjp7IlNvdXJjZVJlZiI6eyJFbnRpdHkiOiJTYWxlcyJ9fSwiUHJvcGVydHkiOiJUb3RhbCBSZXZlbnVlIn19LCJxdWVyeVJlZiI6IkZhY3QuUmV2ZW51ZSJ9XX0sIlkyIjp7InByb2plY3Rpb25zIjpbeyJmaWVsZCI6eyJNZWFzdXJlIjp7IkV4cHJlc3Npb24iOnsiU291cmNlUmVmIjp7IkVudGl0eSI6IlNhbGVzIn19LCJQcm9wZXJ0eSI6IlRvdGFsIE9wcG9ydHVuaXR5IENvdW50In19LCJxdWVyeVJlZiI6IkZhY3QuT3Bwb3J0dW5pdHkgQ291bnQifV19fSwic29ydERlZmluaXRpb24iOnsic29ydCI6W3siZmllbGQiOnsiQ29sdW1uIjp7IkV4cHJlc3Npb24iOnsiU291cmNlUmVmIjp7IkVudGl0eSI6IkRhdGVzIn19LCJQcm9wZXJ0eSI6Ik1vbnRoIn19LCJkaXJlY3Rpb24iOiJBc2NlbmRpbmcifV19fSwib2JqZWN0cyI6eyJ2YWx1ZUF4aXMiOlt7InByb3BlcnRpZXMiOnsic2VjU2hvdyI6eyJleHByIjp7IkxpdGVyYWwiOnsiVmFsdWUiOiJ0cnVlIn19fSwic2VjU2hvd0F4aXNUaXRsZSI6eyJleHByIjp7IkxpdGVyYWwiOnsiVmFsdWUiOiJ0cnVlIn19fSwic2VjRm9udFNpemUiOnsiZXhwciI6eyJMaXRlcmFsIjp7IlZhbHVlIjoiOEQifX19LCJ0aXRsZUZvbnRTaXplIjp7ImV4cHIiOnsiTGl0ZXJhbCI6eyJWYWx1ZSI6IjhEIn19fX19XSwiZGF0YVBvaW50IjpbeyJwcm9wZXJ0aWVzIjp7ImZpbGwiOnsic29saWQiOnsiY29sb3IiOnsiZXhwciI6eyJUaGVtZURhdGFDb2xvciI6eyJDb2xvcklkIjo0LCJQZXJjZW50IjowfX19fX19LCJzZWxlY3RvciI6eyJtZXRhZGF0YSI6IkZhY3QuT3Bwb3J0dW5pdHkgQ291bnQifX0seyJwcm9wZXJ0aWVzIjp7ImZpbGwiOnsic29saWQiOnsiY29sb3IiOnsiZXhwciI6eyJUaGVtZURhdGFDb2xvciI6eyJDb2xvcklkIjozLCJQZXJjZW50IjowfX19fX19fV19LCJ2aXN1YWxDb250YWluZXJPYmplY3RzIjp7InRpdGxlIjpbeyJwcm9wZXJ0aWVzIjp7ImZvbnRTaXplIjp7ImV4cHIiOnsiTGl0ZXJhbCI6eyJWYWx1ZSI6IjEyRCJ9fX19fV0sInZpc3VhbEhlYWRlciI6W3sicHJvcGVydGllcyI6eyJzaG93UGVyc29uYWxpemVWaXN1YWxCdXR0b24iOnsiZXhwciI6eyJMaXRlcmFsIjp7IlZhbHVlIjoiZmFsc2UifX19fX1dfX0=",
+        "query": {
+          "Query": {
+            "Version": 2,
+            "From": [
+              {
+                "Name": "f",
+                "Entity": "Sales"
+              },
+              {
+                "Name": "d",
+                "Entity": "Dates"
+              }
+            ],
+            "Where": [],
+            "OrderBy": [
+              {
+                "Expression": {
+                  "Column": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Source": "d"
+                      }
+                    },
+                    "Property": "Month"
+                  }
+                },
+                "Direction": 1
+              }
+            ],
+            "Select": [
+              {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Source": "f"
+                    }
+                  },
+                  "Property": "Total Revenue"
+                },
+                "Name": "Fact.Revenue"
+              },
+              {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Source": "f"
+                    }
+                  },
+                  "Property": "Total Opportunity Count"
+                },
+                "Name": "Fact.Opportunity Count"
+              },
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Source": "d"
+                    }
+                  },
+                  "Property": "Month"
+                },
+                "NativeReferenceName": "Month",
+                "Name": "Dates.Month"
+              }
+            ],
+            "GroupBy": []
+          },
+          "Binding": {
+            "Version": 1,
+            "Primary": {
+              "Groupings": [
+                {
+                  "Projections": [
+                    0,
+                    1,
+                    2
+                  ]
+                }
+              ]
+            },
+            "DataReduction": {
+              "Primary": {
+                "Window": {
+                  "Count": 1000
+                }
+              },
+              "DataVolume": 4
+            }
+          }
+        }
+      }
+    }
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/verifiedAnswers/definition/1.0.0/schema.json"
+}

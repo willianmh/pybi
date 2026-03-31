@@ -1,0 +1,261 @@
+table 'Govt Measures'
+	isHidden
+	lineageTag: f0fa0ff7-2628-42e9-8ae5-65ba41b793d4
+
+	measure 'Cases 1 days later' =
+			
+			var datePlus = SELECTEDVALUE(Dates[Date])+1
+			return CALCULATE(AVERAGE('Cases per country'[IncrementalCases]), FILTER(Dates, Dates[Date] = datePlus))
+		isHidden
+		lineageTag: 48a16057-3743-4a75-97a8-7ca635595f97
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ID
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 90796f59-7d0e-444f-a0b2-1c145d42cf75
+		summarizeBy: count
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ISO
+		dataType: string
+		isHidden
+		lineageTag: 81fe0f51-38f9-4f24-a4dc-24b5c42b5302
+		summarizeBy: none
+		sourceColumn: ISO
+
+		annotation SummarizationSetBy = Automatic
+
+	column COUNTRY
+		dataType: string
+		isHidden
+		lineageTag: 4e64f867-68f0-451d-bb25-7f0a93732da6
+		summarizeBy: none
+		sourceColumn: COUNTRY
+
+		annotation SummarizationSetBy = Automatic
+
+	column REGION
+		dataType: string
+		isHidden
+		lineageTag: 16d46b7c-ee39-40b7-84c8-cb06af68b719
+		summarizeBy: none
+		sourceColumn: REGION
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		isHidden
+		displayFolder: 3. Influencers
+		lineageTag: 31fdb995-ae5d-4b4b-8f5f-da5a0baefdde
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column Measure
+		dataType: string
+		isHidden
+		displayFolder: 3. Influencers
+		lineageTag: dd4ec4ab-86eb-466e-8580-a4546a35344e
+		summarizeBy: none
+		sourceColumn: Measure
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Specific Group Targeted'
+		dataType: string
+		isHidden
+		displayFolder: 3. Influencers
+		lineageTag: fbdd6723-83bd-4e9b-b69a-9e7b6e044766
+		summarizeBy: none
+		sourceColumn: Specific Group Targeted
+
+		annotation SummarizationSetBy = Automatic
+
+	column Comments
+		dataType: string
+		isHidden
+		lineageTag: 6d30db13-0a10-44e1-aad0-1ade41cf27e4
+		summarizeBy: none
+		sourceColumn: Comments
+
+		annotation SummarizationSetBy = Automatic
+
+	column NON_COMPLIANCE
+		dataType: string
+		isHidden
+		lineageTag: 62bf09b9-10e0-4a35-b652-2629b0da2bfa
+		summarizeBy: none
+		sourceColumn: NON_COMPLIANCE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"Govt Measures","TableItemName":"Non compliance result","ObjectType":4},"LinkType":"UsedInGroup"}]
+
+	column 'Date implemented'
+		dataType: dateTime
+		isHidden
+		formatString: m/d/yyyy
+		lineageTag: 8f188d3b-a5a6-4591-991b-7eac05218c7e
+		summarizeBy: none
+		sourceColumn: Date implemented
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column Source
+		dataType: string
+		isHidden
+		lineageTag: eb6ffd8c-ebf9-47af-94e9-f29c122ef41f
+		summarizeBy: none
+		sourceColumn: Source
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Source type'
+		dataType: string
+		isHidden
+		lineageTag: 9c35fe27-8c01-4217-881a-11d946533cc5
+		summarizeBy: none
+		sourceColumn: Source type
+
+		annotation SummarizationSetBy = Automatic
+
+	column LINK
+		dataType: string
+		isHidden
+		lineageTag: 41bd1370-6ce1-4ab9-92d0-1f4cc9804ada
+		summarizeBy: none
+		sourceColumn: LINK
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Entry date'
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 61175ca3-ad53-42d0-a19d-00afc782b453
+		summarizeBy: none
+		sourceColumn: Entry date
+
+		variation Variation
+			isDefault
+			relationship: e1e86f08-cc1c-48f2-9aba-4fddf579fca6
+			defaultHierarchy: LocalDateTable_88205f4b-f7a1-45b0-926f-f9aeda622848.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Alternative source'
+		dataType: string
+		isHidden
+		lineageTag: 6113d504-bdae-4287-9ad3-60a65a4bc6c0
+		summarizeBy: none
+		sourceColumn: Alternative source
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Max Daily Vaccinations' = CALCULATE(MAX('OWID COVID data'[New vaccinations smoothed per million]), RELATEDTABLE('OWID COVID data'))
+		isHidden
+		lineageTag: 78455c97-49b7-4808-a5e5-48543de6f495
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Daily Cases When Implemented' = CALCULATE(AVERAGE('Cases per country'[IncrementalCases]), RELATEDTABLE('Cases per country'))
+		isHidden
+		formatString: 0
+		displayFolder: 3. Influencers
+		lineageTag: 74f82d6d-1ced-4a95-b696-2e40338cc4eb
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Change in cases after 60 days' = CALCULATE(AVERAGE('Cases per country'[IncrementalCases]), FILTER(Dates, Dates[Date] = 'Govt Measures'[Date implemented]+60)) - 'Govt Measures'[Daily Cases When Implemented]
+		isHidden
+		lineageTag: 5e52eb94-25fe-4c07-85b0-6580a79a4c77
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Non compliance result' =
+			SWITCH(
+			  TRUE,
+			  ISBLANK('Govt Measures'[NON_COMPLIANCE]),
+			  "(Blank)",
+			  'Govt Measures'[NON_COMPLIANCE] IN {"Arrest/Detention",
+			    "Up to detention"},
+			  "Arrest",
+			  'Govt Measures'[NON_COMPLIANCE] IN {"Deportation",
+			    "Refusal to enter the country"},
+			  "Deportation/entry refused",
+			  'Govt Measures'[NON_COMPLIANCE] IN {"Fines"},
+			  "Fines",
+			  'Govt Measures'[NON_COMPLIANCE] IN {"Legal",
+			    "Legal action"},
+			  "Legal",
+			  'Govt Measures'[NON_COMPLIANCE] IN {"Not applicable",
+			    "Not Available"},
+			  "Not applicable",
+			  'Govt Measures'[NON_COMPLIANCE]
+			)
+		isHidden
+		lineageTag: 276725a7-24b3-4d72-b0e1-5298d6261eae
+		summarizeBy: none
+
+		extendedProperty GroupingMetadata =
+				{
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "Govt Measures"
+				          }
+				        },
+				        "Property": "NON_COMPLIANCE"
+				      }
+				    }
+				  ],
+				  "version": 0
+				}
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"g","Entity":"Govt Measures"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"g"}},"Property":"NON_COMPLIANCE"}}],"GroupItems":[{"DisplayName":"(Blank)","BlankDefaultPlaceholder":true},{"DisplayName":"Arrest","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"g"}},"Property":"NON_COMPLIANCE"}}],"Values":[[{"Literal":{"Value":"'Arrest/Detention'"}}],[{"Literal":{"Value":"'Up to detention'"}}]]}}},{"DisplayName":"Deportation/entry refused","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"g"}},"Property":"NON_COMPLIANCE"}}],"Values":[[{"Literal":{"Value":"'Deportation'"}}],[{"Literal":{"Value":"'Refusal to enter the country'"}}]]}}},{"DisplayName":"Fines","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"g"}},"Property":"NON_COMPLIANCE"}}],"Values":[[{"Literal":{"Value":"'Fines'"}}]]}}},{"DisplayName":"Legal","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"g"}},"Property":"NON_COMPLIANCE"}}],"Values":[[{"Literal":{"Value":"'Legal'"}}],[{"Literal":{"Value":"'Legal action'"}}]]}}},{"DisplayName":"Not applicable","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"g"}},"Property":"NON_COMPLIANCE"}}],"Values":[[{"Literal":{"Value":"'Not applicable'"}}],[{"Literal":{"Value":"'Not Available'"}}]]}}}]}
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Govt Measures-aba05957-e948-4230-a317-fb78e7c40716' = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\willthom\Microsoft\Gartner Data and Analytics Summit - Bake-off\acaps_covid19_government_measures_dataset.xlsx"), null, true),
+				    Dataset_Sheet = Source{[Item="Dataset",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Dataset_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ID", Int64.Type}, {"ISO", type text}, {"COUNTRY", type text}, {"REGION", type text}, {"ADMIN_LEVEL_NAME", type text}, {"PCODE", type any}, {"LOG_TYPE", type text}, {"CATEGORY", type text}, {"MEASURE", type text}, {"TARGETED_POP_GROUP", type text}, {"COMMENTS", type text}, {"NON_COMPLIANCE", type text}, {"DATE_IMPLEMENTED", type date}, {"SOURCE", type text}, {"SOURCE_TYPE", type text}, {"LINK", type text}, {"ENTRY_DATE", type date}, {"Alternative source", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"ADMIN_LEVEL_NAME", "PCODE", "LOG_TYPE"}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Removed Columns",null,"False",Replacer.ReplaceValue,{"TARGETED_POP_GROUP"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","checked","True",Replacer.ReplaceText,{"TARGETED_POP_GROUP"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Replaced Value1",{{"TARGETED_POP_GROUP", "Specific Group Targeted"}, {"MEASURE", "Measure"}, {"CATEGORY", "Category"}}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Renamed Columns",null,"Not applicable",Replacer.ReplaceValue,{"NON_COMPLIANCE"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Replaced Value2",{{"DATE_IMPLEMENTED", "Date implemented"}, {"COMMENTS", "Comments"}, {"SOURCE", "Source"}, {"SOURCE_TYPE", "Source type"}, {"ENTRY_DATE", "Entry date"}})
+				in
+				    #"Renamed Columns1"
+
+	annotation PBI_ResultType = Table
+

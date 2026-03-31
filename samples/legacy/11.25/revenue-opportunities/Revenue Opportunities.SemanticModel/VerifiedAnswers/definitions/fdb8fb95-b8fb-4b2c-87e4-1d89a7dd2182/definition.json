@@ -1,0 +1,144 @@
+{
+  "triggerPrompts": [
+    {
+      "prompt": "What is the revenue by state?"
+    },
+    {
+      "prompt": "What is the revenue distribution across different states?"
+    },
+    {
+      "prompt": "Can you show the revenue by state on a map?"
+    },
+    {
+      "prompt": "How does revenue vary by state?"
+    },
+    {
+      "prompt": "What are the revenue figures for each state?"
+    },
+    {
+      "prompt": "How does the revenue compare between states?"
+    }
+  ],
+  "contactObjectId": "ae4a1fc7-4395-46d3-b2f1-3b3c37036ad1",
+  "sourceMetadata": {
+    "visualMetadata": {
+      "themeCollection": {
+        "baseTheme": {
+          "name": "CY20SU09",
+          "reportVersionAtImport": "5.16",
+          "type": "SharedResources"
+        },
+        "customTheme": {
+          "name": "Classroom10888586425032654.json",
+          "reportVersionAtImport": "5.16",
+          "type": "RegisteredResources"
+        }
+      },
+      "resourcePackages": [
+        {
+          "name": "SharedResources",
+          "type": "SharedResources",
+          "items": [
+            {
+              "name": "CY20SU09",
+              "path": "ResourcePackages/SharedResources/5daaf5a5f5cf5bd00c1a65dbcaf04b1a-CY20SU09.json",
+              "type": "BaseTheme"
+            }
+          ]
+        },
+        {
+          "name": "RegisteredResources",
+          "type": "RegisteredResources",
+          "items": [
+            {
+              "name": "Classroom10888586425032654.json",
+              "path": "ResourcePackages/RegisteredResources/ee821d720a30eaf53e30098633110475-Classroom10888586425032654.json",
+              "type": "Image"
+            }
+          ]
+        }
+      ],
+      "cache": {
+        "key": "eyJ2aXN1YWxUeXBlIjoiZmlsbGVkTWFwIiwicXVlcnkiOnsicXVlcnlTdGF0ZSI6eyJDYXRlZ29yeSI6eyJwcm9qZWN0aW9ucyI6W3siZmllbGQiOnsiQ29sdW1uIjp7IkV4cHJlc3Npb24iOnsiU291cmNlUmVmIjp7IkVudGl0eSI6IkFjY291bnRzIn19LCJQcm9wZXJ0eSI6IlN0YXRlIn19LCJxdWVyeVJlZiI6IkFjY291bnQuU3RhdGUiLCJhY3RpdmUiOnRydWV9XX0sIlRvb2x0aXBzIjp7InByb2plY3Rpb25zIjpbeyJmaWVsZCI6eyJNZWFzdXJlIjp7IkV4cHJlc3Npb24iOnsiU291cmNlUmVmIjp7IkVudGl0eSI6IlNhbGVzIn19LCJQcm9wZXJ0eSI6IlRvdGFsIFJldmVudWUifX0sInF1ZXJ5UmVmIjoiRmFjdC5SZXZlbnVlIn1dfX19LCJvYmplY3RzIjp7Im1hcFN0eWxlcyI6W3sicHJvcGVydGllcyI6eyJtYXBUaGVtZSI6eyJleHByIjp7IkxpdGVyYWwiOnsiVmFsdWUiOiInZ3JheXNjYWxlJyJ9fX0sInNob3dMYWJlbHMiOnsiZXhwciI6eyJMaXRlcmFsIjp7IlZhbHVlIjoidHJ1ZSJ9fX19fV0sImRhdGFQb2ludCI6W3sicHJvcGVydGllcyI6eyJmaWxsIjp7InNvbGlkIjp7ImNvbG9yIjp7ImV4cHIiOnsiRmlsbFJ1bGUiOnsiSW5wdXQiOnsiTWVhc3VyZSI6eyJFeHByZXNzaW9uIjp7IlNvdXJjZVJlZiI6eyJFbnRpdHkiOiJTYWxlcyJ9fSwiUHJvcGVydHkiOiJUb3RhbCBSZXZlbnVlIn19LCJGaWxsUnVsZSI6eyJsaW5lYXJHcmFkaWVudDIiOnsibWluIjp7ImNvbG9yIjp7IkxpdGVyYWwiOnsiVmFsdWUiOiInI2ZhZTlhMCcifX19LCJtYXgiOnsiY29sb3IiOnsiTGl0ZXJhbCI6eyJWYWx1ZSI6IicjNEM1RDhBJyJ9fX0sIm51bGxDb2xvcmluZ1N0cmF0ZWd5Ijp7InN0cmF0ZWd5Ijp7IkxpdGVyYWwiOnsiVmFsdWUiOiInYXNaZXJvJyJ9fX19fX19fX19fSwic2VsZWN0b3IiOnsiZGF0YSI6W3siZGF0YVZpZXdXaWxkY2FyZCI6eyJtYXRjaGluZ09wdGlvbiI6MX19XX19LHsicHJvcGVydGllcyI6eyJmaWxsUnVsZSI6eyJsaW5lYXJHcmFkaWVudDIiOnsibWluIjp7ImNvbG9yIjp7ImV4cHIiOnsiTGl0ZXJhbCI6eyJWYWx1ZSI6IidtaW5Db2xvcicifX19fSwibWF4Ijp7ImNvbG9yIjp7ImV4cHIiOnsiTGl0ZXJhbCI6eyJWYWx1ZSI6IidtYXhDb2xvcicifX19fSwibnVsbENvbG9yaW5nU3RyYXRlZ3kiOnsic3RyYXRlZ3kiOnsiZXhwciI6eyJMaXRlcmFsIjp7IlZhbHVlIjoiJ2FzWmVybycifX19fX19fX1dLCJjYXRlZ29yeUxhYmVscyI6W3sicHJvcGVydGllcyI6eyJzaG93Ijp7ImV4cHIiOnsiTGl0ZXJhbCI6eyJWYWx1ZSI6ImZhbHNlIn19fX19XX0sInZpc3VhbENvbnRhaW5lck9iamVjdHMiOnsidGl0bGUiOlt7InByb3BlcnRpZXMiOnsic2hvdyI6eyJleHByIjp7IkxpdGVyYWwiOnsiVmFsdWUiOiJmYWxzZSJ9fX0sImZvbnRTaXplIjp7ImV4cHIiOnsiTGl0ZXJhbCI6eyJWYWx1ZSI6IjEyRCJ9fX19fV0sImJhY2tncm91bmQiOlt7InByb3BlcnRpZXMiOnsic2hvdyI6eyJleHByIjp7IkxpdGVyYWwiOnsiVmFsdWUiOiJmYWxzZSJ9fX19fV0sInZpc3VhbFRvb2x0aXAiOlt7InByb3BlcnRpZXMiOnsic2hvdyI6eyJleHByIjp7IkxpdGVyYWwiOnsiVmFsdWUiOiJ0cnVlIn19fSwic2VjdGlvbiI6eyJleHByIjp7IkxpdGVyYWwiOnsiVmFsdWUiOiInUmVwb3J0U2VjdGlvbmY0YzRkMmRlZTdiOWMzNmExNjY5JyJ9fX19fV0sInZpc3VhbEhlYWRlciI6W3sicHJvcGVydGllcyI6eyJzaG93Ijp7ImV4cHIiOnsiTGl0ZXJhbCI6eyJWYWx1ZSI6ImZhbHNlIn19fX19XX19",
+        "query": {
+          "Query": {
+            "Version": 2,
+            "From": [
+              {
+                "Name": "a",
+                "Entity": "Accounts"
+              },
+              {
+                "Name": "f",
+                "Entity": "Sales"
+              }
+            ],
+            "Where": [],
+            "OrderBy": [],
+            "Select": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Source": "a"
+                    }
+                  },
+                  "Property": "State"
+                },
+                "Name": "Account.State"
+              },
+              {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Source": "f"
+                    }
+                  },
+                  "Property": "Total Revenue"
+                },
+                "Name": "Fact.Revenue"
+              }
+            ],
+            "GroupBy": []
+          },
+          "Binding": {
+            "Version": 1,
+            "Primary": {
+              "Groupings": [
+                {
+                  "Projections": [
+                    0,
+                    1
+                  ]
+                }
+              ]
+            },
+            "Aggregates": [
+              {
+                "Select": 1,
+                "Aggregations": [
+                  {
+                    "Min": {}
+                  },
+                  {
+                    "Max": {}
+                  }
+                ]
+              }
+            ],
+            "DataReduction": {
+              "Primary": {
+                "Top": {}
+              },
+              "DataVolume": 4
+            },
+            "SuppressedJoinPredicates": [
+              1
+            ]
+          }
+        }
+      }
+    }
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/verifiedAnswers/definition/1.0.0/schema.json"
+}

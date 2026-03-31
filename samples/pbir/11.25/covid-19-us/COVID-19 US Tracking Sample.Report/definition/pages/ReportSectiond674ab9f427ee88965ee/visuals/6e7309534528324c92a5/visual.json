@@ -1,0 +1,17 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "6e7309534528324c92a5",
+  "position": {
+    "x": 437.010101010101,
+    "y": 51.717171717171716,
+    "z": 1000,
+    "height": 367.19191919191917,
+    "width": 486.14141414141415,
+    "tabOrder": 25000
+  },
+  "visualGroup": {
+    "displayName": "Pink Map",
+    "groupMode": "ScaleMode"
+  },
+  "isHidden": true
+}

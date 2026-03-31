@@ -1,0 +1,51 @@
+table StateDim
+	lineageTag: 2151a01d-b81d-4eaf-823a-87e191f6b6eb
+
+	measure 'Drill-through button text' = IF(SELECTEDVALUE(StateDim[State],0)==0,"Click on a State to view by County  ", "Click here to view by County in " & VALUES(StateDim[State code]) &"  ")
+		lineageTag: 53ba7676-26b1-4a16-be2d-228a29515392
+
+	column State
+		dataType: string
+		lineageTag: 1ccf668c-19bb-47e1-b04a-f8e7a1216504
+		dataCategory: StateOrProvince
+		summarizeBy: none
+		sourceColumn: State
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'State code'
+		dataType: string
+		lineageTag: b795d7f1-13d4-416b-b315-7cbcacd8ec2e
+		summarizeBy: none
+		sourceColumn: State code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'US territories'
+		dataType: string
+		lineageTag: d6fc91a9-5957-4c80-a933-44e3da9eea13
+		summarizeBy: none
+		sourceColumn: US territories
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country = "USA"
+		isHidden
+		lineageTag: f9ceff65-6635-4bc7-953c-381796557651
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition StateDim-44150ab7-d238-4a8e-be80-b5d1ac40ecec = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("XZTRbuowDIZfpeJ62jsgykbHmlYU6DjTLkyb0ahtjJJ0jPP0J07ZqZmEkPq5sX/7j/v+Ppt3cIQeZg+z+av/Ezj7eAjUtgGuGTTqL+pA/3DagrZgCW8mvIBOfaLRit5fzFkAOzRQI+GMY61l5VQ1OIpsp0gsO7iAkZ7Eywk/+TSqpuxPTPizRHMKNZ9ZzZVPoJR/XiUTTGpoSEUSM9Z1SqOiZhKWNdG1gtB5IhjFS0Cs0PpnFOuCQandULVXwocJv+Kg7C3tK8uRgtLUbLrkzFw70DXhmGNroWoGK52jqilPo6pGnUATTjj2c7boqGoqOLeWfuczzSkt7iM4mICZYSlqN4pPmVlCHs3t6oglx18QvBJ7Di/RCvqzbVRwV6zuYy/SWElTEy/3gVR+q4qsE+l94ICmJcKmLNC4JlqAQe9sULD4HYyhHech2GizRlGFjGnK2s7fmLArGVuLzMgT0pgzdv1zqbW9dl8wLkDOjNk0WMsosTc/N8ycAod7scXid/C/2IKJ3Uoy1Uqa4lZw/h1u4/ZtYjsHjX/aMdP20vTeTQ/2nCq/SaP8PZNfgvdLn1xoueQBaV3EDpXM6lLZCrVV4QxruLxi75MRZZ7Ne2lUBToqoMfwvaHreJB2XPEBetrvHWPBSGl05BeFVuo23rATOXsvH6RxGG3G65NvWGj3WDze5LPT+4S9EivrvDAX4WfkP2NDfwyNxsykHDoYKHX5c+7jHw==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type text) meta [Serialized.Text = true]) in type table [State = _t, #"State code" = _t, #"US territories" = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"State", type text}, {"State code", type text}, {"US territories", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

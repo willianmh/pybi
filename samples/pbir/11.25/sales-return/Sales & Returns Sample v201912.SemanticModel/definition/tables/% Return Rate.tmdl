@@ -1,0 +1,28 @@
+table '% Return Rate'
+	lineageTag: c0de6d6f-57dc-41b4-96e1-55ad0a9f5c58
+
+	measure '% Return Rate Value' = SELECTEDVALUE('% Return Rate'[% Return Rate])/100
+		lineageTag: db190b46-face-4bb4-ad12-fef64850d74b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '% Return Rate'
+		dataType: double
+		formatString: #,0
+		lineageTag: 9172a542-bcdf-4704-a32c-c34a9aa22b91
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	partition '% Return Rate-0fd6aa09-f629-4715-98cc-32fa52b5c107' = calculated
+		mode: import
+		source = GENERATESERIES(0, 60, 1)
+

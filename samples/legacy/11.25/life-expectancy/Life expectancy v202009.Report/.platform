@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Life expectancy v202009"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "c7200dfc-1b4d-4551-84d9-4c67e5c9ef38"
+  }
+}

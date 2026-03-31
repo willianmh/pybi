@@ -1,0 +1,57 @@
+table Table
+	lineageTag: 3b5672d3-4e52-4956-9be9-6e1a51b4695b
+
+	measure Methodology =
+			"This interactive feature aggregates data from the Centers for Disease Control and Prevention (CDC), state- and local-level public health agencies. County-level data is confirmed by referencing state and local agencies directly.
+			
+			Source: USAFacts"
+		lineageTag: e8659ba1-98d7-47f0-ac8d-47b49843bada
+
+	measure Notes =
+			"New York* covers 5 counties (Bronx, Kings, New York, Queens, Richmond), not New York county.
+			
+			City of St. Louis was renamed to St. Louis City.
+			
+			City and Borough of Juneau was renamed to Juneau Borough.
+			
+			Municipality of Anchorage was renamed to Anchorage.
+			
+			Jackson County includes other portions of Kansas City.
+			
+			
+			Source: USAFacts"
+		lineageTag: 4858de14-da56-4984-b156-c0268fd14eca
+
+	measure 'Terms of use' = "This report and data are provided " & """" & "as is" & """" & ", " & """" & "with all faults" & """" & ", and without warranty of any kind. Microsoft gives no express warranties or guarantees and expressly disclaims all implied warranties, including merchantability, fitness for a particular purpose, and non-infringement."
+		lineageTag: dc3cb1f4-fa1b-4bd3-bdf6-fbd87b39fb3b
+
+	column Metric
+		dataType: string
+		lineageTag: b1375403-c121-4667-b42d-b3e6c7376026
+		summarizeBy: none
+		sourceColumn: Metric
+
+		annotation SummarizationSetBy = Automatic
+
+	column Order
+		dataType: int64
+		formatString: 0
+		lineageTag: 8e211fb9-5c22-44c9-b649-e2e612d72c7e
+		summarizeBy: sum
+		sourceColumn: Order
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Table-014a30af-502f-48fd-98ad-986611bf42ec = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45Wcs7PS8ssyk1NUXBOLE4tVtJRMlSK1YlWcklNLMkAcY3AXJCkgltiSWJOZkmlQlBiSSpQylgpNhYA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type text) meta [Serialized.Text = true]) in type table [Metric = _t, Order = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Metric", type text}, {"Order", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

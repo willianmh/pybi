@@ -1,0 +1,135 @@
+table 'Days with restrictions'
+	isHidden
+	lineageTag: ab11b155-6fae-462d-b6e5-8f38a7022c3c
+
+	column CountryCode
+		isHidden
+		lineageTag: 84288da6-6447-4818-b5b7-30d678a4cfe7
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: CGRT Mandates[CountryCode]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Days with School closures'
+		isHidden
+		formatString: 0
+		lineageTag: 707a3cee-df12-4a74-a4db-134048b9b5b2
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Days with School closures]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Days with Workplace closures'
+		isHidden
+		formatString: 0
+		lineageTag: 893c44f7-a9dd-4618-8e57-75518f8fd864
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Days with Workplace closures]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Days with Cancelling public events'
+		isHidden
+		formatString: 0
+		lineageTag: f05296cd-84e5-47c0-83e6-0582e41b3336
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Days with Cancelling public events]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Days with Restrictions on gathering'
+		isHidden
+		formatString: 0
+		lineageTag: 04853675-1050-43be-8fa9-ad19ce56c843
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Days with Restrictions on gathering]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Days with Public transport closures'
+		isHidden
+		formatString: 0
+		lineageTag: 35cbfe83-abd7-4039-ae22-3a3a01020425
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Days with Public transport closures]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Days with Stay at home requirements'
+		isHidden
+		formatString: 0
+		lineageTag: 385a25f9-432a-400d-906d-9f8c8c973933
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Days with Stay at home requirements]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Days with Internal mov''t restrictions'
+		isHidden
+		formatString: 0
+		lineageTag: e6650a62-4104-477c-8397-472b85935fef
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Days with Internal mov't restrictions]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Days with International travel controls'
+		isHidden
+		formatString: 0
+		lineageTag: 7db6bf2b-5d07-476d-9ed8-fac1958362db
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Days with International travel controls]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Days with Face coverings required'
+		isHidden
+		formatString: 0
+		lineageTag: 803221ac-29b6-463f-92fd-09bb25c739b6
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Days with Face coverings required]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Days with Vaccinations available'
+		isHidden
+		formatString: 0
+		lineageTag: 21e910bb-d4a4-4ab6-8703-231ab7ee0fb5
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Days with Vaccinations available]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Days with restrictions-a647cd30-29a4-4d4e-8faa-16c504d8733d' = calculated
+		mode: import
+		source = ```
+				
+				var daysRecorded =  COUNTROWS(VALUES('CGRT Mandates'[Date]))
+				return SUMMARIZECOLUMNS('CGRT Mandates'[CountryCode], 
+				"Days with School closures",                  daysRecorded - COUNTROWS(FILTER('CGRT Mandates', 'CGRT Mandates'[School closures] = "No measures"              )),
+				"Days with Workplace closures",               daysRecorded - COUNTROWS(FILTER('CGRT Mandates', 'CGRT Mandates'[Workplace closures] = "No measures"           )),
+				"Days with Cancelling public events",         daysRecorded - COUNTROWS(FILTER('CGRT Mandates', 'CGRT Mandates'[Cancelling public events] = "No measures"     )),
+				"Days with Restrictions on gathering",        daysRecorded - COUNTROWS(FILTER('CGRT Mandates', 'CGRT Mandates'[Restrictions on gathering] = "No measures"    )),
+				"Days with Public transport closures",        daysRecorded - COUNTROWS(FILTER('CGRT Mandates', 'CGRT Mandates'[Public transport closures] = "No measures"    )),
+				"Days with Stay at home requirements",        daysRecorded - COUNTROWS(FILTER('CGRT Mandates', 'CGRT Mandates'[Stay at home requirements] = "No measures"    )),
+				"Days with Internal mov't restrictions",      daysRecorded - COUNTROWS(FILTER('CGRT Mandates', 'CGRT Mandates'[Internal mov't restrictions] = "No measures"  )),
+				"Days with International travel controls",    daysRecorded - COUNTROWS(FILTER('CGRT Mandates', 'CGRT Mandates'[International travel controls] = "No measures")),
+				"Days with Face coverings required",          daysRecorded - COUNTROWS(FILTER('CGRT Mandates', 'CGRT Mandates'[Face coverings] = "No measures"               )),
+				"Days with Vaccinations available",           daysRecorded - COUNTROWS(FILTER('CGRT Mandates', 'CGRT Mandates'[Vaccination policy] = "No availability"       ))
+				
+				)
+				```
+
+	annotation PBI_Id = 56faab26611146279e38811ef69375fd
+

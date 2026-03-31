@@ -1,0 +1,380 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "cc83889ee3c0277d6686",
+  "position": {
+    "x": 379.66955153422504,
+    "y": 87.616050354051936,
+    "z": 4000,
+    "height": 610.29110936270661,
+    "width": 880.18882769472862,
+    "tabOrder": 4000
+  },
+  "visual": {
+    "visualType": "decompositionTreeVisual",
+    "query": {
+      "queryState": {
+        "Analyze": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Backorder Percentage"
+                    }
+                  },
+                  "Property": "% on backorder"
+                }
+              },
+              "queryRef": "Backorder Percentage.% on backorder"
+            }
+          ]
+        },
+        "ExplainBy": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Backorder Percentage"
+                    }
+                  },
+                  "Property": "Region"
+                }
+              },
+              "queryRef": "Backorder Percentage.Region"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Backorder Percentage"
+                    }
+                  },
+                  "Property": "Product Type"
+                }
+              },
+              "queryRef": "Backorder Percentage.Product Type"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Backorder Percentage"
+                    }
+                  },
+                  "Property": "Brand"
+                }
+              },
+              "queryRef": "Backorder Percentage.Brand"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Backorder Percentage"
+                    }
+                  },
+                  "Property": "Distribution Center"
+                }
+              },
+              "queryRef": "Backorder Percentage.Distribution Center"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Backorder Percentage"
+                    }
+                  },
+                  "Property": "Buyer Type"
+                }
+              },
+              "queryRef": "Backorder Percentage.Buyer Type"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Backorder Percentage"
+                    }
+                  },
+                  "Property": "Shipment Destination"
+                }
+              },
+              "queryRef": "Backorder Percentage.Shipment Destination"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Backorder Percentage"
+                    }
+                  },
+                  "Property": "Shipment Type"
+                }
+              },
+              "queryRef": "Backorder Percentage.Shipment Type"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Backorder Percentage"
+                    }
+                  },
+                  "Property": "Forecast Accuracy"
+                }
+              },
+              "queryRef": "Backorder Percentage.Forecast Accuracy"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Backorder Percentage"
+                    }
+                  },
+                  "Property": "Forecast Bias"
+                }
+              },
+              "queryRef": "Backorder Percentage.Forecast Bias"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Backorder Percentage"
+                    }
+                  },
+                  "Property": "Demand Type"
+                }
+              },
+              "queryRef": "Backorder Percentage.Demand Type"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Backorder Percentage"
+                    }
+                  },
+                  "Property": "Plant"
+                }
+              },
+              "queryRef": "Backorder Percentage.Plant"
+            }
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Backorder Percentage"
+                    }
+                  },
+                  "Property": "Backorder $"
+                }
+              },
+              "queryRef": "Backorder Percentage.Backorder $"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Backorder Percentage"
+                  }
+                },
+                "Property": "% on backorder"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "analysis": [
+        {
+          "properties": {
+            "aiEnabled": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "aiMode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'relative'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "tree": [
+        {
+          "properties": {
+            "barsPerLevel": {
+              "expr": {
+                "Literal": {
+                  "Value": "8L"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dataBars": [
+        {
+          "properties": {
+            "positiveBarColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 3,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "dataBarColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "FillRule": {
+                      "Input": {
+                        "Measure": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "Backorder Percentage"
+                            }
+                          },
+                          "Property": "Backorder $"
+                        }
+                      },
+                      "FillRule": {
+                        "linearGradient2": {
+                          "min": {
+                            "color": {
+                              "Literal": {
+                                "Value": "'#12239E'"
+                              }
+                            },
+                            "value": {
+                              "Literal": {
+                                "Value": "0D"
+                              }
+                            }
+                          },
+                          "max": {
+                            "color": {
+                              "Literal": {
+                                "Value": "'#D64550'"
+                              }
+                            },
+                            "value": {
+                              "Literal": {
+                                "Value": "5000D"
+                              }
+                            }
+                          },
+                          "nullColoringStrategy": {
+                            "strategy": {
+                              "Literal": {
+                                "Value": "'asZero'"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 0
+                }
+              }
+            ],
+            "metadata": "Backorder Percentage.% on backorder"
+          }
+        }
+      ],
+      "insights": [
+        {
+          "properties": {
+            "isAINode": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Backorder Percentage"
+                          }
+                        },
+                        "Property": "Plant"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'#0288'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

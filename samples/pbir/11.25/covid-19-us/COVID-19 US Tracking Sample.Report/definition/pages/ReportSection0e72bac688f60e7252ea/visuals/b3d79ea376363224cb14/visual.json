@@ -1,0 +1,16 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "b3d79ea376363224cb14",
+  "position": {
+    "x": 437.05106794646258,
+    "y": 50.998134686835,
+    "z": 2000,
+    "height": 368.95995968859944,
+    "width": 498.35089894606318,
+    "tabOrder": 11000
+  },
+  "visualGroup": {
+    "displayName": "Blue Map",
+    "groupMode": "ScaleMode"
+  }
+}

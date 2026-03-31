@@ -1,0 +1,34 @@
+table Sex
+	isHidden
+	lineageTag: ae5cdd40-e983-410b-87c7-d2794df5ab1a
+
+	column Sex
+		dataType: string
+		isHidden
+		lineageTag: 1c01512c-20bc-4b4b-8041-8a2b76a58d7a
+		summarizeBy: none
+		sourceColumn: Sex
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Sex-edf84f72-3496-4ee0-95cd-f94bffa15474 = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Justyna\OneDrive - Microsoft\Gartner\BI Bake Off\London\Sex.xlsx"), null, true),
+				    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Sheet1_Sheet,{{"Column1", type text}}),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Changed Type", [PromoteAllScalars=true]),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Promoted Headers",{{"Gender", type text}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type1",{{"Gender", "Sex"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_QueryRelationships = {"columnCount":1,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/Sex/Changed Type1.{Gender,0}"],"ColumnCount":1,"KeyColumnNames":[],"ColumnIdentities":["Section1/Sex/Changed Type1.{Gender,0}"],"RelationshipInfo":[]}
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

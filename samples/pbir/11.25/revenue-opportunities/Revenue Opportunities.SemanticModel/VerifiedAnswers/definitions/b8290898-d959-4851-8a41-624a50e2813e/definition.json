@@ -1,0 +1,223 @@
+{
+  "triggerPrompts": [
+    {
+      "prompt": "What is the total revenue by opportunity size and region?"
+    },
+    {
+      "prompt": "What is the total revenue by opportunity size?"
+    },
+    {
+      "prompt": "How does opportunity size vary by region?"
+    },
+    {
+      "prompt": "What is the revenue distribution by partner?"
+    },
+    {
+      "prompt": "How does the number of opportunities compare across partners?"
+    }
+  ],
+  "contactObjectId": "ae4a1fc7-4395-46d3-b2f1-3b3c37036ad1",
+  "sourceMetadata": {
+    "visualMetadata": {
+      "themeCollection": {
+        "baseTheme": {
+          "name": "CY20SU09",
+          "reportVersionAtImport": "5.16",
+          "type": "SharedResources"
+        },
+        "customTheme": {
+          "name": "Classroom10888586425032654.json",
+          "reportVersionAtImport": "5.16",
+          "type": "RegisteredResources"
+        }
+      },
+      "resourcePackages": [
+        {
+          "name": "SharedResources",
+          "type": "SharedResources",
+          "items": [
+            {
+              "name": "CY20SU09",
+              "path": "ResourcePackages/SharedResources/5daaf5a5f5cf5bd00c1a65dbcaf04b1a-CY20SU09.json",
+              "type": "BaseTheme"
+            }
+          ]
+        },
+        {
+          "name": "RegisteredResources",
+          "type": "RegisteredResources",
+          "items": [
+            {
+              "name": "Classroom10888586425032654.json",
+              "path": "ResourcePackages/RegisteredResources/ee821d720a30eaf53e30098633110475-Classroom10888586425032654.json",
+              "type": "Image"
+            }
+          ]
+        }
+      ],
+      "cache": {
+        "key": "eyJ2aXN1YWxUeXBlIjoicGl2b3RUYWJsZSIsInF1ZXJ5Ijp7InF1ZXJ5U3RhdGUiOnsiUm93cyI6eyJwcm9qZWN0aW9ucyI6W3siZmllbGQiOnsiQ29sdW1uIjp7IkV4cHJlc3Npb24iOnsiU291cmNlUmVmIjp7IkVudGl0eSI6Ik9wcG9ydHVuaXRpZXMifX0sIlByb3BlcnR5IjoiT3Bwb3J0dW5pdHkgU2l6ZSJ9fSwicXVlcnlSZWYiOiJPcHBvcnR1bml0eS5PcHBvcnR1bml0eSBTaXplIiwiYWN0aXZlIjp0cnVlfSx7ImZpZWxkIjp7IkNvbHVtbiI6eyJFeHByZXNzaW9uIjp7IlNvdXJjZVJlZiI6eyJFbnRpdHkiOiJBY2NvdW50cyJ9fSwiUHJvcGVydHkiOiJSZWdpb24ifX0sInF1ZXJ5UmVmIjoiQWNjb3VudC5SZWdpb24iLCJhY3RpdmUiOnRydWV9LHsiZmllbGQiOnsiQ29sdW1uIjp7IkV4cHJlc3Npb24iOnsiU291cmNlUmVmIjp7IkVudGl0eSI6IlBhcnRuZXJzIn19LCJQcm9wZXJ0eSI6IlBhcnRuZXIifX0sInF1ZXJ5UmVmIjoiUGFydG5lci5QYXJ0bmVyIiwiYWN0aXZlIjp0cnVlfV19LCJWYWx1ZXMiOnsicHJvamVjdGlvbnMiOlt7ImZpZWxkIjp7Ik1lYXN1cmUiOnsiRXhwcmVzc2lvbiI6eyJTb3VyY2VSZWYiOnsiRW50aXR5IjoiU2FsZXMifX0sIlByb3BlcnR5IjoiVG90YWwgT3Bwb3J0dW5pdHkgQ291bnQifX0sInF1ZXJ5UmVmIjoiRmFjdC5PcHBvcnR1bml0eSBDb3VudCIsImRpc3BsYXlOYW1lIjoiT3Bwb3J0dW5pdGllcyJ9LHsiZmllbGQiOnsiTWVhc3VyZSI6eyJFeHByZXNzaW9uIjp7IlNvdXJjZVJlZiI6eyJFbnRpdHkiOiJTYWxlcyJ9fSwiUHJvcGVydHkiOiJBdmVyYWdlIE9wcG9ydHVuaXR5IERheXMifX0sInF1ZXJ5UmVmIjoiU2FsZXMuVG90YWwgT3Bwb3J0dW5pdHkgRGF5cyIsIm5hdGl2ZVF1ZXJ5UmVmIjoiQXZlcmFnZSBPcHBvcnR1bml0eSBEYXlzIn0seyJmaWVsZCI6eyJNZWFzdXJlIjp7IkV4cHJlc3Npb24iOnsiU291cmNlUmVmIjp7IkVudGl0eSI6IlNhbGVzIn19LCJQcm9wZXJ0eSI6IkF2ZXJhZ2UgUmV2ZW51ZSJ9fSwicXVlcnlSZWYiOiJGYWN0LkF2ZyBSZXZlbnVlIiwibmF0aXZlUXVlcnlSZWYiOiJBdmVyYWdlIFJldmVudWUifSx7ImZpZWxkIjp7Ik1lYXN1cmUiOnsiRXhwcmVzc2lvbiI6eyJTb3VyY2VSZWYiOnsiRW50aXR5IjoiU2FsZXMifX0sIlByb3BlcnR5IjoiVG90YWwgUmV2ZW51ZSJ9fSwicXVlcnlSZWYiOiJGYWN0LlJldmVudWUiLCJuYXRpdmVRdWVyeVJlZiI6IlRvdGFsIFJldmVudWUifV19fSwic29ydERlZmluaXRpb24iOnsic29ydCI6W3siZmllbGQiOnsiTWVhc3VyZSI6eyJFeHByZXNzaW9uIjp7IlNvdXJjZVJlZiI6eyJFbnRpdHkiOiJTYWxlcyJ9fSwiUHJvcGVydHkiOiJUb3RhbCBSZXZlbnVlIn19LCJkaXJlY3Rpb24iOiJEZXNjZW5kaW5nIn1dfX0sImV4cGFuc2lvblN0YXRlcyI6W3sicm9sZXMiOlsiUm93cyJdLCJsZXZlbHMiOlt7InF1ZXJ5UmVmcyI6WyJPcHBvcnR1bml0eS5PcHBvcnR1bml0eSBTaXplIl0sImlkZW50aXR5S2V5cyI6W3siQ29sdW1uIjp7IkV4cHJlc3Npb24iOnsiU291cmNlUmVmIjp7IkVudGl0eSI6Ik9wcG9ydHVuaXRpZXMifX0sIlByb3BlcnR5IjoiT3Bwb3J0dW5pdHkgU2l6ZSJ9fV0sImlzUGlubmVkIjp0cnVlfSx7InF1ZXJ5UmVmcyI6WyJBY2NvdW50LlJlZ2lvbiJdLCJpZGVudGl0eUtleXMiOlt7IkNvbHVtbiI6eyJFeHByZXNzaW9uIjp7IlNvdXJjZVJlZiI6eyJFbnRpdHkiOiJBY2NvdW50cyJ9fSwiUHJvcGVydHkiOiJSZWdpb24ifX1dLCJpc1Bpbm5lZCI6dHJ1ZX0seyJxdWVyeVJlZnMiOlsiUGFydG5lci5QYXJ0bmVyIl0sImlzQ29sbGFwc2VkIjp0cnVlLCJpZGVudGl0eUtleXMiOlt7IkNvbHVtbiI6eyJFeHByZXNzaW9uIjp7IlNvdXJjZVJlZiI6eyJFbnRpdHkiOiJQYXJ0bmVycyJ9fSwiUHJvcGVydHkiOiJQYXJ0bmVyIn19XSwiaXNQaW5uZWQiOnRydWV9XSwicm9vdCI6e319XSwib2JqZWN0cyI6eyJjb2x1bW5XaWR0aCI6W3sicHJvcGVydGllcyI6eyJ2YWx1ZSI6eyJleHByIjp7IkxpdGVyYWwiOnsiVmFsdWUiOiIxNjEuMDY3NjA3MDk0OTk4NjREIn19fX0sInNlbGVjdG9yIjp7Im1ldGFkYXRhIjoiU3VtKFNhbGVzLlVuaXRzKSJ9fSx7InByb3BlcnRpZXMiOnsidmFsdWUiOnsiZXhwciI6eyJMaXRlcmFsIjp7IlZhbHVlIjoiMzU1Ljg3ODEyMzc1NDIyMDZEIn19fX0sInNlbGVjdG9yIjp7Im1ldGFkYXRhIjoiU2FsZXMuQ2F0ZWdvcnkifX0seyJwcm9wZXJ0aWVzIjp7InZhbHVlIjp7ImV4cHIiOnsiTGl0ZXJhbCI6eyJWYWx1ZSI6IjE3My4wNDUwNzEzOTY2NjU3NUQifX19fSwic2VsZWN0b3IiOnsibWV0YWRhdGEiOiJTdW0oU2FsZXMuU2FsZXNBbW91bnQpIn19LHsicHJvcGVydGllcyI6eyJ2YWx1ZSI6eyJleHByIjp7IkxpdGVyYWwiOnsiVmFsdWUiOiI4N0QifX19fX0seyJwcm9wZXJ0aWVzIjp7InZhbHVlIjp7ImV4cHIiOnsiTGl0ZXJhbCI6eyJWYWx1ZSI6IjM1NC4yNTgyMjkzNDUyNzg0NEQifX19fSwic2VsZWN0b3IiOnsibWV0YWRhdGEiOiJTYWxlcy5TdWJDYXRlZ29yeSJ9fSx7InByb3BlcnRpZXMiOnsidmFsdWUiOnsiZXhwciI6eyJMaXRlcmFsIjp7IlZhbHVlIjoiMTM3LjI0MDExOTU3MzU2NDIxRCJ9fX19LCJzZWxlY3RvciI6eyJtZXRhZGF0YSI6Ik9wcG9ydHVuaXR5Lk9wcG9ydHVuaXR5IFNpemUifX0seyJwcm9wZXJ0aWVzIjp7InZhbHVlIjp7ImV4cHIiOnsiTGl0ZXJhbCI6eyJWYWx1ZSI6IjExOC45NTUwMTc3MDE1NTc4NkQifX19fSwic2VsZWN0b3IiOnsibWV0YWRhdGEiOiJBY2NvdW50LlJlZ2lvbiJ9fSx7InByb3BlcnRpZXMiOnsidmFsdWUiOnsiZXhwciI6eyJMaXRlcmFsIjp7IlZhbHVlIjoiMjI3LjMyMjM4NzMzMzEzMDFEIn19fX0sInNlbGVjdG9yIjp7Im1ldGFkYXRhIjoiUGFydG5lci5QYXJ0bmVyIn19LHsicHJvcGVydGllcyI6eyJ2YWx1ZSI6eyJleHByIjp7IkxpdGVyYWwiOnsiVmFsdWUiOiIxNDcuMzA0NzkxNDU1MTgxNzREIn19fX0sInNlbGVjdG9yIjp7Im1ldGFkYXRhIjoiRmFjdC5PcHBvcnR1bml0eSBDb3VudCJ9fSx7InByb3BlcnRpZXMiOnsidmFsdWUiOnsiZXhwciI6eyJMaXRlcmFsIjp7IlZhbHVlIjoiMTY1RCJ9fX19LCJzZWxlY3RvciI6eyJtZXRhZGF0YSI6IkZhY3QuUmV2ZW51ZSJ9fSx7InByb3BlcnRpZXMiOnsidmFsdWUiOnsiZXhwciI6eyJMaXRlcmFsIjp7IlZhbHVlIjoiMTM2LjIyOTM2OTI4OTkwNjREIn19fX0sInNlbGVjdG9yIjp7Im1ldGFkYXRhIjoiRmFjdC5BdmcgUmV2ZW51ZSJ9fSx7InByb3BlcnRpZXMiOnsidmFsdWUiOnsiZXhwciI6eyJMaXRlcmFsIjp7IlZhbHVlIjoiMTk4RCJ9fX19LCJzZWxlY3RvciI6eyJtZXRhZGF0YSI6IlNhbGVzLlRvdGFsIE9wcG9ydHVuaXR5IERheXMifX1dLCJncmlkIjpbeyJwcm9wZXJ0aWVzIjp7Im91dGxpbmVDb2xvciI6eyJzb2xpZCI6eyJjb2xvciI6eyJleHByIjp7IkxpdGVyYWwiOnsiVmFsdWUiOiInI0VERURFRCcifX19fX0sIm91dGxpbmVXZWlnaHQiOnsiZXhwciI6eyJMaXRlcmFsIjp7IlZhbHVlIjoiM0QifX19LCJncmlkVmVydGljYWwiOnsiZXhwciI6eyJMaXRlcmFsIjp7IlZhbHVlIjoidHJ1ZSJ9fX0sImdyaWRWZXJ0aWNhbENvbG9yIjp7InNvbGlkIjp7ImNvbG9yIjp7ImV4cHIiOnsiTGl0ZXJhbCI6eyJWYWx1ZSI6IicjRURFREVEJyJ9fX19fSwiZ3JpZFZlcnRpY2FsV2VpZ2h0Ijp7ImV4cHIiOnsiTGl0ZXJhbCI6eyJWYWx1ZSI6IjREIn19fSwiZ3JpZEhvcml6b250YWwiOnsiZXhwciI6eyJMaXRlcmFsIjp7IlZhbHVlIjoidHJ1ZSJ9fX0sImdyaWRIb3Jpem9udGFsQ29sb3IiOnsic29saWQiOnsiY29sb3IiOnsiZXhwciI6eyJMaXRlcmFsIjp7IlZhbHVlIjoiJyNFREVERUQnIn19fX19LCJncmlkSG9yaXpvbnRhbFdlaWdodCI6eyJleHByIjp7IkxpdGVyYWwiOnsiVmFsdWUiOiIzRCJ9fX0sInJvd1BhZGRpbmciOnsiZXhwciI6eyJMaXRlcmFsIjp7IlZhbHVlIjoiMkQifX19LCJ0ZXh0U2l6ZSI6eyJleHByIjp7IkxpdGVyYWwiOnsiVmFsdWUiOiIxMEQifX19fX1dLCJjb2x1bW5IZWFkZXJzIjpbeyJwcm9wZXJ0aWVzIjp7ImZvbnRDb2xvciI6eyJzb2xpZCI6eyJjb2xvciI6eyJleHByIjp7IlRoZW1lRGF0YUNvbG9yIjp7IkNvbG9ySWQiOjEsIlBlcmNlbnQiOjB9fX19fSwiZm9udEZhbWlseSI6eyJleHByIjp7IkxpdGVyYWwiOnsiVmFsdWUiOiInJydTZWdvZSBVSSBCb2xkJycsIHdmX3NlZ29lLXVpX2JvbGQsIGhlbHZldGljYSwgYXJpYWwsIHNhbnMtc2VyaWYnIn19fSwiZm9udFNpemUiOnsiZXhwciI6eyJMaXRlcmFsIjp7IlZhbHVlIjoiJzExJyJ9fX0sImJhY2tDb2xvciI6eyJzb2xpZCI6eyJjb2xvciI6eyJleHByIjp7IlRoZW1lRGF0YUNvbG9yIjp7IkNvbG9ySWQiOjAsIlBlcmNlbnQiOjB9fX19fSwid29yZFdyYXAiOnsiZXhwciI6eyJMaXRlcmFsIjp7IlZhbHVlIjoiZmFsc2UifX19LCJhdXRvU2l6ZUNvbHVtbldpZHRoIjp7ImV4cHIiOnsiTGl0ZXJhbCI6eyJWYWx1ZSI6ImZhbHNlIn19fSwib3V0bGluZVN0eWxlIjp7ImV4cHIiOnsiTGl0ZXJhbCI6eyJWYWx1ZSI6IjRMIn19fX19XSwicm93SGVhZGVycyI6W3sicHJvcGVydGllcyI6eyJiYWNrQ29sb3IiOnsic29saWQiOnsiY29sb3IiOnsiZXhwciI6eyJUaGVtZURhdGFDb2xvciI6eyJDb2xvcklkIjowLCJQZXJjZW50IjowfX19fX0sInN0ZXBwZWRMYXlvdXRJbmRlbnRhdGlvbiI6eyJleHByIjp7IkxpdGVyYWwiOnsiVmFsdWUiOiIyNkQifX19LCJ3b3JkV3JhcCI6eyJleHByIjp7IkxpdGVyYWwiOnsiVmFsdWUiOiJ0cnVlIn19fSwic2hvd0V4cGFuZENvbGxhcHNlQnV0dG9ucyI6eyJleHByIjp7IkxpdGVyYWwiOnsiVmFsdWUiOiJ0cnVlIn19fSwiZXhwYW5kQ29sbGFwc2VCdXR0b25zU2l6ZSI6eyJleHByIjp7IkxpdGVyYWwiOnsiVmFsdWUiOiInMTEnIn19fSwiZXhwYW5kQ29sbGFwc2VCdXR0b25zQ29sb3IiOnsic29saWQiOnsiY29sb3IiOnsiZXhwciI6eyJUaGVtZURhdGFDb2xvciI6eyJDb2xvcklkIjoxLCJQZXJjZW50IjowfX19fX0sIm91dGxpbmVTdHlsZSI6eyJleHByIjp7IkxpdGVyYWwiOnsiVmFsdWUiOiIyTCJ9fX19fV0sInZhbHVlcyI6W3sicHJvcGVydGllcyI6eyJmb250Q29sb3JQcmltYXJ5Ijp7InNvbGlkIjp7ImNvbG9yIjp7ImV4cHIiOnsiVGhlbWVEYXRhQ29sb3IiOnsiQ29sb3JJZCI6MSwiUGVyY2VudCI6MH19fX19LCJiYWNrQ29sb3JQcmltYXJ5Ijp7InNvbGlkIjp7ImNvbG9yIjp7ImV4cHIiOnsiTGl0ZXJhbCI6eyJWYWx1ZSI6IicjZjVmNWY1JyJ9fX19fSwiZm9udENvbG9yU2Vjb25kYXJ5Ijp7InNvbGlkIjp7ImNvbG9yIjp7ImV4cHIiOnsiVGhlbWVEYXRhQ29sb3IiOnsiQ29sb3JJZCI6MSwiUGVyY2VudCI6MH19fX19LCJiYWNrQ29sb3JTZWNvbmRhcnkiOnsic29saWQiOnsiY29sb3IiOnsiZXhwciI6eyJMaXRlcmFsIjp7IlZhbHVlIjoiJyNGNkY2RjYnIn19fX19LCJiYW5kZWRSb3dIZWFkZXJzIjp7ImV4cHIiOnsiTGl0ZXJhbCI6eyJWYWx1ZSI6InRydWUifX19LCJ2YWx1ZXNPblJvdyI6eyJleHByIjp7IkxpdGVyYWwiOnsiVmFsdWUiOiJmYWxzZSJ9fX0sIm91dGxpbmVTdHlsZSI6eyJleHByIjp7IkxpdGVyYWwiOnsiVmFsdWUiOiIwTCJ9fX19fV0sInN1YlRvdGFscyI6W3sicHJvcGVydGllcyI6eyJwZXJSb3dMZXZlbCI6eyJleHByIjp7IkxpdGVyYWwiOnsiVmFsdWUiOiJmYWxzZSJ9fX19fSx7InByb3BlcnRpZXMiOnsibGV2ZWxTdWJ0b3RhbEVuYWJsZWQiOnsiZXhwciI6eyJMaXRlcmFsIjp7IlZhbHVlIjoidHJ1ZSJ9fX19LCJzZWxlY3RvciI6eyJtZXRhZGF0YSI6IlNhbGVzLlN1YkNhdGVnb3J5In19LHsicHJvcGVydGllcyI6eyJsZXZlbFN1YnRvdGFsRW5hYmxlZCI6eyJleHByIjp7IkxpdGVyYWwiOnsiVmFsdWUiOiJ0cnVlIn19fX0sInNlbGVjdG9yIjp7Im1ldGFkYXRhIjoiU2FsZXMuQ2F0ZWdvcnkifX0seyJwcm9wZXJ0aWVzIjp7ImZvbnRDb2xvciI6eyJzb2xpZCI6eyJjb2xvciI6eyJleHByIjp7IlRoZW1lRGF0YUNvbG9yIjp7IkNvbG9ySWQiOjEsIlBlcmNlbnQiOjB9fX19fSwiYmFja0NvbG9yIjp7InNvbGlkIjp7ImNvbG9yIjp7ImV4cHIiOnsiTGl0ZXJhbCI6eyJWYWx1ZSI6IicjZmZmZmZmJyJ9fX19fSwiYXBwbHlUb0hlYWRlcnMiOnsiZXhwciI6eyJMaXRlcmFsIjp7IlZhbHVlIjoidHJ1ZSJ9fX19LCJzZWxlY3RvciI6eyJpZCI6IkNvbHVtbiJ9fSx7InByb3BlcnRpZXMiOnsiZm9udENvbG9yIjp7InNvbGlkIjp7ImNvbG9yIjp7ImV4cHIiOnsiVGhlbWVEYXRhQ29sb3IiOnsiQ29sb3JJZCI6MSwiUGVyY2VudCI6MH19fX19LCJiYWNrQ29sb3IiOnsic29saWQiOnsiY29sb3IiOnsiZXhwciI6eyJMaXRlcmFsIjp7IlZhbHVlIjoiJyNmZmZmZmYnIn19fX19LCJhcHBseVRvSGVhZGVycyI6eyJleHByIjp7IkxpdGVyYWwiOnsiVmFsdWUiOiJ0cnVlIn19fX0sInNlbGVjdG9yIjp7ImlkIjoiUm93In19XSwicm93VG90YWwiOlt7InByb3BlcnRpZXMiOnsiZm9udFNpemUiOnsiZXhwciI6eyJMaXRlcmFsIjp7IlZhbHVlIjoiJzE1JyJ9fX0sImJhY2tDb2xvciI6eyJzb2xpZCI6eyJjb2xvciI6eyJleHByIjp7IlRoZW1lRGF0YUNvbG9yIjp7IkNvbG9ySWQiOjAsIlBlcmNlbnQiOjB9fX19fSwiYXBwbHlUb0hlYWRlcnMiOnsiZXhwciI6eyJMaXRlcmFsIjp7IlZhbHVlIjoidHJ1ZSJ9fX19fV0sImNvbHVtblRvdGFsIjpbeyJwcm9wZXJ0aWVzIjp7ImZvbnRTaXplIjp7ImV4cHIiOnsiTGl0ZXJhbCI6eyJWYWx1ZSI6IicxNScifX19LCJiYWNrQ29sb3IiOnsic29saWQiOnsiY29sb3IiOnsiZXhwciI6eyJUaGVtZURhdGFDb2xvciI6eyJDb2xvcklkIjowLCJQZXJjZW50IjowfX19fX0sImFwcGx5VG9IZWFkZXJzIjp7ImV4cHIiOnsiTGl0ZXJhbCI6eyJWYWx1ZSI6InRydWUifX19fX1dLCJnZW5lcmFsIjpbeyJwcm9wZXJ0aWVzIjp7ImxheW91dCI6eyJleHByIjp7IkxpdGVyYWwiOnsiVmFsdWUiOiInVGFidWxhcicifX19fX1dfSwidmlzdWFsQ29udGFpbmVyT2JqZWN0cyI6eyJ0aXRsZSI6W3sicHJvcGVydGllcyI6eyJzaG93Ijp7ImV4cHIiOnsiTGl0ZXJhbCI6eyJWYWx1ZSI6ImZhbHNlIn19fSwiZm9udENvbG9yIjp7InNvbGlkIjp7ImNvbG9yIjp7ImV4cHIiOnsiTGl0ZXJhbCI6eyJWYWx1ZSI6IicjNjY2NjY2JyJ9fX19fSwiYWxpZ25tZW50Ijp7ImV4cHIiOnsiTGl0ZXJhbCI6eyJWYWx1ZSI6IidsZWZ0JyJ9fX0sImZvbnRTaXplIjp7ImV4cHIiOnsiTGl0ZXJhbCI6eyJWYWx1ZSI6IicxMScifX19fX1dLCJiYWNrZ3JvdW5kIjpbeyJwcm9wZXJ0aWVzIjp7InNob3ciOnsiZXhwciI6eyJMaXRlcmFsIjp7IlZhbHVlIjoiZmFsc2UifX19LCJ0cmFuc3BhcmVuY3kiOnsiZXhwciI6eyJMaXRlcmFsIjp7IlZhbHVlIjoiMEQifX19fX1dLCJzdHlsZVByZXNldCI6W3sicHJvcGVydGllcyI6eyJuYW1lIjp7ImV4cHIiOnsiTGl0ZXJhbCI6eyJWYWx1ZSI6IidOb25lJyJ9fX19fV0sInZpc3VhbEhlYWRlciI6W3sicHJvcGVydGllcyI6eyJzaG93Ijp7ImV4cHIiOnsiTGl0ZXJhbCI6eyJWYWx1ZSI6InRydWUifX19LCJiYWNrZ3JvdW5kIjp7InNvbGlkIjp7ImNvbG9yIjp7ImV4cHIiOnsiVGhlbWVEYXRhQ29sb3IiOnsiQ29sb3JJZCI6MCwiUGVyY2VudCI6MH19fX19LCJib3JkZXIiOnsic29saWQiOnsiY29sb3IiOnsiZXhwciI6eyJUaGVtZURhdGFDb2xvciI6eyJDb2xvcklkIjowLCJQZXJjZW50IjotMC4zfX19fX0sInRyYW5zcGFyZW5jeSI6eyJleHByIjp7IkxpdGVyYWwiOnsiVmFsdWUiOiIwRCJ9fX0sImZvcmVncm91bmQiOnsic29saWQiOnsiY29sb3IiOnsiZXhwciI6eyJUaGVtZURhdGFDb2xvciI6eyJDb2xvcklkIjoxLCJQZXJjZW50IjowfX19fX0sInNob3dEcmlsbFJvbGVTZWxlY3RvciI6eyJleHByIjp7IkxpdGVyYWwiOnsiVmFsdWUiOiJ0cnVlIn19fSwic2hvd0ZvY3VzTW9kZUJ1dHRvbiI6eyJleHByIjp7IkxpdGVyYWwiOnsiVmFsdWUiOiJ0cnVlIn19fSwic2hvd09wdGlvbnNNZW51Ijp7ImV4cHIiOnsiTGl0ZXJhbCI6eyJWYWx1ZSI6InRydWUifX19LCJzaG93UGVyc29uYWxpemVWaXN1YWxCdXR0b24iOnsiZXhwciI6eyJMaXRlcmFsIjp7IlZhbHVlIjoiZmFsc2UifX19LCJzaG93UGluQnV0dG9uIjp7ImV4cHIiOnsiTGl0ZXJhbCI6eyJWYWx1ZSI6ImZhbHNlIn19fX19XX19eyJmaWx0ZXJzIjpbeyJuYW1lIjoiRmlsdGVyMWNlMmQ3ZWQ1OTVlZTkwOTVjZTAiLCJkaXNwbGF5TmFtZSI6IlJlZ2lvbiIsImZpZWxkIjp7IkNvbHVtbiI6eyJFeHByZXNzaW9uIjp7IlNvdXJjZVJlZiI6eyJFbnRpdHkiOiJBY2NvdW50cyJ9fSwiUHJvcGVydHkiOiJSZWdpb24ifX0sInR5cGUiOiJDYXRlZ29yaWNhbCIsImhvd0NyZWF0ZWQiOiJEcmlsbHRocm91Z2gifSx7Im5hbWUiOiJGaWx0ZXI0NjQ0NzQxOTUyYTc3MjFjZTY2ZCIsImRpc3BsYXlOYW1lIjoiU3RhdGUiLCJmaWVsZCI6eyJDb2x1bW4iOnsiRXhwcmVzc2lvbiI6eyJTb3VyY2VSZWYiOnsiRW50aXR5IjoiQWNjb3VudHMifX0sIlByb3BlcnR5IjoiU3RhdGUifX0sInR5cGUiOiJDYXRlZ29yaWNhbCIsImhvd0NyZWF0ZWQiOiJEcmlsbHRocm91Z2giLCJpc0xvY2tlZEluVmlld01vZGUiOnRydWV9LHsibmFtZSI6Ijg4MjM2MjAwMTIwZGUwNWM4YjIwIiwiZGlzcGxheU5hbWUiOiJPcHBvcnR1bml0eSBTaXplIiwiZmllbGQiOnsiQ29sdW1uIjp7IkV4cHJlc3Npb24iOnsiU291cmNlUmVmIjp7IkVudGl0eSI6Ik9wcG9ydHVuaXRpZXMifX0sIlByb3BlcnR5IjoiT3Bwb3J0dW5pdHkgU2l6ZSJ9fSwidHlwZSI6IkNhdGVnb3JpY2FsIn0seyJuYW1lIjoiOWQxOGIwYWYwNGU4YTE5MjgxNmUiLCJkaXNwbGF5TmFtZSI6IlBhcnRuZXIiLCJmaWVsZCI6eyJDb2x1bW4iOnsiRXhwcmVzc2lvbiI6eyJTb3VyY2VSZWYiOnsiRW50aXR5IjoiUGFydG5lcnMifX0sIlByb3BlcnR5IjoiUGFydG5lciJ9fSwidHlwZSI6IkNhdGVnb3JpY2FsIn0seyJuYW1lIjoiNGI1MmJjMTViNzg3MzFjNTJhNjIiLCJkaXNwbGF5TmFtZSI6IlRvdGFsIE9wcG9ydHVuaXR5IENvdW50IiwiZmllbGQiOnsiTWVhc3VyZSI6eyJFeHByZXNzaW9uIjp7IlNvdXJjZVJlZiI6eyJFbnRpdHkiOiJTYWxlcyJ9fSwiUHJvcGVydHkiOiJUb3RhbCBPcHBvcnR1bml0eSBDb3VudCJ9fSwidHlwZSI6IkFkdmFuY2VkIiwiaXNMb2NrZWRJblZpZXdNb2RlIjp0cnVlfSx7Im5hbWUiOiI5NDE5ZWU5NTZkZThjMDAxMzUzNyIsImRpc3BsYXlOYW1lIjoiVG90YWwgUmV2ZW51ZSIsImZpZWxkIjp7Ik1lYXN1cmUiOnsiRXhwcmVzc2lvbiI6eyJTb3VyY2VSZWYiOnsiRW50aXR5IjoiU2FsZXMifX0sIlByb3BlcnR5IjoiVG90YWwgUmV2ZW51ZSJ9fSwidHlwZSI6IkFkdmFuY2VkIiwiaXNMb2NrZWRJblZpZXdNb2RlIjp0cnVlfSx7Im5hbWUiOiI1MTk0MjM1ZDJkMmMwYWNjYzVkOCIsImRpc3BsYXlOYW1lIjoiQXZlcmFnZSBSZXZlbnVlIiwiZmllbGQiOnsiTWVhc3VyZSI6eyJFeHByZXNzaW9uIjp7IlNvdXJjZVJlZiI6eyJFbnRpdHkiOiJTYWxlcyJ9fSwiUHJvcGVydHkiOiJBdmVyYWdlIFJldmVudWUifX0sInR5cGUiOiJBZHZhbmNlZCIsImlzTG9ja2VkSW5WaWV3TW9kZSI6dHJ1ZX0seyJuYW1lIjoiYTJjYTY4ZTQzOTNlZDAwYzU4YjgiLCJkaXNwbGF5TmFtZSI6IkF2ZXJhZ2UgT3Bwb3J0dW5pdHkgRGF5cyIsImZpZWxkIjp7Ik1lYXN1cmUiOnsiRXhwcmVzc2lvbiI6eyJTb3VyY2VSZWYiOnsiRW50aXR5IjoiU2FsZXMifX0sIlByb3BlcnR5IjoiQXZlcmFnZSBPcHBvcnR1bml0eSBEYXlzIn19LCJ0eXBlIjoiQWR2YW5jZWQiLCJpc0xvY2tlZEluVmlld01vZGUiOnRydWV9XX0=",
+        "query": {
+          "Query": {
+            "Version": 2,
+            "From": [
+              {
+                "Name": "o",
+                "Entity": "Opportunities"
+              },
+              {
+                "Name": "a",
+                "Entity": "Accounts"
+              },
+              {
+                "Name": "p",
+                "Entity": "Partners"
+              },
+              {
+                "Name": "f",
+                "Entity": "Sales"
+              }
+            ],
+            "Where": [],
+            "OrderBy": [
+              {
+                "Expression": {
+                  "Measure": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Source": "f"
+                      }
+                    },
+                    "Property": "Total Revenue"
+                  }
+                },
+                "Direction": 2
+              }
+            ],
+            "Select": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Source": "o"
+                    }
+                  },
+                  "Property": "Opportunity Size"
+                },
+                "Name": "Opportunity.Opportunity Size"
+              },
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Source": "a"
+                    }
+                  },
+                  "Property": "Region"
+                },
+                "Name": "Account.Region"
+              },
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Source": "p"
+                    }
+                  },
+                  "Property": "Partner"
+                },
+                "Name": "Partner.Partner"
+              },
+              {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Source": "f"
+                    }
+                  },
+                  "Property": "Total Opportunity Count"
+                },
+                "Name": "Fact.Opportunity Count"
+              },
+              {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Source": "f"
+                    }
+                  },
+                  "Property": "Total Revenue"
+                },
+                "NativeReferenceName": "Total Revenue",
+                "Name": "Fact.Revenue"
+              },
+              {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Source": "f"
+                    }
+                  },
+                  "Property": "Average Revenue"
+                },
+                "NativeReferenceName": "Average Revenue",
+                "Name": "Fact.Avg Revenue"
+              },
+              {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Source": "f"
+                    }
+                  },
+                  "Property": "Average Opportunity Days"
+                },
+                "NativeReferenceName": "Average Opportunity Days",
+                "Name": "Sales.Total Opportunity Days"
+              }
+            ],
+            "GroupBy": []
+          },
+          "Binding": {
+            "Version": 1,
+            "Primary": {
+              "Groupings": [
+                {
+                  "Projections": [
+                    0
+                  ],
+                  "Subtotal": 2
+                },
+                {
+                  "Projections": [
+                    1
+                  ],
+                  "Subtotal": 2
+                },
+                {
+                  "Projections": [
+                    2,
+                    3,
+                    4,
+                    5,
+                    6
+                  ],
+                  "Subtotal": 2
+                }
+              ]
+            },
+            "DataReduction": {
+              "Primary": {
+                "Window": {
+                  "Count": 500
+                }
+              },
+              "DataVolume": 3
+            }
+          }
+        }
+      }
+    }
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/verifiedAnswers/definition/1.0.0/schema.json"
+}

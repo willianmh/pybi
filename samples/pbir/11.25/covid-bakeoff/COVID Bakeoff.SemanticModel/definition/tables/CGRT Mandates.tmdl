@@ -1,0 +1,159 @@
+table 'CGRT Mandates'
+	isHidden
+	lineageTag: b8bdbf90-b732-4af2-a674-c4b910c4f3d8
+
+	column CountryName
+		dataType: string
+		isHidden
+		lineageTag: d8a9af26-5b7a-41ea-8c08-266a6663ab5f
+		summarizeBy: none
+		sourceColumn: CountryName
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CountryCode
+		dataType: string
+		isHidden
+		lineageTag: e3556b92-88d5-4734-8cc6-a1bc34f4d4d6
+		summarizeBy: none
+		sourceColumn: CountryCode
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 86133aa1-81ae-4062-916b-d3385900a4c6
+		summarizeBy: sum
+		sourceColumn: Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'School closures'
+		dataType: string
+		isHidden
+		lineageTag: bd9fac9c-74ea-4fad-b308-3a4d2dabb003
+		summarizeBy: none
+		sourceColumn: School closures
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Workplace closures'
+		dataType: string
+		isHidden
+		lineageTag: a6ed9e76-354f-4f72-ac88-9db36852b91b
+		summarizeBy: none
+		sourceColumn: Workplace closures
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cancelling public events'
+		dataType: string
+		isHidden
+		lineageTag: 14b52029-bdb3-49fd-b90a-0edfb6e2f453
+		summarizeBy: none
+		sourceColumn: Cancelling public events
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Restrictions on gathering'
+		dataType: string
+		isHidden
+		lineageTag: 63972d8f-43cb-4155-b9ac-0ee43cd343b4
+		summarizeBy: none
+		sourceColumn: Restrictions on gathering
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Public transport closures'
+		dataType: string
+		isHidden
+		lineageTag: 8521f01b-7be3-4560-b658-45f01d77d42e
+		summarizeBy: none
+		sourceColumn: Public transport closures
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Stay at home requirements'
+		dataType: string
+		isHidden
+		lineageTag: e8838c8f-73dd-4670-b109-234d7d1694a5
+		summarizeBy: none
+		sourceColumn: Stay at home requirements
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Internal mov''t restrictions'
+		dataType: string
+		isHidden
+		lineageTag: cb8c5759-e822-41cc-81d7-0345305f6c1e
+		summarizeBy: none
+		sourceColumn: Internal mov't restrictions
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'International travel controls'
+		dataType: string
+		isHidden
+		lineageTag: 3ebef244-21b1-4dad-8aaa-1ce49370715a
+		summarizeBy: none
+		sourceColumn: International travel controls
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Face coverings'
+		dataType: string
+		isHidden
+		lineageTag: e5cfc8c2-be39-480a-adc2-1b906f31ee63
+		summarizeBy: none
+		sourceColumn: Face coverings
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Vaccination Policy'
+		dataType: string
+		isHidden
+		lineageTag: 5acdf227-f214-42ce-b19f-559762e152c8
+		summarizeBy: none
+		sourceColumn: Vaccination Policy
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'CGRT Mandates-e9a35d17-7524-4b34-8e1a-2602619c548f' = m
+		mode: import
+		source =
+				let
+				    Source = OxCGRT_latest,
+				    #"Removed Columns" = Table.RemoveColumns(Source,{"C1_School closing", "C1_Flag", "C2_Workplace closing", "C2_Flag", "C3_Cancel public events", "C3_Flag", "C4_Restrictions on gatherings", "C4_Flag", "C5_Close public transport", "C5_Flag", "C6_Stay at home requirements", "C6_Flag", "C7_Restrictions on internal movement", "C7_Flag", "C8_International travel controls", "E1_Income support", "E1_Flag", "E2_Debt/contract relief", "E3_Fiscal measures", "E4_International support", "H1_Public information campaigns", "H1_Flag", "H2_Testing policy", "H3_Contact tracing", "H4_Emergency investment in healthcare", "H5_Investment in vaccines", "H6_Facial Coverings", "H6_Flag", "H7_Vaccination policy", "H7_Flag", "H8_Protection of elderly people", "H8_Flag", "M1_Wildcard", "ConfirmedCases", "ConfirmedDeaths", "StringencyIndex", "StringencyIndexForDisplay", "StringencyLegacyIndex", "StringencyLegacyIndexForDisplay", "GovernmentResponseIndex"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

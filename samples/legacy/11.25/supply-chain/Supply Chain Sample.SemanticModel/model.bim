@@ -1,0 +1,5658 @@
+{
+  "compatibilityLevel": 1567,
+  "model": {
+    "annotations": [
+      {
+        "name": "__PBI_TimeIntelligenceEnabled",
+        "value": "1"
+      },
+      {
+        "name": "PBI_QueryOrder",
+        "value": "[\"Supply Analytics\",\"Risk\",\"Explanations\",\"Logo\",\"Month\",\"Backorder Percentage\"]"
+      },
+      {
+        "name": "PBI_ProTooling",
+        "value": "[\"DevMode\"]"
+      }
+    ],
+    "culture": "en-US",
+    "cultures": [
+      {
+        "name": "en-US",
+        "linguisticMetadata": {
+          "content": {
+            "Entities": {
+              "backorder_percentage": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Backorder Percentage"
+                  }
+                },
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "backorder percentage": {}
+                  },
+                  {
+                    "percentage": {
+                      "Weight": 0.97
+                    }
+                  },
+                  {
+                    "order": {}
+                  },
+                  {
+                    "backorder ratio": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49999996986821305
+                    }
+                  },
+                  {
+                    "backorder measurement": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.499999819868207
+                    }
+                  },
+                  {
+                    "backorder calculation": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.499999769868205
+                    }
+                  },
+                  {
+                    "instruction": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090911041606561
+                    }
+                  },
+                  {
+                    "ratio": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090906132515461
+                    }
+                  },
+                  {
+                    "direction": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090901223424349
+                    }
+                  },
+                  {
+                    "measurement": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090891405242143
+                    }
+                  },
+                  {
+                    "calculation": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090886496151037
+                    }
+                  },
+                  {
+                    "edict": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090886496151037
+                    }
+                  },
+                  {
+                    "backorder fraction": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.48500001927216851
+                    }
+                  }
+                ]
+              },
+              "backorder_percentage.backorder_": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Backorder Percentage",
+                    "ConceptualProperty": "Backorder %"
+                  }
+                },
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "backorder %": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "backorder pct": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.72749998072783162
+                    }
+                  }
+                ]
+              },
+              "backorder_percentage.backorder_1": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Backorder Percentage",
+                    "ConceptualProperty": "Backorder $"
+                  }
+                },
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "backorder $": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "backorder dollar": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.74999998013178515
+                    }
+                  }
+                ]
+              },
+              "backorder_percentage.brand": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Backorder Percentage",
+                    "ConceptualProperty": "Brand"
+                  }
+                },
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "brand": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "variety": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090906132515461
+                    }
+                  },
+                  {
+                    "marque": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090886496151037
+                    }
+                  },
+                  {
+                    "make": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618183710358364
+                    }
+                  },
+                  {
+                    "kind": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618174186721618
+                    }
+                  },
+                  {
+                    "trademark": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618164663084878
+                    }
+                  },
+                  {
+                    "style": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618150377629764
+                    }
+                  },
+                  {
+                    "class": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618145615811391
+                    }
+                  },
+                  {
+                    "strain": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618140853993018
+                    }
+                  },
+                  {
+                    "cast": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618136092174645
+                    }
+                  },
+                  {
+                    "marker": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.46636365489526233
+                    }
+                  }
+                ]
+              },
+              "backorder_percentage.buyer_type": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Backorder Percentage",
+                    "ConceptualProperty": "Buyer Type"
+                  }
+                },
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "buyer type": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "type": {
+                      "State": "Generated",
+                      "Weight": 0.97
+                    }
+                  },
+                  {
+                    "buyer category": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.74999998013178515
+                    }
+                  },
+                  {
+                    "buyer genre": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.74999998013178515
+                    }
+                  },
+                  {
+                    "buyer manner": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.74999998013178515
+                    }
+                  },
+                  {
+                    "buyer variety": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.74999998013178515
+                    }
+                  },
+                  {
+                    "category": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "genre": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "manner": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "variety": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "buyer brand": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.72749998072783162
+                    }
+                  },
+                  {
+                    "buyer class": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.72749998072783162
+                    }
+                  }
+                ]
+              },
+              "backorder_percentage.demand_type": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Backorder Percentage",
+                    "ConceptualProperty": "Demand Type"
+                  }
+                },
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "demand type": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "type": {
+                      "State": "Generated",
+                      "Weight": 0.97
+                    }
+                  },
+                  {
+                    "demand category": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.74999998013178515
+                    }
+                  },
+                  {
+                    "demand genre": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.74999998013178515
+                    }
+                  },
+                  {
+                    "demand manner": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.74999998013178515
+                    }
+                  },
+                  {
+                    "demand variety": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.74999998013178515
+                    }
+                  },
+                  {
+                    "category": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "genre": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "manner": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "variety": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "demand brand": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.72749998072783162
+                    }
+                  },
+                  {
+                    "demand class": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.72749998072783162
+                    }
+                  },
+                  {
+                    "Segment": {
+                      "Source": {
+                        "Agent": "PowerBI.VisualColumnRename",
+                        "Type": "External"
+                      },
+                      "State": "Suggested",
+                      "Weight": 0.9
+                    }
+                  }
+                ]
+              },
+              "backorder_percentage.distribution_center": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Backorder Percentage",
+                    "ConceptualProperty": "Distribution Center"
+                  }
+                },
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "distribution center": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "center": {
+                      "State": "Generated",
+                      "Weight": 0.97
+                    }
+                  },
+                  {
+                    "distribution midpoint": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.500000019868215
+                    }
+                  },
+                  {
+                    "distribution epicenter": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49999991986821091
+                    }
+                  },
+                  {
+                    "midpoint": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090911041606561
+                    }
+                  },
+                  {
+                    "epicenter": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090901223424349
+                    }
+                  },
+                  {
+                    "distribution middle": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.48500001927216851
+                    }
+                  },
+                  {
+                    "distribution focus": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.48499997077216667
+                    }
+                  },
+                  {
+                    "middle": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618183710358364
+                    }
+                  },
+                  {
+                    "focus": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618178948539996
+                    }
+                  },
+                  {
+                    "distribution region": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47499997137480232
+                    }
+                  },
+                  {
+                    "distribution heart": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.46075001830856005
+                    }
+                  }
+                ]
+              },
+              "backorder_percentage.forecast_accuracy": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Backorder Percentage",
+                    "ConceptualProperty": "Forecast Accuracy"
+                  }
+                },
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "forecast accuracy": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "accuracy": {
+                      "State": "Generated",
+                      "Weight": 0.97
+                    }
+                  },
+                  {
+                    "prediction accuracy": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.5999999841054281
+                    }
+                  },
+                  {
+                    "projection accuracy": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.5999999841054281
+                    }
+                  },
+                  {
+                    "report accuracy": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.58199998458226532
+                    }
+                  },
+                  {
+                    "estimate accuracy": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.58199998458226532
+                    }
+                  },
+                  {
+                    "forecast correctness": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.500000019868215
+                    }
+                  },
+                  {
+                    "forecast accurateness": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.500000019868215
+                    }
+                  },
+                  {
+                    "forecast exactness": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49999996986821305
+                    }
+                  },
+                  {
+                    "forecast truth": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.499999869868209
+                    }
+                  },
+                  {
+                    "forecast truthfulness": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.499999819868207
+                    }
+                  },
+                  {
+                    "forecast exactitude": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.499999769868205
+                    }
+                  }
+                ]
+              },
+              "backorder_percentage.forecast_bias": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Backorder Percentage",
+                    "ConceptualProperty": "Forecast Bias"
+                  }
+                },
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "forecast bias": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "bias": {
+                      "State": "Generated",
+                      "Weight": 0.97
+                    }
+                  },
+                  {
+                    "prediction bias": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.5999999841054281
+                    }
+                  },
+                  {
+                    "projection bias": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.5999999841054281
+                    }
+                  },
+                  {
+                    "report bias": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.58199998458226532
+                    }
+                  },
+                  {
+                    "estimate bias": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.58199998458226532
+                    }
+                  },
+                  {
+                    "forecast partiality": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.500000019868215
+                    }
+                  },
+                  {
+                    "forecast unfairness": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49999996986821305
+                    }
+                  },
+                  {
+                    "forecast favoritism": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49999991986821091
+                    }
+                  },
+                  {
+                    "forecast predisposition": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.499999869868209
+                    }
+                  },
+                  {
+                    "forecast preconception": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.499999819868207
+                    }
+                  },
+                  {
+                    "forecast preference": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.499999769868205
+                    }
+                  }
+                ]
+              },
+              "backorder_percentage.month": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Backorder Percentage",
+                    "ConceptualProperty": "Month"
+                  }
+                },
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "month": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "mth": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  }
+                ]
+              },
+              "backorder_percentage.on_backorder": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Backorder Percentage",
+                    "ConceptualProperty": "% on backorder"
+                  }
+                },
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "% on backorder": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "percentage on backorder": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.76153844136458171
+                    }
+                  },
+                  {
+                    "pct on backorder": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73869228812364429
+                    }
+                  }
+                ]
+              },
+              "backorder_percentage.on_time_orders": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Backorder Percentage",
+                    "ConceptualProperty": "% on time orders"
+                  }
+                },
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "% on time orders": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "percentage on time order": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.77142855099269314
+                    }
+                  },
+                  {
+                    "pct on time order": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.74828569446291238
+                    }
+                  },
+                  {
+                    "% on duration order": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.6171428407941546
+                    }
+                  },
+                  {
+                    "% on interval order": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.6171428407941546
+                    }
+                  },
+                  {
+                    "% on moment order": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.6171428407941546
+                    }
+                  },
+                  {
+                    "% on period order": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.5986285555703299
+                    }
+                  },
+                  {
+                    "% on timetable order": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.5986285555703299
+                    }
+                  }
+                ]
+              },
+              "backorder_percentage.plant": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Backorder Percentage",
+                    "ConceptualProperty": "Plant"
+                  }
+                },
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "plant": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "vegetable": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618183710358364
+                    }
+                  },
+                  {
+                    "herbal": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618183710358364
+                    }
+                  },
+                  {
+                    "shrub": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.46636365489526233
+                    }
+                  },
+                  {
+                    "houseplant": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.4663634683498003
+                    }
+                  },
+                  {
+                    "seedling": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.46636337507706932
+                    }
+                  },
+                  {
+                    "bush": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.45237274524840443
+                    }
+                  },
+                  {
+                    "flower": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.45237270001112989
+                    }
+                  },
+                  {
+                    "herb": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.45237265477385541
+                    }
+                  },
+                  {
+                    "cutting": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.45237251906203185
+                    }
+                  }
+                ]
+              },
+              "backorder_percentage.product_ID": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Backorder Percentage",
+                    "ConceptualProperty": "Product ID"
+                  }
+                },
+                "Hidden": true,
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "product ID": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "product": {
+                      "State": "Generated",
+                      "Weight": 0.97
+                    }
+                  },
+                  {
+                    "product identification": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.74999998013178515
+                    }
+                  },
+                  {
+                    "product identity": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.74999998013178515
+                    }
+                  },
+                  {
+                    "product identifier": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.74999998013178515
+                    }
+                  },
+                  {
+                    "artifact": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "product credential": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.72749998072783162
+                    }
+                  },
+                  {
+                    "item": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  },
+                  {
+                    "merchandise": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  },
+                  {
+                    "produce": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  },
+                  {
+                    "artifact id": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.5999999841054281
+                    }
+                  },
+                  {
+                    "item id": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.58199998458226532
+                    }
+                  }
+                ]
+              },
+              "backorder_percentage.product_availability": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Backorder Percentage",
+                    "ConceptualProperty": "Product Availability"
+                  }
+                },
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "product availability": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "availability": {
+                      "State": "Generated",
+                      "Weight": 0.97
+                    }
+                  },
+                  {
+                    "artifact availability": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.5999999841054281
+                    }
+                  },
+                  {
+                    "item availability": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.58199998458226532
+                    }
+                  },
+                  {
+                    "merchandise availability": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.58199998458226532
+                    }
+                  },
+                  {
+                    "produce availability": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.58199998458226532
+                    }
+                  },
+                  {
+                    "product obtainability": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.500000019868215
+                    }
+                  },
+                  {
+                    "product handiness": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.500000019868215
+                    }
+                  },
+                  {
+                    "product accessibility": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49999996986821305
+                    }
+                  },
+                  {
+                    "product convenience": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49999991986821091
+                    }
+                  },
+                  {
+                    "product readiness": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.499999869868209
+                    }
+                  },
+                  {
+                    "product disposal": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.499999819868207
+                    }
+                  }
+                ]
+              },
+              "backorder_percentage.product_type": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Backorder Percentage",
+                    "ConceptualProperty": "Product Type"
+                  }
+                },
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "product type": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "type": {
+                      "State": "Generated",
+                      "Weight": 0.97
+                    }
+                  },
+                  {
+                    "product category": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.74999998013178515
+                    }
+                  },
+                  {
+                    "product genre": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.74999998013178515
+                    }
+                  },
+                  {
+                    "product manner": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.74999998013178515
+                    }
+                  },
+                  {
+                    "product variety": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.74999998013178515
+                    }
+                  },
+                  {
+                    "category": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "genre": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "manner": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "variety": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "product brand": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.72749998072783162
+                    }
+                  },
+                  {
+                    "product class": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.72749998072783162
+                    }
+                  }
+                ]
+              },
+              "backorder_percentage.region": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Backorder Percentage",
+                    "ConceptualProperty": "Region"
+                  }
+                },
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "region": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "territory": {
+                      "LastModified": "2020-01-27T20:34:19.1747697Z"
+                    }
+                  },
+                  {
+                    "province": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "area": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  },
+                  {
+                    "district": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  },
+                  {
+                    "section": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  },
+                  {
+                    "zone": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  },
+                  {
+                    "continent": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  },
+                  {
+                    "terrain": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090911041606561
+                    }
+                  },
+                  {
+                    "land": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618183710358364
+                    }
+                  },
+                  {
+                    "ground": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618178948539996
+                    }
+                  },
+                  {
+                    "place": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618159901266505
+                    }
+                  }
+                ]
+              },
+              "backorder_percentage.shipment_destination": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Backorder Percentage",
+                    "ConceptualProperty": "Shipment Destination"
+                  }
+                },
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "shipment destination": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "destination": {
+                      "State": "Generated",
+                      "Weight": 0.97
+                    }
+                  },
+                  {
+                    "shipment intention": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47499978137479482
+                    }
+                  },
+                  {
+                    "intention": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.46636342171343492
+                    }
+                  },
+                  {
+                    "shipment purpose": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.46075001830856005
+                    }
+                  },
+                  {
+                    "shipment end": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.46075001830856005
+                    }
+                  },
+                  {
+                    "shipment target": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.46074997223355824
+                    }
+                  },
+                  {
+                    "shipment aim": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.46074992615855637
+                    }
+                  },
+                  {
+                    "shipment goal": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.46074988008355455
+                    }
+                  },
+                  {
+                    "shipment objective": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.46074983400855274
+                    }
+                  },
+                  {
+                    "purpose": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.45237274524840443
+                    }
+                  },
+                  {
+                    "end": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.45237274524840443
+                    }
+                  }
+                ]
+              },
+              "backorder_percentage.shipment_type": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Backorder Percentage",
+                    "ConceptualProperty": "Shipment Type"
+                  }
+                },
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "shipment type": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "type": {
+                      "State": "Generated",
+                      "Weight": 0.97
+                    }
+                  },
+                  {
+                    "shipment category": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.74999998013178515
+                    }
+                  },
+                  {
+                    "shipment genre": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.74999998013178515
+                    }
+                  },
+                  {
+                    "shipment manner": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.74999998013178515
+                    }
+                  },
+                  {
+                    "shipment variety": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.74999998013178515
+                    }
+                  },
+                  {
+                    "category": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "genre": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "manner": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "variety": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "shipment brand": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.72749998072783162
+                    }
+                  },
+                  {
+                    "shipment class": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.72749998072783162
+                    }
+                  }
+                ]
+              },
+              "explanation": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Explanations"
+                  }
+                },
+                "Hidden": true,
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "explanation": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "clarification": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090911041606561
+                    }
+                  },
+                  {
+                    "description": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090911041606561
+                    }
+                  },
+                  {
+                    "elucidation": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090906132515461
+                    }
+                  },
+                  {
+                    "enlightenment": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090896314333249
+                    }
+                  },
+                  {
+                    "account": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618174186721618
+                    }
+                  },
+                  {
+                    "justification": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.46636360825889683
+                    }
+                  },
+                  {
+                    "rationalization": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.46636356162253134
+                    }
+                  },
+                  {
+                    "vindication": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.4663634683498003
+                    }
+                  },
+                  {
+                    "reason": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.45237274524840443
+                    }
+                  },
+                  {
+                    "excuse": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.45237251906203185
+                    }
+                  }
+                ]
+              },
+              "explanation.factor": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Explanations",
+                    "ConceptualProperty": "Factor"
+                  }
+                },
+                "Hidden": true,
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "factor": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "aspect": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090901223424349
+                    }
+                  },
+                  {
+                    "element": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090881587059931
+                    }
+                  },
+                  {
+                    "thing": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090876677968831
+                    }
+                  },
+                  {
+                    "consideration": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090871768877725
+                    }
+                  },
+                  {
+                    "issue": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618183710358364
+                    }
+                  },
+                  {
+                    "influence": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618183710358364
+                    }
+                  },
+                  {
+                    "feature": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618178948539996
+                    }
+                  },
+                  {
+                    "reason": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618169424903251
+                    }
+                  },
+                  {
+                    "cause": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618164663084878
+                    }
+                  },
+                  {
+                    "dynamic": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618159901266505
+                    }
+                  }
+                ]
+              },
+              "explanation.location": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Explanations",
+                    "ConceptualProperty": "Location"
+                  }
+                },
+                "Hidden": true,
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "location": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "locality": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "placement": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "scene": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "venue": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "address": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  },
+                  {
+                    "place": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  },
+                  {
+                    "position": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  },
+                  {
+                    "setting": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  },
+                  {
+                    "site": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  },
+                  {
+                    "spot": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  }
+                ]
+              },
+              "explanation.product_ID": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Explanations",
+                    "ConceptualProperty": "Product ID"
+                  }
+                },
+                "Hidden": true,
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "product ID": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "product": {
+                      "State": "Generated",
+                      "Weight": 0.97
+                    }
+                  },
+                  {
+                    "product identification": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.74999998013178515
+                    }
+                  },
+                  {
+                    "product identity": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.74999998013178515
+                    }
+                  },
+                  {
+                    "product identifier": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.74999998013178515
+                    }
+                  },
+                  {
+                    "artifact": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "product credential": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.72749998072783162
+                    }
+                  },
+                  {
+                    "item": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  },
+                  {
+                    "merchandise": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  },
+                  {
+                    "produce": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  },
+                  {
+                    "artifact id": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.5999999841054281
+                    }
+                  },
+                  {
+                    "item id": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.58199998458226532
+                    }
+                  }
+                ]
+              },
+              "explanation.risk": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Explanations",
+                    "ConceptualProperty": "Risk"
+                  }
+                },
+                "Hidden": true,
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "risk": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "danger": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090911041606561
+                    }
+                  },
+                  {
+                    "jeopardy": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090911041606561
+                    }
+                  },
+                  {
+                    "peril": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618178948539996
+                    }
+                  },
+                  {
+                    "hazard": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618174186721618
+                    }
+                  },
+                  {
+                    "menace": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618169424903251
+                    }
+                  },
+                  {
+                    "threat": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618164663084878
+                    }
+                  },
+                  {
+                    "possibility": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.46636365489526233
+                    }
+                  },
+                  {
+                    "probability": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.4663634683498003
+                    }
+                  },
+                  {
+                    "consequence": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.46636337507706932
+                    }
+                  },
+                  {
+                    "chance": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.45237274524840443
+                    }
+                  }
+                ]
+              },
+              "logo": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Logo"
+                  }
+                },
+                "Hidden": true,
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "logo": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "emblem": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090906132515461
+                    }
+                  },
+                  {
+                    "symbol": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618183710358364
+                    }
+                  },
+                  {
+                    "sign": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618183710358364
+                    }
+                  },
+                  {
+                    "badge": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618174186721618
+                    }
+                  },
+                  {
+                    "insigne": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618169424903251
+                    }
+                  },
+                  {
+                    "design": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618164663084878
+                    }
+                  }
+                ]
+              },
+              "logo.url": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Logo",
+                    "ConceptualProperty": "URL"
+                  }
+                },
+                "Hidden": true,
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "url": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "website": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "site": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  },
+                  {
+                    "web address": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.5714181666807695
+                    }
+                  }
+                ]
+              },
+              "month": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Month"
+                  }
+                },
+                "Hidden": true,
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "month": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "mth": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  }
+                ]
+              },
+              "month.ID": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Month",
+                    "ConceptualProperty": "ID"
+                  }
+                },
+                "Hidden": true,
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "ID": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "identification": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "identity": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "credential": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  }
+                ]
+              },
+              "month.month": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Month",
+                    "ConceptualProperty": "Month"
+                  }
+                },
+                "Hidden": true,
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "month": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "mth": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  }
+                ]
+              },
+              "risk": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Risk"
+                  }
+                },
+                "Hidden": true,
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "risk": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "danger": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090911041606561
+                    }
+                  },
+                  {
+                    "jeopardy": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090911041606561
+                    }
+                  },
+                  {
+                    "peril": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618178948539996
+                    }
+                  },
+                  {
+                    "hazard": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618174186721618
+                    }
+                  },
+                  {
+                    "menace": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618169424903251
+                    }
+                  },
+                  {
+                    "threat": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618164663084878
+                    }
+                  },
+                  {
+                    "possibility": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.46636365489526233
+                    }
+                  },
+                  {
+                    "probability": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.4663634683498003
+                    }
+                  },
+                  {
+                    "consequence": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.46636337507706932
+                    }
+                  },
+                  {
+                    "chance": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.45237274524840443
+                    }
+                  }
+                ]
+              },
+              "risk.backorder_risk": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Risk",
+                    "ConceptualProperty": "Backorder Risk"
+                  }
+                },
+                "Hidden": true,
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "backorder risk": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "risk": {
+                      "State": "Generated",
+                      "Weight": 0.97
+                    }
+                  },
+                  {
+                    "backorder danger": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.500000019868215
+                    }
+                  },
+                  {
+                    "backorder jeopardy": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.500000019868215
+                    }
+                  },
+                  {
+                    "danger": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090911041606561
+                    }
+                  },
+                  {
+                    "jeopardy": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090911041606561
+                    }
+                  },
+                  {
+                    "backorder peril": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.48499997077216667
+                    }
+                  },
+                  {
+                    "backorder hazard": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.48499992227216454
+                    }
+                  },
+                  {
+                    "backorder menace": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.48499987377216269
+                    }
+                  },
+                  {
+                    "backorder threat": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.48499982527216079
+                    }
+                  },
+                  {
+                    "peril": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618178948539996
+                    }
+                  },
+                  {
+                    "hazard": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618174186721618
+                    }
+                  }
+                ]
+              },
+              "risk.distribution_center": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Risk",
+                    "ConceptualProperty": "Distribution Center"
+                  }
+                },
+                "Hidden": true,
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "distribution center": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "center": {
+                      "State": "Generated",
+                      "Weight": 0.97
+                    }
+                  },
+                  {
+                    "distribution midpoint": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.500000019868215
+                    }
+                  },
+                  {
+                    "distribution epicenter": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49999991986821091
+                    }
+                  },
+                  {
+                    "midpoint": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090911041606561
+                    }
+                  },
+                  {
+                    "epicenter": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090901223424349
+                    }
+                  },
+                  {
+                    "distribution middle": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.48500001927216851
+                    }
+                  },
+                  {
+                    "distribution focus": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.48499997077216667
+                    }
+                  },
+                  {
+                    "middle": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618183710358364
+                    }
+                  },
+                  {
+                    "focus": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618178948539996
+                    }
+                  },
+                  {
+                    "distribution region": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47499997137480232
+                    }
+                  },
+                  {
+                    "distribution heart": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.46075001830856005
+                    }
+                  }
+                ]
+              },
+              "risk.location": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Risk",
+                    "ConceptualProperty": "Location"
+                  }
+                },
+                "Hidden": true,
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "location": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "locality": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "placement": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "scene": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "venue": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "address": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  },
+                  {
+                    "place": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  },
+                  {
+                    "position": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  },
+                  {
+                    "setting": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  },
+                  {
+                    "site": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  },
+                  {
+                    "spot": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  }
+                ]
+              },
+              "risk.product_ID": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Risk",
+                    "ConceptualProperty": "Product ID"
+                  }
+                },
+                "Hidden": true,
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "product ID": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "product": {
+                      "State": "Generated",
+                      "Weight": 0.97
+                    }
+                  },
+                  {
+                    "product identification": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.74999998013178515
+                    }
+                  },
+                  {
+                    "product identity": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.74999998013178515
+                    }
+                  },
+                  {
+                    "product identifier": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.74999998013178515
+                    }
+                  },
+                  {
+                    "artifact": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "product credential": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.72749998072783162
+                    }
+                  },
+                  {
+                    "item": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  },
+                  {
+                    "merchandise": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  },
+                  {
+                    "produce": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  },
+                  {
+                    "artifact id": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.5999999841054281
+                    }
+                  },
+                  {
+                    "item id": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.58199998458226532
+                    }
+                  }
+                ]
+              },
+              "risk.risk_score": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Risk",
+                    "ConceptualProperty": "Risk Score"
+                  }
+                },
+                "Hidden": true,
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "risk score": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "score": {
+                      "State": "Generated",
+                      "Weight": 0.97
+                    }
+                  },
+                  {
+                    "risk notch": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.48500001927216851
+                    }
+                  },
+                  {
+                    "risk slash": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.48500001927216851
+                    }
+                  },
+                  {
+                    "risk groove": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.48499997077216667
+                    }
+                  },
+                  {
+                    "risk nick": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.48499992227216454
+                    }
+                  },
+                  {
+                    "risk cut": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.48499987377216269
+                    }
+                  },
+                  {
+                    "risk mark": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.48499982527216079
+                    }
+                  },
+                  {
+                    "notch": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618183710358364
+                    }
+                  },
+                  {
+                    "slash": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618183710358364
+                    }
+                  },
+                  {
+                    "groove": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618178948539996
+                    }
+                  },
+                  {
+                    "nick": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618174186721618
+                    }
+                  }
+                ]
+              },
+              "supply_analytics": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Supply Analytics"
+                  }
+                },
+                "Hidden": true,
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "supply analytics": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "analytics": {
+                      "State": "Generated",
+                      "Weight": 0.97
+                    }
+                  }
+                ]
+              },
+              "supply_analytics.day_contacted": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Supply Analytics",
+                    "ConceptualProperty": "Day Contacted"
+                  }
+                },
+                "Hidden": true,
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "day contacted": {
+                      "State": "Generated"
+                    }
+                  }
+                ]
+              },
+              "supply_analytics.demand_type": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Supply Analytics",
+                    "ConceptualProperty": "Demand Type"
+                  }
+                },
+                "Hidden": true,
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "demand type": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "type": {
+                      "State": "Generated",
+                      "Weight": 0.97
+                    }
+                  },
+                  {
+                    "demand category": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.74999998013178515
+                    }
+                  },
+                  {
+                    "demand genre": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.74999998013178515
+                    }
+                  },
+                  {
+                    "demand manner": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.74999998013178515
+                    }
+                  },
+                  {
+                    "demand variety": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.74999998013178515
+                    }
+                  },
+                  {
+                    "category": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "genre": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "manner": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "variety": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "demand brand": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.72749998072783162
+                    }
+                  },
+                  {
+                    "demand class": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.72749998072783162
+                    }
+                  }
+                ]
+              },
+              "supply_analytics.forecast_accuracy": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Supply Analytics",
+                    "ConceptualProperty": "Forecast Accuracy"
+                  }
+                },
+                "Hidden": true,
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "forecast accuracy": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "accuracy": {
+                      "State": "Generated",
+                      "Weight": 0.97
+                    }
+                  },
+                  {
+                    "prediction accuracy": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.5999999841054281
+                    }
+                  },
+                  {
+                    "projection accuracy": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.5999999841054281
+                    }
+                  },
+                  {
+                    "report accuracy": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.58199998458226532
+                    }
+                  },
+                  {
+                    "estimate accuracy": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.58199998458226532
+                    }
+                  },
+                  {
+                    "forecast correctness": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.500000019868215
+                    }
+                  },
+                  {
+                    "forecast accurateness": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.500000019868215
+                    }
+                  },
+                  {
+                    "forecast exactness": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49999996986821305
+                    }
+                  },
+                  {
+                    "forecast truth": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.499999869868209
+                    }
+                  },
+                  {
+                    "forecast truthfulness": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.499999819868207
+                    }
+                  },
+                  {
+                    "forecast exactitude": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.499999769868205
+                    }
+                  }
+                ]
+              },
+              "supply_analytics.forecast_bias": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Supply Analytics",
+                    "ConceptualProperty": "Forecast Bias"
+                  }
+                },
+                "Hidden": true,
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "forecast bias": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "bias": {
+                      "State": "Generated",
+                      "Weight": 0.97
+                    }
+                  },
+                  {
+                    "prediction bias": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.5999999841054281
+                    }
+                  },
+                  {
+                    "projection bias": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.5999999841054281
+                    }
+                  },
+                  {
+                    "report bias": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.58199998458226532
+                    }
+                  },
+                  {
+                    "estimate bias": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.58199998458226532
+                    }
+                  },
+                  {
+                    "forecast partiality": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.500000019868215
+                    }
+                  },
+                  {
+                    "forecast unfairness": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49999996986821305
+                    }
+                  },
+                  {
+                    "forecast favoritism": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49999991986821091
+                    }
+                  },
+                  {
+                    "forecast predisposition": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.499999869868209
+                    }
+                  },
+                  {
+                    "forecast preconception": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.499999819868207
+                    }
+                  },
+                  {
+                    "forecast preference": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.499999769868205
+                    }
+                  }
+                ]
+              },
+              "supply_analytics.inventory_level": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Supply Analytics",
+                    "ConceptualProperty": "Inventory Levels"
+                  }
+                },
+                "Hidden": true,
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "inventory level": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "level": {
+                      "State": "Generated",
+                      "Weight": 0.97
+                    }
+                  },
+                  {
+                    "inventory quantity": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.74999998013178515
+                    }
+                  },
+                  {
+                    "inventory threshold": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.74999998013178515
+                    }
+                  },
+                  {
+                    "threshold": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "inventory amount": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.72749998072783162
+                    }
+                  },
+                  {
+                    "inventory grade": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.72749998072783162
+                    }
+                  },
+                  {
+                    "inventory point": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.72749998072783162
+                    }
+                  },
+                  {
+                    "inventory rank": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.72749998072783162
+                    }
+                  },
+                  {
+                    "inventory tier": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.72749998072783162
+                    }
+                  },
+                  {
+                    "grade": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  },
+                  {
+                    "point": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  }
+                ]
+              },
+              "supply_analytics.manufactured": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Supply Analytics",
+                    "ConceptualProperty": "Manufactured (%)"
+                  }
+                },
+                "Hidden": true,
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "manufactured": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "manufactured (%)": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "mass-produced": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618183710358364
+                    }
+                  },
+                  {
+                    "industrial": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618178948539996
+                    }
+                  },
+                  {
+                    "manmade": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618174186721618
+                    }
+                  },
+                  {
+                    "man-made": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618169424903251
+                    }
+                  },
+                  {
+                    "synthetic": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618164663084878
+                    }
+                  },
+                  {
+                    "artificial": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618159901266505
+                    }
+                  },
+                  {
+                    "contrived": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.45237274524840443
+                    }
+                  },
+                  {
+                    "affected": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.45237270001112989
+                    }
+                  },
+                  {
+                    "insincere": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.45237265477385541
+                    }
+                  },
+                  {
+                    "pretend": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.45237260953658087
+                    }
+                  }
+                ],
+                "Units": [
+                  "percentage",
+                  "%"
+                ]
+              },
+              "supply_analytics.manufactured_goods": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Supply Analytics",
+                    "ConceptualProperty": "Manufactured Goods"
+                  }
+                },
+                "Hidden": true,
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "manufactured goods": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "goods": {
+                      "State": "Generated",
+                      "Weight": 0.97
+                    }
+                  },
+                  {
+                    "manufactured property": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.500000019868215
+                    }
+                  },
+                  {
+                    "manufactured thing": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49999996986821305
+                    }
+                  },
+                  {
+                    "manufactured possession": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49999991986821091
+                    }
+                  },
+                  {
+                    "property": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090911041606561
+                    }
+                  },
+                  {
+                    "thing": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090906132515461
+                    }
+                  },
+                  {
+                    "possession": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090901223424349
+                    }
+                  },
+                  {
+                    "manufactured belonging": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.48500001927216851
+                    }
+                  },
+                  {
+                    "belonging": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618183710358364
+                    }
+                  },
+                  {
+                    "manufactured commodity": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47499992387480039
+                    }
+                  },
+                  {
+                    "manufactured cargo": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47499987637479851
+                    }
+                  }
+                ]
+              },
+              "supply_analytics.manufactured_goods1": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Supply Analytics",
+                    "ConceptualProperty": "Manufactured Goods (%)"
+                  }
+                },
+                "Hidden": true,
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "manufactured goods": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "manufactured goods (%)": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "goods": {
+                      "State": "Generated",
+                      "Weight": 0.97
+                    }
+                  },
+                  {
+                    "manufactured property": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.500000019868215
+                    }
+                  },
+                  {
+                    "manufactured thing": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49999996986821305
+                    }
+                  },
+                  {
+                    "manufactured possession": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49999991986821091
+                    }
+                  },
+                  {
+                    "property": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090911041606561
+                    }
+                  },
+                  {
+                    "thing": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090906132515461
+                    }
+                  },
+                  {
+                    "possession": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090901223424349
+                    }
+                  },
+                  {
+                    "manufactured belonging": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.48500001927216851
+                    }
+                  },
+                  {
+                    "belonging": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618183710358364
+                    }
+                  },
+                  {
+                    "manufactured commodity": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47499992387480039
+                    }
+                  },
+                  {
+                    "manufactured cargo": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47499987637479851
+                    }
+                  }
+                ],
+                "Units": [
+                  "percentage",
+                  "%"
+                ]
+              },
+              "supply_analytics.manufactured_goods_": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Supply Analytics",
+                    "ConceptualProperty": "Manufactured Goods %"
+                  }
+                },
+                "Hidden": true,
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "manufactured goods %": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "manufactured goods percentage": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.76153844136458171
+                    }
+                  },
+                  {
+                    "manufactured goods pct": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73869228812364429
+                    }
+                  }
+                ]
+              },
+              "supply_analytics.multiple_retailer": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Supply Analytics",
+                    "ConceptualProperty": "Multiple Retailers"
+                  }
+                },
+                "Hidden": true,
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "multiple retailer": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "retailer": {
+                      "State": "Generated",
+                      "Weight": 0.97
+                    }
+                  },
+                  {
+                    "multiple seller": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49999996986821305
+                    }
+                  },
+                  {
+                    "multiple vender": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49999991986821091
+                    }
+                  },
+                  {
+                    "multiple vendor": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.499999869868209
+                    }
+                  },
+                  {
+                    "multiple trader": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.499999769868205
+                    }
+                  },
+                  {
+                    "multiple dealer": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49999971986820296
+                    }
+                  },
+                  {
+                    "seller": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090906132515461
+                    }
+                  },
+                  {
+                    "vender": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090901223424349
+                    }
+                  },
+                  {
+                    "vendor": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090896314333249
+                    }
+                  },
+                  {
+                    "trader": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090886496151037
+                    }
+                  },
+                  {
+                    "dealer": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49090881587059931
+                    }
+                  }
+                ]
+              },
+              "supply_analytics.plant": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Supply Analytics",
+                    "ConceptualProperty": "Plant"
+                  }
+                },
+                "Hidden": true,
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "plant": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "vegetable": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618183710358364
+                    }
+                  },
+                  {
+                    "herbal": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.47618183710358364
+                    }
+                  },
+                  {
+                    "shrub": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.46636365489526233
+                    }
+                  },
+                  {
+                    "houseplant": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.4663634683498003
+                    }
+                  },
+                  {
+                    "seedling": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.46636337507706932
+                    }
+                  },
+                  {
+                    "bush": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.45237274524840443
+                    }
+                  },
+                  {
+                    "flower": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.45237270001112989
+                    }
+                  },
+                  {
+                    "herb": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.45237265477385541
+                    }
+                  },
+                  {
+                    "cutting": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.45237251906203185
+                    }
+                  }
+                ]
+              },
+              "supply_analytics.product": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Supply Analytics",
+                    "ConceptualProperty": "Product "
+                  }
+                },
+                "Hidden": true,
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "product": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "Claims Amount": {
+                      "Source": {
+                        "Agent": "PowerBI.VisualColumnRename",
+                        "Type": "External"
+                      },
+                      "State": "Generated",
+                      "Weight": 0.873
+                    }
+                  },
+                  {
+                    "Claim Amount": {
+                      "State": "Generated",
+                      "Type": "Noun",
+                      "Weight": 0.68094
+                    }
+                  },
+                  {
+                    "artifact": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "item": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  },
+                  {
+                    "merchandise": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  },
+                  {
+                    "produce": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  },
+                  {
+                    "claim quantity": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.500000019868215
+                    }
+                  },
+                  {
+                    "claim volume": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.49999991986821091
+                    }
+                  },
+                  {
+                    "claim expanse": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.499999869868209
+                    }
+                  },
+                  {
+                    "claim extent": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.499999819868207
+                    }
+                  },
+                  {
+                    "claim sum": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.48500001927216851
+                    }
+                  },
+                  {
+                    "claim total": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.48499997077216667
+                    }
+                  }
+                ]
+              },
+              "supply_analytics.product_advertised": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Supply Analytics",
+                    "ConceptualProperty": "Product Advertised"
+                  }
+                },
+                "Hidden": true,
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "product advertised": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "artifact advertised": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.74999998013178515
+                    }
+                  },
+                  {
+                    "item advertised": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.72749998072783162
+                    }
+                  },
+                  {
+                    "merchandise advertised": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.72749998072783162
+                    }
+                  },
+                  {
+                    "produce advertised": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.72749998072783162
+                    }
+                  }
+                ]
+              },
+              "supply_analytics.type": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "Supply Analytics",
+                    "ConceptualProperty": "Type"
+                  }
+                },
+                "Hidden": true,
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "type": {
+                      "State": "Generated"
+                    }
+                  },
+                  {
+                    "category": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "genre": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "manner": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "variety": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.73636361685666174
+                    }
+                  },
+                  {
+                    "class": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  },
+                  {
+                    "kind": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  },
+                  {
+                    "style": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  },
+                  {
+                    "form": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  },
+                  {
+                    "grouping": {
+                      "State": "Suggested",
+                      "Type": "Noun",
+                      "Weight": 0.7142727083509619
+                    }
+                  }
+                ]
+              }
+            },
+            "Language": "en-US",
+            "Relationships": {
+              "backorder_percentage_has_backorder_": {
+                "Binding": {
+                  "ConceptualEntity": "Backorder Percentage"
+                },
+                "Phrasings": [
+                  {
+                    "Attribute": {
+                      "Object": {
+                        "Role": "backorder_percentage.backorder_"
+                      },
+                      "Subject": {
+                        "Role": "backorder_percentage"
+                      }
+                    },
+                    "State": "Generated",
+                    "Weight": 0.99
+                  }
+                ],
+                "Roles": {
+                  "backorder_percentage": {
+                    "Target": {
+                      "Entity": "backorder_percentage"
+                    }
+                  },
+                  "backorder_percentage.backorder_": {
+                    "Target": {
+                      "Entity": "backorder_percentage.backorder_"
+                    }
+                  }
+                },
+                "State": "Generated"
+              },
+              "backorder_percentage_has_backorder_1": {
+                "Binding": {
+                  "ConceptualEntity": "Backorder Percentage"
+                },
+                "Phrasings": [
+                  {
+                    "Attribute": {
+                      "Object": {
+                        "Role": "backorder_percentage.backorder_1"
+                      },
+                      "Subject": {
+                        "Role": "backorder_percentage"
+                      }
+                    },
+                    "State": "Generated",
+                    "Weight": 0.99
+                  }
+                ],
+                "Roles": {
+                  "backorder_percentage": {
+                    "Target": {
+                      "Entity": "backorder_percentage"
+                    }
+                  },
+                  "backorder_percentage.backorder_1": {
+                    "Target": {
+                      "Entity": "backorder_percentage.backorder_1"
+                    }
+                  }
+                },
+                "State": "Generated"
+              },
+              "backorder_percentage_has_brand": {
+                "Binding": {
+                  "ConceptualEntity": "Backorder Percentage"
+                },
+                "Phrasings": [
+                  {
+                    "Attribute": {
+                      "Object": {
+                        "Role": "backorder_percentage.brand"
+                      },
+                      "Subject": {
+                        "Role": "backorder_percentage"
+                      }
+                    },
+                    "State": "Generated",
+                    "Weight": 0.99
+                  }
+                ],
+                "Roles": {
+                  "backorder_percentage": {
+                    "Target": {
+                      "Entity": "backorder_percentage"
+                    }
+                  },
+                  "backorder_percentage.brand": {
+                    "Target": {
+                      "Entity": "backorder_percentage.brand"
+                    }
+                  }
+                },
+                "State": "Generated"
+              },
+              "backorder_percentage_has_buyer_type": {
+                "Binding": {
+                  "ConceptualEntity": "Backorder Percentage"
+                },
+                "Phrasings": [
+                  {
+                    "Attribute": {
+                      "Object": {
+                        "Role": "backorder_percentage.buyer_type"
+                      },
+                      "Subject": {
+                        "Role": "backorder_percentage"
+                      }
+                    },
+                    "State": "Generated",
+                    "Weight": 0.99
+                  }
+                ],
+                "Roles": {
+                  "backorder_percentage": {
+                    "Target": {
+                      "Entity": "backorder_percentage"
+                    }
+                  },
+                  "backorder_percentage.buyer_type": {
+                    "Target": {
+                      "Entity": "backorder_percentage.buyer_type"
+                    }
+                  }
+                },
+                "State": "Generated"
+              },
+              "backorder_percentage_has_claims": {
+                "Binding": {
+                  "ConceptualEntity": "Backorder Percentage"
+                },
+                "Phrasings": [
+                  {
+                    "Attribute": {
+                      "Object": {
+                        "Role": "backorder_percentage.claims"
+                      },
+                      "Subject": {
+                        "Role": "backorder_percentage"
+                      }
+                    },
+                    "State": "Generated",
+                    "Weight": 0.99
+                  }
+                ],
+                "Roles": {
+                  "backorder_percentage": {
+                    "Target": {
+                      "Entity": "backorder_percentage"
+                    }
+                  },
+                  "backorder_percentage.claims": {
+                    "Target": {
+                      "Entity": "backorder_percentage.claims"
+                    }
+                  }
+                },
+                "State": "Generated"
+              },
+              "backorder_percentage_has_demand_type": {
+                "Binding": {
+                  "ConceptualEntity": "Backorder Percentage"
+                },
+                "Phrasings": [
+                  {
+                    "Attribute": {
+                      "Object": {
+                        "Role": "backorder_percentage.demand_type"
+                      },
+                      "Subject": {
+                        "Role": "backorder_percentage"
+                      }
+                    },
+                    "State": "Generated",
+                    "Weight": 0.99
+                  }
+                ],
+                "Roles": {
+                  "backorder_percentage": {
+                    "Target": {
+                      "Entity": "backorder_percentage"
+                    }
+                  },
+                  "backorder_percentage.demand_type": {
+                    "Target": {
+                      "Entity": "backorder_percentage.demand_type"
+                    }
+                  }
+                },
+                "State": "Generated"
+              },
+              "backorder_percentage_has_distribution_center": {
+                "Binding": {
+                  "ConceptualEntity": "Backorder Percentage"
+                },
+                "Phrasings": [
+                  {
+                    "Attribute": {
+                      "Object": {
+                        "Role": "backorder_percentage.distribution_center"
+                      },
+                      "Subject": {
+                        "Role": "backorder_percentage"
+                      }
+                    },
+                    "State": "Generated",
+                    "Weight": 0.99
+                  }
+                ],
+                "Roles": {
+                  "backorder_percentage": {
+                    "Target": {
+                      "Entity": "backorder_percentage"
+                    }
+                  },
+                  "backorder_percentage.distribution_center": {
+                    "Target": {
+                      "Entity": "backorder_percentage.distribution_center"
+                    }
+                  }
+                },
+                "State": "Generated"
+              },
+              "backorder_percentage_has_forecast_accuracy": {
+                "Binding": {
+                  "ConceptualEntity": "Backorder Percentage"
+                },
+                "Phrasings": [
+                  {
+                    "Attribute": {
+                      "Object": {
+                        "Role": "backorder_percentage.forecast_accuracy"
+                      },
+                      "Subject": {
+                        "Role": "backorder_percentage"
+                      }
+                    },
+                    "State": "Generated",
+                    "Weight": 0.99
+                  }
+                ],
+                "Roles": {
+                  "backorder_percentage": {
+                    "Target": {
+                      "Entity": "backorder_percentage"
+                    }
+                  },
+                  "backorder_percentage.forecast_accuracy": {
+                    "Target": {
+                      "Entity": "backorder_percentage.forecast_accuracy"
+                    }
+                  }
+                },
+                "State": "Generated"
+              },
+              "backorder_percentage_has_forecast_bias": {
+                "Binding": {
+                  "ConceptualEntity": "Backorder Percentage"
+                },
+                "Phrasings": [
+                  {
+                    "Attribute": {
+                      "Object": {
+                        "Role": "backorder_percentage.forecast_bias"
+                      },
+                      "Subject": {
+                        "Role": "backorder_percentage"
+                      }
+                    },
+                    "State": "Generated",
+                    "Weight": 0.99
+                  }
+                ],
+                "Roles": {
+                  "backorder_percentage": {
+                    "Target": {
+                      "Entity": "backorder_percentage"
+                    }
+                  },
+                  "backorder_percentage.forecast_bias": {
+                    "Target": {
+                      "Entity": "backorder_percentage.forecast_bias"
+                    }
+                  }
+                },
+                "State": "Generated"
+              },
+              "backorder_percentage_has_month": {
+                "Binding": {
+                  "ConceptualEntity": "Backorder Percentage"
+                },
+                "Phrasings": [
+                  {
+                    "Attribute": {
+                      "Object": {
+                        "Role": "backorder_percentage.month"
+                      },
+                      "Subject": {
+                        "Role": "backorder_percentage"
+                      }
+                    },
+                    "State": "Generated",
+                    "Weight": 0.99
+                  }
+                ],
+                "Roles": {
+                  "backorder_percentage": {
+                    "Target": {
+                      "Entity": "backorder_percentage"
+                    }
+                  },
+                  "backorder_percentage.month": {
+                    "Target": {
+                      "Entity": "backorder_percentage.month"
+                    }
+                  }
+                },
+                "State": "Generated"
+              },
+              "backorder_percentage_has_month1": {
+                "Binding": {
+                  "ConceptualEntity": "Backorder Percentage"
+                },
+                "Roles": {
+                  "backorder_percentage": {
+                    "Target": {
+                      "Entity": "backorder_percentage"
+                    }
+                  },
+                  "month": {
+                    "Target": {
+                      "Entity": "month"
+                    }
+                  }
+                },
+                "State": "Generated"
+              },
+              "backorder_percentage_has_on_backorder": {
+                "Binding": {
+                  "ConceptualEntity": "Backorder Percentage"
+                },
+                "Phrasings": [
+                  {
+                    "Attribute": {
+                      "Object": {
+                        "Role": "backorder_percentage.on_backorder"
+                      },
+                      "Subject": {
+                        "Role": "backorder_percentage"
+                      }
+                    },
+                    "State": "Generated",
+                    "Weight": 0.99
+                  }
+                ],
+                "Roles": {
+                  "backorder_percentage": {
+                    "Target": {
+                      "Entity": "backorder_percentage"
+                    }
+                  },
+                  "backorder_percentage.on_backorder": {
+                    "Target": {
+                      "Entity": "backorder_percentage.on_backorder"
+                    }
+                  }
+                },
+                "State": "Generated"
+              },
+              "backorder_percentage_has_on_time_orders": {
+                "Binding": {
+                  "ConceptualEntity": "Backorder Percentage"
+                },
+                "Phrasings": [
+                  {
+                    "Attribute": {
+                      "Object": {
+                        "Role": "backorder_percentage.on_time_orders"
+                      },
+                      "Subject": {
+                        "Role": "backorder_percentage"
+                      }
+                    },
+                    "State": "Generated",
+                    "Weight": 0.99
+                  }
+                ],
+                "Roles": {
+                  "backorder_percentage": {
+                    "Target": {
+                      "Entity": "backorder_percentage"
+                    }
+                  },
+                  "backorder_percentage.on_time_orders": {
+                    "Target": {
+                      "Entity": "backorder_percentage.on_time_orders"
+                    }
+                  }
+                },
+                "State": "Generated"
+              },
+              "backorder_percentage_has_plant": {
+                "Binding": {
+                  "ConceptualEntity": "Backorder Percentage"
+                },
+                "Phrasings": [
+                  {
+                    "Attribute": {
+                      "Object": {
+                        "Role": "backorder_percentage.plant"
+                      },
+                      "Subject": {
+                        "Role": "backorder_percentage"
+                      }
+                    },
+                    "State": "Generated",
+                    "Weight": 0.99
+                  }
+                ],
+                "Roles": {
+                  "backorder_percentage": {
+                    "Target": {
+                      "Entity": "backorder_percentage"
+                    }
+                  },
+                  "backorder_percentage.plant": {
+                    "Target": {
+                      "Entity": "backorder_percentage.plant"
+                    }
+                  }
+                },
+                "State": "Generated"
+              },
+              "backorder_percentage_has_product_availability": {
+                "Binding": {
+                  "ConceptualEntity": "Backorder Percentage"
+                },
+                "Phrasings": [
+                  {
+                    "Attribute": {
+                      "Object": {
+                        "Role": "backorder_percentage.product_availability"
+                      },
+                      "Subject": {
+                        "Role": "backorder_percentage"
+                      }
+                    },
+                    "State": "Generated",
+                    "Weight": 0.99
+                  }
+                ],
+                "Roles": {
+                  "backorder_percentage": {
+                    "Target": {
+                      "Entity": "backorder_percentage"
+                    }
+                  },
+                  "backorder_percentage.product_availability": {
+                    "Target": {
+                      "Entity": "backorder_percentage.product_availability"
+                    }
+                  }
+                },
+                "State": "Generated"
+              },
+              "backorder_percentage_has_product_type": {
+                "Binding": {
+                  "ConceptualEntity": "Backorder Percentage"
+                },
+                "Phrasings": [
+                  {
+                    "Attribute": {
+                      "Object": {
+                        "Role": "backorder_percentage.product_type"
+                      },
+                      "Subject": {
+                        "Role": "backorder_percentage"
+                      }
+                    },
+                    "State": "Generated",
+                    "Weight": 0.99
+                  }
+                ],
+                "Roles": {
+                  "backorder_percentage": {
+                    "Target": {
+                      "Entity": "backorder_percentage"
+                    }
+                  },
+                  "backorder_percentage.product_type": {
+                    "Target": {
+                      "Entity": "backorder_percentage.product_type"
+                    }
+                  }
+                },
+                "State": "Generated"
+              },
+              "backorder_percentage_has_region": {
+                "Binding": {
+                  "ConceptualEntity": "Backorder Percentage"
+                },
+                "Phrasings": [
+                  {
+                    "Attribute": {
+                      "Object": {
+                        "Role": "backorder_percentage.region"
+                      },
+                      "Subject": {
+                        "Role": "backorder_percentage"
+                      }
+                    },
+                    "State": "Generated",
+                    "Weight": 0.99
+                  }
+                ],
+                "Roles": {
+                  "backorder_percentage": {
+                    "Target": {
+                      "Entity": "backorder_percentage"
+                    }
+                  },
+                  "backorder_percentage.region": {
+                    "Target": {
+                      "Entity": "backorder_percentage.region"
+                    }
+                  }
+                },
+                "State": "Generated"
+              },
+              "backorder_percentage_has_shipment_destination": {
+                "Binding": {
+                  "ConceptualEntity": "Backorder Percentage"
+                },
+                "Phrasings": [
+                  {
+                    "Attribute": {
+                      "Object": {
+                        "Role": "backorder_percentage.shipment_destination"
+                      },
+                      "Subject": {
+                        "Role": "backorder_percentage"
+                      }
+                    },
+                    "State": "Generated",
+                    "Weight": 0.99
+                  }
+                ],
+                "Roles": {
+                  "backorder_percentage": {
+                    "Target": {
+                      "Entity": "backorder_percentage"
+                    }
+                  },
+                  "backorder_percentage.shipment_destination": {
+                    "Target": {
+                      "Entity": "backorder_percentage.shipment_destination"
+                    }
+                  }
+                },
+                "State": "Generated"
+              },
+              "backorder_percentage_has_shipment_type": {
+                "Binding": {
+                  "ConceptualEntity": "Backorder Percentage"
+                },
+                "Phrasings": [
+                  {
+                    "Attribute": {
+                      "Object": {
+                        "Role": "backorder_percentage.shipment_type"
+                      },
+                      "Subject": {
+                        "Role": "backorder_percentage"
+                      }
+                    },
+                    "State": "Generated",
+                    "Weight": 0.99
+                  }
+                ],
+                "Roles": {
+                  "backorder_percentage": {
+                    "Target": {
+                      "Entity": "backorder_percentage"
+                    }
+                  },
+                  "backorder_percentage.shipment_type": {
+                    "Target": {
+                      "Entity": "backorder_percentage.shipment_type"
+                    }
+                  }
+                },
+                "State": "Generated"
+              },
+              "backorder_percentage_in_region": {
+                "Binding": {
+                  "ConceptualEntity": "Backorder Percentage"
+                },
+                "Phrasings": [
+                  {
+                    "Preposition": {
+                      "Object": {
+                        "Role": "backorder_percentage.region"
+                      },
+                      "Prepositions": [
+                        {
+                          "in": {}
+                        }
+                      ],
+                      "Subject": {
+                        "Role": "backorder_percentage"
+                      }
+                    },
+                    "State": "Generated",
+                    "Weight": 0.99
+                  }
+                ],
+                "Roles": {
+                  "backorder_percentage": {
+                    "Target": {
+                      "Entity": "backorder_percentage"
+                    }
+                  },
+                  "backorder_percentage.region": {
+                    "Target": {
+                      "Entity": "backorder_percentage.region"
+                    }
+                  }
+                },
+                "SemanticSlots": {
+                  "Where": {
+                    "Role": "backorder_percentage.region"
+                  }
+                },
+                "State": "Generated"
+              },
+              "explanation_has_risk": {
+                "Binding": {
+                  "ConceptualEntity": "Explanations"
+                },
+                "Roles": {
+                  "explanation": {
+                    "Target": {
+                      "Entity": "explanation"
+                    }
+                  },
+                  "risk": {
+                    "Target": {
+                      "Entity": "risk"
+                    }
+                  }
+                },
+                "State": "Generated"
+              }
+            },
+            "Version": "2.0.0"
+          },
+          "contentType": "json"
+        }
+      }
+    ],
+    "dataAccessOptions": {
+      "legacyRedirects": true,
+      "returnErrorValuesAsNull": true
+    },
+    "defaultPowerBIDataSourceVersion": "powerBI_V3",
+    "relationships": [
+      {
+        "name": "f1f4dec2-922f-4ec6-8dc1-49554a10a01c",
+        "fromColumn": "Product ID",
+        "fromTable": "Explanations",
+        "toColumn": "Product ID",
+        "toTable": "Risk"
+      },
+      {
+        "name": "9ed0ec75-78b2-4f82-bffb-1dce5fda3499",
+        "fromColumn": "Month",
+        "fromTable": "Backorder Percentage",
+        "toColumn": "Month",
+        "toTable": "Month"
+      }
+    ],
+    "sourceQueryCulture": "en-US",
+    "tables": [
+      {
+        "name": "DateTableTemplate_6de7953b-39de-41ab-b96b-cebbc3f3ccc1",
+        "annotations": [
+          {
+            "name": "__PBI_TemplateDateTable",
+            "value": "true"
+          },
+          {
+            "name": "DefaultItem",
+            "value": "DateHierarchy"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Date",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataCategory": "PaddedDateTableDates",
+            "dataType": "dateTime",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "isNameInferred": true,
+            "lineageTag": "676c866c-449d-4a4d-93cb-181e610495a5",
+            "sourceColumn": "[Date]",
+            "summarizeBy": "none",
+            "type": "calculatedTableColumn"
+          },
+          {
+            "name": "Year",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Year"
+              }
+            ],
+            "dataCategory": "Years",
+            "dataType": "int64",
+            "expression": "YEAR([Date])",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "lineageTag": "a4e337cb-0630-4891-88cf-e36ca60da060",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "MonthNo",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "MonthNumber"
+              }
+            ],
+            "dataCategory": "MonthOfYear",
+            "dataType": "int64",
+            "expression": "MONTH([Date])",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "lineageTag": "93062f8a-5e12-42f7-bdaf-7596d2d1d23c",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Month",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Month"
+              }
+            ],
+            "dataCategory": "Months",
+            "dataType": "string",
+            "expression": "FORMAT([Date], \"MMMM\")",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "lineageTag": "78125b29-5219-40c8-a3ce-19c14e240072",
+            "sortByColumn": "MonthNo",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "QuarterNo",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "QuarterNumber"
+              }
+            ],
+            "dataCategory": "QuarterOfYear",
+            "dataType": "int64",
+            "expression": "INT(([MonthNo] + 2) / 3)",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "lineageTag": "341122c5-527f-4424-8434-d5ade15d9fee",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Quarter",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Quarter"
+              }
+            ],
+            "dataCategory": "Quarters",
+            "dataType": "string",
+            "expression": "\"Qtr \" & [QuarterNo]",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "lineageTag": "a32c158d-3599-466f-b38e-1b7d05a84558",
+            "sortByColumn": "QuarterNo",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Day",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Day"
+              }
+            ],
+            "dataCategory": "DayOfMonth",
+            "dataType": "int64",
+            "expression": "DAY([Date])",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "lineageTag": "b60d6204-b0d3-4167-971d-6b2402cd56ac",
+            "summarizeBy": "none",
+            "type": "calculated"
+          }
+        ],
+        "hierarchies": [
+          {
+            "name": "Date Hierarchy",
+            "annotations": [
+              {
+                "name": "TemplateId",
+                "value": "DateHierarchy"
+              }
+            ],
+            "levels": [
+              {
+                "name": "Year",
+                "column": "Year",
+                "lineageTag": "b9afa313-0613-4b6a-bc69-75ea1e60a039",
+                "ordinal": 0
+              },
+              {
+                "name": "Quarter",
+                "column": "Quarter",
+                "lineageTag": "5dc0c8ac-8ff4-4b51-8d39-878a15af2322",
+                "ordinal": 1
+              },
+              {
+                "name": "Month",
+                "column": "Month",
+                "lineageTag": "1ba9d46f-b404-47f0-97fb-42df0aa24f0a",
+                "ordinal": 2
+              },
+              {
+                "name": "Day",
+                "column": "Day",
+                "lineageTag": "957b136a-5de4-4a43-94e2-b167a23ab2d1",
+                "ordinal": 3
+              }
+            ],
+            "lineageTag": "4a0ef3b7-a22b-4ba0-95f5-c1fa2e020913"
+          }
+        ],
+        "isHidden": true,
+        "isPrivate": true,
+        "lineageTag": "0e619d09-129b-43e0-9e46-5532a25a3869",
+        "partitions": [
+          {
+            "name": "DateTableTemplate_6de7953b-39de-41ab-b96b-cebbc3f3ccc1-9020e431-9ac3-456e-b5d4-e0b3c7ba7ac8",
+            "mode": "import",
+            "source": {
+              "expression": "Calendar(Date(2015,1,1), Date(2015,1,1))",
+              "type": "calculated"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Supply Analytics",
+        "annotations": [
+          {
+            "name": "PBI_Id",
+            "value": "6a570876-50cb-4351-a1c2-3b1ea0291c67"
+          },
+          {
+            "name": "LinkedQueryName",
+            "value": "Supply Analytics"
+          },
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Exception"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Manufactured Goods %",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "IsHidden"
+              }
+            ],
+            "dataType": "double",
+            "formatString": "0.00%;-0.00%;0.00%",
+            "isHidden": true,
+            "lineageTag": "77e61d04-2065-4576-bf45-46171d7ffd59",
+            "sourceColumn": "Manufactured Goods %",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Forecast Accuracy",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "IsHidden"
+              }
+            ],
+            "dataType": "string",
+            "displayFolder": "Influencers",
+            "isHidden": true,
+            "lineageTag": "0dbc73ae-1ff0-4555-b4c3-722dd6c9912c",
+            "sourceColumn": "Forecast Accuracy",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Forecast Bias",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "IsHidden"
+              }
+            ],
+            "dataType": "string",
+            "displayFolder": "Influencers",
+            "isHidden": true,
+            "lineageTag": "3b3e526f-5d82-4706-90a0-c7798471fc8b",
+            "sourceColumn": "Forecast Bias",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Product Advertised",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "IsHidden"
+              }
+            ],
+            "dataType": "string",
+            "isHidden": true,
+            "lineageTag": "2bce65b0-9a9c-49ba-ba1f-ee166ff2c595",
+            "sourceColumn": "Product Advertised",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Multiple Retailers",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "IsHidden"
+              }
+            ],
+            "dataType": "string",
+            "isHidden": true,
+            "lineageTag": "5bb68583-5333-4ac4-bba3-40c033009f67",
+            "sourceColumn": "Multiple Retailers",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Day Contacted",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "IsHidden"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "isHidden": true,
+            "lineageTag": "28dd4243-1673-4f89-9702-fb32cc2e3837",
+            "sourceColumn": "Day Contacted",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Product ",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "IsHidden"
+              }
+            ],
+            "dataType": "string",
+            "isHidden": true,
+            "lineageTag": "9a56feeb-71af-4ea8-997b-af77df9d6a30",
+            "sourceColumn": "Product ",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Manufactured (%)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "expression": "If('Supply Analytics'[Manufactured Goods %] <=0.9, \">125%\", if('Supply Analytics'[Manufactured Goods %] >0.9 && [Manufactured Goods %] <= 1.2, \"Between 100%-125%\", if('Supply Analytics'[Manufactured Goods %] > 1.2 && [Manufactured Goods %] <= 1.2, \"Between 75%-100%\", \"<75%\")))",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "lineageTag": "cf3ea8ba-5405-43ec-aa4a-7557e2d45b3b",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Inventory Levels",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "IsHidden"
+              }
+            ],
+            "dataType": "string",
+            "isHidden": true,
+            "lineageTag": "3f79f9be-8ced-4d22-8407-43628e7a24ce",
+            "sourceColumn": "Inventory Levels",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Manufactured Goods",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "displayFolder": "Influencers",
+            "expression": "If('Supply Analytics'[Manufactured Goods %] <=1.1, \">100%\", \"<70%\")",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "lineageTag": "a295ff0e-92f2-42c4-a7b5-858843a433ed",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Demand Type",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "IsHidden"
+              }
+            ],
+            "dataType": "string",
+            "displayFolder": "Influencers",
+            "isHidden": true,
+            "lineageTag": "32414e87-56b4-4265-8764-5325d5e55e0c",
+            "sourceColumn": "Demand Type",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Manufactured Goods (%)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "IsHidden"
+              }
+            ],
+            "dataType": "string",
+            "isHidden": true,
+            "lineageTag": "415f67cf-4d51-44c9-89ba-15d9cc86a90d",
+            "sourceColumn": "Manufactured Goods (%)",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Type",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "IsHidden"
+              }
+            ],
+            "dataType": "string",
+            "isHidden": true,
+            "lineageTag": "8531e25f-2694-44f8-805e-9418bcf76743",
+            "sourceColumn": "Type",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Plant",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "IsHidden"
+              }
+            ],
+            "dataType": "string",
+            "isHidden": true,
+            "lineageTag": "8ae3ea3e-708a-4f72-8c95-ae1aa036c6d3",
+            "sourceColumn": "Plant",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "5cc5f0de-b295-4ed1-9c7c-23275edff34a",
+        "partitions": [
+          {
+            "name": "Supply Analytics-b415f3eb-76cb-4172-90fb-8e97ed3589f0",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Source = Excel.Workbook(File.Contents(\"C:\\Users\\Justyna\\Documents\\MBAS 2019\\Backorders2.xlsx\"), null, true),",
+                "    #\"bank-full2_Sheet\" = Source{[Item=\"Backorders\",Kind=\"Sheet\"]}[Data],",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(#\"bank-full2_Sheet\", [PromoteAllScalars=true]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"Manufactured Goods %\", type number}, {\"Demand Type\", type text}, {\"Forecast Accuracy\", type text}, {\"Forecast Bias\", type text}, {\"Product Advertised\", type text}, {\"Multiple Retailers\", type text}, {\"Type\", type text}, {\"Day Contacted\", Int64.Type}, {\"Plant\", type text}, {\"Product \", type text}}),",
+                "    #\"Removed Columns\" = Table.RemoveColumns(#\"Changed Type\",{\"Manufactured Goods\"}),",
+                "    #\"Filtered Rows\" = Table.SelectRows(#\"Removed Columns\", each true)",
+                "in",
+                "    #\"Filtered Rows\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Risk",
+        "annotations": [
+          {
+            "name": "PBI_Id",
+            "value": "8ecb34a8-a096-4d03-924c-c1a91b337e28"
+          },
+          {
+            "name": "LinkedQueryName",
+            "value": "Risk"
+          },
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Product ID",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "IsHidden"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "isHidden": true,
+            "lineageTag": "94521e95-fe71-4ef2-8bab-6e014298d13b",
+            "sourceColumn": "Product ID",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Location",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "IsHidden"
+              }
+            ],
+            "dataType": "string",
+            "isHidden": true,
+            "lineageTag": "e860ea83-554c-44d0-8085-fe373ab48245",
+            "sourceColumn": "Location",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Risk Score",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "IsHidden"
+              }
+            ],
+            "dataType": "string",
+            "isHidden": true,
+            "lineageTag": "065cff6e-1ce0-4a70-abf3-af936259842d",
+            "sourceColumn": "Risk Score",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Backorder Risk",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "IsHidden"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "isHidden": true,
+            "lineageTag": "a11c5cf4-0212-41bc-8cfc-ca3569e24992",
+            "sourceColumn": "Backorder Risk",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Distribution Center",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "IsHidden"
+              }
+            ],
+            "dataType": "string",
+            "isHidden": true,
+            "lineageTag": "38bbe32b-9e12-45f9-a4b4-8dcdcd058fcb",
+            "sourceColumn": "Distribution Center",
+            "summarizeBy": "none"
+          }
+        ],
+        "isHidden": true,
+        "lineageTag": "0fa72b4f-32d2-41a9-b683-f9d00be6f0cb",
+        "partitions": [
+          {
+            "name": "Risk-d9078ef0-04f1-4c0d-a009-616523a3fc04",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Source = Excel.Workbook(AzureStorage.BlobContents(\"https://demostoragepbi.blob.core.windows.net/demo/automl%20demo.xlsx\"), null, true),",
+                "    Sheet1_Sheet = Source{[Item=\"Sheet1\",Kind=\"Sheet\"]}[Data],",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"Product ID\", Int64.Type}, {\"Location\", type text}, {\"Risk Score\", type text}, {\"Backorder Risk\", Int64.Type}, {\"Distribution Center\", type text}})",
+                "in",
+                "    #\"Changed Type\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Explanations",
+        "annotations": [
+          {
+            "name": "PBI_Id",
+            "value": "545aed8a-9467-4e7a-ba70-0d4936a7b9dc"
+          },
+          {
+            "name": "LinkedQueryName",
+            "value": "Explanations"
+          },
+          {
+            "name": "PBI_QueryRelationships",
+            "value": "{\"columnCount\":4,\"keyColumnNames\":[],\"queryRelationships\":[],\"columnIdentities\":[\"Section1/Explanations/Changed Type.{Product ID,0}\",\"Section1/Explanations/Changed Type.{Location,1}\",\"Section1/Explanations/Changed Type.{Factor,2}\",\"Section1/Explanations/Changed Type.{Risk,3}\"],\"ColumnCount\":4,\"KeyColumnNames\":[],\"ColumnIdentities\":[\"Section1/Explanations/Changed Type.{Product ID,0}\",\"Section1/Explanations/Changed Type.{Location,1}\",\"Section1/Explanations/Changed Type.{Factor,2}\",\"Section1/Explanations/Changed Type.{Risk,3}\"],\"RelationshipInfo\":[]}"
+          },
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Product ID",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "IsHidden"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "isHidden": true,
+            "lineageTag": "7a967f4c-b606-4a8c-9ff4-9a02d1c76f66",
+            "sourceColumn": "Product ID",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Location",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "IsHidden"
+              }
+            ],
+            "dataType": "string",
+            "isHidden": true,
+            "lineageTag": "9c9d0a70-8e79-4b75-bb51-04a73259dab6",
+            "sourceColumn": "Location",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Factor",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "IsHidden"
+              }
+            ],
+            "dataType": "string",
+            "isHidden": true,
+            "lineageTag": "ac3176be-cd8d-4a46-aac0-a06b58816cde",
+            "sourceColumn": "Factor",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Risk",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "IsHidden"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "isHidden": true,
+            "lineageTag": "1ce170f3-822b-46df-aa96-64b9d0f46325",
+            "sourceColumn": "Risk",
+            "summarizeBy": "sum"
+          }
+        ],
+        "isHidden": true,
+        "lineageTag": "88e038cb-b6bc-4aea-b0a7-4a5553a79c48",
+        "partitions": [
+          {
+            "name": "Explanations-da57eca1-da42-4086-8190-eab8106fff57",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Source = Excel.Workbook(File.Contents(\"C:\\Users\\juluczni\\Documents\\Explanations.xlsx\"), null, true),",
+                "    Sheet1_Sheet = Source{[Item=\"Sheet1\",Kind=\"Sheet\"]}[Data],",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"Product ID\", Int64.Type}, {\"Location\", type text}, {\"Factor\", type text}, {\"Risk\", Int64.Type}})",
+                "in",
+                "    #\"Changed Type\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Logo",
+        "annotations": [
+          {
+            "name": "PBI_Id",
+            "value": "e6401689-3f49-423f-bd1a-f05e55c1ccec"
+          },
+          {
+            "name": "LinkedQueryName",
+            "value": "Logo"
+          },
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "URL",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "IsHidden"
+              }
+            ],
+            "dataType": "string",
+            "isHidden": true,
+            "lineageTag": "75ccb6cf-7863-47cd-a1bc-c3438d1ef3ff",
+            "sourceColumn": "URL",
+            "summarizeBy": "none"
+          }
+        ],
+        "isHidden": true,
+        "lineageTag": "208f0e46-d266-4543-87d8-08412ffb675c",
+        "partitions": [
+          {
+            "name": "Logo-b7177523-7710-4cca-bfce-da4107d111c5",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(\"lVnbjhvHEf2VifQiIZxh3y8UAgOJYcBAgASxlTx4/UCRs7uEyBliOHvT1+dUdfdwyF0FjgBD7Krqquq6nKqRf/vt3c2DEHrzw/NhXz22w2nXd3+5eScbcfOuartNv911dyB8/vWnOoB0Gtfddr3vuxbErr959wPfb2+6pOdPdV39bWjXY7utnnbjffVz9/W0WR/b6sP9OB5Xy+XT01Ozy8SmH+6WH6u6npRkNafHu5uuqip41Z1W2w2M5evHh2HP17abZbtvD203npaykcubd7Mbm9mNDbmze2w3/eHQdye+3J3eX8gP29vzBfLwSbOcjDEuhVoqVUOkPr104/q5vr4Nb9+8rYQQS3rKTPgPC65OiP0R/51vFEpz6h+GTXuLq23TtePyx19/nJi1aLbj9kJTCfel7YskdOtDezquN+1pWehZxdNuO95TSSjXBGmCzPT7dnd3P4KhZOOscTZmxuOuffpr/wyOqESldWOtFsFWtvEqGidDljuNL3tyaRzW3QlvOawq2N23H/RCf6yYukcdfTD2+LwIx+ePn4qBWZkWb3ZbHBFBKZ00hZYfsjpfEE1UjagGaVUs/pbArbb9hsIAsUO7HYe+222alJRcnVWVqnPb3p74arZLZxgWYS5ahDf73fGf6/E+X8hXClVKIYq/9KfQP3e7kWrl4dQOv1Be/tF9PrWX+ouF41z77NmbvuvazdgP9eZheFyPDwO9TcysZWeO2RF1wSLOoTLeNzb4hRONU6G6r6JpvHPVvyvvGqlAqDPlG+Bh+fr9yykAV1FcchiviFMyKBNbKqV5oL+sT+3k43F9h57e9wMY72/5z8T70g/bdpi4jv9ccXuEdTe+FLQrdkr0SP1ZRHxP5HS/3vZP1Aav+d/6/gCOa7Q3xlr/WmJDbeJFo633Xr/BZ/fAVz6aNyygZB8IAuuHXC+HwxtKHoaBZPbrl5bCwX/LSe503z/dDRzf2/V+FuDb3Vgf1sPdrqvH/nhROjPWvr0dv8cbMkS8yfzSjyPH58wtrzg+v37F065DoOszHIU3MpKFJmxC3L8rRKGvv89++d/sw/p5d9h9ayls8rLyUyUf2nG9XY/ref0WGqGUfAssMGRW//rxp7e6fLNZ/acfvs4alITXX/oHeug1MkxQtVkRtK7HxN4dULI0af6MyVDa8FLkDQ3jy3FGzpaHNk2ht0fzdnPY0bXlL+Nuv/+ZzF7Dw6WJ3bhvM3dya068iMWyBOM12ryKYKZP6bhi3F3nd7/+0u7xqL9Tl1TydQHcDf3D8dBv29JKZ5Ht6+6apluZdDzTaql0o4RXflErIKz2SsaPb1XEBbj/H9B+Aexhxihj9xZ5Wb1XyqyD/0SHOqPdSqbj8LBvV13ffQNUfjphHn7lY5t/p05cEXbhBd7PbaTRITVmbRTRLdCrDQA42mpTYT8RxrkF/rZB6kAEbUIkQlTKSiJEh8sXFOtssAvBTGnMguw6Z/nsnYmLIvutOlQs4yHeKOmig1WB3zI45di+tMTTPkYz+QMTcEPSQFONj8IEutYgeiyMBUdLnE10QuLsrcL0k40ymJvTGboEfOO/kVrsPm1t6CTnB6GziL2ghvnJuJiEogoUCFghb3RQMR1ZShm9qKUodzJL08Frk06W7Udz1iI0QnlWYr09S2oRfRLVkrhOkAlYlogAzsEbywRlJNvBs1lcJtVJWihBwRJOJ9VaeAQ2v27DRo1Pgt5ylH1MktZHOjthk9oQIm6SoHbVI374YGxIdWSwVlIulPGaziF4pSmxIRpf1bLRSLCbCI9VjkAqQomtRjeOPGIX/SJx2Qsny0nCjNZceqqRXjiOjo9BmxlFUskKuE4/FeqIYoMqskgeusBFPBMy2gc5J6BKyWP8Ct4J8oBawk1nXKHFASVdR+ogvEZRaWHdoqBEiyao9hQwKOZq0giKTDnmuokwlSOIqmdZ5MZzvzALbnqLSixX78mtiL7cc7BVkHO14Ljv6WWTZ7XcbjO14EQqiz13vKIQ15Za31BtIGyAA2kT20uN/ieIRFMTQVoTzuG5L12cpKVTkZ1KXL6vIvdfUlDUW0YH6Rojqb6oS7xL5RAIMSjJVDXWcidBCi85UyS9JUoqJCRIRSuTZjzYaVBLthLcqOBSyERgeEEZKaoKbdBLszNaIeEBfUK49CvYKBfljbn8dSp/i6TnCo6aq5RY1JBUbouEZtwdMpjZESgtMoAGfJCxeqTD8F1kRjMkO6ONm2vDWXkOKcYVNZcDAEh6tfKS3C0EKAnUbMRC2SS88Q7ffDOKIm9lKG2CpqtyLzGPC3suzAQ4EXxIcJjTlCJEleqFZOym16XEIOEqVSZPEc4L2ixYLu2Sq2m2zAXPNEn4J31GHBVKpjMx+5gzrYPXNjcHOWe9dgSGGFBqdoSvaTagMoyb0ovnGZmaikrhKt0EISnd1E/+Ir+ozlLDlODopiPwwlDVKnduC4JdZ6VSjDeCPoF5CCMJ/kyQ1DIIhuBqiD7NZ2donBFPAnDqC2mmkOpA7jBTCEmlQqrdmVCEKWTIFj89NUMxOpek86GibyckjC0Rhm+yY/Q9VE0wwjtAIAIaMMzPaL7UXFh0PHd8CrnWmsc2zdkzij0mJIhTyDET8zAMvGooDWxngpPcFbxDzAkGu4hLbZZwtQBBzXCt0u4gfR5HiINKcJYq7xFDMnjr1KwuCbM070gK6I8XWcYsRAQVFdJgEhqwy7kO2ssZRdHLjEodJ7X0BEkB22Y4814JU/xDJDgkloiEI0lxOZ/VFq11UusnVn0te0i5Q+PotFu5EF1I1WhcWlemakwESVVPWwonPagERbT5uTOzfiVeZ1TK5Wjx9b0ouifCWXdRXdJZONeSlAaklKBZUvt5V+qReo+XJ/TtIkMhxRm31Oxs4UIqx4CtgXdQZyiK05kFHxFmzDSrcxFgJaNqUdQ/2hSbEdZSyQXe/CTVVWC0Rd8HPaOQ5SBiXp/p3iIjfMVVEQP1ArodyxeXpYOl8Efq0lALMlaj/2EqAyIah81StxQArPmHcnMCCya3CCzTUMLSqC8oGUAX5QK1M/qeI8vfBdVcOBPgl0rTtFhVmM1udk6S9LWANUr6haECNnk9xJjh1RGInxz1gY82DUxsnNR605k8NKncuB3Y15DKLRMkwYlzKZNoAv7XNIplFIFTjtFudFkesq/4Tgx6+lZJOmdHQp20MeiYV20oK2hX50EyTZT0bZQ+KfI2mqrpAhowtObQYHhYTQ2fPtbIpjdGc0yC5V7Blq15Gw88ugLi7/OqRsY5rFOH0MKa5kb5GpzyXjB8IiC4bh7bWSsnAu0BGNKplXkdETT95JnzSrKsYVXaedLHCD3k2v7FOKY35YUR48jyJoLlk2sdeRT5/UKmZWEKSCIgK8FkvDZ5BTjj9UWc3/oXpeXd5f9r4f9jkCnvfv/9vw==\", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type text) meta [Serialized.Text = true]) in type table [URL = _t]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(Source,{{\"URL\", type text}})",
+                "in",
+                "    #\"Changed Type\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Month",
+        "annotations": [
+          {
+            "name": "PBI_Id",
+            "value": "c98ab75f-c83d-44a1-a4bf-4e032768be40"
+          },
+          {
+            "name": "LinkedQueryName",
+            "value": "Month"
+          },
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "ID",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "IsHidden"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "isHidden": true,
+            "lineageTag": "0476fade-d923-4474-87d4-44d8decd5d82",
+            "sourceColumn": "ID",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Month",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "IsHidden"
+              }
+            ],
+            "dataType": "string",
+            "isHidden": true,
+            "lineageTag": "35025433-53c8-4278-a48e-62630e993c0c",
+            "sortByColumn": "ID",
+            "sourceColumn": "Month",
+            "summarizeBy": "none"
+          }
+        ],
+        "isHidden": true,
+        "lineageTag": "39ade5a0-3c76-4b24-a645-524bfe398857",
+        "partitions": [
+          {
+            "name": "Month-18692bd2-081e-439c-860a-48a4b29964ea",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(\"i45WMlfSUfJKzCtNLKpUitWJVrIA8t1Sk4rgApZAAd/EouQMMM/QAMh1LCjKzIFwDcGyEJWGRiCzSvNSY/JAJEQMLJQDUQCSdyxNLy0uAXONgdzg1IKS1Nyk1CKwiAlQxD+5JB/GNwXy/fLLEArMgAIuqclQgVgA\", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type text) meta [Serialized.Text = true]) in type table [ID = _t, Month = _t]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(Source,{{\"ID\", Int64.Type}, {\"Month\", type text}}),",
+                "    #\"Replaced Value\" = Table.ReplaceValue(#\"Changed Type\",\"June#(lf)June\",\"June\",Replacer.ReplaceText,{\"Month\"})",
+                "in",
+                "    #\"Replaced Value\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Backorder Percentage",
+        "annotations": [
+          {
+            "name": "PBI_Id",
+            "value": "35f96540-460a-4ca8-8839-8caefc199959"
+          },
+          {
+            "name": "LinkedQueryName",
+            "value": "Backorder Percentage"
+          },
+          {
+            "name": "PBI_QueryRelationships",
+            "value": "{\"columnCount\":14,\"keyColumnNames\":[],\"queryRelationships\":[],\"columnIdentities\":[\"Section1/Backorder Percentage/Changed Type.{Month,0}\",\"Section1/Backorder Percentage/Changed Type.{Region,1}\",\"Section1/Backorder Percentage/Changed Type.{Plant,2}\",\"Section1/Backorder Percentage/Changed Type.{Product Type,3}\",\"Section1/Backorder Percentage/Changed Type.{Forecast Bias,4}\",\"Section1/Backorder Percentage/Changed Type.{Buyer Type,5}\",\"Section1/Backorder Percentage/Changed Type.{Shipment Destination,6}\",\"Section1/Backorder Percentage/Changed Type.{Shipment Type,7}\",\"Section1/Backorder Percentage/Changed Type.{Product ID,8}\",\"Section1/Backorder Percentage/Changed Type.{Forecast Accuracy,9}\",\"Section1/Backorder Percentage/Changed Type.{Brand,10}\",\"Section1/Backorder Percentage/Changed Type.{Backorder %,11}\",\"Section1/Backorder Percentage/Changed Type.{Distribution Center,12}\",\"Section1/Backorder Percentage/Changed Type.{Demand Type,13}\"],\"ColumnCount\":14,\"KeyColumnNames\":[],\"ColumnIdentities\":[\"Section1/Backorder Percentage/Changed Type.{Month,0}\",\"Section1/Backorder Percentage/Changed Type.{Region,1}\",\"Section1/Backorder Percentage/Changed Type.{Plant,2}\",\"Section1/Backorder Percentage/Changed Type.{Product Type,3}\",\"Section1/Backorder Percentage/Changed Type.{Forecast Bias,4}\",\"Section1/Backorder Percentage/Changed Type.{Buyer Type,5}\",\"Section1/Backorder Percentage/Changed Type.{Shipment Destination,6}\",\"Section1/Backorder Percentage/Changed Type.{Shipment Type,7}\",\"Section1/Backorder Percentage/Changed Type.{Product ID,8}\",\"Section1/Backorder Percentage/Changed Type.{Forecast Accuracy,9}\",\"Section1/Backorder Percentage/Changed Type.{Brand,10}\",\"Section1/Backorder Percentage/Changed Type.{Backorder %,11}\",\"Section1/Backorder Percentage/Changed Type.{Distribution Center,12}\",\"Section1/Backorder Percentage/Changed Type.{Demand Type,13}\"],\"RelationshipInfo\":[]}"
+          },
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Month",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "bdd51ac0-3b41-449b-a9b4-4a7c137bca66",
+            "sourceColumn": "Month",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Region",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "0f5b636c-6342-42e5-8654-2fd992bc95b2",
+            "sourceColumn": "Region",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Plant",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "20bdb3bf-bb6c-454e-ad30-aed9ae2f6614",
+            "sourceColumn": "Plant",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Product Type",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "bc47dff4-4cc9-469f-a178-9e78bb70ef05",
+            "sourceColumn": "Product Type",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Forecast Bias",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "e86bf276-d9fa-4914-a1d3-2c4603d84c1a",
+            "sourceColumn": "Forecast Bias",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Buyer Type",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "d12080a6-03bb-43b4-9fcc-69b8574ed25f",
+            "sourceColumn": "Buyer Type",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Shipment Destination",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "eaf09fe3-0099-430b-a81f-809566f947e8",
+            "sourceColumn": "Shipment Destination",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Shipment Type",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "b8a045a8-74a0-4f5f-8ecd-25f44be9dfed",
+            "sourceColumn": "Shipment Type",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Product ID",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "IsHidden"
+              }
+            ],
+            "dataType": "string",
+            "isHidden": true,
+            "lineageTag": "9d88268b-6ffc-4c03-980d-b3992d716a2d",
+            "sourceColumn": "Product ID",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Forecast Accuracy",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "f6aa9e6d-cab2-44e8-93aa-db9315ee19ba",
+            "sourceColumn": "Forecast Accuracy",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Brand",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "00fba4d7-b5f9-4bc3-8163-a69f3fd64fe7",
+            "sourceColumn": "Brand",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Backorder %",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "double",
+            "formatString": "0.00%;-0.00%;0.00%",
+            "lineageTag": "99a437ed-8182-45af-a7ff-8e4d28203b11",
+            "sourceColumn": "Backorder %",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Distribution Center",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "4e70ff0e-4982-4b5a-845c-863e0705f02c",
+            "sourceColumn": "Distribution Center",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Demand Type",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "536fa760-9fc8-4050-94e3-ed8a0dd1a98e",
+            "sourceColumn": "Demand Type",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "576e7a5c-6b49-4566-8065-5b38fed43e66",
+        "measures": [
+          {
+            "name": "% on backorder",
+            "expression": "AVERAGE('Backorder Percentage'[Backorder %])",
+            "formatString": "0.00%;-0.00%;0.00%",
+            "lineageTag": "aabaf3c6-5909-40d3-ab12-c08e7487abec"
+          },
+          {
+            "name": "Backorder $",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"currencyCulture\":\"en-US\"}"
+              }
+            ],
+            "expression": "sum('Backorder Percentage'[Backorder %]) * 10000",
+            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
+            "lineageTag": "22d30b12-c7fc-44cd-aa2a-e38dc2f94963"
+          },
+          {
+            "name": "Product Availability",
+            "expression": "AVERAGE('Backorder Percentage'[Backorder %]) * 15",
+            "formatString": "0.00%;-0.00%;0.00%",
+            "lineageTag": "0e155b18-db3b-4d83-b53d-45de2e870e3e"
+          },
+          {
+            "name": "% on time orders",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "expression": "AVERAGE('Backorder Percentage'[Backorder %])",
+            "lineageTag": "509518a7-86d4-4bc7-af02-2c79024fd97a"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Backorder Percentage-82de19c2-556d-430b-b59c-abf5ede0122a",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Source = Excel.Workbook(File.Contents(\"C:\\Users\\juluczni\\Documents\\Backorders %.xlsx\"), null, true),",
+                "    Sheet1_Sheet = Source{[Item=\"Sheet1\",Kind=\"Sheet\"]}[Data],",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"Month\", type text}, {\"Region\", type text}, {\"Plant\", type text}, {\"Product Type\", type text}, {\"Forecast Bias\", type text}, {\"Buyer Type\", type text}, {\"Shipment Destination\", type text}, {\"Shipment Type\", type text}, {\"Product ID\", type text}, {\"Forecast Accuracy\", type text}, {\"Brand\", type text}, {\"Backorder %\", type number}, {\"Distribution Center\", type text}, {\"Demand Type\", type text}})",
+                "in",
+                "    #\"Changed Type\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

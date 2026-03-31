@@ -68,7 +68,7 @@ Key Design Decisions:
     - **Hand-crafted override**: A curated set of classes
       (``HANDCRAFTED_CLASSES``) is pre-registered with a sentinel signature
       (``"__handcrafted__"``).  These are always substituted with a wildcard
-      import from ``expression_container``.
+      import from ``expressions``.
     - **Last-version-wins init files**: When multiple versions of the same
       schema are generated (e.g., ``semanticQuery/1.2.0`` and ``1.3.0``), the
       schema-level ``__init__.py`` is overwritten each time.  Only the last
@@ -134,29 +134,38 @@ DEFAULT_SCHEMA_ROOT = Path(
     r"/Users/willian/Documents/coding/json-schemas/fabric/item/report/definition"
 )
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-OUTPUT_ROOT = PROJECT_ROOT / "src" / "pybi" / "report" / "models"
+OUTPUT_ROOT = PROJECT_ROOT / "src" / "pybi" / "report" / "pbir" / "models"
 
 # Target schemas to generate: (directory_name, version, schema_filename)
 # Order does NOT matter - the script resolves dependency order automatically.
 TARGET_SCHEMAS: list[tuple[str, str, str]] = [
     ("semanticQuery", "1.2.0", "schema.json"),
     ("semanticQuery", "1.3.0", "schema.json"),
+    ("semanticQuery", "1.4.0", "schema.json"),
     ("formattingObjectDefinitions", "1.4.0", "schema.json"),
+    ("formattingObjectDefinitions", "1.5.0", "schema.json"),
     ("filterConfiguration", "1.2.0", "schema-embedded.json"),
+    ("filterConfiguration", "1.3.0", "schema-embedded.json"),
     ("visualConfiguration", "2.2.0", "schema-embedded.json"),
+    ("visualConfiguration", "2.3.0", "schema-embedded.json"),
     ("visualContainer", "2.3.0", "schema.json"),
     ("visualContainer", "2.4.0", "schema.json"),
     ("visualContainer", "2.5.0", "schema.json"),
     ("visualContainer", "2.6.0", "schema.json"),
+    ("visualContainer", "2.7.0", "schema.json"),
     # PBIR-specific schemas
-    ("versionMetadata", "1.0.0", "schema.json"),
+    # ("versionMetadata", "1.0.0", "schema.json"), # There is a bug in the script that removes the version metadata
     ("pagesMetadata", "1.0.0", "schema.json"),
     ("page", "1.4.0", "schema.json"),
     ("page", "2.0.0", "schema.json"),
+    ("page", "2.1.0", "schema.json"),
+    ("report", "3.0.0", "schema.json"),
     ("report", "3.1.0", "schema.json"),
+    ("report", "3.2.0", "schema.json"),
     ("bookmarksMetadata", "1.0.0", "schema.json"),
     ("bookmark", "1.4.0", "schema.json"),
     ("bookmark", "2.0.0", "schema.json"),
+    ("bookmark", "2.1.0", "schema.json"),
     ("reportExtension", "1.0.0", "schema.json"),
     ("visualContainerMobileState", "2.2.0", "schema.json"),
 ]
@@ -185,7 +194,7 @@ MAX_LINES_WARN = 3000
 # ---------------------------------------------------------------------------
 
 # Classes that are hand-crafted and should not be auto-generated.
-# These are imported from the expression_container module instead.
+# These are imported from the expressions module instead.
 HANDCRAFTED_CLASSES: set[str] = {
     # Main container
     "QueryExpressionContainer",
@@ -269,7 +278,7 @@ HANDCRAFTED_CLASSES: set[str] = {
 }
 
 # Import statement for hand-crafted classes
-HANDCRAFTED_IMPORT = "from ..expression_container import *"
+HANDCRAFTED_IMPORT = "from ..expressions import *"
 
 # Regex pattern to identify QueryExpressionContainer numbered variants
 _QUERY_EXPR_CONTAINER_VARIANT = re.compile(r"^QueryExpressionContainer\d+$")
@@ -441,6 +450,97 @@ def _fix_optional_field_defaults(source: str) -> str:
     return result
 
 
+def _replace_constr_with_annotated(source: str) -> str:
+    """Replace ``constr(...)`` with ``Annotated[str, StringConstraints(...)]``.
+
+    ``datamodel-codegen`` emits Pydantic V1-style ``constr(pattern=..., max_length=...)``
+    calls.  This function rewrites them to the modern Pydantic V2 form using
+    ``Annotated`` and ``StringConstraints``, and adjusts the import block
+    accordingly.
+
+    Uses parenthesis counting instead of a regex to correctly handle pattern
+    strings that contain ``)`` characters (e.g. ``r'^(a|b)$'``).
+    """
+    if "constr(" not in source:
+        return source
+
+    result: list[str] = []
+    i = 0
+    changed = False
+    while i < len(source):
+        if source[i : i + 7] == "constr(":
+            start = i + 7  # position after the opening (
+            depth = 1
+            j = start
+            while j < len(source) and depth > 0:
+                if source[j] == "(":
+                    depth += 1
+                elif source[j] == ")":
+                    depth -= 1
+                j += 1
+            args = source[start : j - 1]
+            result.append(f"Annotated[str, StringConstraints({args})]")
+            i = j
+            changed = True
+        else:
+            result.append(source[i])
+            i += 1
+
+    new_source = "".join(result) if changed else source
+
+    if new_source != source:
+        # Remove constr from pydantic imports if present
+        new_source = re.sub(
+            r"^(from pydantic import .*)\bconstr,?\s*",
+            lambda m: m.group(1),
+            new_source,
+            flags=re.MULTILINE,
+        )
+        # Clean up trailing comma + whitespace before closing or end of line
+        new_source = re.sub(
+            r"(from pydantic import [^)\n]*?),\s*$",
+            r"\1",
+            new_source,
+            flags=re.MULTILINE,
+        )
+
+        # Add Annotated to existing typing import, or create one
+        typing_import = re.search(
+            r"^from typing import (.+)$", new_source, re.MULTILINE
+        )
+        if typing_import:
+            if "Annotated" not in typing_import.group(1):
+                new_source = new_source.replace(
+                    typing_import.group(0),
+                    typing_import.group(0).rstrip() + ", Annotated",
+                )
+        else:
+            new_source = _insert_imports(new_source, ["from typing import Annotated"])
+
+        # Add StringConstraints to existing pydantic import, or create one
+        pydantic_import = re.search(
+            r"^from pydantic import (.+)$", new_source, re.MULTILINE
+        )
+        if pydantic_import:
+            if "StringConstraints" not in pydantic_import.group(1):
+                new_source = new_source.replace(
+                    pydantic_import.group(0),
+                    pydantic_import.group(0).rstrip() + ", StringConstraints",
+                )
+        else:
+            new_source = _insert_imports(
+                new_source, ["from pydantic import StringConstraints"]
+            )
+
+        count = source.count("constr(")
+        log.info(
+            "  Replaced %d constr() call(s) with Annotated[str, StringConstraints(...)]",
+            count,
+        )
+
+    return new_source
+
+
 def _apply_post_generation_fixes(source: str, schema_info: "SchemaInfo") -> str:
     """Apply schema-specific field type corrections from ``POST_GENERATION_FIELD_FIXES``.
 
@@ -485,6 +585,19 @@ def _apply_post_generation_fixes(source: str, schema_info: "SchemaInfo") -> str:
         new_imports = [imp for imp in extra_imports if imp not in source]
         if new_imports:
             source = _insert_imports(source, new_imports)
+
+        # Remove local class definitions that are now shadowed by imports
+        for imp in extra_imports:
+            m = re.match(r"from\s+\S+\s+import\s+(.+)", imp)
+            if m:
+                for name in m.group(1).split(","):
+                    name = name.strip()
+                    if name and name.isidentifier():
+                        block = find_class_block(source, name)
+                        if block:
+                            start, end = block
+                            source = source[:start] + source[end:]
+                            log.info("  Removed shadowed class '%s'", name)
 
     return source
 
@@ -1194,7 +1307,7 @@ def deduplicate_against_registry(
     the origin schema's module.
 
     Hand-crafted classes are imported via a wildcard import from
-    ``expression_container``; auto-generated classes get explicit ``from …
+    ``expressions``; auto-generated classes get explicit ``from …
     import …`` statements built by :func:`_build_relative_import`.
 
     Args:
@@ -1262,11 +1375,10 @@ def deduplicate_against_registry(
     # Build import statements
     import_lines: list[str] = []
 
-    # Add import for hand-crafted classes (use wildcard import)
+    # Add import for hand-crafted classes (explicit names, not wildcard)
     if handcrafted_classes:
-        # Import from the expression_container module
-        # Path: from ...semanticquery.expression_container import *
-        import_lines.append("from ...semanticquery.expression_container import *")
+        classes_str = ", ".join(sorted(handcrafted_classes))
+        import_lines.append(f"from ...semanticquery.expressions import {classes_str}")
         log.info(
             "    Added hand-crafted import for %d classes", len(handcrafted_classes)
         )
@@ -1303,6 +1415,95 @@ def _extract_imported_names(source: str) -> set[str]:
             if name and name.isidentifier():
                 imported.add(name)
     return imported
+
+
+def _remove_unused_imports(source: str) -> str:
+    """Remove imported names that are not referenced in the rest of the file.
+
+    After deduplication replaces local class definitions with imports, some
+    of those imported names may not actually be used anywhere in the file
+    (e.g., the class was defined but never referenced as a field type).
+    This function removes those unused names from import statements.
+
+    Wildcard imports (``from … import *``) are left untouched.
+
+    Args:
+        source: Python source text.
+
+    Returns:
+        The source with unused import names removed.
+    """
+    lines = source.split("\n")
+    import_pattern = re.compile(r"^from\s+(\S+)\s+import\s+(.+)$")
+    output_lines: list[str] = []
+
+    for line in lines:
+        m = import_pattern.match(line)
+        if not m or "*" in m.group(2):
+            output_lines.append(line)
+            continue
+
+        module = m.group(1)
+        raw_names = [n.strip() for n in m.group(2).split(",") if n.strip()]
+
+        # Check each name: is it referenced outside of import lines?
+        # Build a version of source without any import lines to search in
+        used_names: list[str] = []
+        for name in raw_names:
+            # Get the actual name (handle "X as Y" aliases)
+            local_name = name.split(" as ")[-1].strip()
+            # Check if the name appears anywhere in the file outside this import
+            # Use word-boundary search in non-import lines
+            pattern = re.compile(rf"\b{re.escape(local_name)}\b")
+            found = False
+            for other_line in lines:
+                if other_line == line:
+                    continue
+                # Skip other import lines when checking for usage
+                if import_pattern.match(other_line):
+                    continue
+                if pattern.search(other_line):
+                    found = True
+                    break
+            if found:
+                used_names.append(name)
+
+        if used_names:
+            names_str = ", ".join(used_names)
+            output_lines.append(f"from {module} import {names_str}")
+        # else: drop the entire import line
+
+    return "\n".join(output_lines)
+
+
+def _remove_stale_rebuild_calls(source: str) -> str:
+    """Remove ``.model_rebuild()`` calls for classes not defined in the file.
+
+    After deduplication removes class definitions (replacing them with imports),
+    the corresponding ``ClassName.model_rebuild()`` calls become stale — they
+    are unnecessary for imported classes.  This function removes them.
+
+    Args:
+        source: Python source text.
+
+    Returns:
+        The source with stale ``.model_rebuild()`` calls removed.
+    """
+    defined_classes = set(extract_class_names(source))
+    lines = source.split("\n")
+    output_lines: list[str] = []
+
+    rebuild_pattern = re.compile(r"^(\w+)\.model_rebuild\(\)$")
+
+    for line in lines:
+        m = rebuild_pattern.match(line.strip())
+        if m:
+            class_name = m.group(1)
+            if class_name not in defined_classes:
+                continue  # Skip rebuild for non-local class
+        output_lines.append(line)
+
+    return "\n".join(output_lines)
 
 
 def merge_numbered_variants(source: str) -> str:
@@ -1346,10 +1547,8 @@ def merge_numbered_variants(source: str) -> str:
     # the base class was already generated in a dependency schema and imported.
     imported_names = _extract_imported_names(source)
 
-    # Check for wildcard imports from expression_container which imports all hand-crafted classes
-    has_handcrafted_import = (
-        "from ...semanticquery.expression_container import *" in source
-    )
+    # Check for wildcard imports from expressions which imports all hand-crafted classes
+    has_handcrafted_import = "from ...semanticquery.expressions import *" in source
 
     # Combine available names: local classes + imported names + hand-crafted (if imported)
     available_names = set(class_names) | imported_names
@@ -1825,7 +2024,7 @@ def remove_handcrafted_classes(source: str, schema_info: SchemaInfo) -> str:
 
     For the ``semanticQuery`` schema, a curated set of classes (listed in
     ``HANDCRAFTED_CLASSES``) has hand-crafted implementations in
-    ``expression_container.py``.  This function:
+    ``expressions.py``.  This function:
 
     1. Removes the auto-generated class definition for each hand-crafted class.
     2. Removes all ``QueryExpressionContainer`` numbered variants
@@ -1881,9 +2080,16 @@ def remove_handcrafted_classes(source: str, schema_info: SchemaInfo) -> str:
     source = _deduplicate_list_items(source)
     source = _deduplicate_rebuild_calls(source)
 
-    # Add import for hand-crafted classes (only for semanticQuery schema)
+    # Add explicit import for hand-crafted classes (only for semanticQuery schema)
     if schema_info.name == "semanticQuery":
-        source = _insert_imports(source, [HANDCRAFTED_IMPORT])
+        handcrafted_names = sorted(
+            cls for cls in classes_to_remove if cls in HANDCRAFTED_CLASSES
+        )
+        if handcrafted_names:
+            classes_str = ", ".join(handcrafted_names)
+            source = _insert_imports(
+                source, [f"from ..expressions import {classes_str}"]
+            )
 
     # Remove any resulting blank line clusters
     source = re.sub(r"\n{4,}", "\n\n\n", source)
@@ -1902,11 +2108,11 @@ def pre_register_handcrafted_classes(registry: ClassRegistry) -> None:
 
     Note:
         The schema key ``"semanticQuery/1.3.0"`` is hardcoded because the
-        hand-crafted ``expression_container.py`` module lives alongside the
+        hand-crafted ``expressions.py`` module lives alongside the
         1.3.0 generated models and is shared across all versions.
     """
     # Register all hand-crafted classes as belonging to semanticQuery
-    import_path = "semanticquery.expression_container"
+    import_path = "semanticquery.expressions"
     schema_key = "semanticQuery/1.3.0"
 
     for cls_name in HANDCRAFTED_CLASSES:
@@ -1934,7 +2140,7 @@ def create_init_files(schema_info: SchemaInfo) -> None:
       everything from ``model.py``.
     - **Schema-level** (``{schema}/__init__.py``): re-exports from the
       version directory.  For ``semanticQuery``, also re-exports from
-      ``expression_container``.
+      ``expressions``.
 
     Note:
         When multiple versions of the same schema are generated, the
@@ -1950,7 +2156,7 @@ def create_init_files(schema_info: SchemaInfo) -> None:
 
     schema_init = OUTPUT_ROOT / schema_info.module_name / "__init__.py"
 
-    # Special handling for semanticQuery: also export hand-crafted expression_container
+    # Special handling for semanticQuery: also export hand-crafted expressions
     if schema_info.name == "semanticQuery":
         schema_init.write_text(
             f'"""SemanticQuery models package.\n'
@@ -1960,7 +2166,7 @@ def create_init_files(schema_info: SchemaInfo) -> None:
             f'"""\n'
             f"\n"
             f"# Export the hand-crafted expression container (always available)\n"
-            f"from .expression_container import *  # noqa: F401, F403\n"
+            f"from .expressions import *  # noqa: F401, F403\n"
             f"\n"
             f"# Export generated models\n"
             f"from .{schema_info.version_dir}.model import *  # noqa: F401, F403\n",
@@ -2198,11 +2404,20 @@ def generate_all(
         # serialised with exclude_none=True this causes spurious output.
         source = _fix_optional_field_defaults(source)
 
+        # 4f½: Replace constr() with Annotated[str, StringConstraints(...)].
+        source = _replace_constr_with_annotated(source)
+
         # 4g: Apply any schema-specific field type corrections (e.g. class-name
         # collisions that the generic dedup step cannot resolve automatically).
         source = _apply_post_generation_fixes(source, schema_info)
 
-        # 4h: Write the post-processed source
+        # 4h: Remove .model_rebuild() for classes not defined in this file
+        source = _remove_stale_rebuild_calls(source)
+
+        # 4i: Remove unused imports left by deduplication/merging
+        source = _remove_unused_imports(source)
+
+        # 4j: Write the post-processed source
         schema_info.output_file.write_text(source, encoding="utf-8")
         final_lines = source.count("\n")
 

@@ -1,0 +1,141 @@
+{
+  "triggerPrompts": [
+    {
+      "prompt": "What is the distribution of opportunities by region?"
+    },
+    {
+      "prompt": "How are opportunities spread across different regions?"
+    }
+  ],
+  "contactObjectId": "ae4a1fc7-4395-46d3-b2f1-3b3c37036ad1",
+  "sourceMetadata": {
+    "visualMetadata": {
+      "themeCollection": {
+        "baseTheme": {
+          "name": "CY20SU09",
+          "reportVersionAtImport": "5.16",
+          "type": "SharedResources"
+        },
+        "customTheme": {
+          "name": "Classroom10888586425032654.json",
+          "reportVersionAtImport": "5.16",
+          "type": "RegisteredResources"
+        }
+      },
+      "resourcePackages": [
+        {
+          "name": "SharedResources",
+          "type": "SharedResources",
+          "items": [
+            {
+              "name": "CY20SU09",
+              "path": "ResourcePackages/SharedResources/5daaf5a5f5cf5bd00c1a65dbcaf04b1a-CY20SU09.json",
+              "type": "BaseTheme"
+            }
+          ]
+        },
+        {
+          "name": "RegisteredResources",
+          "type": "RegisteredResources",
+          "items": [
+            {
+              "name": "Classroom10888586425032654.json",
+              "path": "ResourcePackages/RegisteredResources/ee821d720a30eaf53e30098633110475-Classroom10888586425032654.json",
+              "type": "Image"
+            }
+          ]
+        }
+      ],
+      "cache": {
+        "key": "eyJ2aXN1YWxUeXBlIjoidHJlZW1hcCIsInF1ZXJ5Ijp7InF1ZXJ5U3RhdGUiOnsiR3JvdXAiOnsicHJvamVjdGlvbnMiOlt7ImZpZWxkIjp7IkNvbHVtbiI6eyJFeHByZXNzaW9uIjp7IlNvdXJjZVJlZiI6eyJFbnRpdHkiOiJBY2NvdW50cyJ9fSwiUHJvcGVydHkiOiJSZWdpb24ifX0sInF1ZXJ5UmVmIjoiQWNjb3VudC5SZWdpb24iLCJhY3RpdmUiOnRydWV9LHsiZmllbGQiOnsiQ29sdW1uIjp7IkV4cHJlc3Npb24iOnsiU291cmNlUmVmIjp7IkVudGl0eSI6IkFjY291bnRzIn19LCJQcm9wZXJ0eSI6IlN0YXRlIn19LCJxdWVyeVJlZiI6IkFjY291bnQuU3RhdGUiLCJhY3RpdmUiOmZhbHNlfV19LCJWYWx1ZXMiOnsicHJvamVjdGlvbnMiOlt7ImZpZWxkIjp7Ik1lYXN1cmUiOnsiRXhwcmVzc2lvbiI6eyJTb3VyY2VSZWYiOnsiRW50aXR5IjoiU2FsZXMifX0sIlByb3BlcnR5IjoiVG90YWwgT3Bwb3J0dW5pdHkgQ291bnQifX0sInF1ZXJ5UmVmIjoiRmFjdC5PcHBvcnR1bml0eSBDb3VudCJ9XX19fSwib2JqZWN0cyI6eyJjYXRlZ29yeUxhYmVscyI6W3sicHJvcGVydGllcyI6eyJmb250U2l6ZSI6eyJleHByIjp7IkxpdGVyYWwiOnsiVmFsdWUiOiI4RCJ9fX19fV19LCJ2aXN1YWxDb250YWluZXJPYmplY3RzIjp7InRpdGxlIjpbeyJwcm9wZXJ0aWVzIjp7ImZvbnRTaXplIjp7ImV4cHIiOnsiTGl0ZXJhbCI6eyJWYWx1ZSI6IjEyRCJ9fX19fV0sInZpc3VhbEhlYWRlciI6W3sicHJvcGVydGllcyI6eyJzaG93UGVyc29uYWxpemVWaXN1YWxCdXR0b24iOnsiZXhwciI6eyJMaXRlcmFsIjp7IlZhbHVlIjoiZmFsc2UifX19fX1dfX17ImZpbHRlcnMiOlt7Im5hbWUiOiI5OTAzNThmMDBlMDIwMjcxMDJkZSIsImRpc3BsYXlOYW1lIjoiUmVnaW9uIiwib3JkaW5hbCI6MCwiZmllbGQiOnsiQ29sdW1uIjp7IkV4cHJlc3Npb24iOnsiU291cmNlUmVmIjp7IkVudGl0eSI6IkFjY291bnRzIn19LCJQcm9wZXJ0eSI6IlJlZ2lvbiJ9fSwidHlwZSI6IkNhdGVnb3JpY2FsIiwiaXNMb2NrZWRJblZpZXdNb2RlIjp0cnVlfSx7Im5hbWUiOiJGaWx0ZXIyNGY2YTlkNTdlNTZlY2QwYTI3OSIsImRpc3BsYXlOYW1lIjoiU2FsZXMgU3RhZ2UiLCJvcmRpbmFsIjoxLCJmaWVsZCI6eyJDb2x1bW4iOnsiRXhwcmVzc2lvbiI6eyJTb3VyY2VSZWYiOnsiRW50aXR5IjoiU2FsZXNTdGFnZXMifX0sIlByb3BlcnR5IjoiU2FsZXMgU3RhZ2UifX0sInR5cGUiOiJDYXRlZ29yaWNhbCIsImhvd0NyZWF0ZWQiOiJVc2VyIiwib2JqZWN0cyI6eyJnZW5lcmFsIjpbeyJwcm9wZXJ0aWVzIjp7ImlzSW52ZXJ0ZWRTZWxlY3Rpb25Nb2RlIjp7ImV4cHIiOnsiTGl0ZXJhbCI6eyJWYWx1ZSI6InRydWUifX19fX1dfX0seyJuYW1lIjoiZTk3MDI5MzI5NTBiYWU4MjU1NmIiLCJkaXNwbGF5TmFtZSI6IlN0YXRlIiwib3JkaW5hbCI6MiwiZmllbGQiOnsiQ29sdW1uIjp7IkV4cHJlc3Npb24iOnsiU291cmNlUmVmIjp7IkVudGl0eSI6IkFjY291bnRzIn19LCJQcm9wZXJ0eSI6IlN0YXRlIn19LCJ0eXBlIjoiQ2F0ZWdvcmljYWwiLCJpc0xvY2tlZEluVmlld01vZGUiOnRydWV9LHsibmFtZSI6ImNhNWJkMGE2MDM1MjRjNmM2ZDg4IiwiZGlzcGxheU5hbWUiOiJUb3RhbCBPcHBvcnR1bml0eSBDb3VudCIsIm9yZGluYWwiOjMsImZpZWxkIjp7Ik1lYXN1cmUiOnsiRXhwcmVzc2lvbiI6eyJTb3VyY2VSZWYiOnsiRW50aXR5IjoiU2FsZXMifX0sIlByb3BlcnR5IjoiVG90YWwgT3Bwb3J0dW5pdHkgQ291bnQifX0sInR5cGUiOiJBZHZhbmNlZCIsImlzTG9ja2VkSW5WaWV3TW9kZSI6dHJ1ZX1dfQ==",
+        "query": {
+          "Query": {
+            "Version": 2,
+            "From": [
+              {
+                "Name": "a",
+                "Entity": "Accounts"
+              },
+              {
+                "Name": "f",
+                "Entity": "Sales"
+              }
+            ],
+            "Where": [],
+            "OrderBy": [
+              {
+                "Expression": {
+                  "Measure": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Source": "f"
+                      }
+                    },
+                    "Property": "Total Opportunity Count"
+                  }
+                },
+                "Direction": 2
+              }
+            ],
+            "Select": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Source": "a"
+                    }
+                  },
+                  "Property": "Region"
+                },
+                "Name": "Account.Region"
+              },
+              {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Source": "f"
+                    }
+                  },
+                  "Property": "Total Opportunity Count"
+                },
+                "Name": "Fact.Opportunity Count"
+              },
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Source": "a"
+                    }
+                  },
+                  "Property": "State"
+                },
+                "Name": "Account.State"
+              }
+            ],
+            "GroupBy": []
+          },
+          "Binding": {
+            "Version": 1,
+            "Primary": {
+              "Groupings": [
+                {
+                  "Projections": [
+                    0,
+                    1
+                  ]
+                }
+              ]
+            },
+            "DataReduction": {
+              "Primary": {
+                "Top": {}
+              },
+              "DataVolume": 3
+            }
+          }
+        }
+      }
+    }
+  },
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/verifiedAnswers/definition/1.0.0/schema.json"
+}

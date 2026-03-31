@@ -1,0 +1,150 @@
+table Customer
+	lineageTag: a5974167-47c2-4f10-851b-a9b36245bddd
+
+	column ID
+		dataType: int64
+		formatString: 0
+		lineageTag: 3b7be8e0-e042-4490-b32e-65973b81ec20
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Unit
+		dataType: int64
+		formatString: 0
+		lineageTag: 46ab0a74-2701-4599-a92a-8bda599ad70b
+		summarizeBy: sum
+		sourceColumn: Unit
+
+		annotation SummarizationSetBy = Automatic
+
+	column Gender
+		dataType: string
+		lineageTag: e5478605-21a7-493d-ac01-0becf9263db3
+		summarizeBy: none
+		sourceColumn: Gender
+
+		annotation SummarizationSetBy = Automatic
+
+	column Product
+		dataType: string
+		lineageTag: 19e8b977-d14b-4e21-b3c2-a1d34605735e
+		summarizeBy: none
+		sourceColumn: Product
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: 562bc98a-3768-4e94-a1d2-a638273e2957
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column Segment
+		dataType: string
+		lineageTag: f8de124b-4750-4d20-9d5d-88aa489dae12
+		summarizeBy: none
+		sourceColumn: Segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column Store
+		dataType: string
+		lineageTag: 52fbe6e6-25b7-4a56-b342-a503dded4d99
+		summarizeBy: none
+		sourceColumn: Store
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type
+		dataType: string
+		lineageTag: 4aa3e4fa-71e2-482d-ad5e-b7149394067b
+		summarizeBy: none
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Issue
+		dataType: string
+		lineageTag: cd656518-c8fc-4355-8f51-8d790dc58e19
+		summarizeBy: none
+		sourceColumn: Issue
+
+		annotation SummarizationSetBy = Automatic
+
+	column Promotion
+		dataType: string
+		lineageTag: ada26483-f8ab-41c8-88b0-0ab8b68959b0
+		summarizeBy: none
+		sourceColumn: Promotion
+
+		annotation SummarizationSetBy = Automatic
+
+	column Amount
+		dataType: int64
+		formatString: \$#,0;-\$#,0;\$#,0
+		lineageTag: 0f3e8104-04cc-4713-b482-7a1f94571269
+		summarizeBy: sum
+		sourceColumn: Amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-CA"}
+
+	column Age
+		dataType: string
+		lineageTag: 67931895-b96b-490d-8793-1621c7996579
+		summarizeBy: none
+		sourceColumn: Age
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Price Range'
+		dataType: string
+		lineageTag: ff86a5de-e0e4-4583-b2a8-1190a79c4587
+		summarizeBy: none
+		sourceColumn: Price Range
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Customer-7e8cffbe-9644-4d2a-9653-8804b02c15eb = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\mimyersm\Desktop\Sales & Marketing Datas.xlsx"), null, true),
+				    Data_Sheet = Source{[Item="Data",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Data_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ID", Int64.Type}, {"ProductID", Int64.Type}, {"StoreID", Int64.Type}, {"Unit", Int64.Type}, {"Week", Int64.Type}, {"Gender", type text}, {"Age", Int64.Type}, {"Status", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Status"}),
+				    #"Merged Queries" = Table.NestedJoin(#"Removed Columns", {"ProductID"}, Product, {"ProductID"}, "Product", JoinKind.LeftOuter),
+				    #"Expanded Product" = Table.ExpandTableColumn(#"Merged Queries", "Product", {"Product", "Category", "Segment", "Price", "Price Range"}, {"Product.1", "Category", "Segment", "Price", "Price Range"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Expanded Product",{{"Product.1", "Product"}}),
+				    #"Removed Columns1" = Table.RemoveColumns(#"Renamed Columns",{"ProductID"}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Removed Columns1","M","Male",Replacer.ReplaceText,{"Gender"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","F","Female",Replacer.ReplaceText,{"Gender"}),
+				    #"Merged Queries1" = Table.NestedJoin(#"Replaced Value1", {"StoreID"}, Store, {"StoreID"}, "Store", JoinKind.LeftOuter),
+				    #"Expanded Store" = Table.ExpandTableColumn(#"Merged Queries1", "Store", {"Store", "Type"}, {"Store.1", "Type"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Expanded Store",{{"Store.1", "Store"}}),
+				    #"Merged Queries2" = Table.NestedJoin(#"Renamed Columns1", {"ID"}, #"Issues and Promotions", {"ID"}, "Issues and Promotions", JoinKind.LeftOuter),
+				    #"Removed Columns2" = Table.RemoveColumns(#"Merged Queries2",{"StoreID"}),
+				    #"Expanded Issues and Promotions" = Table.ExpandTableColumn(#"Removed Columns2", "Issues and Promotions", {"Issue", "Promotion"}, {"Issue", "Promotion"}),
+				    #"Removed Columns3" = Table.RemoveColumns(#"Expanded Issues and Promotions",{"Week"}),
+				    #"Merged Queries3" = Table.NestedJoin(#"Removed Columns3", {"ID"}, Sales, {"ID"}, "Sales", JoinKind.LeftOuter),
+				    #"Expanded Sales" = Table.ExpandTableColumn(#"Merged Queries3", "Sales", {"Amount"}, {"Amount"}),
+				    #"Merged Queries4" = Table.NestedJoin(#"Expanded Sales", {"Age"}, Age, {"Age"}, "Age.1", JoinKind.LeftOuter),
+				    #"Expanded Age.1" = Table.ExpandTableColumn(#"Merged Queries4", "Age.1", {"Age Bucket"}, {"Age Bucket"}),
+				    #"Removed Columns4" = Table.RemoveColumns(#"Expanded Age.1",{"Age"}),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Removed Columns4",{{"Age Bucket", "Age"}}),
+				    #"Removed Columns5" = Table.RemoveColumns(#"Renamed Columns2",{"Price"})
+				in
+				    #"Removed Columns5"
+
+	annotation PBI_QueryRelationships = {"columnCount":13,"keyColumnNames":[],"queryRelationships":[{"keyColumnCount":1,"keyColumn":0,"otherKeyColumnIdentity":"Section1/Issues and Promotions/Changed Type.{ID,0}","KeyColumnCount":1},{"keyColumnCount":1,"keyColumn":0,"otherKeyColumnIdentity":"Section1/Sales/Changed Type.{ID,0}","KeyColumnCount":1}],"columnIdentities":["Section1/Customer/Changed Type.{ID,0}","Section1/Customer/Changed Type.{Unit,3}","Section1/Customer/Replaced Value1.{Gender,4}","Section1/Product/Changed Type.{Product,0}","Section1/Product/Changed Type.{Category,2}","Section1/Product/Changed Type.{Segment,4}","Section1/Product/Source.{Price Range,11}","Section1/Store/Changed Type.{Manufacturer,1}","Section1/Store/Changed Type.{Type,2}","Section1/Issues and Promotions/Changed Type.{Issue,1}","Section1/Issues and Promotions/Changed Type.{Promotion,2}","Section1/Sales/Inserted Multiplication.{Multiplication,9}","Section1/Age/Changed Type.{Age Bucket,1}"],"ColumnCount":13,"KeyColumnNames":[],"ColumnIdentities":["Section1/Customer/Changed Type.{ID,0}","Section1/Customer/Changed Type.{Unit,3}","Section1/Customer/Replaced Value1.{Gender,4}","Section1/Product/Changed Type.{Product,0}","Section1/Product/Changed Type.{Category,2}","Section1/Product/Changed Type.{Segment,4}","Section1/Product/Source.{Price Range,11}","Section1/Store/Changed Type.{Manufacturer,1}","Section1/Store/Changed Type.{Type,2}","Section1/Issues and Promotions/Changed Type.{Issue,1}","Section1/Issues and Promotions/Changed Type.{Promotion,2}","Section1/Sales/Inserted Multiplication.{Multiplication,9}","Section1/Age/Changed Type.{Age Bucket,1}"],"RelationshipInfo":[{"keyColumnCount":1,"keyColumn":0,"otherKeyColumnIdentity":"Section1/Issues and Promotions/Changed Type.{ID,0}","KeyColumnCount":1},{"keyColumnCount":1,"keyColumn":0,"otherKeyColumnIdentity":"Section1/Sales/Changed Type.{ID,0}","KeyColumnCount":1}]}
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+

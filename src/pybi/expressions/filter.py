@@ -1,0 +1,55 @@
+from enum import Enum
+
+from pydantic import BaseModel, ConfigDict, field_serializer
+
+from ..report.pbir.models.semanticquery.expressions import (
+    FilterDefinition,
+    QueryExpressionContainer,
+)
+
+
+class FilterTypeEnum(Enum):
+    CATEGORICAL = "Categorical"
+    ADVANCED = "Advanced"
+    TOPN = "TopN"
+    RELATIVE_DATE = "RelativeDate"
+    PASSTHROUGH = "Passthrough"
+
+
+class FilterObjectProperty(BaseModel):
+    expr: QueryExpressionContainer
+
+
+class FilterObjectProperties(BaseModel):
+    isInvertedSelectionMode: FilterObjectProperty | None = None
+    requireSingleSelect: FilterObjectProperty | None = None
+
+
+class FilterObjectEntry(BaseModel):
+    properties: FilterObjectProperties
+
+
+class FilterObjects(BaseModel):
+    general: list[FilterObjectEntry] | None = None
+
+
+class Filter(BaseModel):
+    model_config = ConfigDict(
+        extra="allow",
+    )
+    name: str | None = None
+    expression: QueryExpressionContainer | None = None
+    filter: FilterDefinition | None = None
+    type: FilterTypeEnum = FilterTypeEnum("Categorical")
+    cachedDisplayNames: list | None = None  # TODO: list of what?
+    howCreated: int | None = None
+    objects: FilterObjects | None = None
+    isHiddenInViewMode: bool | None = None
+    isLockedInViewMode: bool | None = None
+    displayName: str | None = None
+    ordinal: int | None = None
+
+    @field_serializer("type", when_used="always")
+    @classmethod
+    def ser_type(cls, type: FilterTypeEnum) -> str:
+        return type.value

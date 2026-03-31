@@ -1,0 +1,687 @@
+table Indicators
+	lineageTag: 1e777276-e70b-4838-a9d0-f1d4099c7173
+
+	measure 'Health Expenditure Government Change' = If(not(isblank(CALCULATE(AVERAGE(Indicators[Per capita government expenditure on health (PPP int. $)]), 'Year'[Year] = 2016))) && not(isblank(CALCULATE(AVERAGE(Indicators[Per capita government expenditure on health (PPP int. $)]), 'Year'[Year] = 2010))), CALCULATE(AVERAGE([Per capita government expenditure on health (PPP int. $)]), 'Year'[Year] = 2016) - CALCULATE(AVERAGE(Indicators[Per capita government expenditure on health (PPP int. $)]), 'Year'[Year] = 2010))
+		lineageTag: bd22b761-845f-4f35-9ac9-eef33d8578c6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Measure
+		lineageTag: de03bddc-259e-465b-bd05-530c7b831979
+
+		annotation 43dbc3e8-3a1c-4b6f-9923-b49ff7d6691c = True
+
+	measure 'Measure 2'
+		lineageTag: 8a94cef7-ac0d-4372-9dcf-6c17e307e3db
+
+		annotation 43dbc3e8-3a1c-4b6f-9923-b49ff7d6691c = True
+
+	measure 'Life expectancy' = average(Indicators[Life expectancy (yrs)])
+		displayFolder: 01 Socio-economic KPIs
+		lineageTag: 5673b396-9d5b-40bc-a60e-8f473bce472e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Year
+		dataType: int64
+		formatString: 0
+		displayFolder: 01 Socio-economic KPIs
+		lineageTag: 390658fd-f277-4d65-80a6-cfe0f6742574
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 77db5be8-c375-4259-8f03-eb0a77129e8c
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Country Code'
+		dataType: string
+		lineageTag: 8b6d3355-85ec-44b7-b759-706314a4f0ff
+		summarizeBy: none
+		sourceColumn: Country Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: dcb4b460-e10a-4c36-9db4-69bd5cc6928f
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sex
+		dataType: string
+		lineageTag: 125eb7ec-bdfc-45da-a638-fe6da024fe3d
+		summarizeBy: none
+		sourceColumn: Sex
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cholera case fatality rate'
+		dataType: int64
+		formatString: 0
+		lineageTag: db0c1b1c-7f0d-43cd-a174-8818c941c952
+		summarizeBy: sum
+		sourceColumn: Cholera case fatality rate
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Number of neonatal deaths (thousands)'
+		dataType: int64
+		formatString: 0
+		lineageTag: e23a61e4-3f84-406e-8bc7-8c9c08453a77
+		summarizeBy: sum
+		sourceColumn: Number of neonatal deaths (thousands)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Malaria - number of reported deaths'
+		dataType: int64
+		formatString: 0
+		lineageTag: bf2b6a5b-7cf5-446c-b1ff-1df4ffd6cde6
+		summarizeBy: sum
+		sourceColumn: Malaria - number of reported deaths
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Estimated number of malaria deaths'
+		dataType: int64
+		formatString: 0
+		lineageTag: 800ad3fb-4338-4f91-a9c7-f2bfb9c82f93
+		summarizeBy: sum
+		sourceColumn: Estimated number of malaria deaths
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Under-five mortality rate (probability of dying by age 5 per 1000 live births)'
+		dataType: int64
+		formatString: 0
+		lineageTag: 943c2033-003f-45de-a9d1-635002a0f7f8
+		summarizeBy: sum
+		sourceColumn: Under-five mortality rate (probability of dying by age 5 per 1000 live births)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Children aged <5 years sleeping under insecticide-treated nets (%)'
+		dataType: int64
+		formatString: 0
+		lineageTag: 45b8e3a9-6e76-459f-9678-f7bcd713058c
+		summarizeBy: sum
+		sourceColumn: Children aged <5 years sleeping under insecticide-treated nets (%)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Incidence of tuberculosis (per 100 000 population per year)'
+		dataType: int64
+		formatString: 0
+		lineageTag: e48d5d1e-f037-4058-88fa-619f8c4c060b
+		summarizeBy: sum
+		sourceColumn: Incidence of tuberculosis (per 100 000 population per year)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Prevalence of tuberculosis (per 100 000 population)'
+		dataType: int64
+		formatString: 0
+		lineageTag: ec230bb1-6108-4cd7-81a9-145cd688a82b
+		summarizeBy: sum
+		sourceColumn: Prevalence of tuberculosis (per 100 000 population)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Births attended by skilled health personnel, among girls aged 15-19 (%)'
+		dataType: int64
+		formatString: 0
+		lineageTag: c06cb4e1-3e99-4a38-9f0f-241f32707f79
+		summarizeBy: sum
+		sourceColumn: Births attended by skilled health personnel, among girls aged 15-19 (%)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Maternal mortality ratio (per 100 000 live births)'
+		dataType: int64
+		formatString: 0
+		lineageTag: 4cfe1a5f-58f0-4157-ba69-7963d7a0d440
+		summarizeBy: sum
+		sourceColumn: Maternal mortality ratio (per 100 000 live births)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Life expectancy at birth (years)'
+		dataType: int64
+		formatString: 0
+		lineageTag: 27882e19-4f6b-49d2-bb83-ff880c07a904
+		summarizeBy: sum
+		sourceColumn: Life expectancy at birth (years)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Neonatal mortality rate (per 1000 live births)'
+		dataType: int64
+		formatString: 0
+		lineageTag: 043b8bca-871b-4fc5-b316-26efb8df9e4e
+		summarizeBy: sum
+		sourceColumn: Neonatal mortality rate (per 1000 live births)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Life expectancy at age 60 (years)'
+		dataType: int64
+		formatString: 0
+		lineageTag: 50063520-18e3-4758-9c44-a42ff9194e71
+		summarizeBy: sum
+		sourceColumn: Life expectancy at age 60 (years)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hepatitis B (HepB3) immunization coverage among 1-year-olds (%)'
+		dataType: int64
+		formatString: 0
+		lineageTag: 0501dec0-d238-436b-a2c7-ec7b136fb224
+		summarizeBy: sum
+		sourceColumn: Hepatitis B (HepB3) immunization coverage among 1-year-olds (%)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hib (Hib3) immunization coverage among 1-year-olds (%)'
+		dataType: int64
+		formatString: 0
+		lineageTag: 2a5f054e-64cb-48cc-86cc-dd6fea5d072f
+		summarizeBy: sum
+		sourceColumn: Hib (Hib3) immunization coverage among 1-year-olds (%)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hospital beds (per 10 000 population)'
+		dataType: int64
+		formatString: 0
+		lineageTag: 45eb3cbe-a3da-4ba1-8a25-b78be5181ec8
+		summarizeBy: sum
+		sourceColumn: Hospital beds (per 10 000 population)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'General government expenditure on health as a percentage of total government expenditure'
+		dataType: int64
+		formatString: 0
+		lineageTag: 0b000ce8-4f02-4d31-a973-8a239f30b10b
+		summarizeBy: sum
+		sourceColumn: General government expenditure on health as a percentage of total government expenditure
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'General government expenditure on health as a percentage of total expenditure on health'
+		dataType: int64
+		formatString: 0
+		lineageTag: 0fb85dea-f2c3-43aa-a9ef-25a77c792929
+		summarizeBy: sum
+		sourceColumn: General government expenditure on health as a percentage of total expenditure on health
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"Indicators","TableItemName":"General government expenditure on health as a percentage of total expenditure on health (bins)","ObjectType":4},"LinkType":"UsedInGroup"}]
+
+	column 'Measles-containing-vaccine first-dose (MCV1) immunization coverage among 1-year-olds (%)'
+		dataType: int64
+		formatString: 0
+		lineageTag: 2a5c5fb1-ed86-4090-a768-6ee75c5c0d6d
+		summarizeBy: sum
+		sourceColumn: Measles-containing-vaccine first-dose (MCV1) immunization coverage among 1-year-olds (%)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Gross national income per capita (PPP int. $)'
+		dataType: int64
+		formatString: 0
+		lineageTag: 83ece6ad-6722-4596-a61e-f73522fedc8d
+		summarizeBy: sum
+		sourceColumn: Gross national income per capita (PPP int. $)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Number of community health workers'
+		dataType: int64
+		formatString: 0
+		lineageTag: fc1eb9f1-ab7f-4d8b-a709-65e818c0115c
+		summarizeBy: sum
+		sourceColumn: Number of community health workers
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Community health workers density (per 10 000 population)'
+		dataType: int64
+		formatString: 0
+		lineageTag: cd391912-b1eb-47dc-99eb-6a0fe5a54c09
+		summarizeBy: sum
+		sourceColumn: Community health workers density (per 10 000 population)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Children aged <5 years with ARI symptoms who took antibiotic treatment (%)'
+		dataType: int64
+		formatString: 0
+		lineageTag: 464ca244-0898-458b-a978-97db7881e1ff
+		summarizeBy: sum
+		sourceColumn: Children aged <5 years with ARI symptoms who took antibiotic treatment (%)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Income share held by lowest 20%'
+		dataType: double
+		lineageTag: 0d9eafe4-fa7c-465b-9686-2d76e25ad783
+		summarizeBy: sum
+		sourceColumn: Income share held by lowest 20%
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"Indicators","TableItemName":"Income share held by lowest 20% (bins)","ObjectType":4},"LinkType":"UsedInGroup"}]
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '% of population living on less than $1.90 per day'
+		dataType: double
+		lineageTag: dc7825eb-55d4-49bd-93f4-169c70c2b5a2
+		summarizeBy: none
+		sourceColumn: % of population living on less than $1.90 per day
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Net national income per capita'
+		dataType: double
+		displayFolder: 01 Socio-economic KPIs
+		lineageTag: 38541923-0dfb-434e-9e7e-ae3a9564a9db
+		summarizeBy: none
+		sourceColumn: Net national income per capita
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'GDP per capita (current US$)'
+		dataType: double
+		lineageTag: 05574980-da21-488e-b556-0a6bcf017f90
+		summarizeBy: sum
+		sourceColumn: GDP per capita (current US$)
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Percentage of female population with no education'
+		dataType: double
+		displayFolder: 01 Socio-economic KPIs
+		lineageTag: 9da14df1-3338-4224-a087-f589b29ad1e9
+		summarizeBy: none
+		sourceColumn: Percentage of female population with no education
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Female pupils below minimum reading proficiency at end of primary (%)'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		displayFolder: 01 Socio-economic KPIs
+		lineageTag: 45cea749-5204-4251-8ca1-89dc00124789
+		summarizeBy: none
+		sourceColumn: Female pupils below minimum reading proficiency at end of primary (%)
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Life expectancy (yrs)'
+		dataType: double
+		lineageTag: 66499afb-658b-4569-a08f-1bf238b8a52d
+		summarizeBy: sum
+		sourceColumn: Life expectancy (yrs)
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'GDP per capita (US $)'
+		dataType: double
+		displayFolder: 01 Socio-economic KPIs
+		lineageTag: 3cd34fe1-f4bf-40b4-bc68-2bc05b252f1a
+		summarizeBy: none
+		sourceColumn: GDP per capita (US $)
+
+		annotation SummarizationSetBy = User
+
+		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"Indicators","TableItemName":"GDP per capita (current US $) (bins)","ObjectType":4},"LinkType":"UsedInGroup"}]
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Income share held by lowest 20% (bins)' = ```
+			VAR __Count = 6
+			
+			VAR __Min = MIN('Indicators'[Income share held by lowest 20%])
+			
+			VAR __Max = MAX('Indicators'[Income share held by lowest 20%])
+			
+			VAR __Difference = (__Max - __Min)
+			
+			VAR __Size = IF(__Difference > 0, __Difference / __Count, 1)
+			
+			VAR __BinNumber = 
+			  IF(
+			    ISBLANK('Indicators'[Income share held by lowest 20%]),
+			    BLANK(),
+			    ROUNDDOWN(('Indicators'[Income share held by lowest 20%] - __Min) / __Size, 0)
+			  )
+			
+			RETURN
+			  IF(
+			    ISBLANK('Indicators'[Income share held by lowest 20%]),
+			    BLANK(),
+			    __Min + (MIN(__BinNumber, __Count - 1) * __Size)
+			  )
+			```
+		lineageTag: 4e4d347d-951c-4620-a9eb-96ba5e9751a2
+		summarizeBy: none
+
+		extendedProperty GroupingMetadata =
+				{
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "Indicators"
+				          }
+				        },
+				        "Property": "Income share held by lowest 20%"
+				      }
+				    }
+				  ],
+				  "version": 0
+				}
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"h","Entity":"Indicators"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"h"}},"Property":"Income share held by lowest 20%"}}],"BinItem":{"Expression":{"Member":{"Expression":{"Discretize":{"Expression":{"Column":{"Expression":{"SourceRef":{"Source":"h"}},"Property":"Income share held by lowest 20%"}},"Count":6}},"Member":"Min"}}}}
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'General government expenditure on health as a percentage of total expenditure on health (bins)' = ```
+			VAR __Count = 8
+			
+			VAR __Min = 
+			  MIN(
+			    'Indicators'[General government expenditure on health as a percentage of total expenditure on health]
+			  )
+			
+			VAR __Max = 
+			  MAX(
+			    'Indicators'[General government expenditure on health as a percentage of total expenditure on health]
+			  )
+			
+			VAR __Difference = (__Max - __Min)
+			
+			VAR __Size = IF(__Difference > 0, __Difference / __Count, 1)
+			
+			VAR __BinNumber = 
+			  INT(
+			    ('Indicators'[General government expenditure on health as a percentage of total expenditure on health] - __Min) / __Size
+			  )
+			
+			RETURN
+			  IF(
+			    ISBLANK(
+			      'Indicators'[General government expenditure on health as a percentage of total expenditure on health]
+			    ),
+			    BLANK(),
+			    __Min + (MIN(__BinNumber, __Count - 1) * __Size)
+			  )
+			```
+		lineageTag: ce27ed36-a903-49df-8ed0-f03d685b31f6
+		summarizeBy: none
+
+		extendedProperty GroupingMetadata =
+				{
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "Indicators"
+				          }
+				        },
+				        "Property": "General government expenditure on health as a percentage of total expenditure on health"
+				      }
+				    }
+				  ],
+				  "version": 0
+				}
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"h","Entity":"Indicators"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"h"}},"Property":"General government expenditure on health as a percentage of total expenditure on health"}}],"BinItem":{"Expression":{"Member":{"Expression":{"Discretize":{"Expression":{"Column":{"Expression":{"SourceRef":{"Source":"h"}},"Property":"General government expenditure on health as a percentage of total expenditure on health"}},"Count":8}},"Member":"Min"}}}}
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column High/Low = If([Life expectancy (yrs)] < 55, "Low", If([Life expectancy (yrs)] >= 55 && [Life expectancy (yrs)] < 70, "Medium", "High"))
+		lineageTag: d622e4c7-f142-49d1-bcf1-c14b39033fcf
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'GDP per capita (current US $) (bins)' = ```
+			VAR __Count = 10
+			
+			VAR __Min = MIN('Indicators'[GDP per capita (US $)])
+			
+			VAR __Max = MAX('Indicators'[GDP per capita (US $)])
+			
+			VAR __Difference = (__Max - __Min)
+			
+			VAR __Size = IF(__Difference > 0, __Difference / __Count, 1)
+			
+			VAR __BinNumber = 
+			  IF(
+			    ISBLANK('Indicators'[GDP per capita (US $)]),
+			    BLANK(),
+			    ROUNDDOWN(('Indicators'[GDP per capita (US $)] - __Min) / __Size, 0)
+			  )
+			
+			RETURN
+			  IF(
+			    ISBLANK('Indicators'[GDP per capita (US $)]),
+			    BLANK(),
+			    __Min + (MIN(__BinNumber, __Count - 1) * __Size)
+			  )
+			```
+		lineageTag: ddf7d242-6e17-4193-8f4f-dfe1ff776333
+		summarizeBy: none
+
+		extendedProperty GroupingMetadata =
+				{
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "Indicators"
+				          }
+				        },
+				        "Property": "GDP per capita (US $)"
+				      }
+				    }
+				  ],
+				  "version": 0
+				}
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"h","Entity":"Indicators"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"h"}},"Property":"GDP per capita (US $)"}}],"BinItem":{"Expression":{"Member":{"Expression":{"Discretize":{"Expression":{"Column":{"Expression":{"SourceRef":{"Source":"h"}},"Property":"GDP per capita (US $)"}},"Count":10}},"Member":"Min"}}}}
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'People using at least basic drinking water services (% of population)'
+		dataType: double
+		lineageTag: 159aa089-36ba-4fed-909b-4a583da9bd88
+		summarizeBy: sum
+		sourceColumn: People using at least basic drinking water services (% of population)
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'People using safely managed drinking water services (% of population)'
+		dataType: double
+		displayFolder: 01 Socio-economic KPIs
+		lineageTag: 4cbcba9c-822c-4743-8dfa-9634db30c9e5
+		summarizeBy: none
+		sourceColumn: People using safely managed drinking water services (% of population)
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '% of income held by poorest 20%' = if(isblank(Indicators[Income share held by lowest 20%]), "null", if( Indicators[Income share held by lowest 20%] < 2, "less than 2%", if( Indicators[Income share held by lowest 20%] >= 2 && Indicators[Income share held by lowest 20%] < 4, "2% - 4%", if( Indicators[Income share held by lowest 20%] >= 4 && Indicators[Income share held by lowest 20%] < 6, "4% - 6%", if( Indicators[Income share held by lowest 20%] >= 6 && Indicators[Income share held by lowest 20%] < 8, "6% - 8%", "more than 8%")))))
+		lineageTag: 641190bf-7f7f-4504-9b7e-51f897805cd5
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Basic drinking water services (% of population)' = if( Indicators[People using at least basic drinking water services (% of population)]< 50, "Less than 50%", if( Indicators[People using at least basic drinking water services (% of population)] >= 50 && Indicators[People using at least basic drinking water services (% of population)] < 70, "50% - 70%", if( Indicators[People using at least basic drinking water services (% of population)] >= 70 && Indicators[People using at least basic drinking water services (% of population)] < 90, "70% - 90%", "More than 90%")))
+		lineageTag: 4b3197e0-1205-4218-b43a-ae8e256648a4
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Safe drinking water services (% of population)' = if(ISBLANK(Indicators[People using safely managed drinking water services (% of population)]), "null", if( Indicators[People using safely managed drinking water services (% of population)]< 25, "less than 25%", if( Indicators[People using safely managed drinking water services (% of population)]>= 25 && Indicators[People using safely managed drinking water services (% of population)] < 45, "25% - 45%", if( Indicators[People using safely managed drinking water services (% of population)] >= 45 && Indicators[People using safely managed drinking water services (% of population)] < 65, "45% - 65%", if( Indicators[People using safely managed drinking water services (% of population)] >= 65 && Indicators[People using safely managed drinking water services (% of population)] < 85, "65% - 85%" ,"more than 85%")))))
+		displayFolder: 01 Socio-economic KPIs
+		lineageTag: 858d1e8c-71a8-4319-8eb5-84512b2a99b0
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hospital beds per 10,000 people' = if( Indicators[Hospital beds (per 10 000 population)] < 15 , "less than 15", if( Indicators[Hospital beds (per 10 000 population)] >= 15 && Indicators[Hospital beds (per 10 000 population)]< 30, "15 - 30", if(Indicators[Hospital beds (per 10 000 population)] >=30 && Indicators[Hospital beds (per 10 000 population)] < 45, "30 - 45", if( Indicators[Hospital beds (per 10 000 population)] >= 45 && Indicators[Hospital beds (per 10 000 population)] < 60, "45 - 60" ,"more than 60"))))
+		lineageTag: 111ecffd-39c0-4829-a534-86e3364ed520
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hib3 immunization coverage among 1 year olds (%)' = if( Indicators[Hib (Hib3) immunization coverage among 1-year-olds (%)] < 40, "less than 40%", if( Indicators[Hib (Hib3) immunization coverage among 1-year-olds (%)] >= 40 && Indicators[Hib (Hib3) immunization coverage among 1-year-olds (%)]  < 60, "40% - 60%", if( Indicators[Hib (Hib3) immunization coverage among 1-year-olds (%)]  >= 60 && Indicators[Hib (Hib3) immunization coverage among 1-year-olds (%)] < 80, "60% - 80", if( Indicators[Hib (Hib3) immunization coverage among 1-year-olds (%)] >= 80 &&Indicators[Hib (Hib3) immunization coverage among 1-year-olds (%)]  < 90, "80% - 90%" ,"more than 90%"))))
+		lineageTag: 90e564e3-8d07-495a-b9ce-21399508a289
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Life Exp Buckets' =
+			
+			IF(Indicators[Life expectancy (yrs)]<30,20,
+			IF(Indicators[Life expectancy (yrs)]<45,30,
+			IF(Indicators[Life expectancy (yrs)]<60,45,
+			IF(Indicators[Life expectancy (yrs)]<70,60,
+			IF(Indicators[Life expectancy (yrs)]<80,70,
+			80))))
+			)
+		formatString: 0
+		lineageTag: 138381fa-3b6b-4913-bc9a-e0c9f90f97ac
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'All Cells' = "All"
+		lineageTag: 528d69ca-fca9-4ffb-a0e4-af26cf966cd7
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Measles - number of reported cases'
+		dataType: int64
+		formatString: 0
+		lineageTag: 9d4d3338-7242-40f8-aa84-3fe1ab65292e
+		summarizeBy: sum
+		sourceColumn: Measles - number of reported cases
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Diphtheria tetanus toxoid and pertussis (DTP3) immunization coverage among 1-year-olds (%)'
+		dataType: int64
+		formatString: 0
+		lineageTag: 731bc3cc-4e35-47b1-a660-702e90445b7c
+		summarizeBy: sum
+		sourceColumn: Diphtheria tetanus toxoid and pertussis (DTP3) immunization coverage among 1-year-olds (%)
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Indicators-17a7e6be-416d-4ca7-8508-30f477f75194 = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\Justyna\Desktop\misiurescue\healthappended.csv"),[Delimiter=",", Columns=44, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"", Int64.Type}, {"GHO..CODE.", type text}, {"GHO..DISPLAY.", type text}, {"GHO..URL.", type text}, {"DATASOURCE..CODE.", type text}, {"DATASOURCE..DISPLAY.", type text}, {"DATASOURCE..URL.", type text}, {"PUBLISHSTATE..CODE.", type text}, {"PUBLISHSTATE..DISPLAY.", type text}, {"PUBLISHSTATE..URL.", type text}, {"YEAR..CODE.", Int64.Type}, {"YEAR..DISPLAY.", type text}, {"YEAR..URL.", type text}, {"REGION..CODE.", type text}, {"REGION..DISPLAY.", type text}, {"REGION..URL.", type text}, {"WORLDBANKINCOMEGROUP..CODE.", type text}, {"WORLDBANKINCOMEGROUP..DISPLAY.", type text}, {"WORLDBANKINCOMEGROUP..URL.", type text}, {"COUNTRY..CODE.", type text}, {"COUNTRY..DISPLAY.", type text}, {"COUNTRY..URL.", type text}, {"EDUCATIONLEVEL..CODE.", type text}, {"EDUCATIONLEVEL..DISPLAY.", type text}, {"EDUCATIONLEVEL..URL.", type text}, {"SEX..CODE.", type text}, {"SEX..DISPLAY.", type text}, {"SEX..URL.", type text}, {"RESIDENCEAREATYPE..CODE.", type text}, {"RESIDENCEAREATYPE..DISPLAY.", type text}, {"RESIDENCEAREATYPE..URL.", type text}, {"WEALTHQUINTILE..CODE.", type text}, {"WEALTHQUINTILE..DISPLAY.", type text}, {"WEALTHQUINTILE..URL.", type text}, {"DHSMICSGEOREGION..CODE.", type text}, {"DHSMICSGEOREGION..DISPLAY.", type text}, {"DHSMICSGEOREGION..URL.", type text}, {"Display.Value", type text}, {"Numeric", type text}, {"Low", type text}, {"High", type text}, {"StdErr", type text}, {"StdDev", type text}, {"Comments", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{""}),
+				    #"Filtered Rows" = Table.SelectRows(#"Removed Columns", each ([#"GHO..CODE."] <> "#indicator+code")),
+				    #"Removed Columns1" = Table.RemoveColumns(#"Filtered Rows",{"DATASOURCE..CODE.", "DATASOURCE..DISPLAY.", "DATASOURCE..URL.", "PUBLISHSTATE..CODE.", "PUBLISHSTATE..DISPLAY.", "PUBLISHSTATE..URL.", "YEAR..CODE.", "YEAR..URL.", "REGION..URL.", "WORLDBANKINCOMEGROUP..CODE.", "WORLDBANKINCOMEGROUP..DISPLAY.", "WORLDBANKINCOMEGROUP..URL.", "EDUCATIONLEVEL..CODE.", "EDUCATIONLEVEL..DISPLAY.", "EDUCATIONLEVEL..URL.", "SEX..CODE.", "SEX..URL.", "RESIDENCEAREATYPE..CODE.", "RESIDENCEAREATYPE..DISPLAY.", "RESIDENCEAREATYPE..URL.", "WEALTHQUINTILE..CODE.", "WEALTHQUINTILE..DISPLAY.", "WEALTHQUINTILE..URL.", "DHSMICSGEOREGION..URL.", "DHSMICSGEOREGION..DISPLAY.", "DHSMICSGEOREGION..CODE.", "COUNTRY..URL.", "GHO..CODE.", "GHO..URL.", "Low", "High", "StdErr", "StdDev", "Comments", "REGION..CODE."}),
+				    #"Split Column by Delimiter" = Table.SplitColumn(#"Removed Columns1", "Display.Value", Splitter.SplitTextByEachDelimiter({"["}, QuoteStyle.Csv, false), {"Display Value.1", "Display Value.2"}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Split Column by Delimiter",{{"Display Value.1", Int64.Type}, {"Display Value.2", type text}}),
+				    #"Removed Errors" = Table.RemoveRowsWithErrors(#"Changed Type1", {"Display Value.1"}),
+				    #"Removed Columns2" = Table.RemoveColumns(#"Removed Errors",{"Display Value.2", "Numeric"}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Removed Columns2","","Both sexes",Replacer.ReplaceValue,{"SEX..DISPLAY."}),
+				    #"Removed Duplicates" = Table.Distinct(#"Replaced Value"),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Duplicates",{{"GHO..DISPLAY.", "Indicator"}, {"YEAR..DISPLAY.", "Year"}}),
+				    #"Changed Type2" = Table.TransformColumnTypes(#"Renamed Columns",{{"Year", Int64.Type}}),
+				    #"Removed Errors1" = Table.RemoveRowsWithErrors(#"Changed Type2", {"Year"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Removed Errors1",{{"REGION..DISPLAY.", "Region"}, {"COUNTRY..CODE.", "Country Code"}, {"COUNTRY..DISPLAY.", "Country"}, {"SEX..DISPLAY.", "Sex"}, {"Display Value.1", "Value"}}),
+				    #"Pivoted Column" = Table.Pivot(#"Renamed Columns1", List.Distinct(#"Renamed Columns1"[Indicator]), "Indicator", "Value", List.Max),
+				    #"Filtered Rows1" = Table.SelectRows(#"Pivoted Column", each [Year] >= 1960),
+				    #"Removed Columns3" = Table.RemoveColumns(#"Filtered Rows1",{"Civil registration coverage of cause-of-death (%)", "Ill-defined causes in cause-of-death registration (%)", "Distribution of years of life lost by broader causes (%) - Injuries", "Antenatal care coverage - at least one visit (%)", "Births by caesarean section (%)", "Unmet need for family planning (%)", "Children aged <5 years stunted (%)", "Psychiatrists working in mental health sector (per 100 000 population)", "Children aged <5 years wasted for age (%)", "Children aged <5 years overweight (%)", "Crude birth rate (per 1000 population)", "Crude death rate (per 1000 population)", "Total fertility rate (per woman)", "Number of pharmaceutical personnel", "Density of pharmaceutical personnel (per 10 000 population)", "Number of nursing and midwifery personnel", "Dentistry personnel density (per 10 000 population)", "Nursing and midwifery personnel density (per 10 000 population)", "Civil registration coverage of births (%)", "Japanese encephalitis - number of reported cases", "Most recent census (year)", "Distribution of causes of death among children aged <5 years (%) - Malaria", "Prevalence of HIV among adults aged 15 to 49 (%)", "Deaths due to tuberculosis among HIV-negative people (per 100 000 population)"}),
+				    #"Merged Queries" = Table.NestedJoin(#"Removed Columns3", {"Year", "Country Code", "Sex"}, merge_indicators_world, {"Year", "Country Code", "Sex"}, "merge_indicators_world", JoinKind.LeftOuter),
+				    #"Expanded merge_indicators_world" = Table.ExpandTableColumn(#"Merged Queries", "merge_indicators_world", {"Rural population growth (annual %)", "Rural population (% of total population)", "Prevalence of HIV, total (% of population ages 15-49)", "Income share held by lowest 20%", "Poverty headcount ratio at $1.90 a day (2011 PPP) (% of population)", "Vulnerable employment, total (% of total employment) (modeled ILO estimate)", "Net migration", "Foreign direct investment, net outflows (% of GDP)", "Current account balance (% of GDP)", "Net primary income (BoP, current US$)", "Foreign direct investment, net (BoP, current US$)", "Foreign direct investment, net inflows (% of GDP)", "Expense (% of GDP)", "Adjusted savings: education expenditure (% of GNI)", "Adjusted savings: gross savings (% of GNI)", "Adjusted net national income (current US$)", "Adjusted net national income per capita (current US$)", "Adjusted net national income per capita (annual % growth)", "GDP per capita (current US$)", "GDP per capita (current LCU)", "GDP per capita growth (annual %)", "GDP per capita, PPP (current international $)", "Gross domestic savings (% of GDP)", "Gross domestic income (constant LCU)", "GNI per capita (current LCU)", "GNI per capita growth (annual %)", "GNI per capita, PPP (current international $)", "Gross savings (% of GNI)", "Gross savings (% of GDP)", "PPP conversion factor, GDP (LCU per international $)", "Barro-Lee: Percentage of female population age 15+ with no education", "Barro-Lee: Percentage of population age 15+ with no education", "Barro-Lee: Population in thousands, age 15+, total", "Barro-Lee: Population in thousands, age 15+, female", "Barro-Lee: Average years of total schooling, age 15+, total", "Barro-Lee: Average years of total schooling, age 15+, female", "Female pupils below minimum reading proficiency at end of primary (%). Low GAML threshold", "Male pupils below minimum reading proficiency at end of primary (%). Low GAML threshold", "Female primary school age children out-of-school (%)", "Male primary school age children out-of-school (%)", "Cumulative drop-out rate to the last grade of primary education, both sexes (%)", "Pupil-teacher ratio in lower secondary education (headcount basis)", "Pupil-teacher ratio in upper secondary education (headcount basis)", "People using at least basic drinking water services (% of population)", "People using safely managed drinking water services (% of population)", "Smoking prevalence, total (ages 15+)", "Smoking prevalence, females (% of adults)", "Smoking prevalence, males (% of adults)"}, {"Rural population growth (annual %)", "Rural population (% of total population)", "Prevalence of HIV, total (% of population ages 15-49)", "Income share held by lowest 20%", "Poverty headcount ratio at $1.90 a day (2011 PPP) (% of population)", "Vulnerable employment, total (% of total employment) (modeled ILO estimate)", "Net migration", "Foreign direct investment, net outflows (% of GDP)", "Current account balance (% of GDP)", "Net primary income (BoP, current US$)", "Foreign direct investment, net (BoP, current US$)", "Foreign direct investment, net inflows (% of GDP)", "Expense (% of GDP)", "Adjusted savings: education expenditure (% of GNI)", "Adjusted savings: gross savings (% of GNI)", "Adjusted net national income (current US$)", "Adjusted net national income per capita (current US$)", "Adjusted net national income per capita (annual % growth)", "GDP per capita (current US$)", "GDP per capita (current LCU)", "GDP per capita growth (annual %)", "GDP per capita, PPP (current international $)", "Gross domestic savings (% of GDP)", "Gross domestic income (constant LCU)", "GNI per capita (current LCU)", "GNI per capita growth (annual %)", "GNI per capita, PPP (current international $)", "Gross savings (% of GNI)", "Gross savings (% of GDP)", "PPP conversion factor, GDP (LCU per international $)", "Barro-Lee: Percentage of female population age 15+ with no education", "Barro-Lee: Percentage of population age 15+ with no education", "Barro-Lee: Population in thousands, age 15+, total", "Barro-Lee: Population in thousands, age 15+, female", "Barro-Lee: Average years of total schooling, age 15+, total", "Barro-Lee: Average years of total schooling, age 15+, female", "Female pupils below minimum reading proficiency at end of primary (%). Low GAML ", "Male pupils below minimum reading proficiency at end of primary (%). Low GAML th", "Female primary school age children out-of-school (%)", "Male primary school age children out-of-school (%)", "Cumulative drop-out rate to the last grade of primary education, both sexes (%)", "Pupil-teacher ratio in lower secondary education (headcount basis)", "Pupil-teacher ratio in upper secondary education (headcount basis)", "People using at least basic drinking water services (% of population)", "People using safely managed drinking water services (% of population)", "Smoking prevalence, total (ages 15+)", "Smoking prevalence, females (% of adults)", "Smoking prevalence, males (% of adults)"}),
+				    #"Merged Queries1" = Table.NestedJoin(#"Expanded merge_indicators_world", {"Year", "Country", "Sex"}, #"Alcohol Consumption", {"Year", "Country", "Sex"}, "Alcohol Consumption", JoinKind.LeftOuter),
+				    #"Expanded Alcohol Consumption" = Table.ExpandTableColumn(#"Merged Queries1", "Alcohol Consumption", {" All types", " Beer", " Wine", " Spirits", " Other alcoholic beverages"}, {" All types", " Beer", " Wine", " Spirits", " Other alcoholic beverages"}),
+				    #"Merged Queries2" = Table.NestedJoin(#"Expanded Alcohol Consumption", {"Country", "Year", "Sex"}, happiness, {"Country", "Year", "Sex"}, "happiness", JoinKind.LeftOuter),
+				    #"Expanded happiness" = Table.ExpandTableColumn(#"Merged Queries2", "happiness", {"Happiness Rank", "Happiness Score", "Economy (GDP per Capita)", "Family", "Health (Life Expectancy)", "Freedom", "Trust (Government Corruption)", "Generosity", "Dystopia Residual"}, {"Happiness Rank", "Happiness Score", "Economy (GDP per Capita)", "Family", "Health (Life Expectancy)", "Freedom", "Trust (Government Corruption)", "Generosity", "Dystopia Residual"}),
+				    #"Merged Queries3" = Table.NestedJoin(#"Expanded happiness", {"Year", "Country Code", "Sex"}, #"life expectancy all", {"Year", "Country Code", "Sex"}, "life expectancy all", JoinKind.LeftOuter),
+				    #"Expanded life expectancy all" = Table.ExpandTableColumn(#"Merged Queries3", "life expectancy all", {"Value"}, {"Value"}),
+				    #"Added Conditional Column" = Table.AddColumn(#"Expanded life expectancy all", "Life expectancy", each if [#"Life expectancy at birth (years)"] <> null then [#"Life expectancy at birth (years)"] else [Value]),
+				    #"Merged Queries4" = Table.NestedJoin(#"Added Conditional Column", {"Year", "Country Code", "Sex"}, gdp, {"Year", "Country Code", "Sex"}, "gdp", JoinKind.LeftOuter),
+				    #"Expanded gdp" = Table.ExpandTableColumn(#"Merged Queries4", "gdp", {"GDP"}, {"GDP.1"}),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Expanded gdp",{{"GDP.1", "GDP per capita (current US $)"}}),
+				    #"Appended Query" = Table.Combine({#"Renamed Columns2", life_expectancy_years}),
+				    #"Renamed Columns3" = Table.RenameColumns(#"Appended Query",{{"Poverty headcount ratio at $1.90 a day (2011 PPP) (% of population)", "% of population living on less than $1.90 per day"}, {"Barro-Lee: Average years of total schooling, age 15+, female", "Average years of total schooling (female)"}, {"Barro-Lee: Percentage of female population age 15+ with no education", "Percentage of female population with no education"}, {"Female pupils below minimum reading proficiency at end of primary (%). Low GAML ", "Female pupils below minimum reading proficiency at end of primary (%)"}, {"Adjusted net national income per capita (current US$)", "Net national income per capita"}, {"GDP per capita (current US $)", "GDP per capita (US $)"}}),
+				    #"Removed Columns4" = Table.RemoveColumns(#"Renamed Columns3",{"Antenatal care coverage - at least one visit (in the two or three years preceding the survey) (%)", "Antenatal care coverage - at least four visits (in the two or three years preceding the survey) (%)", "Antenatal care coverage - at least four visits (in the five years preceding the survey) (%)", "Number of reported cases of cholera", "Number of reported deaths from cholera", "Number of under-five deaths (thousands)", "Number of infant deaths (thousands)", "Total density per million population: Computed tomography units", "Total density per million population: Radiotherapy units", "Estimated percentage of pregnant women living with HIV who received antiretrovirals for preventing mother-to-child transmission", "Infant mortality rate (probability of dying between birth and age 1 per 1000 live births)", "Adolescent birth rate (per 1000 women aged 15-19 years)", "Contraceptive prevalence (%)", "Contraceptive prevalence, among girls aged 15-19 (%)", "Smear-positive tuberculosis treatment-success rate (%)", "Antiretroviral therapy coverage among people with HIV infection eligible for ART according to 2010 guidelines (%)", "Mental hospitals (per 100 000 population)", "Mental health units in general hospitals (per 100 000 population)", "Total (recorded+unrecorded) alcohol per capita (15+) consumption", "Births attended by skilled health personnel (in the two or three years preceding the survey) (%)", "Births attended by skilled health personnel (in the five years preceding the survey) (%)", "Tuberculosis treatment coverage", "Tuberculosis - new and relapse cases", "Distribution of causes of death among children aged <5 years (%) - Pneumonia", "Distribution of causes of death among children aged <5 years (%) - Injuries", "Distribution of causes of death among children aged <5 years (%) - Diarrhoea", "Distribution of causes of death among children aged <5 years (%) - Measles", "Distribution of causes of death among children aged <5 years (%) - HIV/AIDS", "Distribution of causes of death among children aged <5 years (%) - Other diseases", "Distribution of causes of death among children aged <5 years (%) - Prematurity", "Distribution of causes of death among children aged <5 years (%) - Neonatal sepsis", "Distribution of causes of death among children aged <5 years (%) - Congenital anomalies", "Distribution of causes of death among children aged <5 years (%) - Birth asphyxia", "Cholera - number of reported cases", "Diphtheria - number of reported cases", "Pertussis - number of reported cases", "Number of new leprosy cases", "Total tetanus - number of reported cases", "Malaria - number of reported confirmed cases", "Poliomyelitis - number of reported cases", "Yellow fever - number of reported cases", "Mumps - number of reported cases", "Congenital Rubella Syndrome - number of reported cases", "Neonatal tetanus - number of reported cases", "Total rubella - number of reported cases", "Children aged < 5 years with pneumonia symptoms taken to a healthcare provider (%)", "Antenatal care coverage - at least one visit, among girls aged 15-19 (%)", "Neonates protected at birth against neonatal tetanus (PAB) (%)", "Number of dentistry personnel", "Social security expenditure on health as a percentage of general government expenditure on health", "Population median age (years)", "Population proportion under 15 (%)", "Population proportion over 60 (%)", "Population living in urban areas (%)", "Cellular subscribers (per 100 population)", "Antiretroviral therapy coverage among people with advanced HIV infection (%), WHO 2006 guidelines", "Number of suspected meningitis deaths reported", "Low-birth-weight newborns (%)", "Deaths due to HIV/AIDS (per 100 000 population)", "Meningitis - number of reported cases", "Unmet need for family planning, among girls aged 15-19 (%)", "Prevalence of smoking any tobacco product among persons aged >= 15 years", "Population (in thousands) total", "Births attended by skilled health personnel (%)", "Estimated number of malaria cases", "Antenatal care coverage - at least four visits (%)", "Children aged <5 years with diarrhoea receiving ORT (%)", "Plague - number of reported cases", "H5N1 influenza - number of reported cases", "Children aged 6-59 months who received vitamin A supplementation (%)", "Number of meningitis epidemic districts", "Number of environment and public health workers", "Density of environment and public health workers (per 10 000 population)", "Rural population growth (annual %)", "Rural population (% of total population)", "Prevalence of HIV, total (% of population ages 15-49)", "Vulnerable employment, total (% of total employment) (modeled ILO estimate)", "Net migration", "Foreign direct investment, net outflows (% of GDP)", "Current account balance (% of GDP)", "Net primary income (BoP, current US$)", "Foreign direct investment, net (BoP, current US$)", "Foreign direct investment, net inflows (% of GDP)", "Expense (% of GDP)", "Adjusted savings: education expenditure (% of GNI)", "Adjusted savings: gross savings (% of GNI)", "GDP per capita (current LCU)", "GDP per capita growth (annual %)", "GDP per capita, PPP (current international $)", "Gross domestic income (constant LCU)", "GNI per capita (current LCU)", "GNI per capita growth (annual %)", "GNI per capita, PPP (current international $)", "Gross savings (% of GNI)", "Gross savings (% of GDP)", "PPP conversion factor, GDP (LCU per international $)", "Barro-Lee: Population in thousands, age 15+, female", "Barro-Lee: Population in thousands, age 15+, total", "Barro-Lee: Average years of total schooling, age 15+, total", "Smoking prevalence, total (ages 15+)", "Smoking prevalence, females (% of adults)", "Smoking prevalence, males (% of adults)", " All types", " Beer", " Wine", " Spirits", " Other alcoholic beverages", "Happiness Rank", "Happiness Score", "Economy (GDP per Capita)", "Family", "Health (Life Expectancy)", "Freedom", "Trust (Government Corruption)", "Generosity", "Dystopia Residual", "Value"}),
+				    #"Renamed Columns4" = Table.RenameColumns(#"Removed Columns4",{{"Life expectancy", "Life expectancy (yrs)"}}),
+				    #"Removed Columns5" = Table.RemoveColumns(#"Renamed Columns4",{"Male pupils below minimum reading proficiency at end of primary (%). Low GAML th", "Female primary school age children out-of-school (%)", "Male primary school age children out-of-school (%)", "Cumulative drop-out rate to the last grade of primary education, both sexes (%)", "Pupil-teacher ratio in lower secondary education (headcount basis)", "Pupil-teacher ratio in upper secondary education (headcount basis)", "Barro-Lee: Percentage of population age 15+ with no education", "Average years of total schooling (female)", "Gross domestic savings (% of GDP)", "Adjusted net national income per capita (annual % growth)", "Adjusted net national income (current US$)", "Number of suspected meningitis cases reported", "Per capita total expenditure on health at average exchange rate (US$)", "External resources for health as a percentage of total expenditure on health", "Out-of-pocket expenditure as a percentage of private expenditure on health", "Total expenditure on health as a percentage of gross domestic product", "Private expenditure on health as a percentage of total expenditure on health", "Private prepaid plans as a percentage of private expenditure on health", "Per capita government expenditure on health at average exchange rate (US$)", "Per capita total expenditure on health (PPP int. $)", "Per capita government expenditure on health (PPP int. $)"})
+				in
+				    #"Removed Columns5"
+
+	annotation PBI_QueryRelationships = {"columnCount":173,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/healthappended/Appended Query.{Year,0}","Section1/healthappended/Appended Query.{Region,1}","Section1/healthappended/Appended Query.{Country Code,2}","Section1/healthappended/Appended Query.{Country,3}","Section1/healthappended/Appended Query.{Sex,4}","Section1/healthappended/Appended Query.{Antenatal care coverage - at least one visit (in the two or three years preceding the survey) (%),5}","Section1/healthappended/Appended Query.{Antenatal care coverage - at least four visits (in the two or three years preceding the survey) (%),6}","Section1/healthappended/Appended Query.{Antenatal care coverage - at least four visits (in the five years preceding the survey) (%),7}","Section1/healthappended/Appended Query.{Number of reported cases of cholera,8}","Section1/healthappended/Appended Query.{Number of reported deaths from cholera,9}","Section1/healthappended/Appended Query.{Cholera case fatality rate,10}","Section1/healthappended/Appended Query.{Number of under-five deaths (thousands),11}","Section1/healthappended/Appended Query.{Number of infant deaths (thousands),12}","Section1/healthappended/Appended Query.{Number of neonatal deaths (thousands),13}","Section1/healthappended/Appended Query.{Total density per million population: Computed tomography units,14}","Section1/healthappended/Appended Query.{Total density per million population: Radiotherapy units,15}","Section1/healthappended/Appended Query.{Estimated percentage of pregnant women living with HIV who received antiretrovirals for preventing mother-to-child transmission,16}","Section1/healthappended/Appended Query.{Malaria - number of reported deaths,17}","Section1/healthappended/Appended Query.{Estimated number of malaria deaths,18}","Section1/healthappended/Appended Query.{Infant mortality rate (probability of dying between birth and age 1 per 1000 live births),19}","Section1/healthappended/Appended Query.{Adolescent birth rate (per 1000 women aged 15-19 years),20}","Section1/healthappended/Appended Query.{Contraceptive prevalence (%),21}","Section1/healthappended/Appended Query.{Contraceptive prevalence, among girls aged 15-19 (%),22}","Section1/healthappended/Appended Query.{Under-five mortality rate (probability of dying by age 5 per 1000 live births),23}","Section1/healthappended/Appended Query.{Children aged <5 years sleeping under insecticide-treated nets (%),24}","Section1/healthappended/Appended Query.{Incidence of tuberculosis (per 100 000 population per year),25}","Section1/healthappended/Appended Query.{Prevalence of tuberculosis (per 100 000 population),26}","Section1/healthappended/Appended Query.{Births attended by skilled health personnel, among girls aged 15-19 (%),27}","Section1/healthappended/Appended Query.{Maternal mortality ratio (per 100 000 live births),28}","Section1/healthappended/Appended Query.{Smear-positive tuberculosis treatment-success rate (%),29}","Section1/healthappended/Appended Query.{Antiretroviral therapy coverage among people with HIV infection eligible for ART according to 2010 guidelines (%),30}","Section1/healthappended/Appended Query.{Mental hospitals (per 100 000 population),31}","Section1/healthappended/Appended Query.{Mental health units in general hospitals (per 100 000 population),32}","Section1/healthappended/Appended Query.{Total (recorded+unrecorded) alcohol per capita (15+) consumption,33}","Section1/healthappended/Appended Query.{Births attended by skilled health personnel (in the two or three years preceding the survey) (%),34}","Section1/healthappended/Appended Query.{Births attended by skilled health personnel (in the five years preceding the survey) (%),35}","Section1/healthappended/Appended Query.{Tuberculosis treatment coverage,36}","Section1/healthappended/Appended Query.{Tuberculosis - new and relapse cases,37}","Section1/healthappended/Appended Query.{Life expectancy at birth (years),38}","Section1/healthappended/Appended Query.{Neonatal mortality rate (per 1000 live births),39}","Section1/healthappended/Appended Query.{Life expectancy at age 60 (years),40}","Section1/healthappended/Appended Query.{Distribution of causes of death among children aged <5 years (%) - Pneumonia,41}","Section1/healthappended/Appended Query.{Distribution of causes of death among children aged <5 years (%) - Injuries,42}","Section1/healthappended/Appended Query.{Distribution of causes of death among children aged <5 years (%) - Diarrhoea,43}","Section1/healthappended/Appended Query.{Distribution of causes of death among children aged <5 years (%) - Measles,44}","Section1/healthappended/Appended Query.{Distribution of causes of death among children aged <5 years (%) - HIV/AIDS,45}","Section1/healthappended/Appended Query.{Distribution of causes of death among children aged <5 years (%) - Other diseases,46}","Section1/healthappended/Appended Query.{Distribution of causes of death among children aged <5 years (%) - Prematurity,47}","Section1/healthappended/Appended Query.{Distribution of causes of death among children aged <5 years (%) - Neonatal sepsis,48}","Section1/healthappended/Appended Query.{Distribution of causes of death among children aged <5 years (%) - Congenital anomalies,49}","Section1/healthappended/Appended Query.{Distribution of causes of death among children aged <5 years (%) - Birth asphyxia,50}","Section1/healthappended/Appended Query.{Cholera - number of reported cases,51}","Section1/healthappended/Appended Query.{Diphtheria - number of reported cases,52}","Section1/healthappended/Appended Query.{Pertussis - number of reported cases,53}","Section1/healthappended/Appended Query.{Number of new leprosy cases,54}","Section1/healthappended/Appended Query.{Total tetanus - number of reported cases,55}","Section1/healthappended/Appended Query.{Malaria - number of reported confirmed cases,56}","Section1/healthappended/Appended Query.{Poliomyelitis - number of reported cases,57}","Section1/healthappended/Appended Query.{Yellow fever - number of reported cases,58}","Section1/healthappended/Appended Query.{Mumps - number of reported cases,59}","Section1/healthappended/Appended Query.{Congenital Rubella Syndrome - number of reported cases,60}","Section1/healthappended/Appended Query.{Neonatal tetanus - number of reported cases,61}","Section1/healthappended/Appended Query.{Total rubella - number of reported cases,62}","Section1/healthappended/Appended Query.{Measles - number of reported cases,63}","Section1/healthappended/Appended Query.{Diphtheria tetanus toxoid and pertussis (DTP3) immunization coverage among 1-year-olds (%),64}","Section1/healthappended/Appended Query.{Children aged < 5 years with pneumonia symptoms taken to a healthcare provider (%),65}","Section1/healthappended/Appended Query.{Antenatal care coverage - at least one visit, among girls aged 15-19 (%),66}","Section1/healthappended/Appended Query.{Hepatitis B (HepB3) immunization coverage among 1-year-olds (%),67}","Section1/healthappended/Appended Query.{Neonates protected at birth against neonatal tetanus (PAB) (%),68}","Section1/healthappended/Appended Query.{Hib (Hib3) immunization coverage among 1-year-olds (%),69}","Section1/healthappended/Appended Query.{Hospital beds (per 10 000 population),70}","Section1/healthappended/Appended Query.{Number of dentistry personnel,71}","Section1/healthappended/Appended Query.{Private prepaid plans as a percentage of private expenditure on health,72}","Section1/healthappended/Appended Query.{Per capita government expenditure on health at average exchange rate (US$),73}","Section1/healthappended/Appended Query.{Per capita total expenditure on health (PPP int. $),74}","Section1/healthappended/Appended Query.{Per capita government expenditure on health (PPP int. $),75}","Section1/healthappended/Appended Query.{General government expenditure on health as a percentage of total government expenditure,76}","Section1/healthappended/Appended Query.{External resources for health as a percentage of total expenditure on health,77}","Section1/healthappended/Appended Query.{Social security expenditure on health as a percentage of general government expenditure on health,78}","Section1/healthappended/Appended Query.{Out-of-pocket expenditure as a percentage of private expenditure on health,79}","Section1/healthappended/Appended Query.{Total expenditure on health as a percentage of gross domestic product,80}","Section1/healthappended/Appended Query.{Private expenditure on health as a percentage of total expenditure on health,81}","Section1/healthappended/Appended Query.{General government expenditure on health as a percentage of total expenditure on health,82}","Section1/healthappended/Appended Query.{Per capita total expenditure on health at average exchange rate (US$),83}","Section1/healthappended/Appended Query.{Measles-containing-vaccine first-dose (MCV1) immunization coverage among 1-year-olds (%),84}","Section1/healthappended/Appended Query.{Population median age (years),85}","Section1/healthappended/Appended Query.{Population proportion under 15 (%),86}","Section1/healthappended/Appended Query.{Population proportion over 60 (%),87}","Section1/healthappended/Appended Query.{Gross national income per capita (PPP int. $),88}","Section1/healthappended/Appended Query.{Population living in urban areas (%),89}","Section1/healthappended/Appended Query.{Cellular subscribers (per 100 population),90}","Section1/healthappended/Appended Query.{Antiretroviral therapy coverage among people with advanced HIV infection (%), WHO 2006 guidelines,91}","Section1/healthappended/Appended Query.{Number of suspected meningitis deaths reported,92}","Section1/healthappended/Appended Query.{Low-birth-weight newborns (%),93}","Section1/healthappended/Appended Query.{Deaths due to HIV/AIDS (per 100 000 population),94}","Section1/healthappended/Appended Query.{Meningitis - number of reported cases,95}","Section1/healthappended/Appended Query.{Unmet need for family planning, among girls aged 15-19 (%),96}","Section1/healthappended/Appended Query.{Prevalence of smoking any tobacco product among persons aged >= 15 years,97}","Section1/healthappended/Appended Query.{Population (in thousands) total,98}","Section1/healthappended/Appended Query.{Births attended by skilled health personnel (%),99}","Section1/healthappended/Appended Query.{Estimated number of malaria cases,100}","Section1/healthappended/Appended Query.{Antenatal care coverage - at least four visits (%),101}","Section1/healthappended/Appended Query.{Children aged <5 years with diarrhoea receiving ORT (%),102}","Section1/healthappended/Appended Query.{Plague - number of reported cases,103}","Section1/healthappended/Appended Query.{Number of community health workers,104}","Section1/healthappended/Appended Query.{Community health workers density (per 10 000 population),105}","Section1/healthappended/Appended Query.{H5N1 influenza - number of reported cases,106}","Section1/healthappended/Appended Query.{Children aged 6-59 months who received vitamin A supplementation (%),107}","Section1/healthappended/Appended Query.{Children aged <5 years with ARI symptoms who took antibiotic treatment (%),108}","Section1/healthappended/Appended Query.{Number of suspected meningitis cases reported,109}","Section1/healthappended/Appended Query.{Number of meningitis epidemic districts,110}","Section1/healthappended/Appended Query.{Number of environment and public health workers,111}","Section1/healthappended/Appended Query.{Density of environment and public health workers (per 10 000 population),112}","Section1/healthappended/Appended Query.{Rural population growth (annual %),113}","Section1/healthappended/Appended Query.{Rural population (% of total population),114}","Section1/healthappended/Appended Query.{Prevalence of HIV, total (% of population ages 15-49),115}","Section1/healthappended/Appended Query.{Income share held by lowest 20%,116}","Section1/healthappended/Appended Query.{Poverty headcount ratio at $1.90 a day (2011 PPP) (% of population),117}","Section1/healthappended/Appended Query.{Vulnerable employment, total (% of total employment) (modeled ILO estimate),118}","Section1/healthappended/Appended Query.{Net migration,119}","Section1/healthappended/Appended Query.{Foreign direct investment, net outflows (% of GDP),120}","Section1/healthappended/Appended Query.{Current account balance (% of GDP),121}","Section1/healthappended/Appended Query.{Net primary income (BoP, current US$),122}","Section1/healthappended/Appended Query.{Foreign direct investment, net (BoP, current US$),123}","Section1/healthappended/Appended Query.{Foreign direct investment, net inflows (% of GDP),124}","Section1/healthappended/Appended Query.{Expense (% of GDP),125}","Section1/healthappended/Appended Query.{Adjusted savings: education expenditure (% of GNI),126}","Section1/healthappended/Appended Query.{Adjusted savings: gross savings (% of GNI),127}","Section1/healthappended/Appended Query.{Adjusted net national income (current US$),128}","Section1/healthappended/Appended Query.{Adjusted net national income per capita (current US$),129}","Section1/healthappended/Appended Query.{Adjusted net national income per capita (annual % growth),130}","Section1/healthappended/Appended Query.{GDP per capita (current US$),131}","Section1/healthappended/Appended Query.{GDP per capita (current LCU),132}","Section1/healthappended/Appended Query.{GDP per capita growth (annual %),133}","Section1/healthappended/Appended Query.{GDP per capita, PPP (current international $),134}","Section1/healthappended/Appended Query.{Gross domestic savings (% of GDP),135}","Section1/healthappended/Appended Query.{Gross domestic income (constant LCU),136}","Section1/healthappended/Appended Query.{GNI per capita (current LCU),137}","Section1/healthappended/Appended Query.{GNI per capita growth (annual %),138}","Section1/healthappended/Appended Query.{GNI per capita, PPP (current international $),139}","Section1/healthappended/Appended Query.{Gross savings (% of GNI),140}","Section1/healthappended/Appended Query.{Gross savings (% of GDP),141}","Section1/healthappended/Appended Query.{PPP conversion factor, GDP (LCU per international $),142}","Section1/healthappended/Appended Query.{Barro-Lee: Percentage of female population age 15+ with no education,143}","Section1/healthappended/Appended Query.{Barro-Lee: Percentage of population age 15+ with no education,144}","Section1/healthappended/Appended Query.{Barro-Lee: Population in thousands, age 15+, total,145}","Section1/healthappended/Appended Query.{Barro-Lee: Population in thousands, age 15+, female,146}","Section1/healthappended/Appended Query.{Barro-Lee: Average years of total schooling, age 15+, total,147}","Section1/healthappended/Appended Query.{Barro-Lee: Average years of total schooling, age 15+, female,148}","Section1/healthappended/Appended Query.{Female pupils below minimum reading proficiency at end of primary (%). Low GAML ,149}","Section1/healthappended/Appended Query.{Male pupils below minimum reading proficiency at end of primary (%). Low GAML th,150}","Section1/healthappended/Appended Query.{Female primary school age children out-of-school (%),151}","Section1/healthappended/Appended Query.{Male primary school age children out-of-school (%),152}","Section1/healthappended/Appended Query.{Cumulative drop-out rate to the last grade of primary education, both sexes (%),153}","Section1/healthappended/Appended Query.{Pupil-teacher ratio in lower secondary education (headcount basis),154}","Section1/healthappended/Appended Query.{Pupil-teacher ratio in upper secondary education (headcount basis),155}","Section1/healthappended/Appended Query.{ All types,156}","Section1/healthappended/Appended Query.{ Beer,157}","Section1/healthappended/Appended Query.{ Wine,158}","Section1/healthappended/Appended Query.{ Spirits,159}","Section1/healthappended/Appended Query.{ Other alcoholic beverages,160}","Section1/healthappended/Appended Query.{Happiness Rank,161}","Section1/healthappended/Appended Query.{Happiness Score,162}","Section1/healthappended/Appended Query.{Economy (GDP per Capita),163}","Section1/healthappended/Appended Query.{Family,164}","Section1/healthappended/Appended Query.{Health (Life Expectancy),165}","Section1/healthappended/Appended Query.{Freedom,166}","Section1/healthappended/Appended Query.{Trust (Government Corruption),167}","Section1/healthappended/Appended Query.{Generosity,168}","Section1/healthappended/Appended Query.{Dystopia Residual,169}","Section1/healthappended/Appended Query.{Value,170}","Section1/healthappended/Appended Query.{Life expectancy,171}","Section1/healthappended/Appended Query.{GDP per capita (current US $),172}"],"ColumnCount":173,"KeyColumnNames":[],"ColumnIdentities":["Section1/healthappended/Appended Query.{Year,0}","Section1/healthappended/Appended Query.{Region,1}","Section1/healthappended/Appended Query.{Country Code,2}","Section1/healthappended/Appended Query.{Country,3}","Section1/healthappended/Appended Query.{Sex,4}","Section1/healthappended/Appended Query.{Antenatal care coverage - at least one visit (in the two or three years preceding the survey) (%),5}","Section1/healthappended/Appended Query.{Antenatal care coverage - at least four visits (in the two or three years preceding the survey) (%),6}","Section1/healthappended/Appended Query.{Antenatal care coverage - at least four visits (in the five years preceding the survey) (%),7}","Section1/healthappended/Appended Query.{Number of reported cases of cholera,8}","Section1/healthappended/Appended Query.{Number of reported deaths from cholera,9}","Section1/healthappended/Appended Query.{Cholera case fatality rate,10}","Section1/healthappended/Appended Query.{Number of under-five deaths (thousands),11}","Section1/healthappended/Appended Query.{Number of infant deaths (thousands),12}","Section1/healthappended/Appended Query.{Number of neonatal deaths (thousands),13}","Section1/healthappended/Appended Query.{Total density per million population: Computed tomography units,14}","Section1/healthappended/Appended Query.{Total density per million population: Radiotherapy units,15}","Section1/healthappended/Appended Query.{Estimated percentage of pregnant women living with HIV who received antiretrovirals for preventing mother-to-child transmission,16}","Section1/healthappended/Appended Query.{Malaria - number of reported deaths,17}","Section1/healthappended/Appended Query.{Estimated number of malaria deaths,18}","Section1/healthappended/Appended Query.{Infant mortality rate (probability of dying between birth and age 1 per 1000 live births),19}","Section1/healthappended/Appended Query.{Adolescent birth rate (per 1000 women aged 15-19 years),20}","Section1/healthappended/Appended Query.{Contraceptive prevalence (%),21}","Section1/healthappended/Appended Query.{Contraceptive prevalence, among girls aged 15-19 (%),22}","Section1/healthappended/Appended Query.{Under-five mortality rate (probability of dying by age 5 per 1000 live births),23}","Section1/healthappended/Appended Query.{Children aged <5 years sleeping under insecticide-treated nets (%),24}","Section1/healthappended/Appended Query.{Incidence of tuberculosis (per 100 000 population per year),25}","Section1/healthappended/Appended Query.{Prevalence of tuberculosis (per 100 000 population),26}","Section1/healthappended/Appended Query.{Births attended by skilled health personnel, among girls aged 15-19 (%),27}","Section1/healthappended/Appended Query.{Maternal mortality ratio (per 100 000 live births),28}","Section1/healthappended/Appended Query.{Smear-positive tuberculosis treatment-success rate (%),29}","Section1/healthappended/Appended Query.{Antiretroviral therapy coverage among people with HIV infection eligible for ART according to 2010 guidelines (%),30}","Section1/healthappended/Appended Query.{Mental hospitals (per 100 000 population),31}","Section1/healthappended/Appended Query.{Mental health units in general hospitals (per 100 000 population),32}","Section1/healthappended/Appended Query.{Total (recorded+unrecorded) alcohol per capita (15+) consumption,33}","Section1/healthappended/Appended Query.{Births attended by skilled health personnel (in the two or three years preceding the survey) (%),34}","Section1/healthappended/Appended Query.{Births attended by skilled health personnel (in the five years preceding the survey) (%),35}","Section1/healthappended/Appended Query.{Tuberculosis treatment coverage,36}","Section1/healthappended/Appended Query.{Tuberculosis - new and relapse cases,37}","Section1/healthappended/Appended Query.{Life expectancy at birth (years),38}","Section1/healthappended/Appended Query.{Neonatal mortality rate (per 1000 live births),39}","Section1/healthappended/Appended Query.{Life expectancy at age 60 (years),40}","Section1/healthappended/Appended Query.{Distribution of causes of death among children aged <5 years (%) - Pneumonia,41}","Section1/healthappended/Appended Query.{Distribution of causes of death among children aged <5 years (%) - Injuries,42}","Section1/healthappended/Appended Query.{Distribution of causes of death among children aged <5 years (%) - Diarrhoea,43}","Section1/healthappended/Appended Query.{Distribution of causes of death among children aged <5 years (%) - Measles,44}","Section1/healthappended/Appended Query.{Distribution of causes of death among children aged <5 years (%) - HIV/AIDS,45}","Section1/healthappended/Appended Query.{Distribution of causes of death among children aged <5 years (%) - Other diseases,46}","Section1/healthappended/Appended Query.{Distribution of causes of death among children aged <5 years (%) - Prematurity,47}","Section1/healthappended/Appended Query.{Distribution of causes of death among children aged <5 years (%) - Neonatal sepsis,48}","Section1/healthappended/Appended Query.{Distribution of causes of death among children aged <5 years (%) - Congenital anomalies,49}","Section1/healthappended/Appended Query.{Distribution of causes of death among children aged <5 years (%) - Birth asphyxia,50}","Section1/healthappended/Appended Query.{Cholera - number of reported cases,51}","Section1/healthappended/Appended Query.{Diphtheria - number of reported cases,52}","Section1/healthappended/Appended Query.{Pertussis - number of reported cases,53}","Section1/healthappended/Appended Query.{Number of new leprosy cases,54}","Section1/healthappended/Appended Query.{Total tetanus - number of reported cases,55}","Section1/healthappended/Appended Query.{Malaria - number of reported confirmed cases,56}","Section1/healthappended/Appended Query.{Poliomyelitis - number of reported cases,57}","Section1/healthappended/Appended Query.{Yellow fever - number of reported cases,58}","Section1/healthappended/Appended Query.{Mumps - number of reported cases,59}","Section1/healthappended/Appended Query.{Congenital Rubella Syndrome - number of reported cases,60}","Section1/healthappended/Appended Query.{Neonatal tetanus - number of reported cases,61}","Section1/healthappended/Appended Query.{Total rubella - number of reported cases,62}","Section1/healthappended/Appended Query.{Measles - number of reported cases,63}","Section1/healthappended/Appended Query.{Diphtheria tetanus toxoid and pertussis (DTP3) immunization coverage among 1-year-olds (%),64}","Section1/healthappended/Appended Query.{Children aged < 5 years with pneumonia symptoms taken to a healthcare provider (%),65}","Section1/healthappended/Appended Query.{Antenatal care coverage - at least one visit, among girls aged 15-19 (%),66}","Section1/healthappended/Appended Query.{Hepatitis B (HepB3) immunization coverage among 1-year-olds (%),67}","Section1/healthappended/Appended Query.{Neonates protected at birth against neonatal tetanus (PAB) (%),68}","Section1/healthappended/Appended Query.{Hib (Hib3) immunization coverage among 1-year-olds (%),69}","Section1/healthappended/Appended Query.{Hospital beds (per 10 000 population),70}","Section1/healthappended/Appended Query.{Number of dentistry personnel,71}","Section1/healthappended/Appended Query.{Private prepaid plans as a percentage of private expenditure on health,72}","Section1/healthappended/Appended Query.{Per capita government expenditure on health at average exchange rate (US$),73}","Section1/healthappended/Appended Query.{Per capita total expenditure on health (PPP int. $),74}","Section1/healthappended/Appended Query.{Per capita government expenditure on health (PPP int. $),75}","Section1/healthappended/Appended Query.{General government expenditure on health as a percentage of total government expenditure,76}","Section1/healthappended/Appended Query.{External resources for health as a percentage of total expenditure on health,77}","Section1/healthappended/Appended Query.{Social security expenditure on health as a percentage of general government expenditure on health,78}","Section1/healthappended/Appended Query.{Out-of-pocket expenditure as a percentage of private expenditure on health,79}","Section1/healthappended/Appended Query.{Total expenditure on health as a percentage of gross domestic product,80}","Section1/healthappended/Appended Query.{Private expenditure on health as a percentage of total expenditure on health,81}","Section1/healthappended/Appended Query.{General government expenditure on health as a percentage of total expenditure on health,82}","Section1/healthappended/Appended Query.{Per capita total expenditure on health at average exchange rate (US$),83}","Section1/healthappended/Appended Query.{Measles-containing-vaccine first-dose (MCV1) immunization coverage among 1-year-olds (%),84}","Section1/healthappended/Appended Query.{Population median age (years),85}","Section1/healthappended/Appended Query.{Population proportion under 15 (%),86}","Section1/healthappended/Appended Query.{Population proportion over 60 (%),87}","Section1/healthappended/Appended Query.{Gross national income per capita (PPP int. $),88}","Section1/healthappended/Appended Query.{Population living in urban areas (%),89}","Section1/healthappended/Appended Query.{Cellular subscribers (per 100 population),90}","Section1/healthappended/Appended Query.{Antiretroviral therapy coverage among people with advanced HIV infection (%), WHO 2006 guidelines,91}","Section1/healthappended/Appended Query.{Number of suspected meningitis deaths reported,92}","Section1/healthappended/Appended Query.{Low-birth-weight newborns (%),93}","Section1/healthappended/Appended Query.{Deaths due to HIV/AIDS (per 100 000 population),94}","Section1/healthappended/Appended Query.{Meningitis - number of reported cases,95}","Section1/healthappended/Appended Query.{Unmet need for family planning, among girls aged 15-19 (%),96}","Section1/healthappended/Appended Query.{Prevalence of smoking any tobacco product among persons aged >= 15 years,97}","Section1/healthappended/Appended Query.{Population (in thousands) total,98}","Section1/healthappended/Appended Query.{Births attended by skilled health personnel (%),99}","Section1/healthappended/Appended Query.{Estimated number of malaria cases,100}","Section1/healthappended/Appended Query.{Antenatal care coverage - at least four visits (%),101}","Section1/healthappended/Appended Query.{Children aged <5 years with diarrhoea receiving ORT (%),102}","Section1/healthappended/Appended Query.{Plague - number of reported cases,103}","Section1/healthappended/Appended Query.{Number of community health workers,104}","Section1/healthappended/Appended Query.{Community health workers density (per 10 000 population),105}","Section1/healthappended/Appended Query.{H5N1 influenza - number of reported cases,106}","Section1/healthappended/Appended Query.{Children aged 6-59 months who received vitamin A supplementation (%),107}","Section1/healthappended/Appended Query.{Children aged <5 years with ARI symptoms who took antibiotic treatment (%),108}","Section1/healthappended/Appended Query.{Number of suspected meningitis cases reported,109}","Section1/healthappended/Appended Query.{Number of meningitis epidemic districts,110}","Section1/healthappended/Appended Query.{Number of environment and public health workers,111}","Section1/healthappended/Appended Query.{Density of environment and public health workers (per 10 000 population),112}","Section1/healthappended/Appended Query.{Rural population growth (annual %),113}","Section1/healthappended/Appended Query.{Rural population (% of total population),114}","Section1/healthappended/Appended Query.{Prevalence of HIV, total (% of population ages 15-49),115}","Section1/healthappended/Appended Query.{Income share held by lowest 20%,116}","Section1/healthappended/Appended Query.{Poverty headcount ratio at $1.90 a day (2011 PPP) (% of population),117}","Section1/healthappended/Appended Query.{Vulnerable employment, total (% of total employment) (modeled ILO estimate),118}","Section1/healthappended/Appended Query.{Net migration,119}","Section1/healthappended/Appended Query.{Foreign direct investment, net outflows (% of GDP),120}","Section1/healthappended/Appended Query.{Current account balance (% of GDP),121}","Section1/healthappended/Appended Query.{Net primary income (BoP, current US$),122}","Section1/healthappended/Appended Query.{Foreign direct investment, net (BoP, current US$),123}","Section1/healthappended/Appended Query.{Foreign direct investment, net inflows (% of GDP),124}","Section1/healthappended/Appended Query.{Expense (% of GDP),125}","Section1/healthappended/Appended Query.{Adjusted savings: education expenditure (% of GNI),126}","Section1/healthappended/Appended Query.{Adjusted savings: gross savings (% of GNI),127}","Section1/healthappended/Appended Query.{Adjusted net national income (current US$),128}","Section1/healthappended/Appended Query.{Adjusted net national income per capita (current US$),129}","Section1/healthappended/Appended Query.{Adjusted net national income per capita (annual % growth),130}","Section1/healthappended/Appended Query.{GDP per capita (current US$),131}","Section1/healthappended/Appended Query.{GDP per capita (current LCU),132}","Section1/healthappended/Appended Query.{GDP per capita growth (annual %),133}","Section1/healthappended/Appended Query.{GDP per capita, PPP (current international $),134}","Section1/healthappended/Appended Query.{Gross domestic savings (% of GDP),135}","Section1/healthappended/Appended Query.{Gross domestic income (constant LCU),136}","Section1/healthappended/Appended Query.{GNI per capita (current LCU),137}","Section1/healthappended/Appended Query.{GNI per capita growth (annual %),138}","Section1/healthappended/Appended Query.{GNI per capita, PPP (current international $),139}","Section1/healthappended/Appended Query.{Gross savings (% of GNI),140}","Section1/healthappended/Appended Query.{Gross savings (% of GDP),141}","Section1/healthappended/Appended Query.{PPP conversion factor, GDP (LCU per international $),142}","Section1/healthappended/Appended Query.{Barro-Lee: Percentage of female population age 15+ with no education,143}","Section1/healthappended/Appended Query.{Barro-Lee: Percentage of population age 15+ with no education,144}","Section1/healthappended/Appended Query.{Barro-Lee: Population in thousands, age 15+, total,145}","Section1/healthappended/Appended Query.{Barro-Lee: Population in thousands, age 15+, female,146}","Section1/healthappended/Appended Query.{Barro-Lee: Average years of total schooling, age 15+, total,147}","Section1/healthappended/Appended Query.{Barro-Lee: Average years of total schooling, age 15+, female,148}","Section1/healthappended/Appended Query.{Female pupils below minimum reading proficiency at end of primary (%). Low GAML ,149}","Section1/healthappended/Appended Query.{Male pupils below minimum reading proficiency at end of primary (%). Low GAML th,150}","Section1/healthappended/Appended Query.{Female primary school age children out-of-school (%),151}","Section1/healthappended/Appended Query.{Male primary school age children out-of-school (%),152}","Section1/healthappended/Appended Query.{Cumulative drop-out rate to the last grade of primary education, both sexes (%),153}","Section1/healthappended/Appended Query.{Pupil-teacher ratio in lower secondary education (headcount basis),154}","Section1/healthappended/Appended Query.{Pupil-teacher ratio in upper secondary education (headcount basis),155}","Section1/healthappended/Appended Query.{ All types,156}","Section1/healthappended/Appended Query.{ Beer,157}","Section1/healthappended/Appended Query.{ Wine,158}","Section1/healthappended/Appended Query.{ Spirits,159}","Section1/healthappended/Appended Query.{ Other alcoholic beverages,160}","Section1/healthappended/Appended Query.{Happiness Rank,161}","Section1/healthappended/Appended Query.{Happiness Score,162}","Section1/healthappended/Appended Query.{Economy (GDP per Capita),163}","Section1/healthappended/Appended Query.{Family,164}","Section1/healthappended/Appended Query.{Health (Life Expectancy),165}","Section1/healthappended/Appended Query.{Freedom,166}","Section1/healthappended/Appended Query.{Trust (Government Corruption),167}","Section1/healthappended/Appended Query.{Generosity,168}","Section1/healthappended/Appended Query.{Dystopia Residual,169}","Section1/healthappended/Appended Query.{Value,170}","Section1/healthappended/Appended Query.{Life expectancy,171}","Section1/healthappended/Appended Query.{GDP per capita (current US $),172}"],"RelationshipInfo":[]}
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
