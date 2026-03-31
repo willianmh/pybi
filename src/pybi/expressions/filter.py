@@ -13,6 +13,7 @@ class FilterTypeEnum(Enum):
     ADVANCED = "Advanced"
     TOPN = "TopN"
     RELATIVE_DATE = "RelativeDate"
+    PASSTHROUGH = "Passthrough"
 
 
 class FilterObjectProperty(BaseModel):

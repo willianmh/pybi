@@ -167,7 +167,7 @@ class ExpansionState(BaseModel):
 class QueryOptions(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    keepProjectionOrder: bool
+    keepProjectionOrder: bool | None = None
     allowBinnedLineSample: bool | None = None
 
 

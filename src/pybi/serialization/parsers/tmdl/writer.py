@@ -197,6 +197,8 @@ class TMDLWriter:
         * trailing whitespace (spaces or tabs)
         * leading spaces (after stripping leading tabs) that convey
           indentation which the tokenizer would discard
+        * single quotes (') that the lexer would misinterpret as
+          TMDL quoted-name delimiters
 
         Args:
             expression: The expression to check.
@@ -219,6 +221,9 @@ class TMDLWriter:
             # Leading spaces (after tabs) — would be lost by tokenizer
             stripped_tabs = line.lstrip("\t")
             if stripped_tabs and stripped_tabs[0] == " ":
+                return True
+            # Single quotes — lexer interprets as quoted-name delimiters
+            if "'" in line:
                 return True
 
         return False
@@ -526,10 +531,30 @@ class TMDLWriter:
         # M expression source - use inline "source =" format
         elif source.expression:
             expr_lines = self._normalize_expression_lines(source.expression)
-            lines.append(f"{self._indent(prop_indent)}source =")
-            expr_indent = self._indent(prop_indent + 1)
-            for expr_line in expr_lines:
-                lines.append(f"{expr_indent}{expr_line}")
+            is_multiline = len(expr_lines) > 1
+            needs_backticks = is_multiline and self._needs_backticks(expr_lines)
+
+            if needs_backticks:
+                lines.append(
+                    f"{self._indent(prop_indent)}source = {BACKTICK_EXPR}"
+                )
+                expr_indent = self._indent(prop_indent + 2)
+                for expr_line in expr_lines:
+                    lines.append(f"{expr_indent}{expr_line}")
+                lines.append(f"{expr_indent}{BACKTICK_EXPR}")
+            elif is_multiline:
+                lines.append(f"{self._indent(prop_indent)}source =")
+                expr_indent = self._indent(prop_indent + 1)
+                for expr_line in expr_lines:
+                    lines.append(f"{expr_indent}{expr_line}")
+            else:
+                expr_text = (expr_lines[0] if expr_lines else "").strip()
+                if expr_text:
+                    lines.append(
+                        f"{self._indent(prop_indent)}source = {expr_text}"
+                    )
+                else:
+                    lines.append(f"{self._indent(prop_indent)}source =")
 
         return lines
 

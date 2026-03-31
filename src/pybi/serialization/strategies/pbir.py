@@ -133,8 +133,8 @@ class PbirStrategy:
         if defn.version is not None:
             parts.append(to_part(defn.version, _VERSION_PATH))
 
-        if defn.report_metadata is not None:
-            parts.append(to_part(defn.report_metadata, _REPORT_PATH))
+        if defn.report is not None:
+            parts.append(to_part(defn.report, _REPORT_PATH))
 
         if defn.pages_metadata is not None:
             parts.append(to_part(defn.pages_metadata, _PAGES_METADATA_PATH))
