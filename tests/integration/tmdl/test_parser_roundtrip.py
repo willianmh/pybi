@@ -474,7 +474,6 @@ class TestParserStructuralInvariants:
             nodes = _parse_file(path)
             for node in nodes:
                 if node.object_type == "table":
-                    assert (
-                        len(node.children) >= 1
-                        or len(node.properties) >= 1
-                    ), f"Table {node.name} in {path.name} has no content"
+                    assert len(node.children) >= 1 or len(node.properties) >= 1, (
+                        f"Table {node.name} in {path.name} has no content"
+                    )

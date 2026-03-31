@@ -132,7 +132,10 @@ class TMDLTransformer:
         raw = expand_node(node)
         if node.expression is not None:
             raw["type"] = "calculated"
-            raw["expression"] = _normalize_expr(node.expression)
+            normalized = _normalize_expr(node.expression)
+            raw["expression"] = (
+                "\n".join(normalized) if isinstance(normalized, list) else normalized
+            )
         # Rewrite changedProperty dicts from {name, expression} to {property}
         if "changedProperties" in raw:
             raw["changedProperties"] = _normalize_changed_properties(

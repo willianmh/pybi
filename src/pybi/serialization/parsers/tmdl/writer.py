@@ -608,9 +608,7 @@ class TMDLWriter:
             needs_backticks = is_multiline and self._needs_backticks(expr_lines)
 
             if needs_backticks:
-                lines.append(
-                    f"{self._indent(prop_indent)}source = {BACKTICK_EXPR}"
-                )
+                lines.append(f"{self._indent(prop_indent)}source = {BACKTICK_EXPR}")
                 expr_indent = self._indent(prop_indent + 2)
                 for expr_line in expr_lines:
                     lines.append(f"{expr_indent}{expr_line}")
@@ -623,9 +621,7 @@ class TMDLWriter:
             else:
                 expr_text = (expr_lines[0] if expr_lines else "").strip()
                 if expr_text:
-                    lines.append(
-                        f"{self._indent(prop_indent)}source = {expr_text}"
-                    )
+                    lines.append(f"{self._indent(prop_indent)}source = {expr_text}")
                 else:
                     lines.append(f"{self._indent(prop_indent)}source =")
 
@@ -1028,7 +1024,9 @@ class TMDLWriter:
             lines.append(f"\tdiscourageImplicitMeasures")
 
         if model.maxParallelismPerRefresh is not None:
-            lines.append(f"\tmaxParallelismPerRefresh: {model.maxParallelismPerRefresh}")
+            lines.append(
+                f"\tmaxParallelismPerRefresh: {model.maxParallelismPerRefresh}"
+            )
 
         # Data access options
         if model.dataAccessOptions:

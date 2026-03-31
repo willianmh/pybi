@@ -8,8 +8,7 @@ from pybi.serialization.strategies import ModelBimStrategy, TmdlStrategy
 from pybi.serialization.transport.local import LocalTransport
 
 SAMPLE_ROOT = Path(
-    "samples/legacy/11.25/supply-chain"
-    "/Supply Chain Sample.SemanticModel"
+    "samples/legacy/11.25/supply-chain/Supply Chain Sample.SemanticModel"
 )
 
 
@@ -64,7 +63,9 @@ def test_bench_tmdl_deserialize(benchmark, tmdl_strategy: TmdlStrategy, tmdl_par
     benchmark(tmdl_strategy.deserialize, tmdl_parts)
 
 
-def test_bench_tmdl_serialize(benchmark, tmdl_strategy: TmdlStrategy, legacy_model: SemanticModel):
+def test_bench_tmdl_serialize(
+    benchmark, tmdl_strategy: TmdlStrategy, legacy_model: SemanticModel
+):
     benchmark(tmdl_strategy.serialize, legacy_model)
 
 

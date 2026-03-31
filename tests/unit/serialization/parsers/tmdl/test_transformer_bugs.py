@@ -92,9 +92,7 @@ class TestCalculatedColumnExpression:
 
     def test_expression_stored_in_expression_key(self):
         """expand_node puts ObjectDeclaration.expression under 'expression' key."""
-        node = _node(
-            "column", name="C", expression="SUM(X)"
-        )
+        node = _node("column", name="C", expression="SUM(X)")
         raw = expand_node(node)
         assert raw["expression"] == "SUM(X)"
 
@@ -399,7 +397,7 @@ class TestTransformMeasureFormatStringDef:
         """formatStringDefinition as child object is converted to dict."""
         fsd = _node(
             "formatStringDefinition",
-            expression='\\$#,0;(\\$#,0);\\$#,0',
+            expression="\\$#,0;(\\$#,0);\\$#,0",
         )
         node = _node(
             "measure",
@@ -656,7 +654,9 @@ class TestParserToTransformerIntegration:
         m = t.measures[0]
         assert m.name == "Revenue Won"
         assert m.expression is not None
-        expr = m.expression if isinstance(m.expression, str) else "\n".join(m.expression)
+        expr = (
+            m.expression if isinstance(m.expression, str) else "\n".join(m.expression)
+        )
         assert "CALCULATE" in expr
         assert m.formatString == "\\$#,0"
 

@@ -13,16 +13,14 @@ from pybi.serialization.parsers.tmdl.lexer import TMDLLexer, Token, TokenType
 # ---------------------------------------------------------------------------
 
 _AI = Path(
-    "samples/pbir/11.25/ai"
-    "/Artificial Intelligence Sample.SemanticModel/definition"
+    "samples/pbir/11.25/ai/Artificial Intelligence Sample.SemanticModel/definition"
 )
 _COVID_US = Path(
     "samples/pbir/11.25/covid-19-us"
     "/COVID-19 US Tracking Sample.SemanticModel/definition"
 )
 _COVID_BAKEOFF = Path(
-    "samples/pbir/11.25/covid-bakeoff"
-    "/COVID Bakeoff.SemanticModel/definition"
+    "samples/pbir/11.25/covid-bakeoff/COVID Bakeoff.SemanticModel/definition"
 )
 _HUMAN_RESOURCES = Path(
     "samples/pbir/11.25/human-resources"
@@ -73,8 +71,10 @@ def all_tmdl_files(samples_dir: Path) -> list[Path]:
 
 
 class TestLexerOnAllSamples:
-    @pytest.fixture(params=sorted(Path("samples/pbir/11.25").glob("**/*.tmdl")),
-                    ids=lambda p: p.name)
+    @pytest.fixture(
+        params=sorted(Path("samples/pbir/11.25").glob("**/*.tmdl")),
+        ids=lambda p: p.name,
+    )
     def tmdl_file(self, request) -> Path:
         return request.param
 
@@ -98,8 +98,7 @@ class TestLexerOnAllSamples:
         _lex_file(tmdl_file)  # must not raise
 
     def test_eof_always_last_token(self, token_list: list[Token], tmdl_file: Path):
-        assert token_list[-1].type == TokenType.EOF, \
-            f"EOF not last in {tmdl_file.name}"
+        assert token_list[-1].type == TokenType.EOF, f"EOF not last in {tmdl_file.name}"
 
     def test_indent_dedent_balance(self, token_list: list[Token], tmdl_file: Path):
         indents = sum(1 for t in token_list if t.type == TokenType.INDENT)
@@ -111,9 +110,9 @@ class TestLexerOnAllSamples:
 
     def test_no_consecutive_newlines(self, token_list: list[Token], tmdl_file: Path):
         for a, b in _consecutive_pairs(token_list):
-            assert not (
-                a.type == TokenType.NEWLINE and b.type == TokenType.NEWLINE
-            ), f"Consecutive NEWLINEs in {tmdl_file.name} at line {b.line}"
+            assert not (a.type == TokenType.NEWLINE and b.type == TokenType.NEWLINE), (
+                f"Consecutive NEWLINEs in {tmdl_file.name} at line {b.line}"
+            )
 
     def test_no_token_has_line_zero(self, token_list: list[Token], tmdl_file: Path):
         for t in token_list:
@@ -131,12 +130,12 @@ class TestSpecificSampleFiles:
         toks = _lex_file(_AI / "database.tmdl")
         tt = [t.type for t in toks]
         expected = [
-            TokenType.KEYWORD,    # database
+            TokenType.KEYWORD,  # database
             TokenType.NEWLINE,
             TokenType.INDENT,
-            TokenType.IDENTIFIER, # compatibilityLevel
+            TokenType.IDENTIFIER,  # compatibilityLevel
             TokenType.COLON,
-            TokenType.STRING,     # 1567
+            TokenType.STRING,  # 1567
             TokenType.NEWLINE,
             TokenType.DEDENT,
             TokenType.EOF,
@@ -163,7 +162,11 @@ class TestSpecificSampleFiles:
         toks = _lex_file(_AI / "relationships.tmdl")
         # Find COLON tokens followed by a STRING with value "false"
         for a, b in _consecutive_pairs(toks):
-            if a.type == TokenType.COLON and b.type == TokenType.STRING and b.value == "false":
+            if (
+                a.type == TokenType.COLON
+                and b.type == TokenType.STRING
+                and b.value == "false"
+            ):
                 return
         pytest.fail("Expected COLON → STRING('false') for isActive: false")
 
@@ -230,9 +233,7 @@ class TestSpecificSampleFiles:
         line number, so the two must differ by at least the number of content
         lines (here > 5).
         """
-        toks = _lex_file(
-            _COVID_BAKEOFF / "tables" / "Days with restrictions.tmdl"
-        )
+        toks = _lex_file(_COVID_BAKEOFF / "tables" / "Days with restrictions.tmdl")
         # Find the large STRING that is the source = ``` block
         for i, t in enumerate(toks):
             if (
@@ -248,7 +249,9 @@ class TestSpecificSampleFiles:
                         f"STRING.line ({t.line}) + 5 for multi-line backtick"
                     )
                     return
-        pytest.fail("No multi-line STRING > 200 chars found in Days with restrictions.tmdl")
+        pytest.fail(
+            "No multi-line STRING > 200 chars found in Days with restrictions.tmdl"
+        )
 
     def test_human_resources_flag_properties_are_identifiers(self):
         """legacyRedirects and returnErrorValuesAsNull are IDENTIFIER, not KEYWORD."""
@@ -259,7 +262,9 @@ class TestSpecificSampleFiles:
 
     def test_human_resources_ref_statements(self):
         toks = _lex_file(_HUMAN_RESOURCES / "model.tmdl")
-        ref_tokens = [t for t in toks if t.type == TokenType.KEYWORD and t.value == "ref"]
+        ref_tokens = [
+            t for t in toks if t.type == TokenType.KEYWORD and t.value == "ref"
+        ]
         assert len(ref_tokens) >= 10, (
             f"Expected >= 10 'ref' keywords, got {len(ref_tokens)}"
         )
