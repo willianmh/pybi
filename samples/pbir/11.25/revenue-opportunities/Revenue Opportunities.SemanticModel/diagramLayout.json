@@ -1,0 +1,111 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 387.92121153671764,
+            "y": 280.39248909518847
+          },
+          "nodeIndex": "Sales",
+          "nodeLineageTag": "f92a72fd-3168-4ba3-be9d-5fe62ca23d1e",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 134.87227682251341,
+            "y": 42.5607930231979
+          },
+          "nodeIndex": "Accounts",
+          "nodeLineageTag": "7aac98fd-1529-47b4-87ad-1f20e739fd6c",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 316.83333199458377,
+            "y": 672.63984708730823
+          },
+          "nodeIndex": "Opportunities",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 82,
+            "y": 466.211395902666
+          },
+          "nodeIndex": "Partners",
+          "nodeLineageTag": "589bfd73-e114-4a1c-81e8-0fe686d0e188",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 691.96593444592577,
+            "y": 662.03506688064317
+          },
+          "nodeIndex": "Products",
+          "nodeLineageTag": "b18f3965-1021-4344-b308-488d3992b39a",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 465.9387792301294,
+            "y": -50
+          },
+          "nodeIndex": "SalesStages",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 722.86142315056816,
+            "y": 161.97034250384127
+          },
+          "nodeIndex": "Dates",
+          "nodeLineageTag": "41a41ef6-178f-4f38-9649-4e714e941e08",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 6
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 115.95036767674034,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

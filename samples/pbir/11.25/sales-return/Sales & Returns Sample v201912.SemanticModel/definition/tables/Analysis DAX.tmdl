@@ -1,0 +1,181 @@
+table 'Analysis DAX'
+	lineageTag: 445c1cb0-47b0-4e8b-986b-300a640b0447
+
+	measure 'Net Sales' = CALCULATE(SUM(Sales[Amount]),Sales[Status]="Sold")
+		formatString: \$#,0;-\$#,0;\$#,0
+		lineageTag: cd2e7756-eb39-41a6-a73c-36aecb7b43c8
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-CA"}
+
+	measure 'Net Sales PM' = CALCULATE([Net Sales],PREVIOUSMONTH('Calendar'[Date]))
+		formatString: \$#,0;-\$#,0;\$#,0
+		lineageTag: b71875ff-9152-49a3-9651-654f7beb05e9
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-CA"}
+
+	measure 'Last 2 Months Net Sales' = [Net Sales]+[Net Sales PM]
+		formatString: 0
+		lineageTag: 476b56d5-ccb7-4f18-a60a-d1ed841caaf7
+
+	measure 'Net Sales Variance' = [Net Sales]-[Net Sales PM]
+		formatString: \$#,0;-\$#,0;\$#,0
+		lineageTag: ea94c27a-07f9-4dcb-9c51-33ecf46a07b2
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-CA"}
+
+	measure 'Net Sales Variance %' = DIVIDE([Net Sales],[Net Sales PM],0)-1
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 2263b9a4-5117-4e64-a425-7236388fc050
+
+	measure 'Units Sold' = CALCULATE(SUM(Sales[Unit]),Sales[Status]="Sold")
+		formatString: #,0
+		lineageTag: 4f6b44ec-7552-484e-bd67-124e67a7c385
+
+	measure 'Units Sold PM' = CALCULATE([Units Sold],PREVIOUSMONTH('Calendar'[Date]))
+		formatString: #,0
+		lineageTag: d51c6348-be52-401c-a2c7-677e67d72580
+
+	measure 'Units Sold Variance %' = DIVIDE([Units Sold],[Units Sold PM],0)-1
+		lineageTag: 7ce11e74-aa12-487e-a6af-cbbd11542942
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Returns = CALCULATE(SUM(Sales[Amount]),Sales[Status]="Returned")
+		formatString: \$#,0;-\$#,0;\$#,0
+		lineageTag: 09023869-ae68-4a3a-9d35-a6becc131965
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-CA"}
+
+	measure 'Returns PM' = CALCULATE([Returns],PREVIOUSMONTH('Calendar'[Date]))
+		formatString: 0
+		lineageTag: eccc0c03-68f2-488a-9858-acaa5ec1d949
+
+	measure 'Last 2 Months Returns' = [Returns]+[Returns PM]
+		formatString: 0
+		lineageTag: 81e36c3f-3f30-4970-ac53-6009af8b216b
+
+	measure 'Returns Variance' = [Returns]-[Returns PM]
+		formatString: 0
+		lineageTag: 5751baf5-17f8-4fae-849d-1f17457f0d15
+
+	measure 'Returns Variance %' = (DIVIDE([Returns],[Returns PM],0)-1)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 936690a6-4116-4d5b-93b7-6c64656a625a
+
+	measure 'Units Returned' = CALCULATE(SUM(Sales[Unit]),Sales[Status]="Returned")
+		formatString: #,0
+		lineageTag: 56a36fdf-16d1-46a9-b22d-63f6f074374d
+
+	measure 'Units Returned PM' = CALCULATE([Units Returned],PREVIOUSMONTH('Calendar'[Date]))
+		formatString: 0
+		lineageTag: 6b4eb375-20c9-4c6b-ab5a-d750c863bfb8
+
+	measure 'Units Returned Variance %' = DIVIDE([Units Returned],[Units Returned PM],0)-1
+		lineageTag: c0856a37-73e9-41a6-99f1-297c427cb949
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Return Rate' = DIVIDE((ROUND(((DIVIDE([Returns],SUM(Sales[Amount]),0))*100),0)),100,0)
+		formatString: 0%;-0%;0%
+		lineageTag: c3645989-c086-47ba-af31-e12ac4d4d52c
+
+	measure 'WIF Units Returned' = IF([Units Returned]-[WIF Units Returned Average]<0,0,[Units Returned]-[WIF Units Returned Average])
+		lineageTag: 66092a0d-befe-4048-8c0f-9828990a5333
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'WIF Units Returned Average' = DIVIDE([WIF Units Returned Difference],CALCULATE(DISTINCTCOUNT('Calendar'[Date]), ALL('Calendar')),0)
+		lineageTag: 9d462e15-7dd7-4344-bca7-a938a314eb8b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'WIF Units Returned Difference' = [WIF Units Returned_1]-[WIF Units Returned_2]
+		lineageTag: 95f5e193-f587-47d6-aa98-be16ec2cf701
+
+	measure 'WIF Units Returned_1' = CALCULATE([Units Returned], ALLSELECTED('Calendar'[Date]))
+		formatString: 0
+		lineageTag: 978a4e31-2673-45a2-be8b-86bdd31dfd8d
+
+	measure 'WIF Units Returned_2' = CALCULATE([WIF Adjusted Units Returned], ALLSELECTED('Calendar'[Date]))
+		lineageTag: b365a446-2b19-472e-bab1-6dd79ad89b11
+
+	measure 'WIF Adjusted Units Returned' = DIVIDE((SUM(Sales[Unit])*'% Return Rate'[% Return Rate Value]),1,0)
+		lineageTag: 4da2584d-d264-4f58-afb1-d6c7d29b9324
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'WIF Adjusted Net Sales' = (SUM(Sales[Unit])*[WIF Price per Unit])-DIVIDE((SUM(Sales[Unit])*'% Return Rate'[% Return Rate Value]),1,0)*[WIF Price per Unit]
+		formatString: \$#,0;-\$#,0;\$#,0
+		lineageTag: 89f3d61f-24b1-4b8a-a8b8-846c36501d89
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-CA"}
+
+	measure 'WIF Price per Unit' = DIVIDE([Net Sales],[Units Sold],0)
+		lineageTag: 74cedb53-7f30-40dc-929a-93609a0a53f8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'WIF Profit' = IF([WIF Same]=0,0,IF(ROUNDDOWN([WIF Adjusted Net Sales]-[Net Sales],0)<0,0,ROUNDDOWN([WIF Adjusted Net Sales]-[Net Sales],0)))
+		formatString: \$#,0;-\$#,0;\$#,0
+		lineageTag: b524dc1e-e1ba-4267-91d2-c57ef6ffa1b8
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-CA"}
+
+	measure 'Profit Difference' = DIVIDE([WIF Adjusted Sales],[Net Sales],0)-1
+		lineageTag: aa35df95-aff7-4d3d-a722-1955ce6aee72
+
+	measure 'WIF Adjusted Sales' = [WIF Units Returned_1]*[WIF Price per Unit]
+		lineageTag: a0a4e80c-7645-44df-88d3-be04f39594dd
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'WIF Sales' = CALCULATE([Net Sales],ALL('Calendar'[Date].[Month]))
+		formatString: \$#,0;-\$#,0;\$#,0
+		lineageTag: 9aea99a5-0f7a-421f-847b-e81ae3188e19
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-CA"}
+
+	measure 'WIF Same' = IF([% Return Rate Value]>=CALCULATE([Return Rate],ALL(Store[Type]),ALL(Store[Store])),0,1)
+		formatString: 0
+		lineageTag: 5fe6697f-11ee-4ae5-92b2-6bed10f4326e
+
+	measure 'WIF Forecast' = [Net Sales]+[WIF Profit]
+		formatString: \$#,0;-\$#,0;\$#,0
+		lineageTag: a19bf6bc-3767-4b5f-b56d-9a6658a817af
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-CA"}
+
+	measure 'WIF Total Forecast' = CALCULATE([WIF Forecast],ALL('Calendar'[Date].[Month]))
+		formatString: \$#,0;-\$#,0;\$#,0
+		lineageTag: 6706b1b0-20a7-43a0-b08c-f6df7eba75ea
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-CA"}
+
+	measure 'WIF Total Profit' = CALCULATE([WIF Profit],ALL('Calendar'[Date].[Month]))
+		formatString: \$#,0;-\$#,0;\$#,0
+		lineageTag: 1bed2507-7783-49f6-9a2a-61eb07a646ab
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-CA"}
+
+	measure 'WIF Profit Difference' = DIVIDE([WIF Forecast],[Net Sales],0)-1
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 99a97246-6fb3-4d03-b0d9-7814afa5562d
+
+	measure 'Total Return Rate' = CALCULATE([Return Rate],ALL('Calendar'[Date].[Month]))
+		formatString: 0%;-0%;0%
+		lineageTag: ee417d6a-8fd1-4caf-a61b-fc8b79f72aa0
+
+	partition 'Analysis DAX-974df033-112a-4cf0-a45f-a45006d690ca' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

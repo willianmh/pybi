@@ -1,0 +1,40 @@
+table 'COVID measures'
+	lineageTag: 9f681416-7364-466e-8d62-c4b5606c65be
+
+	measure 'Total confirmed cases' = SUM('COVID'[Daily cases])
+		formatString: #,0
+		lineageTag: 6703243b-7855-43b5-9d17-9cc2774e30a5
+
+	measure 'Total deaths' = SUM(COVID[Daily deaths])
+		formatString: #,0
+		lineageTag: 2f0fb5e8-8f60-463a-aac6-902e21b5e422
+
+	measure 'Case fatality rate' = ```
+			DIVIDE([Total deaths],[Total confirmed cases])
+			
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 59d2daf3-66b3-4755-b391-1d0b7a821c9e
+
+	measure 'Confirmed cases' = SUM('COVID'[Cases])
+		formatString: #,0
+		lineageTag: cdfd2ee6-aa24-4715-86a1-e72c23ba4e78
+
+	measure Deaths = SUM('COVID'[Deaths])
+		formatString: #,0
+		lineageTag: 2499066e-4818-4561-b3be-eb27dd9f4a48
+
+	partition 'COVID measures-b4337b49-e425-4b90-acb0-30bb0500cb95' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMlSKjQUA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", Int64.Type}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

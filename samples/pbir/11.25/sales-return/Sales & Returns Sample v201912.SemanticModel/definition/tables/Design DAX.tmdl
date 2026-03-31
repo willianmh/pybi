@@ -1,0 +1,123 @@
+table 'Design DAX'
+	lineageTag: 27b86990-cbf9-49a1-9d2e-d8ee7816e592
+
+	measure 'Product Top N' =
+			
+			SWITCH(
+			    TRUE(),
+			    ISINSCOPE('Product'[Product]),
+			    RANKX(ALL('Product'[Product]),[Net Sales],,DESC),
+			    ISINSCOPE('Product'[Segment]),
+			    RANKX(ALL('Product'[Segment]),[Net Sales],,DESC),
+			    RANKX(ALL('Product'[Category]),[Net Sales],,DESC)
+			)
+		formatString: 0
+		lineageTag: bd89d675-790d-483d-9345-482d5ebe0793
+
+	measure 'Product Sales Top 3' = IF([Product Top N]<4,[Net Sales],0)
+		formatString: \$#,0;-\$#,0;\$#,0
+		lineageTag: 77e6397d-9393-4f69-bda9-967d1450c25f
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-CA"}
+
+	measure 'Product Sales Other' = IF([Product Top N]>3,[Net Sales],0)
+		formatString: \$#,0;-\$#,0;\$#,0
+		lineageTag: a7e1c109-6b22-4917-a399-0ef8894e5905
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-CA"}
+
+	measure 'Store Top N' = RANKX(ALL('Store'[Store]),[Net Sales],,DESC)
+		formatString: 0
+		lineageTag: f92389cb-2c3a-4d75-8bd2-8e9dd803ed67
+
+	measure 'Store Sales Other' = IF([Store Top N]>3,[Net Sales],0)
+		formatString: \$#,0;-\$#,0;\$#,0
+		lineageTag: 3eab07c9-cb2c-499c-98cb-dfb2d5ff6020
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-CA"}
+
+	measure 'Store Sales Top 3' = IF([Store Top N]<4,[Net Sales],0)
+		formatString: \$#,0;-\$#,0;\$#,0
+		lineageTag: bf92dbc2-b1be-43f3-98dd-c4b3ed64bbc9
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-CA"}
+
+	measure 'Net Sales Indicator' = CONCATENATE(IF([Net Sales Variance %]<=0,"","+"),FORMAT([Net Sales Variance %],"0.0%"))
+		lineageTag: accde1a4-a2a2-443a-86ca-6eaab82bfdfa
+
+	measure 'Units Sold Indicator' = CONCATENATE(IF([Units Sold Variance %]<=0,"","+"),FORMAT([Units Sold Variance %],"0.0%"))
+		lineageTag: 1288eecb-9cb6-40f6-8a7a-6059323bb594
+
+	measure 'Returns Indicator' = CONCATENATE(IF([Returns Variance %]<=0,"","+"),FORMAT([Returns Variance %],"0.0%"))
+		lineageTag: aa96d238-fd5d-47d1-912c-7ec33c7eaf7f
+
+	measure 'ProductR Top N' =
+			
+			SWITCH(
+			    TRUE(),
+			    ISINSCOPE('Product'[Product]),
+			    RANKX(ALL('Product'[Product]),[Returns],,DESC),
+			    ISINSCOPE('Product'[Segment]),
+			    RANKX(ALL('Product'[Segment]),[Returns],,DESC),
+			    RANKX(ALL('Product'[Category]),[Returns],,DESC)
+			)
+		formatString: 0
+		lineageTag: 8d4c4464-d0f4-4d19-a792-f2f87a611f1c
+
+	measure 'Product Returns Other' = IF([ProductR Top N]>3,[Returns],0)
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 367f6c9d-55d0-47b9-8e30-c89c0cc7395c
+
+	measure 'Product Returns Top 3' = IF([ProductR Top N]<4,[Returns],0)
+		formatString: \$#,0;-\$#,0;\$#,0
+		lineageTag: b4563709-dec3-4d36-ae79-b62dfb1b7cdc
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-CA"}
+
+	measure 'StoreR Top N' = RANKX(ALL('Store'[Store]),[Returns],,DESC)
+		formatString: 0
+		lineageTag: 271ce902-3d46-40e1-bda4-a5de9668ee00
+
+	measure 'Store Returns Other' = IF([StoreR Top N]>3,[Returns],0)
+		formatString: \$#,0;-\$#,0;\$#,0
+		lineageTag: 19dbac15-d8d6-4f41-9c64-edae27b890ed
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-CA"}
+
+	measure 'Returns Sales Top 3' = IF([StoreR Top N]<4,[Returns],0)
+		formatString: \$#,0;-\$#,0;\$#,0
+		lineageTag: 0f1aad1b-3133-47ba-ad15-0647e4ff2edc
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-CA"}
+
+	measure 'Units Returned Indicator' = CONCATENATE(IF([Returns Variance %]<=0,"","+"),FORMAT([Returns Variance %],"0.0%"))
+		lineageTag: a92707dc-7269-4c1a-84c8-594209bc9176
+
+	measure 'Net Sales Label' = CONCATENATE("",FORMAT([Net Sales],"$0,000"))
+		lineageTag: 2c2aba58-11b5-46fe-b7eb-cbe0c0104c4e
+
+	measure 'Profit Indicator' = CONCATENATE(IF([WIF Profit Difference]<=0,"","+"),FORMAT([WIF Profit Difference],"0.0%"))
+		lineageTag: 348fd79f-f753-46c2-916a-b4cebce661e9
+
+	measure Association = VALUE(CONCATENATE([Product Top N],(SUM(Association[Importance]))))
+		lineageTag: 0bbec620-3993-42f9-8ab8-4788bbd28c8d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Lift Label' = CONCATENATE(FORMAT(SUM(Association[Importance]),"0.0"),"x")
+		lineageTag: bd8f047a-5191-4ae1-8285-2171f92cc87e
+
+	partition 'Design DAX-7094b577-15d0-4809-b6aa-45ca87420cf2' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

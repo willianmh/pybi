@@ -1,0 +1,59 @@
+table Country
+	lineageTag: 74109f22-fea0-431e-b478-136e3acf05a0
+
+	column Country
+		dataType: string
+		lineageTag: ea214a7b-a5ac-41aa-82ce-79d015f2f1cf
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Country Code'
+		dataType: string
+		lineageTag: 8929e644-5c27-46d4-89e2-6d3a87f1db4b
+		summarizeBy: none
+		sourceColumn: Country Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: b398433a-64eb-4c8a-85cc-d6d4abd511ad
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column Continent
+		dataType: string
+		lineageTag: 2da14718-c6d6-4783-b81c-07e701670dfa
+		summarizeBy: none
+		sourceColumn: Continent
+
+		annotation SummarizationSetBy = Automatic
+
+	column World = "Earth"
+		lineageTag: e504558c-7274-4715-9242-1b9425e31052
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Country-4f99a58d-cfd5-4495-ac82-4706c2bb285f = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Justyna\OneDrive - Microsoft\Gartner\BI Bake Off\London\Country.xlsx"), null, true),
+				    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Sheet1_Sheet,{{"Column1", type text}, {"Column2", type text}}),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Changed Type", [PromoteAllScalars=true]),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Promoted Headers",{{"Country", type text}, {"Country Code", type text}})
+				in
+				    #"Changed Type1"
+
+	annotation PBI_QueryRelationships = {"columnCount":4,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/Country/Changed Type1.{Country,0}","Section1/Country/Changed Type1.{Country Code,1}","Section1/Country/Sheet1_Sheet.{Column3,2}","Section1/Country/Sheet1_Sheet.{Column4,3}"],"ColumnCount":4,"KeyColumnNames":[],"ColumnIdentities":["Section1/Country/Changed Type1.{Country,0}","Section1/Country/Changed Type1.{Country Code,1}","Section1/Country/Sheet1_Sheet.{Column3,2}","Section1/Country/Sheet1_Sheet.{Column4,3}"],"RelationshipInfo":[]}
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

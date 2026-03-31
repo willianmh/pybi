@@ -1,0 +1,195 @@
+/// Tracks sales activities
+table Sales
+	lineageTag: f92a72fd-3168-4ba3-be9d-5fe62ca23d1e
+
+	/// Calculates the average revenue generated from sales opportunities
+	measure 'Average Revenue' = AVERAGE([ProductRevenue])
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 5ca57a64-b692-4631-bbf4-2b8094913054
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	/// Calculates the total number of sales opportunities
+	measure 'Total Opportunity Count' = COUNTA([Opportunity ID])
+		formatString: #,0
+		lineageTag: d1fc1df6-dcf2-4676-870b-cf30b11e4c7a
+
+	/// Calculates the total revenue generated from all sales opportunities
+	measure 'Total Revenue' = SUM([ProductRevenue])
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 376639e5-fb0e-42f5-a83c-d60247748851
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	/// Calculates the average number of days between the sales date and the closed date for each sales record
+	measure 'Average Opportunity Days' =
+			AVERAGEX(
+			    Sales,
+			    DATEDIFF(Sales[Sales Date], Sales[Closed Date], DAY)
+			)
+		formatString: Whole Number
+		lineageTag: ec13dffd-ce47-4213-adb3-1c18c1b5b118
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	/// Unique identifier for the related sales opportunity
+	column 'Opportunity ID'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: d4d8cefe-c96c-4b7e-9232-a8fb1712760e
+		summarizeBy: none
+		sourceColumn: Opportunity ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Unique identifier for the related sales stage
+	column 'Sales Stage ID'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: fad21172-70dc-41bb-b1f0-c45c3a8fab68
+		summarizeBy: none
+		sourceColumn: Sales Stage ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Unique identifier for the related product
+	column 'Product ID'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 505dabb5-867e-423e-ac0f-aefdbd889ead
+		summarizeBy: none
+		sourceColumn: Product ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Revenue generated from the product
+	column ProductRevenue
+		dataType: decimal
+		isHidden
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: d4295103-d472-47ba-bf56-766b509f6b8e
+		summarizeBy: sum
+		sourceColumn: ProductRevenue
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	/// Date when the sales were made
+	/// 
+	column 'Sales Date'
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: ee139f25-af13-47c4-b4ed-fc2569093fa6
+		summarizeBy: none
+		sourceColumn: Sales Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	/// Date when the sales opportunity was closed
+	column 'Closed Date'
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 15c3cea7-b5e9-48e7-8a80-59044ed59c30
+		summarizeBy: none
+		sourceColumn: Closed Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	/// Unique identifier for the related account
+	column 'Account ID'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: a26be156-c2e5-424c-856b-bd9ca740acb7
+		summarizeBy: none
+		sourceColumn: Account ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Unique identifier for the related partner
+	column 'Partner ID'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 90e2f3d7-20d9-4069-8c01-98fd05f99a1c
+		summarizeBy: none
+		sourceColumn: Partner ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Sales-1d7ae771-a557-467f-9a2c-7f700b17c050 = m
+		mode: import
+		queryGroup: Facts
+		source = ```
+				let
+				    Source = #"Start date",
+				    TotalDays = Duration.Days(Date.From(DateTime.LocalNow()) - Source),
+				    #"Custom: List of Dates" = List.Dates(Source, TotalDays, #duration(1,0,0,0)),
+				    #"Converted to Table" = Table.FromList(#"Custom: List of Dates", Splitter.SplitByNothing(), type table [#"Sales Date" = date], null, ExtraValues.Error),
+				    #"Custom List: Random Date Values" = Table.AddColumn(#"Converted to Table", "List of Dates", each {0..Int64.From(Number.RandomBetween(100, 250))}, type list),
+				    #"Buffer: Random Date Values" = Table.Buffer(#"Custom List: Random Date Values"),
+				    #"Expanded List of Dates" = Table.ExpandListColumn(#"Buffer: Random Date Values", "List of Dates"),
+				    
+				
+				    // Closed Date
+				    #"Custom: Closed Date" = Table.AddColumn(#"Expanded List of Dates", "Closed Date", each [Sales Date] + #duration(fxResultGenerator(25, 90), 0,0,0), Date.Type),
+				    #"Buffer: Closed Date" = Table.Buffer(#"Custom: Closed Date"),
+				
+				    // Opportunity ID
+				    #"Custom: Opportunity ID" = Table.AddColumn(#"Buffer: Closed Date", "Opportunity ID", each fxResultGenerator(1, 486), Int64.Type),
+				    #"Buffer: Opportunity ID" = Table.Buffer(#"Custom: Opportunity ID"),
+				
+				    // Sales Stage ID
+				    #"Custom: Sales Stage ID" = Table.AddColumn(#"Buffer: Opportunity ID", "Sales Stage ID", each fxResultGenerator(1, 5), Int64.Type),
+				    #"Buffer: Sales Stage ID" = Table.Buffer(#"Custom: Sales Stage ID"),
+				    
+				    // Account ID
+				    #"Custom: Account ID" = Table.AddColumn(#"Buffer: Sales Stage ID", "Account ID", each fxResultGenerator(1, 357), Int64.Type),
+				    #"Buffer: Account ID" = Table.Buffer(#"Custom: Account ID"),
+				    
+				    // Partner ID
+				    #"Custom: Partner ID" = Table.AddColumn(#"Buffer: Account ID", "Partner ID", each fxResultGenerator(1, 101), Int64.Type),
+				    #"Buffer: Partner ID" = Table.Buffer(#"Custom: Partner ID"),
+				
+				    // Product ID
+				    #"Custom: Product ID" = Table.AddColumn(#"Buffer: Partner ID", "Product ID", each fxResultGenerator(1, 25), Int64.Type),
+				    #"Buffer: Product ID" = Table.Buffer(#"Custom: Product ID"),
+				
+				    // ProductRevenue
+				    #"Custom: ProductRevenue" = Table.AddColumn(#"Buffer: Product ID", "ProductRevenue", each Currency.From(Number.RandomBetween(10000, 50000)), Currency.Type),
+				    #"Buffer: ProductRevenue" = Table.Buffer(#"Custom: ProductRevenue"),
+				    #"Removed Columns" = Table.RemoveColumns(#"Buffer: ProductRevenue",{"List of Dates"})
+				in
+				    #"Removed Columns"
+				```
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

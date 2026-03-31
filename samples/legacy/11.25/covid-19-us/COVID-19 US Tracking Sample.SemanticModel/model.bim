@@ -1,0 +1,1149 @@
+{
+  "compatibilityLevel": 1550,
+  "model": {
+    "annotations": [
+      {
+        "name": "__PBI_TimeIntelligenceEnabled",
+        "value": "1"
+      },
+      {
+        "name": "PBI_QueryOrder",
+        "value": "[\"Cases\",\"Deaths\",\"COVID\",\"StateDim\",\"Table\",\"COVID measures\"]"
+      },
+      {
+        "name": "PBI_ProTooling",
+        "value": "[\"DevMode\"]"
+      }
+    ],
+    "culture": "en-US",
+    "cultures": [
+      {
+        "name": "en-US",
+        "linguisticMetadata": {
+          "content": {
+            "Entities": {
+              "covid_measures.case_fatality_rate": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "COVID measures",
+                    "ConceptualProperty": "Case fatality rate"
+                  }
+                },
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "Case Fatality Rate": {
+                      "Source": {
+                        "Agent": "PowerBI.VisualColumnRename",
+                        "Type": "External"
+                      },
+                      "State": "Suggested",
+                      "Weight": 0.9
+                    }
+                  }
+                ]
+              },
+              "covid_measures.total_confirmed_cases": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "COVID measures",
+                    "ConceptualProperty": "Total confirmed cases"
+                  }
+                },
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "Confirmed Cases": {
+                      "Source": {
+                        "Agent": "PowerBI.VisualColumnRename",
+                        "Type": "External"
+                      },
+                      "State": "Suggested",
+                      "Weight": 0.9
+                    }
+                  }
+                ]
+              },
+              "covid_measures.total_deaths": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "COVID measures",
+                    "ConceptualProperty": "Total deaths"
+                  }
+                },
+                "State": "Generated",
+                "Terms": [
+                  {
+                    "Total Deaths": {
+                      "Source": {
+                        "Agent": "PowerBI.VisualColumnRename",
+                        "Type": "External"
+                      },
+                      "State": "Suggested",
+                      "Weight": 0.9
+                    }
+                  }
+                ]
+              },
+              "statedim.country": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "StateDim",
+                    "ConceptualProperty": "Country"
+                  }
+                },
+                "State": "Generated",
+                "Terms": [
+                  {
+                    ".": {
+                      "Source": {
+                        "Agent": "PowerBI.VisualColumnRename",
+                        "Type": "External"
+                      },
+                      "State": "Suggested",
+                      "Weight": 0.9
+                    }
+                  }
+                ]
+              },
+              "statedim.state": {
+                "Definition": {
+                  "Binding": {
+                    "ConceptualEntity": "StateDim",
+                    "ConceptualProperty": "State"
+                  }
+                },
+                "State": "Generated",
+                "Terms": [
+                  {
+                    ".": {
+                      "Source": {
+                        "Agent": "PowerBI.VisualColumnRename",
+                        "Type": "External"
+                      },
+                      "State": "Suggested",
+                      "Weight": 0.9
+                    }
+                  }
+                ]
+              }
+            },
+            "Language": "en-US",
+            "Version": "2.0.0"
+          },
+          "contentType": "json"
+        }
+      }
+    ],
+    "dataAccessOptions": {
+      "legacyRedirects": true,
+      "returnErrorValuesAsNull": true
+    },
+    "defaultPowerBIDataSourceVersion": "powerBI_V3",
+    "expressions": [
+      {
+        "name": "Cases",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "expression": [
+          "let",
+          "    Source = Csv.Document(AzureStorage.BlobContents(\"https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_confirmed_usafacts.csv\"),[Delimiter=\",\", Encoding=65001, QuoteStyle=QuoteStyle.None]),",
+          "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
+          "    Cols = Table.ColumnNames(#\"Promoted Headers\"),",
+          "    ColsUnpivot = List.Skip(Cols,4),",
+          "    #\"Unpivoted Only Selected Columns\" = Table.Unpivot(#\"Promoted Headers\", ColsUnpivot, \"Attribute\", \"Value\"),",
+          "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Unpivoted Only Selected Columns\",{{\"Value\", Int64.Type}}),",
+          "    #\"Removed Errors\" = Table.RemoveRowsWithErrors(#\"Changed Type\", {\"Value\"}),",
+          "    #\"Renamed Columns\" = Table.RenameColumns(#\"Removed Errors\",{{\"Attribute\", \"Date\"}, {\"Value\", \"Cases\"}}),",
+          "    #\"Added Custom\" = Table.AddColumn(#\"Renamed Columns\", \"FIPS\", each Text.PadStart(Text.From([countyFIPS]),5,\"0\")),",
+          "    #\"Removed Columns\" = Table.RemoveColumns(#\"Added Custom\",{\"countyFIPS\"}),",
+          "    #\"Changed Type1\" = Table.TransformColumnTypes(#\"Removed Columns\",{{\"Date\", type date}})",
+          "in",
+          "    #\"Changed Type1\""
+        ],
+        "kind": "m",
+        "lineageTag": "1916ee95-48c8-413d-9c1f-752dbc8c5431"
+      },
+      {
+        "name": "Deaths",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "expression": [
+          "let",
+          "    Source = Csv.Document(AzureStorage.BlobContents(\"https://usafactsstatic.blob.core.windows.net/public/data/covid-19/covid_deaths_usafacts.csv\"),[Delimiter=\",\", Encoding=65001, QuoteStyle=QuoteStyle.None]),",
+          "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
+          "    Cols = Table.ColumnNames(#\"Promoted Headers\"),",
+          "    ColsUnpivot = List.Skip(Cols,4),",
+          "    #\"Unpivoted Only Selected Columns\" = Table.Unpivot(#\"Promoted Headers\", ColsUnpivot, \"Attribute\", \"Value\"),",
+          "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Unpivoted Only Selected Columns\",{{\"Value\", Int64.Type}}),",
+          "    #\"Removed Errors\" = Table.RemoveRowsWithErrors(#\"Changed Type\", {\"Value\"}),",
+          "    #\"Renamed Columns\" = Table.RenameColumns(#\"Removed Errors\",{{\"Attribute\", \"Date\"}, {\"Value\", \"Deaths\"}}),",
+          "    #\"Added Custom\" = Table.AddColumn(#\"Renamed Columns\", \"FIPS\", each Text.PadStart(Text.From([countyFIPS]),5,\"0\")),",
+          "    #\"Removed Columns\" = Table.RemoveColumns(#\"Added Custom\",{\"countyFIPS\"}),",
+          "    #\"Changed Type1\" = Table.TransformColumnTypes(#\"Removed Columns\",{{\"Date\", type date}})",
+          "in",
+          "    #\"Changed Type1\""
+        ],
+        "kind": "m",
+        "lineageTag": "4e6f61df-5cc0-4a38-b677-df0fef738d82"
+      }
+    ],
+    "relationships": [
+      {
+        "name": "61d3981d-89bc-4f78-b2b7-ab908a42ac71",
+        "fromColumn": "Date",
+        "fromTable": "COVID",
+        "joinOnDateBehavior": "datePartOnly",
+        "toColumn": "Date",
+        "toTable": "LocalDateTable_a0f5b894-4f57-4a54-a9d5-5508aa5843d0"
+      },
+      {
+        "name": "7cd80576-d9a4-4516-aad6-c8e06584bf7c",
+        "fromColumn": "State",
+        "fromTable": "COVID",
+        "toColumn": "State code",
+        "toTable": "StateDim"
+      }
+    ],
+    "sourceQueryCulture": "en-US",
+    "tables": [
+      {
+        "name": "DateTableTemplate_fe7eb183-f12b-4c88-bb89-cfaa7f88e1df",
+        "annotations": [
+          {
+            "name": "__PBI_TemplateDateTable",
+            "value": "true"
+          },
+          {
+            "name": "DefaultItem",
+            "value": "DateHierarchy"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Date",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataCategory": "PaddedDateTableDates",
+            "dataType": "dateTime",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "isNameInferred": true,
+            "lineageTag": "be4c85cb-1e14-48b3-8c06-2d4aab4ea764",
+            "sourceColumn": "[Date]",
+            "summarizeBy": "none",
+            "type": "calculatedTableColumn"
+          },
+          {
+            "name": "Year",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Year"
+              }
+            ],
+            "dataCategory": "Years",
+            "dataType": "int64",
+            "expression": "YEAR([Date])",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "lineageTag": "d010a7f8-060c-44a5-a738-0dc4a6afd894",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "MonthNo",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "MonthNumber"
+              }
+            ],
+            "dataCategory": "MonthOfYear",
+            "dataType": "int64",
+            "expression": "MONTH([Date])",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "lineageTag": "2b4376db-ca3b-43ed-9dd5-e2099040411f",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Month",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Month"
+              }
+            ],
+            "dataCategory": "Months",
+            "dataType": "string",
+            "expression": "FORMAT([Date], \"MMMM\")",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "lineageTag": "39994290-01fb-40da-a3c0-0b6c3b93ab9e",
+            "sortByColumn": "MonthNo",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "QuarterNo",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "QuarterNumber"
+              }
+            ],
+            "dataCategory": "QuarterOfYear",
+            "dataType": "int64",
+            "expression": "INT(([MonthNo] + 2) / 3)",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "lineageTag": "931f4fea-4f52-4de0-9f0b-b43936b041f5",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Quarter",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Quarter"
+              }
+            ],
+            "dataCategory": "Quarters",
+            "dataType": "string",
+            "expression": "\"Qtr \" & [QuarterNo]",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "lineageTag": "68a26b2f-3a27-46ad-9166-a4351f298a70",
+            "sortByColumn": "QuarterNo",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Day",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Day"
+              }
+            ],
+            "dataCategory": "DayOfMonth",
+            "dataType": "int64",
+            "expression": "DAY([Date])",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "lineageTag": "c7d5be6f-147c-4537-9750-43d42bd500cb",
+            "summarizeBy": "none",
+            "type": "calculated"
+          }
+        ],
+        "hierarchies": [
+          {
+            "name": "Date Hierarchy",
+            "annotations": [
+              {
+                "name": "TemplateId",
+                "value": "DateHierarchy"
+              }
+            ],
+            "levels": [
+              {
+                "name": "Year",
+                "column": "Year",
+                "lineageTag": "18d75fb8-8b96-4114-a5bf-d682c7aa5811",
+                "ordinal": 0
+              },
+              {
+                "name": "Quarter",
+                "column": "Quarter",
+                "lineageTag": "afaee877-d85e-4388-92fb-8a1822f496b5",
+                "ordinal": 1
+              },
+              {
+                "name": "Month",
+                "column": "Month",
+                "lineageTag": "ce49973a-b344-45b4-9e8b-7336d75fc780",
+                "ordinal": 2
+              },
+              {
+                "name": "Day",
+                "column": "Day",
+                "lineageTag": "3934635a-5f82-4ab2-8dc0-3ed19f6e53ce",
+                "ordinal": 3
+              }
+            ],
+            "lineageTag": "9e5f243c-7ce0-4b26-9e26-81f6ec867d44"
+          }
+        ],
+        "isHidden": true,
+        "isPrivate": true,
+        "lineageTag": "8683e989-1add-44e0-bcb1-39b27b61adf7",
+        "partitions": [
+          {
+            "name": "DateTableTemplate_fe7eb183-f12b-4c88-bb89-cfaa7f88e1df-30604837-d47d-48d6-b5a3-b689e47bd491",
+            "mode": "import",
+            "source": {
+              "expression": "Calendar(Date(2015,1,1), Date(2015,1,1))",
+              "type": "calculated"
+            }
+          }
+        ]
+      },
+      {
+        "name": "COVID",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "County Name",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "73278cdd-5af8-4327-a50b-317152db0a12",
+            "sourceColumn": "County Name",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "State",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "bce04757-7746-45d2-acca-ac1bcf0a6ce0",
+            "sourceColumn": "State",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Date",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isDateTimeCustom\":true}"
+              }
+            ],
+            "dataType": "dateTime",
+            "formatString": "m/d/yyyy",
+            "lineageTag": "c3f13aae-9287-4bde-84f9-7791ff2b462e",
+            "sourceColumn": "Date",
+            "summarizeBy": "none",
+            "variations": [
+              {
+                "name": "Variation",
+                "defaultHierarchy": {
+                  "hierarchy": "Date Hierarchy",
+                  "table": "LocalDateTable_a0f5b894-4f57-4a54-a9d5-5508aa5843d0"
+                },
+                "isDefault": true,
+                "relationship": "61d3981d-89bc-4f78-b2b7-ab908a42ac71"
+              }
+            ]
+          },
+          {
+            "name": "Cases",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "93f352da-e476-4d57-88b1-386d35ee539c",
+            "sourceColumn": "Cases",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "FIPS",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "a0a505be-6fdb-4b95-8895-a06c68778f69",
+            "sourceColumn": "FIPS",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Deaths",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "584bc905-5c4e-4d28-a441-379b5a8a985d",
+            "sourceColumn": "Deaths",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "County",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataCategory": "County",
+            "dataType": "string",
+            "expression": "'COVID'[County Name] & \", \" & 'COVID'[State]",
+            "isDataTypeInferred": true,
+            "lineageTag": "35e04fd9-50d7-4b81-8c21-8ac5bf177a69",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Daily cases",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "expression": [
+              "",
+              "VAR __CountyName = 'COVID'[County Name]",
+              "VAR __State = 'COVID'[State]",
+              "VAR __Yesterday =  DATEADD(COVID[Date],-1,DAY)",
+              "VAR __TodaysCases = 'COVID'[Cases]",
+              "",
+              "RETURN  __TodaysCases - CALCULATE(",
+              "    SUM('COVID'[Cases]) , ",
+              "    FILTER(",
+              "        COVID, ",
+              "        COVID[Date] = __Yesterday &&",
+              "        COVID[County Name] = __CountyName &&",
+              "        COVID[State] = __State",
+              "    )",
+              ") + 0"
+            ],
+            "formatString": "#,0",
+            "isDataTypeInferred": true,
+            "lineageTag": "3c76fd35-d104-4568-a162-a19dd8b49769",
+            "summarizeBy": "sum",
+            "type": "calculated"
+          },
+          {
+            "name": "Daily deaths",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "expression": [
+              "",
+              "VAR __CountyName = 'COVID'[County Name]",
+              "VAR __State = 'COVID'[State]",
+              "VAR __Yesterday =  DATEADD(COVID[Date],-1,DAY)",
+              "VAR __TodaysDeaths = 'COVID'[Deaths]",
+              "",
+              "RETURN  __TodaysDeaths - CALCULATE(",
+              "    SUM('COVID'[Deaths]) , ",
+              "    FILTER(",
+              "        COVID, ",
+              "        COVID[Date] = __Yesterday &&",
+              "        COVID[County Name] = __CountyName &&",
+              "        COVID[State] = __State",
+              "    )",
+              ") + 0"
+            ],
+            "formatString": "0",
+            "isDataTypeInferred": true,
+            "lineageTag": "c1c4daa6-19fb-4cf0-86b0-294c7c800f02",
+            "summarizeBy": "sum",
+            "type": "calculated"
+          },
+          {
+            "name": "StateFIPS",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "d08434c4-91de-4bdd-b824-718920a19dbf",
+            "sourceColumn": "StateFIPS",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "a755fb70-618a-4549-98cd-b83e7f602006",
+        "measures": [
+          {
+            "name": "Updated",
+            "expression": "\"Data provided by USAFacts. Because of the frequency of data upates, they may not reflect the exact numbers reported by government organizations or the news media. For more information or to download the data, please click the logo below.  Data updated through \" & FORMAT([Max date],\"mmmm dd, yyyy\") & \".\"",
+            "lineageTag": "ecd7259c-c19b-4a27-a726-844b3356d8fd"
+          },
+          {
+            "name": "Max date",
+            "expression": "CALCULATE(MAX('COVID'[Date]),ALL('COVID'))",
+            "formatString": "General Date",
+            "isHidden": true,
+            "lineageTag": "91921841-1a89-445e-913c-f510c38840b7"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "COVID-2e509512-c6a9-426c-b8d3-3b5c4542fa79",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Source = Table.NestedJoin(Cases, {\"County Name\", \"State\", \"StateFIPS\", \"Date\", \"FIPS\"}, Deaths, {\"County Name\", \"State\", \"StateFIPS\", \"Date\", \"FIPS\"}, \"Deaths\", JoinKind.LeftOuter),",
+                "    #\"Expanded Deaths\" = Table.ExpandTableColumn(Source, \"Deaths\", {\"Deaths\"}, {\"Deaths.1\"}),",
+                "    #\"Renamed Columns\" = Table.RenameColumns(#\"Expanded Deaths\",{{\"Deaths.1\", \"Deaths\"}}),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Renamed Columns\",{{\"Date\", type date}}),",
+                "    #\"Replaced Value\" = Table.ReplaceValue(#\"Changed Type\",\"Jackson County (including other portions of Kansas City)\",\"Jackson County\",Replacer.ReplaceText,{\"County Name\"}),",
+                "    #\"Replaced Value1\" = Table.ReplaceValue(#\"Replaced Value\",\"New York City\",\"New York*\",Replacer.ReplaceText,{\"County Name\"}),",
+                "    #\"Replaced Value2\" = Table.ReplaceValue(#\"Replaced Value1\",\"City of St. Louis\",\"St. Louis City\",Replacer.ReplaceText,{\"County Name\"}),",
+                "    #\"Replaced Value3\" = Table.ReplaceValue(#\"Replaced Value2\",\"City and Borough of Juneau\",\"Juneau Borough\",Replacer.ReplaceText,{\"County Name\"}),",
+                "    #\"Replaced Value4\" = Table.ReplaceValue(#\"Replaced Value3\",\"Municipality of Anchorage\",\"Anchorage\",Replacer.ReplaceText,{\"County Name\"}),",
+                "    #\"Changed Type1\" = Table.TransformColumnTypes(#\"Replaced Value4\",{{\"Cases\", Int64.Type}, {\"Deaths\", Int64.Type}})",
+                "in",
+                "    #\"Changed Type1\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "StateDim",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          },
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          }
+        ],
+        "columns": [
+          {
+            "name": "State",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataCategory": "StateOrProvince",
+            "dataType": "string",
+            "lineageTag": "1ccf668c-19bb-47e1-b04a-f8e7a1216504",
+            "sourceColumn": "State",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "State code",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "b795d7f1-13d4-416b-b315-7cbcacd8ec2e",
+            "sourceColumn": "State code",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "US territories",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "d6fc91a9-5957-4c80-a933-44e3da9eea13",
+            "sourceColumn": "US territories",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Country",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "expression": "\"USA\"",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "lineageTag": "f9ceff65-6635-4bc7-953c-381796557651",
+            "summarizeBy": "none",
+            "type": "calculated"
+          }
+        ],
+        "lineageTag": "2151a01d-b81d-4eaf-823a-87e191f6b6eb",
+        "measures": [
+          {
+            "name": "Drill-through button text",
+            "expression": "IF(SELECTEDVALUE(StateDim[State],0)==0,\"Click on a State to view by County  \", \"Click here to view by County in \" & VALUES(StateDim[State code]) &\"  \")",
+            "lineageTag": "53ba7676-26b1-4a16-be2d-228a29515392"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "StateDim-44150ab7-d238-4a8e-be80-b5d1ac40ecec",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(\"XZTRbuowDIZfpeJ62jsgykbHmlYU6DjTLkyb0ahtjJJ0jPP0J07ZqZmEkPq5sX/7j/v+Ppt3cIQeZg+z+av/Ezj7eAjUtgGuGTTqL+pA/3DagrZgCW8mvIBOfaLRit5fzFkAOzRQI+GMY61l5VQ1OIpsp0gsO7iAkZ7Eywk/+TSqpuxPTPizRHMKNZ9ZzZVPoJR/XiUTTGpoSEUSM9Z1SqOiZhKWNdG1gtB5IhjFS0Cs0PpnFOuCQandULVXwocJv+Kg7C3tK8uRgtLUbLrkzFw70DXhmGNroWoGK52jqilPo6pGnUATTjj2c7boqGoqOLeWfuczzSkt7iM4mICZYSlqN4pPmVlCHs3t6oglx18QvBJ7Di/RCvqzbVRwV6zuYy/SWElTEy/3gVR+q4qsE+l94ICmJcKmLNC4JlqAQe9sULD4HYyhHech2GizRlGFjGnK2s7fmLArGVuLzMgT0pgzdv1zqbW9dl8wLkDOjNk0WMsosTc/N8ycAod7scXid/C/2IKJ3Uoy1Uqa4lZw/h1u4/ZtYjsHjX/aMdP20vTeTQ/2nCq/SaP8PZNfgvdLn1xoueQBaV3EDpXM6lLZCrVV4QxruLxi75MRZZ7Ne2lUBToqoMfwvaHreJB2XPEBetrvHWPBSGl05BeFVuo23rATOXsvH6RxGG3G65NvWGj3WDze5LPT+4S9EivrvDAX4WfkP2NDfwyNxsykHDoYKHX5c+7jHw==\", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type text) meta [Serialized.Text = true]) in type table [State = _t, #\"State code\" = _t, #\"US territories\" = _t]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(Source,{{\"State\", type text}, {\"State code\", type text}, {\"US territories\", type text}})",
+                "in",
+                "    #\"Changed Type\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Table",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          },
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Metric",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "b1375403-c121-4667-b42d-b3e6c7376026",
+            "sourceColumn": "Metric",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Order",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "8e211fb9-5c22-44c9-b649-e2e612d72c7e",
+            "sourceColumn": "Order",
+            "summarizeBy": "sum"
+          }
+        ],
+        "lineageTag": "3b5672d3-4e52-4956-9be9-6e1a51b4695b",
+        "measures": [
+          {
+            "name": "Methodology",
+            "expression": [
+              "\"This interactive feature aggregates data from the Centers for Disease Control and Prevention (CDC), state- and local-level public health agencies. County-level data is confirmed by referencing state and local agencies directly.",
+              "",
+              "Source: USAFacts\""
+            ],
+            "lineageTag": "e8659ba1-98d7-47f0-ac8d-47b49843bada"
+          },
+          {
+            "name": "Notes",
+            "expression": [
+              "\"New York* covers 5 counties (Bronx, Kings, New York, Queens, Richmond), not New York county.",
+              "",
+              "City of St. Louis was renamed to St. Louis City.",
+              "",
+              "City and Borough of Juneau was renamed to Juneau Borough.",
+              "",
+              "Municipality of Anchorage was renamed to Anchorage.",
+              "",
+              "Jackson County includes other portions of Kansas City.",
+              "",
+              "",
+              "Source: USAFacts\""
+            ],
+            "lineageTag": "4858de14-da56-4984-b156-c0268fd14eca"
+          },
+          {
+            "name": "Terms of use",
+            "expression": "\"This report and data are provided \" & \"\"\"\" & \"as is\" & \"\"\"\" & \", \" & \"\"\"\" & \"with all faults\" & \"\"\"\" & \", and without warranty of any kind. Microsoft gives no express warranties or guarantees and expressly disclaims all implied warranties, including merchantability, fitness for a particular purpose, and non-infringement.\"",
+            "lineageTag": "dc3cb1f4-fa1b-4bd3-bdf6-fbd87b39fb3b"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Table-014a30af-502f-48fd-98ad-986611bf42ec",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(\"i45Wcs7PS8ssyk1NUXBOLE4tVtJRMlSK1YlWcklNLMkAcY3AXJCkgltiSWJOZkmlQlBiSSpQylgpNhYA\", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type text) meta [Serialized.Text = true]) in type table [Metric = _t, Order = _t]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(Source,{{\"Metric\", type text}, {\"Order\", Int64.Type}})",
+                "in",
+                "    #\"Changed Type\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "LocalDateTable_a0f5b894-4f57-4a54-a9d5-5508aa5843d0",
+        "annotations": [
+          {
+            "name": "__PBI_LocalDateTable",
+            "value": "true"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Date",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataCategory": "PaddedDateTableDates",
+            "dataType": "dateTime",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "isNameInferred": true,
+            "lineageTag": "c9d53622-e3c0-4af4-85fa-4164b629e3af",
+            "sourceColumn": "[Date]",
+            "summarizeBy": "none",
+            "type": "calculatedTableColumn"
+          },
+          {
+            "name": "Year",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Year"
+              }
+            ],
+            "dataCategory": "Years",
+            "dataType": "int64",
+            "expression": "YEAR([Date])",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "lineageTag": "83829998-f5a8-42eb-ad3e-0f58d488cad4",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "MonthNo",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "MonthNumber"
+              }
+            ],
+            "dataCategory": "MonthOfYear",
+            "dataType": "int64",
+            "expression": "MONTH([Date])",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "lineageTag": "c2cd5db7-22fd-4fd9-b558-151a5e227ada",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Month",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Month"
+              }
+            ],
+            "dataCategory": "Months",
+            "dataType": "string",
+            "expression": "FORMAT([Date], \"MMMM\")",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "lineageTag": "b3abf0fa-e031-47bb-9ae4-680b98366772",
+            "sortByColumn": "MonthNo",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "QuarterNo",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "QuarterNumber"
+              }
+            ],
+            "dataCategory": "QuarterOfYear",
+            "dataType": "int64",
+            "expression": "INT(([MonthNo] + 2) / 3)",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "lineageTag": "13fa1f6c-639f-40c5-9488-3dd6adc0911a",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Quarter",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Quarter"
+              }
+            ],
+            "dataCategory": "Quarters",
+            "dataType": "string",
+            "expression": "\"Qtr \" & [QuarterNo]",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "lineageTag": "ad746d82-7ccc-42f3-b2b5-f1bc8998895e",
+            "sortByColumn": "QuarterNo",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Day",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Day"
+              }
+            ],
+            "dataCategory": "DayOfMonth",
+            "dataType": "int64",
+            "expression": "DAY([Date])",
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "lineageTag": "dd38ed69-5aef-4f98-ac24-954f9519b2d0",
+            "summarizeBy": "none",
+            "type": "calculated"
+          }
+        ],
+        "hierarchies": [
+          {
+            "name": "Date Hierarchy",
+            "annotations": [
+              {
+                "name": "TemplateId",
+                "value": "DateHierarchy"
+              }
+            ],
+            "levels": [
+              {
+                "name": "Year",
+                "column": "Year",
+                "lineageTag": "d924f029-3e6b-438b-a80d-139caaaa7ceb",
+                "ordinal": 0
+              },
+              {
+                "name": "Quarter",
+                "column": "Quarter",
+                "lineageTag": "ff131ea0-b20a-47af-8d44-ba95822ccafa",
+                "ordinal": 1
+              },
+              {
+                "name": "Month",
+                "column": "Month",
+                "lineageTag": "f7d393b6-b8ba-4250-ac07-5960b44f58a7",
+                "ordinal": 2
+              },
+              {
+                "name": "Day",
+                "column": "Day",
+                "lineageTag": "7a8eec84-d073-4918-bd07-a2c6379f3093",
+                "ordinal": 3
+              }
+            ],
+            "lineageTag": "02bac304-bd05-41ba-b771-20f50b91772d"
+          }
+        ],
+        "isHidden": true,
+        "lineageTag": "e5aa9076-f93c-4217-b6b1-530528ddf761",
+        "partitions": [
+          {
+            "name": "LocalDateTable_a0f5b894-4f57-4a54-a9d5-5508aa5843d0-216ce373-b93c-43b1-9d26-654b8ba9e95b",
+            "mode": "import",
+            "source": {
+              "expression": "Calendar(Date(Year(MIN('COVID'[Date])), 1, 1), Date(Year(MAX('COVID'[Date])), 12, 31))",
+              "type": "calculated"
+            }
+          }
+        ],
+        "showAsVariationsOnly": true
+      },
+      {
+        "name": "COVID measures",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "lineageTag": "9f681416-7364-466e-8d62-c4b5606c65be",
+        "measures": [
+          {
+            "name": "Total confirmed cases",
+            "expression": "SUM('COVID'[Daily cases])",
+            "formatString": "#,0",
+            "lineageTag": "6703243b-7855-43b5-9d17-9cc2774e30a5"
+          },
+          {
+            "name": "Total deaths",
+            "expression": "SUM(COVID[Daily deaths])",
+            "formatString": "#,0",
+            "lineageTag": "2f0fb5e8-8f60-463a-aac6-902e21b5e422"
+          },
+          {
+            "name": "Case fatality rate",
+            "expression": [
+              "DIVIDE([Total deaths],[Total confirmed cases])",
+              ""
+            ],
+            "formatString": "0.0%;-0.0%;0.0%",
+            "lineageTag": "59d2daf3-66b3-4755-b391-1d0b7a821c9e"
+          },
+          {
+            "name": "Confirmed cases",
+            "expression": "SUM('COVID'[Cases])",
+            "formatString": "#,0",
+            "lineageTag": "cdfd2ee6-aa24-4715-86a1-e72c23ba4e78"
+          },
+          {
+            "name": "Deaths",
+            "expression": "SUM('COVID'[Deaths])",
+            "formatString": "#,0",
+            "lineageTag": "2499066e-4818-4561-b3be-eb27dd9f4a48"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "COVID measures-b4337b49-e425-4b90-acb0-30bb0500cb95",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(\"i45WMlSKjQUA\", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type text) meta [Serialized.Text = true]) in type table [Column1 = _t]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(Source,{{\"Column1\", Int64.Type}}),",
+                "    #\"Removed Columns\" = Table.RemoveColumns(#\"Changed Type\",{\"Column1\"})",
+                "in",
+                "    #\"Removed Columns\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

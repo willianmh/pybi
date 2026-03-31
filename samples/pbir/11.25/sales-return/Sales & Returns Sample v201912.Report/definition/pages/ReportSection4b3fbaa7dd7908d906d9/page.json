@@ -1,0 +1,204 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json",
+  "name": "ReportSection4b3fbaa7dd7908d906d9",
+  "displayName": "Net Sales",
+  "displayOption": "FitToPage",
+  "height": 760,
+  "width": 1280,
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "Filter",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Sales"
+              }
+            },
+            "Property": "Status"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "s",
+              "Entity": "Sales",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "s"
+                          }
+                        },
+                        "Property": "Status"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'Sold'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      }
+    ]
+  },
+  "pageBinding": {
+    "name": "Pod1",
+    "type": "Default",
+    "parameters": []
+  },
+  "objects": {
+    "background": [
+      {
+        "properties": {
+          "transparency": {
+            "expr": {
+              "Literal": {
+                "Value": "0D"
+              }
+            }
+          },
+          "color": {
+            "solid": {
+              "color": {
+                "expr": {
+                  "ThemeDataColor": {
+                    "ColorId": 3,
+                    "Percent": 0.6
+                  }
+                }
+              }
+            }
+          },
+          "image": {
+            "image": {
+              "name": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'BACKGROUND-01.png'"
+                  }
+                }
+              },
+              "url": {
+                "expr": {
+                  "ResourcePackageItem": {
+                    "PackageName": "RegisteredResources",
+                    "PackageType": 1,
+                    "ItemName": "BACKGROUND-012689548225955105.png"
+                  }
+                }
+              },
+              "scaling": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Fit'"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outspace": [
+      {
+        "properties": {
+          "color": {
+            "solid": {
+              "color": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'#CECEDB'"
+                  }
+                }
+              }
+            }
+          },
+          "transparency": {
+            "expr": {
+              "Literal": {
+                "Value": "12D"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outspacePane": [
+      {
+        "properties": {
+          "width": {
+            "expr": {
+              "Literal": {
+                "Value": "258L"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visualInteractions": [
+    {
+      "source": "959bd7e9814a46692ddf",
+      "target": "3a28c5fee26bd29ff352",
+      "type": "DataFilter"
+    },
+    {
+      "source": "3a28c5fee26bd29ff352",
+      "target": "d55aa7aa40745de10d55",
+      "type": "DataFilter"
+    },
+    {
+      "source": "3a28c5fee26bd29ff352",
+      "target": "959bd7e9814a46692ddf",
+      "type": "DataFilter"
+    },
+    {
+      "source": "d55aa7aa40745de10d55",
+      "target": "3a28c5fee26bd29ff352",
+      "type": "DataFilter"
+    },
+    {
+      "source": "d55aa7aa40745de10d55",
+      "target": "959bd7e9814a46692ddf",
+      "type": "DataFilter"
+    },
+    {
+      "source": "959bd7e9814a46692ddf",
+      "target": "d55aa7aa40745de10d55",
+      "type": "DataFilter"
+    },
+    {
+      "source": "2b50de60e6ee0542184b",
+      "target": "3a28c5fee26bd29ff352",
+      "type": "DataFilter"
+    },
+    {
+      "source": "2b50de60e6ee0542184b",
+      "target": "959bd7e9814a46692ddf",
+      "type": "DataFilter"
+    }
+  ]
+}

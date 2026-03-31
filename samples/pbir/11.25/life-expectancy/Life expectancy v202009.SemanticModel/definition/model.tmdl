@@ -1,0 +1,31 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["Indicators","merge_indicators_world","Year","Alcohol Consumption","Country","Sex","happiness","life expectancy all","life expectancy female","life expectancy male","gdp","Metrics","life_expectancy_years","indicators_gbr","Variance Analysis","Flags","Legend","Population","Buckets"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table Indicators
+ref table DateTableTemplate_eee22f46-6610-45d5-b789-23d09a1c5849
+ref table Year
+ref table Country
+ref table Sex
+ref table Metrics
+ref table LocalDateTable_021b8805-3ede-4d55-9182-0236ac5e0923
+ref table 'Variance Analysis'
+ref table Flags
+ref table Years
+ref table Legend
+ref table Population
+ref table Buckets
+ref table 'Extra Year'
+
+ref cultureInfo en-US
+

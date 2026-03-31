@@ -1,0 +1,163 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/1.4.0/schema.json",
+  "displayName": "HE ON",
+  "name": "Bookmark7b8693de41daf09d5dc4",
+  "options": {
+    "applyOnlyToTargetVisuals": true,
+    "targetVisualNames": [
+      "66090c9c1f5157d7a4f2",
+      "4bbd54482e4bdaa114d3",
+      "82149d04a845bfe67e53",
+      "30c30cbdb66481ffcccc",
+      "cf2d0d95173d9e86fb25",
+      "718c1e006775e0e91a39",
+      "8f1d072a28fb0db4595a",
+      "ccdb647d7565ac99ffa5",
+      "1906c395fcecddedf7b3",
+      "2faaece5bc034736545d",
+      "72229e45738c0d96b8e0",
+      "d45dd42752ef7cfcc64b",
+      "36faabfe55345e2144cd",
+      "f0900968d29fac31abf6",
+      "fc31d18c401bde438831"
+    ],
+    "suppressActiveSection": true,
+    "suppressData": true
+  },
+  "explorationState": {
+    "version": "1.3",
+    "activeSection": "ReportSection2ca59a708fedf6ab4fa4",
+    "sections": {
+      "ReportSection2ca59a708fedf6ab4fa4": {
+        "filters": {
+          "byExpr": [
+            {
+              "name": "Filter",
+              "type": "Advanced",
+              "expression": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Year"
+                    }
+                  },
+                  "Property": "Year"
+                }
+              },
+              "howCreated": 1
+            }
+          ]
+        },
+        "visualContainers": {
+          "d45dd42752ef7cfcc64b": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {},
+              "display": {
+                "mode": "hidden"
+              }
+            }
+          },
+          "36faabfe55345e2144cd": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {},
+              "display": {
+                "mode": "hidden"
+              }
+            }
+          },
+          "2faaece5bc034736545d": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "fc31d18c401bde438831": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {},
+              "display": {
+                "mode": "hidden"
+              }
+            }
+          },
+          "8607dac80516e0367e67": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "575ed909acc5ddd2a879": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "2b21fbf0f63ecc1ff4f9": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "e8079ea363e79fbb7507": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "8bb6316ac729e68144f7": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "ccdb647d7565ac99ffa5": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "1906c395fcecddedf7b3": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "f0900968d29fac31abf6": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {},
+              "display": {
+                "mode": "hidden"
+              }
+            }
+          },
+          "4bbd54482e4bdaa114d3": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          }
+        }
+      }
+    },
+    "objects": {
+      "merge": {
+        "outspacePane": [
+          {
+            "properties": {
+              "expanded": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

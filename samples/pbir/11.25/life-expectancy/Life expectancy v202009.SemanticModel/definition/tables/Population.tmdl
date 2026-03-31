@@ -1,0 +1,54 @@
+table Population
+	lineageTag: a28a14a6-2507-4315-ac6e-0bcc16765a33
+
+	column Entity
+		dataType: string
+		lineageTag: ba1f125f-10e3-4b8d-9847-5d8f2fe03049
+		summarizeBy: none
+		sourceColumn: Entity
+
+		annotation SummarizationSetBy = Automatic
+
+	column Code
+		dataType: string
+		lineageTag: 1ce35fb4-2717-4c96-8420-3ee966d70e81
+		summarizeBy: none
+		sourceColumn: Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 3708e7ef-30e0-4f6e-940d-b5dfe5ccb3a4
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column Population
+		dataType: int64
+		formatString: #,0
+		lineageTag: 78c2c51e-701c-4751-997a-1585f71065ec
+		summarizeBy: sum
+		sourceColumn: Population
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Population-d6596cd5-d944-4d3c-9e88-a9e0516c71b6 = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Justyna\OneDrive - Microsoft\Gartner\BI Bake Off\London\Population.xlsx"), null, true),
+				    #"population (1)_Sheet" = Source{[Item="population (1)",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(#"population (1)_Sheet", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Entity", type text}, {"Code", type text}, {"Year", Int64.Type}, {"Population", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_QueryRelationships = {"columnCount":4,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/population (1)/Changed Type.{Entity,0}","Section1/population (1)/Changed Type.{Code,1}","Section1/population (1)/Changed Type.{Year,2}","Section1/population (1)/Changed Type.{Population,3}"],"ColumnCount":4,"KeyColumnNames":[],"ColumnIdentities":["Section1/population (1)/Changed Type.{Entity,0}","Section1/population (1)/Changed Type.{Code,1}","Section1/population (1)/Changed Type.{Year,2}","Section1/population (1)/Changed Type.{Population,3}"],"RelationshipInfo":[]}
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

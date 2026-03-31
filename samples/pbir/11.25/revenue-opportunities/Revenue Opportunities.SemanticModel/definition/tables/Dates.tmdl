@@ -1,0 +1,118 @@
+/// Contains date related information
+table Dates
+	lineageTag: 41a41ef6-178f-4f38-9649-4e714e941e08
+	dataCategory: Time
+
+	/// Date of the sales activity
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: Long Date
+		lineageTag: 1d31d7b8-2291-4de0-bb01-85dfad419033
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	/// Year of the sales activity
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: bdbea339-b5e6-4255-8d4b-f429e276bd44
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = User
+
+	/// Day of the sales activity
+	column Day
+		dataType: int64
+		formatString: 0
+		lineageTag: 96c04f53-5b65-4f5d-a1de-a2bc60708d83
+		summarizeBy: none
+		sourceColumn: Day
+
+		annotation SummarizationSetBy = User
+
+	/// Month of the sales activity
+	column Month
+		dataType: string
+		lineageTag: 9348a8f7-92ae-429b-a28b-4362c93d7729
+		summarizeBy: none
+		sourceColumn: Month
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Name of the day of the week
+	column 'Day Of Week Name'
+		dataType: string
+		lineageTag: 28c25688-e71a-4e76-a9d0-56fe393f564b
+		summarizeBy: none
+		sourceColumn: Day Of Week Name
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Week number of the year
+	column 'Week of Year'
+		dataType: int64
+		formatString: 0
+		lineageTag: 877ea364-383d-4b18-a062-562f045f3c76
+		summarizeBy: none
+		sourceColumn: Week of Year
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Sort order for the month
+	column 'Month (Sort Order)'
+		dataType: int64
+		formatString: 0
+		lineageTag: 9b60b927-b124-43b6-b083-b7e85ff6681e
+		summarizeBy: none
+		sourceColumn: Month (Sort Order)
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Sort order for the day
+	column 'Day (Sort Order)'
+		dataType: int64
+		formatString: 0
+		lineageTag: 7c50963d-6931-4269-94c1-94a0edca8bb9
+		summarizeBy: none
+		sourceColumn: Day (Sort Order)
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy 'Date Hierarchy'
+		lineageTag: 6ba9d527-a73a-4444-baec-26fa5833db15
+
+		level Year
+			lineageTag: e02b4ed9-3d62-4ad7-932a-ec33d583c336
+			column: Year
+
+		level Month
+			lineageTag: d9560c02-9d45-4413-8a3e-a446f854b276
+			column: Month
+
+		level Day
+			lineageTag: fd7e0ca8-5c9c-43f7-aa38-aaba057a4482
+			column: Day
+
+	partition Dates = m
+		mode: import
+		queryGroup: Dimensions
+		source =
+				let
+				    Source = fxDateGenerator(#"Start date", List.Max(Sales[Closed Date]), #"Language code")
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

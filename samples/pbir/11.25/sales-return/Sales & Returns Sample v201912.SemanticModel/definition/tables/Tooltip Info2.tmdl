@@ -1,0 +1,40 @@
+table 'Tooltip Info2'
+	lineageTag: 8bac4bd0-5a88-4109-9d30-dea2a64c36b8
+
+	column Nombre
+		dataType: string
+		lineageTag: a072ccc7-ac4b-4120-807c-4c946182f733
+		summarizeBy: none
+		sourceColumn: Nombre
+
+		annotation SummarizationSetBy = Automatic
+
+	column URL
+		dataType: string
+		lineageTag: ee1eb74e-f010-4e58-bc6d-d4db8db7f159
+		summarizeBy: none
+		sourceColumn: URL
+
+		annotation SummarizationSetBy = Automatic
+
+	column DLINK
+		dataType: string
+		lineageTag: 0ac675f5-a7e6-4503-bf0e-4b03fbeb21a6
+		summarizeBy: none
+		sourceColumn: DLINK
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Tooltip Info2-46834bd6-8728-401a-83e6-ae749d0386dd' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45W8kstUQhOzEktVtBVCIwpNTAwMnNU0lHKKCkpKLbS18/MTUxPLc5ITM7WS87P1c/UL8gPKC8IzyhIR1OUWZVapIeuOjfd0shE39zU0kAfoksvPTNNKVYnWikotaS0KI9oS3PDvXLyAlOJttRI38LM1EgfogtiaSwA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type text) meta [Serialized.Text = true]) in type table [Nombre = _t, URL = _t, DLINK = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Nombre", type text}, {"URL", type text}, {"DLINK", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

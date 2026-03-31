@@ -1,0 +1,179 @@
+expression 'state population' =
+		let
+		    Source = Web.BrowserContents("https://simple.wikipedia.org/wiki/List_of_U.S._states_by_population"),
+		    #"Extracted Table From Html" = Html.Table(Source, {{"Column1", "TABLE.wikitable.sortable > * > TR > :nth-child(1)"}, {"Column2", "TABLE.wikitable.sortable > * > TR > :nth-child(2)"}, {"Column3", "TABLE.wikitable.sortable > * > TR > :nth-child(3)"}, {"Column4", "TABLE.wikitable.sortable > * > TR > :nth-child(4)"}, {"Column5", "TABLE.wikitable.sortable > * > TR > :nth-child(5)"}, {"Column6", "TABLE.wikitable.sortable > * > TR > :nth-child(6)"}, {"Column7", "TABLE.wikitable.sortable > * > TR > :nth-child(7)"}, {"Column8", "TABLE.wikitable.sortable > * > TR > :nth-child(8)"}, {"Column9", "TABLE.wikitable.sortable > * > TR > :nth-child(9)"}, {"Column10", "TABLE.wikitable.sortable > * > TR > :nth-child(10)"}, {"Column11", "TABLE.wikitable.sortable > * > TR > :nth-child(11)"}, {"Column12", "TABLE.wikitable.sortable > * > TR > :nth-child(12)"}}, [RowSelector="TABLE.wikitable.sortable > * > TR"]),
+		    #"Promoted Headers" = Table.PromoteHeaders(#"Extracted Table From Html", [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Rank in states & territories, 2019", type text}, {"Rank in states & territories, 2010", type text}, {"State", type text}, {"Population estimate, July 1, 2019[2]", Int64.Type}, {"Census population, April 1, 2010[3]", type text}, {"Percent change, 2010–2019[note 1]", Percentage.Type}, {"Absolute change, 2010-2019", type text}, {"Total seats in the U.S. House of Representatives, 2013–2023", type text}, {"Estimated population per electoral vote, 2019[note 2]", type text}, {"Estimated population per House seat, 2019", type text}, {"Census population per House seat, 2010", type text}, {"Percent of the total U.S. population, 2018[note 3]", Percentage.Type}}),
+		    #"Removed Other Columns" = Table.SelectColumns(#"Changed Type",{"State", "Population estimate, July 1, 2019[2]"}),
+		    #"Replaced Value1" = Table.ReplaceValue(#"Removed Other Columns","U.S. ","",Replacer.ReplaceText,{"State"}),
+		    #"Filtered Rows" = Table.SelectRows(#"Replaced Value1", each ([State] <> "Contiguous United States" and [State] <> "Fifty states + D.C." and [State] <> "The fifty states" and [State] <> "Total (including D.C. and territories)"))
+		in
+		    #"Filtered Rows"
+	lineageTag: 2ccd6b6f-3e61-4cd0-a738-ceec51e2c159
+	queryGroup: Unused
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'Table 3' =
+		let
+		    Source = Web.BrowserContents("http://countryflags.azurewebsites.net/"),
+		    #"Extracted Table From Html" = Html.Table(Source, {{"Country", "[style*=""font-size\:14px""]"}, {"Population", ":nth-last-child(4):nth-child(2) > SPAN[style*=""font-weight\:bold""]:nth-child(1):nth-last-child(1)"}, {"Growth Rate", ".col-md-4 DIV:nth-child(3) *"}, {"FlagURL", "IMG", each [Attributes][src]?}, {"Area (km2)", ".col-md-4 DIV:nth-child(4) *"}, {"Density", ".col-md-4 DIV:nth-child(5) *"}}, [RowSelector=".col-md-4"]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Extracted Table From Html",{{"Country", type text}, {"Population", Int64.Type}, {"Growth Rate", type number}, {"FlagURL", type text}, {"Area (km2)", type number}, {"Density", type number}}),
+		    #"Inserted Text Between Delimiters" = Table.AddColumn(#"Changed Type", "Text Between Delimiters", each Text.BetweenDelimiters([Country], "(", ")"), type text)
+		in
+		    #"Inserted Text Between Delimiters"
+	lineageTag: 78c225f3-71c3-4e3d-9439-364792aad14b
+	queryGroup: Unused
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression us_state_vaccinations =
+		let
+		    Source = Csv.Document(Web.Contents("https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/us_state_vaccinations.csv"),[Delimiter=",", Columns=14, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"date", type date}, {"location", type text}, {"total_vaccinations", Int64.Type}, {"total_distributed", Int64.Type}, {"people_vaccinated", Int64.Type}, {"people_fully_vaccinated_per_hundred", type number}, {"total_vaccinations_per_hundred", type number}, {"people_fully_vaccinated", Int64.Type}, {"people_vaccinated_per_hundred", type number}, {"distributed_per_hundred", type number}, {"daily_vaccinations_raw", type number}, {"daily_vaccinations", Int64.Type}, {"daily_vaccinations_per_million", Int64.Type}, {"share_doses_used", type number}}),
+		    #"Filled Down" = Table.FillDown(#"Changed Type",{"total_vaccinations", "total_distributed", "people_vaccinated", "people_fully_vaccinated_per_hundred", "total_vaccinations_per_hundred", "people_fully_vaccinated", "people_vaccinated_per_hundred", "distributed_per_hundred", "daily_vaccinations_raw", "daily_vaccinations", "daily_vaccinations_per_million", "share_doses_used"}),
+		    #"Replaced Value" = Table.ReplaceValue(#"Filled Down","New York State","New York",Replacer.ReplaceText,{"location"}),
+		    #"Filtered Rows" = Table.SelectRows(#"Replaced Value", each ([date] <> #date(2021, 1, 12) and [date] <> #date(2021, 1, 13) and [date] <> #date(2021, 1, 14)))
+		in
+		    #"Filtered Rows"
+	lineageTag: 4e3f44b4-eefe-4bdd-ab89-bec573ffdd34
+	queryGroup: Unused
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'Vaccine Types' =
+		let
+		    Source = Csv.Document(Web.Contents("https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/locations.csv"),[Delimiter=",", Columns=6, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"location", type text}, {"iso_code", type text}, {"vaccines", type text}, {"last_observation_date", type date}, {"source_name", type text}, {"source_website", type text}})
+		in
+		    #"Changed Type"
+	lineageTag: de718c37-774d-4404-891c-9f5bf0938ce0
+	queryGroup: Unused
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression covid-vaccine-willingness =
+		let
+		    Source = Csv.Document(File.Contents("C:\Users\willthom\Microsoft\Gartner Data and Analytics Summit - Bake-off\covid-vaccine-willingness.csv"),[Delimiter=",", Columns=4, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Entity", type text}, {"Code", type text}, {"Day", type date}, {"willingness_covid_vaccinate_this_week", type number}})
+		in
+		    #"Changed Type"
+	lineageTag: cc32c134-58ac-43db-9ee7-eb059ba462ff
+	queryGroup: Unused
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'OxCGRT_US States' =
+		let
+		    Source = Csv.Document(Web.Contents("https://raw.githubusercontent.com/OxCGRT/covid-policy-tracker/master/data/OxCGRT_latest.csv"),[Delimiter=",", Columns=46, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"CountryName", type text}, {"CountryCode", type text}, {"RegionName", type text}, {"RegionCode", type text}, {"Jurisdiction", type text}, {"Date", Int64.Type}, {"C1_School closing", type text}, {"C1_Flag", type text}, {"C2_Workplace closing", type text}, {"C2_Flag", type text}, {"C3_Cancel public events", type text}, {"C3_Flag", type text}, {"C4_Restrictions on gatherings", type text}, {"C4_Flag", type text}, {"C5_Close public transport", type text}, {"C5_Flag", type text}, {"C6_Stay at home requirements", type text}, {"C6_Flag", type text}, {"C7_Restrictions on internal movement", type text}, {"C7_Flag", type text}, {"C8_International travel controls", type text}, {"E1_Income support", type text}, {"E1_Flag", type text}, {"E2_Debt/contract relief", type text}, {"E3_Fiscal measures", type text}, {"E4_International support", type text}, {"H1_Public information campaigns", type text}, {"H1_Flag", type text}, {"H2_Testing policy", type text}, {"H3_Contact tracing", type text}, {"H4_Emergency investment in healthcare", type text}, {"H5_Investment in vaccines", type text}, {"H6_Facial Coverings", type text}, {"H6_Flag", type text}, {"H7_Vaccination policy", type text}, {"H7_Flag", type text}, {"H8_Protection of elderly people", type text}, {"H8_Flag", type text}, {"M1_Wildcard", type text}, {"ConfirmedCases", Int64.Type}, {"ConfirmedDeaths", Int64.Type}, {"StringencyIndex", type number}, {"StringencyIndexForDisplay", type number}, {"StringencyLegacyIndex", type number}, {"StringencyLegacyIndexForDisplay", type number}, {"GovernmentResponseIndex", type number}}),
+		    #"Filtered Rows" = Table.SelectRows(#"Changed Type", each ([Jurisdiction] = "STATE_TOTAL") and ([CountryName] = "United States")),
+		    #"Inserted Date" = Table.AddColumn(#"Filtered Rows", "CalDate", each Date.From(Text.From([Date], "en-US")), type date)
+		in
+		    #"Inserted Date"
+	lineageTag: 2b9031d1-44ab-4b01-9e56-5fcf358760e2
+	queryGroup: Unused
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression Global_Mobility_Report =
+		let
+		    Source = Csv.Document(Web.Contents("https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv"),[Delimiter=",", Columns=15, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"country_region_code", type text}, {"country_region", type text}, {"sub_region_1", type text}, {"sub_region_2", type text}, {"metro_area", type text}, {"iso_3166_2_code", type text}, {"census_fips_code", type text}, {"place_id", type text}, {"date", type date}, {"retail_and_recreation_percent_change_from_baseline", Int64.Type}, {"grocery_and_pharmacy_percent_change_from_baseline", Int64.Type}, {"parks_percent_change_from_baseline", Int64.Type}, {"transit_stations_percent_change_from_baseline", Int64.Type}, {"workplaces_percent_change_from_baseline", Int64.Type}, {"residential_percent_change_from_baseline", Int64.Type}}),
+		    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"census_fips_code", "place_id", "iso_3166_2_code"}),
+		    #"Filtered Rows" = Table.SelectRows(#"Removed Columns", each ([sub_region_1] = ""))
+		in
+		    #"Filtered Rows"
+	lineageTag: 2613738f-c9ba-48e8-8357-9873d60c5971
+	queryGroup: Unused
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression OxCGRT_latest = ```
+		let
+		    Source = Csv.Document(Web.Contents("https://raw.githubusercontent.com/OxCGRT/covid-policy-tracker/master/data/OxCGRT_latest.csv"),[Delimiter=",", Columns=46, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+		    #"Filtered Rows" = Table.SelectRows(#"Promoted Headers", each ([RegionName] = "")),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Filtered Rows",{{"CountryName", type text}, {"CountryCode", type text}, {"RegionName", type text}, {"RegionCode", type text}, {"Jurisdiction", type text}, {"Date", Int64.Type}, {"C1_School closing", type text}, {"C1_Flag", type text}, {"C2_Workplace closing", type text}, {"C2_Flag", type text}, {"C3_Cancel public events", type text}, {"C3_Flag", type text}, {"C4_Restrictions on gatherings", type text}, {"C4_Flag", type text}, {"C5_Close public transport", type text}, {"C5_Flag", type text}, {"C6_Stay at home requirements", type text}, {"C6_Flag", type text}, {"C7_Restrictions on internal movement", type text}, {"C7_Flag", type text}, {"C8_International travel controls", type text}, {"E1_Income support", type text}, {"E1_Flag", type text}, {"E2_Debt/contract relief", type text}, {"E3_Fiscal measures", type text}, {"E4_International support", type text}, {"H1_Public information campaigns", type text}, {"H1_Flag", type text}, {"H2_Testing policy", type text}, {"H3_Contact tracing", type text}, {"H4_Emergency investment in healthcare", type text}, {"H5_Investment in vaccines", type text}, {"H6_Facial Coverings", type text}, {"H6_Flag", type text}, {"H7_Vaccination policy", type text}, {"H7_Flag", type text}, {"H8_Protection of elderly people", type text}, {"H8_Flag", type text}, {"M1_Wildcard", type text}, {"ConfirmedCases", Int64.Type}, {"ConfirmedDeaths", Int64.Type}, {"StringencyIndex", type number}, {"StringencyIndexForDisplay", type number}, {"StringencyLegacyIndex", type number}, {"StringencyLegacyIndexForDisplay", type number}, {"GovernmentResponseIndex", type number}}),
+		    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"RegionName", "RegionCode", "Jurisdiction"}),
+		    #"Added Custom" = Table.AddColumn(#"Removed Columns", "School closures", each 
+		if [C1_School closing] = "0.00" then "No measures"
+		else if [C1_School closing] = "1.00" then "Recommend closing"
+		else if [C1_School closing] = "2.00" then "Require closing some levels"
+		else if [C1_School closing] = "3.00" then "Require closing all"
+		else "No measures"),
+		    #"Added Custom1" = Table.AddColumn(#"Added Custom", "Workplace closures", each if [C2_Workplace closing] = "0.00" then "No measures"
+		else if [C2_Workplace closing] = "1.00" then "Recommend closing"
+		else if [C2_Workplace closing] = "2.00" then "Require closing some workplaces"
+		else if [C2_Workplace closing] = "3.00" then "Require closing all"
+		else "No measures"),
+		    #"Added Custom2" = Table.AddColumn(#"Added Custom1", "Cancelling public events", each if [C3_Cancel public events] = "0.00" then "No measures"
+		else if [C3_Cancel public events] = "1.00" then "Recommend cancelling"
+		else if [C3_Cancel public events] = "2.00" then "Require cancelling"
+		else "No measures"),
+		    #"Added Custom3" = Table.AddColumn(#"Added Custom2", "Restrictions on gathering", each if [C4_Restrictions on gatherings] = "0.00" then "No measures"
+		else if [C4_Restrictions on gatherings] = "1.00" then "No gatherings >1000"
+		else if [C4_Restrictions on gatherings] = "2.00" then "No gatherings >100"
+		else if [C4_Restrictions on gatherings] = "3.00" then "No gatherings >10"
+		else if [C4_Restrictions on gatherings] = "4.00" then "No gatherings"
+		else "No measures"),
+		    #"Added Custom4" = Table.AddColumn(#"Added Custom3", "Public transport closures", each if [C5_Close public transport] = "0.00" then "No measures"
+		else if [C5_Close public transport] = "1.00" then "Recommend closing"
+		else if [C5_Close public transport] = "2.00" then "Require closing"
+		else "No measures"),
+		    #"Added Custom5" = Table.AddColumn(#"Added Custom4", "Stay at home requirements", each if [C6_Stay at home requirements] = "0.00" then "No measures"
+		else if [C6_Stay at home requirements] = "1.00" then "Recommend not leaving house"
+		else if [C6_Stay at home requirements] = "2.00" then "Require not leaving house with exceptions"
+		else if [C6_Stay at home requirements] = "3.00" then "Require not leaving house with minimal exceptions"
+		else "No measures"),
+		    #"Added Custom6" = Table.AddColumn(#"Added Custom5", "Internal mov't restrictions", each if [C7_Restrictions on internal movement] = "0.00" then "No measures"
+		else if [C7_Restrictions on internal movement] = "1.00" then "Recommend not travelling"
+		else if [C7_Restrictions on internal movement] = "2.00" then "Restricted travelling"
+		else "No measures"),
+		    #"Added Custom7" = Table.AddColumn(#"Added Custom6", "International travel controls", each if [C8_International travel controls] = "0.00" then "No measures"
+		else if [C8_International travel controls] = "1.00" then "Screening arrivals"
+		else if [C8_International travel controls] = "2.00" then "Quarantine arrivals"
+		else if [C8_International travel controls] = "3.00" then "Ban arrivals from some regions"
+		else if [C8_International travel controls] = "4.00" then "Ban all arrivals"
+		else "No measures"),
+		    #"Added Custom8" = Table.AddColumn(#"Added Custom7", "Face coverings", each if [H6_Facial Coverings] = "0.00" then "No measures"
+		else if [H6_Facial Coverings] = "1.00" then "Recommended"
+		else if [H6_Facial Coverings] = "2.00" then "Required in some spaces"
+		else if [H6_Facial Coverings] = "3.00" then "Required in public spaces"
+		else if [H6_Facial Coverings] = "4.00" then "Required outside the home"
+		else "No measures"),
+		    #"Added Custom9" = Table.AddColumn(#"Added Custom8", "Vaccination Policy", each if [H7_Vaccination policy] = "0.00" then "No availability"
+		else if [H7_Vaccination policy] = "1.00" then "One vulnerable groups"
+		else if [H7_Vaccination policy] = "2.00" then "Two vulnerable groups"
+		else if [H7_Vaccination policy] = "3.00" then "All vulnerable groups"
+		else if [H7_Vaccination policy] = "4.00" then "Vulnerable and some others"
+		else if [H7_Vaccination policy] = "5.00" then "Available to all"
+		else "No availability")
+		in
+		    #"Added Custom9"
+		```
+	lineageTag: f6c0a003-1e5b-4c0f-a2c1-996a234cd00b
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+

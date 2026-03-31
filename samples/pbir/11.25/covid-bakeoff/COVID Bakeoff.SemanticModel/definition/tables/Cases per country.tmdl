@@ -1,0 +1,104 @@
+table 'Cases per country'
+	isHidden
+	lineageTag: 4b495eca-faac-4618-a335-edcc9ec126cf
+
+	column Key
+		dataType: string
+		lineageTag: 8a51d86f-56ca-41cc-800e-cbf93cda02c5
+		summarizeBy: none
+		sourceColumn: Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column GeoLevel
+		dataType: string
+		lineageTag: 9a2a39c5-b051-45dd-a424-0981d03d8a6a
+		summarizeBy: none
+		sourceColumn: GeoLevel
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 45c1f7a6-6418-470a-b4dc-9fbd0c0e9899
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column CumulativeCases
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: fb63759b-455b-4408-8c68-bc2b85ba299d
+		summarizeBy: sum
+		sourceColumn: CumulativeCases
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CumulativeDeaths
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ea5dc4e8-e58f-4fd2-8957-f6722bb5d1b8
+		summarizeBy: sum
+		sourceColumn: CumulativeDeaths
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column IncrementalCases
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 5c949331-aefe-411b-b092-03961f559b82
+		summarizeBy: sum
+		sourceColumn: IncrementalCases
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column IncrementalDeaths
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ac6a0977-d246-46a6-8035-20ce70dec6ba
+		summarizeBy: sum
+		sourceColumn: IncrementalDeaths
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: f44de44d-1a9d-47d6-b407-47d7e3f228dd
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Cases per country-e8e5bc31-3b74-4805-9363-ece154c8bafc' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("dsna-researchlab-wcu-sqlserver.database.windows.net", "researchlab", [Query="SELECT [Key]#(lf),[GeoLevel]#(lf),[CountyName]#(lf)#(tab)#(tab),[Date]#(lf)#(tab)#(tab),[Date_Day1Case]#(lf)#(tab)#(tab),[Date_Day1Death]#(lf)#(tab)#(tab),[Date_Max]#(lf)                ,[Days_from_Day1Case]#(lf)                ,[Days_from_Day1Death]#(lf)#(tab)#(tab),[CumulativeCases]#(lf)#(tab)#(tab),[CumulativeDeaths]#(lf)#(tab)#(tab),[IncrementalCases]#(lf)#(tab)#(tab),[IncrementalDeaths]#(lf)#(tab)#(tab),[IncrementalCasesNoNegatives]#(lf)#(tab)#(tab),[IncrementalDeathsNoNegatives]#(lf)  FROM [COVID19].[vw_WHO_USAFacts_BingTracker_Data_Combined]"]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Date", type date}, {"Date_Day1Case", type date}, {"Date_Day1Death", type date}, {"Date_Max", type date}, {"CumulativeCases", Int64.Type}, {"CumulativeDeaths", Int64.Type}, {"IncrementalCases", Int64.Type}, {"IncrementalDeaths", Int64.Type}, {"IncrementalCasesNoNegatives", Int64.Type}, {"IncrementalDeathsNoNegatives", Int64.Type}, {"Days_from_Day1Case", Int64.Type}, {"Days_from_Day1Death", Int64.Type}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Changed Type", each ([GeoLevel] = "Country")),
+				    #"Removed Columns" = Table.RemoveColumns(#"Filtered Rows",{"CountyName", "Date_Day1Case", "Date_Day1Death", "Date_Max", "Days_from_Day1Case", "Days_from_Day1Death", "IncrementalCasesNoNegatives", "IncrementalDeathsNoNegatives"}),
+				    #"Inserted Text After Delimiter" = Table.AddColumn(#"Removed Columns", "Text After Delimiter", each Text.AfterDelimiter([Key], "_"), type text),
+				    #"Filtered Rows1" = Table.SelectRows(#"Inserted Text After Delimiter", each ([Key] <> null)),
+				    #"Renamed Columns" = Table.RenameColumns(#"Filtered Rows1",{{"Text After Delimiter", "Country"}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Renamed Columns","The United Kingdom","United Kingdom",Replacer.ReplaceText,{"Country"})
+				in
+				    #"Replaced Value"
+
+	annotation PBI_ResultType = Table
+

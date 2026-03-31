@@ -1,0 +1,29 @@
+relationship 84787da3-95b1-457b-9959-ce35fd5e0c9e
+	fromColumn: Sales.'Opportunity ID'
+	toColumn: Opportunities.'Opportunity ID'
+
+relationship 12e52b57-6662-46af-b5ac-22512b8920a2
+	fromColumn: Sales.'Sales Stage ID'
+	toColumn: SalesStages.'Sales Stage ID'
+
+relationship d9cd3f40-b159-4cc6-926e-bdad1ed0757d
+	fromColumn: Sales.'Product ID'
+	toColumn: Products.'Product ID'
+
+relationship AutoDetected_d7e2d4ae-0515-4d27-8b7f-738dd67ed792
+	fromColumn: Sales.'Account ID'
+	toColumn: Accounts.'Account ID'
+
+relationship AutoDetected_a1bd6520-9754-4564-a0c4-f154637f9170
+	fromColumn: Sales.'Partner ID'
+	toColumn: Partners.'Partner ID'
+
+relationship 0dd9242a-f8ef-3182-e79d-073ecb1155fa
+	fromColumn: Sales.'Sales Date'
+	toColumn: Dates.Date
+
+relationship ccd8a82a-3df5-4ec5-91cc-f516d5ffe79b
+	isActive: false
+	fromColumn: Sales.'Closed Date'
+	toColumn: Dates.Date
+

@@ -1,0 +1,61 @@
+table Details
+	lineageTag: c675f364-7e23-4cf7-94fa-fabea9a19d7e
+
+	measure 'Info Tooltip' = "https://imagizer.imageshack.com/img923/4052/lLHy3U.gif"
+		lineageTag: 3a13ef24-a51d-44ee-b493-0f98326de4a7
+		dataCategory: ImageUrl
+
+	measure 'Info Tooltip 2' = "https://imagizer.imageshack.com/img921/2483/uMs9ZQ.gif"
+		lineageTag: cd21eec8-425f-4973-9f6a-118edfe2e7ec
+
+	column 'Design Factor'
+		dataType: string
+		lineageTag: af31199a-6587-46c6-8c03-bec5897686f5
+		summarizeBy: none
+		sourceColumn: Design Factor
+		sortByColumn: DFSort
+
+		annotation SummarizationSetBy = Automatic
+
+	column DFSort
+		dataType: int64
+		formatString: 0
+		lineageTag: 824e034c-6052-4fad-838b-718054e78b49
+		summarizeBy: sum
+		sourceColumn: DFSort
+
+		annotation SummarizationSetBy = Automatic
+
+	column Topic
+		dataType: string
+		lineageTag: 1e61e93a-1de7-4313-95ef-b0b3bf46a37a
+		summarizeBy: none
+		sourceColumn: Topic
+		sortByColumn: TSort
+
+		annotation SummarizationSetBy = Automatic
+
+	column TSort
+		dataType: int64
+		formatString: 0
+		lineageTag: 04dd05bf-b0f1-4241-a4db-cd69b4cc3510
+		summarizeBy: sum
+		sourceColumn: TSort
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Details-a325cc9e-ad76-41a3-ab77-56cf74f9ea9d = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("lVXbcpswEP0VDc/OxMF2mjzKgBtNsWEwzmXSPChY2JrIKCNEU/ep39JP65dUK18mDYEQZjxjpLO7hz1npft7By98Esy8wOk5Z+YXxUGCUxLNcGjeXOehV4Ngs3eXEs8iBhYRhzidRMnUhvScOLoJEjQmyA/m39IoNkvD93Bo/yTsWSqNrjl7QWZ51JpzGo1JCFwuOqScykcu2DHzpQ1ZkNPFreXec0J8Fy1S+LJ+be+Qy5NFyUvNCo1CupWVBvhZDe5FYZTAltuYacozJUuZa5NTSFUCetCIvuKrNRTXipa25rAGHSd45pPZV9gddSgb5TnPOBUoVnJZZdoyOP9MYChX0kZ9qUWRWRokE7wzykVjUlLoimv+gwGsrsix64JRhXyqKfJN9xV/rDSXBehclyq4Nb49mNSta3NsqXw5SSVgmkXyqBBIS4SzQ71miaa84JtqY8jy7Ana4tY1MszAoHhPrlkmz/S6PIkF1blUG8A2K5MwIx9bGkMaX2ZbAO8EsdM5J3M7cz1nEuB0kQRz9L3q991z5OEYm/khKQkA4l68F3Qo4ituWjGVS5DKvfwQqtdKVqs1UO23gVMphebPgDtrw+2fv7//IJ/ltBIwBQO3Y8j+CIjpCugPBm1h17ysjLmvGF0yBehhxyL7T0Ep+2nJjT4Z94bkeVv4zZpqRHLAvav1AYcLKra/bL5WeV/RIUWmGC3Zqc92fyC4VfBXwRNeLA05phjSa17+N67Ivue52SygQcNWY0y40EyZbhRAYNhqjrGUTxuqnmC5qyUMs2dBt2jOBMu0GZ+d7hDQag9zCC85fI7xyMTMJtWaFysAdfWJPcfsoQ+Yzi7hWthOtPribZkxtTfL8GOTaJ5ZZFebwE2oKdyDfKdQZ4tIxbLdLTYyDnj4Bw==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type text) meta [Serialized.Text = true]) in type table [#"Design Factor" = _t, DFSort = _t, Topic = _t, TSort = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"DFSort", Int64.Type}, {"TSort", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_QueryRelationships = {"columnCount":4,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/Details/Source.{Design Factor,0}","Section1/Details/Changed Type.{DFSort,1}","Section1/Details/Source.{Topic,2}","Section1/Details/Changed Type.{TSort,3}"],"ColumnCount":4,"KeyColumnNames":[],"ColumnIdentities":["Section1/Details/Source.{Design Factor,0}","Section1/Details/Changed Type.{DFSort,1}","Section1/Details/Source.{Topic,2}","Section1/Details/Changed Type.{TSort,3}"],"RelationshipInfo":[]}
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

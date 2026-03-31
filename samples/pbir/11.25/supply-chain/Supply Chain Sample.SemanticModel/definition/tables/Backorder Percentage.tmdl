@@ -1,0 +1,159 @@
+table 'Backorder Percentage'
+	lineageTag: 576e7a5c-6b49-4566-8065-5b38fed43e66
+
+	measure '% on backorder' = AVERAGE('Backorder Percentage'[Backorder %])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: aabaf3c6-5909-40d3-ab12-c08e7487abec
+
+	measure 'Backorder $' = sum('Backorder Percentage'[Backorder %]) * 10000
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 22d30b12-c7fc-44cd-aa2a-e38dc2f94963
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Product Availability' = AVERAGE('Backorder Percentage'[Backorder %]) * 15
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 0e155b18-db3b-4d83-b53d-45de2e870e3e
+
+	measure '% on time orders' = AVERAGE('Backorder Percentage'[Backorder %])
+		lineageTag: 509518a7-86d4-4bc7-af02-2c79024fd97a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Month
+		dataType: string
+		lineageTag: bdd51ac0-3b41-449b-a9b4-4a7c137bca66
+		summarizeBy: none
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 0f5b636c-6342-42e5-8654-2fd992bc95b2
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column Plant
+		dataType: string
+		lineageTag: 20bdb3bf-bb6c-454e-ad30-aed9ae2f6614
+		summarizeBy: none
+		sourceColumn: Plant
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Type'
+		dataType: string
+		lineageTag: bc47dff4-4cc9-469f-a178-9e78bb70ef05
+		summarizeBy: none
+		sourceColumn: Product Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Forecast Bias'
+		dataType: string
+		lineageTag: e86bf276-d9fa-4914-a1d3-2c4603d84c1a
+		summarizeBy: none
+		sourceColumn: Forecast Bias
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Buyer Type'
+		dataType: string
+		lineageTag: d12080a6-03bb-43b4-9fcc-69b8574ed25f
+		summarizeBy: none
+		sourceColumn: Buyer Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Shipment Destination'
+		dataType: string
+		lineageTag: eaf09fe3-0099-430b-a81f-809566f947e8
+		summarizeBy: none
+		sourceColumn: Shipment Destination
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Shipment Type'
+		dataType: string
+		lineageTag: b8a045a8-74a0-4f5f-8ecd-25f44be9dfed
+		summarizeBy: none
+		sourceColumn: Shipment Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product ID'
+		dataType: string
+		isHidden
+		lineageTag: 9d88268b-6ffc-4c03-980d-b3992d716a2d
+		summarizeBy: none
+		sourceColumn: Product ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Forecast Accuracy'
+		dataType: string
+		lineageTag: f6aa9e6d-cab2-44e8-93aa-db9315ee19ba
+		summarizeBy: none
+		sourceColumn: Forecast Accuracy
+
+		annotation SummarizationSetBy = Automatic
+
+	column Brand
+		dataType: string
+		lineageTag: 00fba4d7-b5f9-4bc3-8163-a69f3fd64fe7
+		summarizeBy: none
+		sourceColumn: Brand
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Backorder %'
+		dataType: double
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 99a437ed-8182-45af-a7ff-8e4d28203b11
+		summarizeBy: sum
+		sourceColumn: Backorder %
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Distribution Center'
+		dataType: string
+		lineageTag: 4e70ff0e-4982-4b5a-845c-863e0705f02c
+		summarizeBy: none
+		sourceColumn: Distribution Center
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Demand Type'
+		dataType: string
+		lineageTag: 536fa760-9fc8-4050-94e3-ed8a0dd1a98e
+		summarizeBy: none
+		sourceColumn: Demand Type
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Backorder Percentage-82de19c2-556d-430b-b59c-abf5ede0122a' = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\juluczni\Documents\Backorders %.xlsx"), null, true),
+				    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Month", type text}, {"Region", type text}, {"Plant", type text}, {"Product Type", type text}, {"Forecast Bias", type text}, {"Buyer Type", type text}, {"Shipment Destination", type text}, {"Shipment Type", type text}, {"Product ID", type text}, {"Forecast Accuracy", type text}, {"Brand", type text}, {"Backorder %", type number}, {"Distribution Center", type text}, {"Demand Type", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_Id = 35f96540-460a-4ca8-8839-8caefc199959
+
+	annotation LinkedQueryName = Backorder Percentage
+
+	annotation PBI_QueryRelationships = {"columnCount":14,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Section1/Backorder Percentage/Changed Type.{Month,0}","Section1/Backorder Percentage/Changed Type.{Region,1}","Section1/Backorder Percentage/Changed Type.{Plant,2}","Section1/Backorder Percentage/Changed Type.{Product Type,3}","Section1/Backorder Percentage/Changed Type.{Forecast Bias,4}","Section1/Backorder Percentage/Changed Type.{Buyer Type,5}","Section1/Backorder Percentage/Changed Type.{Shipment Destination,6}","Section1/Backorder Percentage/Changed Type.{Shipment Type,7}","Section1/Backorder Percentage/Changed Type.{Product ID,8}","Section1/Backorder Percentage/Changed Type.{Forecast Accuracy,9}","Section1/Backorder Percentage/Changed Type.{Brand,10}","Section1/Backorder Percentage/Changed Type.{Backorder %,11}","Section1/Backorder Percentage/Changed Type.{Distribution Center,12}","Section1/Backorder Percentage/Changed Type.{Demand Type,13}"],"ColumnCount":14,"KeyColumnNames":[],"ColumnIdentities":["Section1/Backorder Percentage/Changed Type.{Month,0}","Section1/Backorder Percentage/Changed Type.{Region,1}","Section1/Backorder Percentage/Changed Type.{Plant,2}","Section1/Backorder Percentage/Changed Type.{Product Type,3}","Section1/Backorder Percentage/Changed Type.{Forecast Bias,4}","Section1/Backorder Percentage/Changed Type.{Buyer Type,5}","Section1/Backorder Percentage/Changed Type.{Shipment Destination,6}","Section1/Backorder Percentage/Changed Type.{Shipment Type,7}","Section1/Backorder Percentage/Changed Type.{Product ID,8}","Section1/Backorder Percentage/Changed Type.{Forecast Accuracy,9}","Section1/Backorder Percentage/Changed Type.{Brand,10}","Section1/Backorder Percentage/Changed Type.{Backorder %,11}","Section1/Backorder Percentage/Changed Type.{Distribution Center,12}","Section1/Backorder Percentage/Changed Type.{Demand Type,13}"],"RelationshipInfo":[]}
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
