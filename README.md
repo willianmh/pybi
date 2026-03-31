@@ -15,7 +15,7 @@ uv add pybi
 ## Quick Start
 
 ```python
-from pybi.semanticmodel.semanticmodel import SemanticModel
+from pybi.semanticmodel import SemanticModel
 
 # Read a semantic model (auto-detects TMDL or model.bim)
 sm = SemanticModel.read("/path/to/My.SemanticModel")
