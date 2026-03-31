@@ -166,12 +166,15 @@ class TMDLParser:
         expression: str | None = None
         has_expression_assignment = False  # Track if we saw =
 
-        # Parse name (can be identifier, quoted name, or absent)
+        # Parse name (can be identifier, quoted name, number, or absent)
         token = self._current()
         if token.type == TokenType.IDENTIFIER:
             name = self._advance().value
         elif token.type == TokenType.QUOTED_NAME:
             name = self._advance().value
+        elif token.type == TokenType.NUMBER:
+            # Column/measure names that start with a digit (e.g. "column 3")
+            name = str(self._advance().value)
         elif token.type == TokenType.KEYWORD and object_type == "ref":
             # 'ref table TableName' - the second keyword is the ref type
             ref_type = self._advance().value
@@ -182,6 +185,27 @@ class TMDLParser:
                 name = f"{ref_type} {self._advance().value}"
             elif token.type == TokenType.QUOTED_NAME:
                 name = f"{ref_type} {self._advance().value}"
+        elif token.type == TokenType.STRING:
+            # Fallback: collect consecutive STRING/IDENTIFIER/NUMBER tokens as the
+            # name (handles non-standard names like ?Visualize? where ? lexes as
+            # STRING).  Stop before structural tokens (=, :, NEWLINE, INDENT, EOF).
+            _stop = {
+                TokenType.EQUALS,
+                TokenType.COLON,
+                TokenType.NEWLINE,
+                TokenType.INDENT,
+                TokenType.DEDENT,
+                TokenType.EOF,
+            }
+            parts: list[str] = []
+            while self._current().type not in _stop:
+                t = self._advance()
+                if t.type == TokenType.QUOTED_NAME:
+                    parts.append(f"'{t.value}'")
+                else:
+                    parts.append(str(t.value))
+            if parts:
+                name = "".join(parts)
 
         # Check for expression (=) or properties (:)
         token = self._current()
@@ -477,7 +501,7 @@ class TMDLParser:
             return ""
 
         result = []
-        no_space_before = {"(", ")", "]", ",", ";"}
+        no_space_before = {"(", ")", "]", ",", ";", "["}
         no_space_after = {"(", "["}
 
         for i, part in enumerate(parts):

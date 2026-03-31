@@ -69,6 +69,7 @@ CHILDREN_NAMING_MAP: dict[str, str] = {
     "annotation": "annotations",
     "changedProperty": "changedProperties",
     "extendedProperty": "extendedProperties",
+    "role": "roles",
     "variation": "variations",
 }
 
@@ -252,13 +253,16 @@ COLUMN_PROPERTY_ORDER: list[tuple[str, str]] = [
     ("isHidden", "flag"),
     ("isKey", "flag"),
     ("isNullable", "flag_false"),
+    ("alignment", "property"),
     ("formatString", "property"),
     ("lineageTag", "property"),
     ("sourceLineageTag", "property"),
     ("dataCategory", "property"),
     ("summarizeBy", "property"),
+    ("isDataTypeInferred", "flag"),
     ("isNameInferred", "flag"),
     ("sourceColumn", "property"),
+    ("sourceProviderType", "property"),
     ("sortByColumn", "quoted_property"),
     ("displayFolder", "property"),
 ]
@@ -273,6 +277,7 @@ MEASURE_PROPERTY_ORDER: list[tuple[str, str]] = [
 ]
 
 TABLE_PROPERTY_ORDER: list[tuple[str, str]] = [
+    ("dataCategory", "property"),
     ("showAsVariationsOnly", "flag"),
     ("lineageTag", "property"),
     ("sourceLineageTag", "property"),
