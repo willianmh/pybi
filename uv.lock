@@ -301,6 +301,13 @@ requires-dist = [
     { name = "pydantic", specifier = ">=2.12.5" },
 ]
 
+[package.metadata.requires-dev]
+dev = [
+    { name = "datamodel-code-generator", specifier = ">=0.55.0" },
+    { name = "pytest", specifier = ">=9.0.2" },
+    { name = "pytest-codspeed", specifier = ">=4.3.0" },
+]
+
 [[package]]
 name = "pycparser"
 version = "3.0"
