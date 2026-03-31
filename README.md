@@ -1,5 +1,7 @@
 # pybi
 
+[![CodSpeed](https://img.shields.io/endpoint?url=https://codspeed.io/badge.json)](https://codspeed.io/willianmh/pybi?utm_source=badge)
+
 A Python framework for programmatically reading, writing, and manipulating Power BI projects.
 
 **Requirements:** Python ≥ 3.14 · Power BI file saved as `.pbip` ([docs](https://learn.microsoft.com/en-us/power-bi/developer/projects/projects-overview))
