@@ -19,4 +19,5 @@ build-backend = "uv_build"
 dev = [
     "datamodel-code-generator>=0.55.0",
     "pytest>=9.0.2",
+    "pytest-codspeed>=4.3.0",
 ]
