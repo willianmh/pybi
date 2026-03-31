@@ -4,7 +4,6 @@ from pybi.semanticmodel import (
     Column,
     Measure,
     Relationship,
-    SemanticModel,
     Table,
     SemanticModelDefinition,
     Model,
