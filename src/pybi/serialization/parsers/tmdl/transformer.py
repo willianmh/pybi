@@ -21,6 +21,67 @@ from ....semanticmodel.definition import (
 )
 
 
+def _normalize_expr(raw: str | None) -> str | list[str] | None:
+    """Normalize a raw TMDL expression string to relative (0-based) indentation.
+
+    This mirrors the normalization that ``TMDLWriter._normalize_expression_lines``
+    applies on write, so that the stored model value is stable across round-trips
+    regardless of the absolute indentation in the source file.
+
+    Steps:
+    1. Strip leading/trailing whitespace from the full string.
+    2. Split into lines.
+    3. Strip the minimum common leading-tab count from every non-empty line.
+       If the first non-empty line lost its leading tabs via the strip in step 1
+       (i.e. it has 0 tabs but subsequent lines have common indentation), use the
+       minimum of the *remaining* lines as the base indent to strip.
+    """
+    if not raw:
+        return None
+    stripped = raw.strip()
+    if not stripped:
+        return None
+    lines = stripped.split("\n")
+    if len(lines) == 1:
+        return lines[0]
+
+    non_empty = [l for l in lines if l.strip()]
+    if not non_empty:
+        return lines
+
+    tab_counts = [len(l) - len(l.lstrip("\t")) for l in non_empty]
+    min_tabs = min(tab_counts)
+
+    if min_tabs == 0 and len(tab_counts) > 1:
+        remaining = [c for c in tab_counts[1:]]
+        if remaining and min(remaining) > 0:
+            min_tabs = min(remaining)
+
+    if min_tabs == 0:
+        return lines
+
+    result = []
+    for line in lines:
+        if len(line) >= min_tabs and line[:min_tabs] == "\t" * min_tabs:
+            result.append(line[min_tabs:])
+        else:
+            result.append(line)
+    return result
+
+
+def _normalize_changed_properties(raw_list: list) -> list[dict]:
+    """Convert raw changedProperty node dicts to ``{"property": name}`` form.
+
+    The TMDL parser produces ``{"expression": "PropName", "name": None}`` for
+    ``changedProperty = PropName``.  The writer expects ``{"property": "PropName"}``.
+    """
+    return [
+        {"property": cp.get("expression", cp.get("name", ""))}
+        for cp in raw_list
+        if isinstance(cp, dict)
+    ]
+
+
 def expand_node(node: ObjectDeclaration) -> dict:
     """Merge properties and children of an AST node into a flat dict.
 
@@ -63,11 +124,7 @@ class TMDLTransformer:
     def transform_expression(self, node: ObjectDeclaration) -> Expression:
         """Transform an expression node to an Expression model."""
         raw = expand_node(node)
-        if node.expression:
-            lines = node.expression.strip().split("\n")
-            raw["expression"] = lines if len(lines) > 1 else lines[0]
-        else:
-            raw["expression"] = ""
+        raw["expression"] = _normalize_expr(node.expression) or ""
         return Expression.model_validate(raw)
 
     def transform_column(self, node: ObjectDeclaration) -> Column:
@@ -75,29 +132,42 @@ class TMDLTransformer:
         raw = expand_node(node)
         if node.expression is not None:
             raw["type"] = "calculated"
+            raw["expression"] = _normalize_expr(node.expression)
         # Rewrite changedProperty dicts from {name, expression} to {property}
         if "changedProperties" in raw:
-            raw["changedProperties"] = [
-                {"property": cp.get("expression", cp.get("name", ""))}
-                for cp in raw["changedProperties"]
-            ]
+            raw["changedProperties"] = _normalize_changed_properties(
+                raw["changedProperties"]
+            )
+        # sortByColumn is a quoted name in TMDL (e.g. 'Calendar Month');
+        # unquote it so the writer can re-quote canonically without doubling.
+        if "sortByColumn" in raw and isinstance(raw["sortByColumn"], str):
+            raw["sortByColumn"] = unquote_name(raw["sortByColumn"])
+        # Normalize extendedProperties expressions for stable round-trips
+        if "extendedProperties" in raw:
+            for ep in raw["extendedProperties"]:
+                if "expression" in ep and ep["expression"]:
+                    ep["expression"] = _normalize_expr(ep["expression"]) or ""
         return Column.model_validate(raw)
 
     def transform_measure(self, node: ObjectDeclaration) -> Measure:
         """Transform a measure node to a Measure model."""
         raw = expand_node(node)
-        expression = node.expression or ""
-        if expression:
-            lines = expression.strip().split("\n")
-            raw["expression"] = lines if len(lines) > 1 else lines[0]
-        else:
-            raw["expression"] = ""
+        raw["expression"] = _normalize_expr(node.expression) or ""
         # formatStringDefinition children -> dict with "expression" key
         fsd_list = raw.pop("formatStringDefinition", None)
         if fsd_list:
             raw["formatStringDefinition"] = {
                 "expression": fsd_list[0].get("expression")
             }
+        if "changedProperties" in raw:
+            raw["changedProperties"] = _normalize_changed_properties(
+                raw["changedProperties"]
+            )
+        # Normalize extendedProperties expressions for stable round-trips
+        if "extendedProperties" in raw:
+            for ep in raw["extendedProperties"]:
+                if "expression" in ep and ep["expression"]:
+                    ep["expression"] = _normalize_expr(ep["expression"]) or ""
         return Measure.model_validate(raw)
 
     def transform_partition(self, node: ObjectDeclaration) -> Partition:
@@ -125,7 +195,7 @@ class TMDLTransformer:
             # (3) M expression on source child overrides type
             if src.get("expression"):
                 source_data["type"] = "m"
-                source_data["expression"] = src["expression"].split("\n")
+                source_data["expression"] = _normalize_expr(src["expression"])
 
         # Partition-level expression determines source type
         if node.expression:
@@ -154,6 +224,11 @@ class TMDLTransformer:
     def transform_table(self, node: ObjectDeclaration) -> Table:
         """Transform a table node to a Table model."""
         raw = expand_node(node)
+
+        if "changedProperties" in raw:
+            raw["changedProperties"] = _normalize_changed_properties(
+                raw["changedProperties"]
+            )
 
         # Transform typed children via dedicated methods
         raw["columns"] = [

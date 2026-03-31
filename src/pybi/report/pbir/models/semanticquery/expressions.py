@@ -744,7 +744,7 @@ class QueryExpressionContainer(BaseModel):
         """Serialize back to the original dict format.
 
         Expression key comes first, metadata (Name, NativeReferenceName,
-        Annotations) follows — matching the source JSON field order.
+        Annotations) follows : matching the source JSON field order.
         """
         result: dict[str, Any] = {}
 

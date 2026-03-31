@@ -40,10 +40,10 @@ class TMDLParser:
 
     Produces two node types:
 
-    * ``ObjectDeclaration`` — keyword-introduced objects (table, column,
+    * ``ObjectDeclaration`` : keyword-introduced objects (table, column,
       annotation, …).  Annotations are regular children with
       ``object_type="annotation"``.
-    * ``PropertyNode`` — ``key: value`` or ``key = expression`` pairs
+    * ``PropertyNode`` : ``key: value`` or ``key = expression`` pairs
 
     Lexer contract
     --------------
@@ -393,7 +393,7 @@ class TMDLParser:
         """Collect the property value after a colon.
 
         The lexer emits at most one STRING token after COLON (rest-of-line
-        capture).  This method returns the raw string — type coercion is
+        capture).  This method returns the raw string : type coercion is
         deferred to the transformer / Pydantic layer which has schema
         awareness.
         """
@@ -406,7 +406,7 @@ class TMDLParser:
     def _parse_property_value(self) -> Any:
         """Parse a single property value token.
 
-        Returns the raw string value — type coercion is deferred to the
+        Returns the raw string value : type coercion is deferred to the
         transformer / Pydantic layer.
         """
         token = self._current()
@@ -450,7 +450,7 @@ class TMDLParser:
                 break
             if current.type == TokenType.DEDENT:
                 if nesting_depth <= 0:
-                    # This DEDENT exits our scope — consume it and stop
+                    # This DEDENT exits our scope : consume it and stop
                     self._advance()
                     break
                 # Internal DEDENT (within the expression body)

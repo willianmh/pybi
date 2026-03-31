@@ -15,6 +15,7 @@ from pybi.serialization.parsers.tmdl.grammar import (
     TABLE_PROPERTY_ORDER,
     format_column_reference,
     quote_name,
+    unquote_name,
 )
 from pybi.semanticmodel.definition import (
     Column,
@@ -77,10 +78,10 @@ class TMDLWriter:
         Each spec entry is ``(attribute_name, emit_style)`` where *emit_style*
         is one of:
 
-        * ``"property"``        — ``key: value``   when value is truthy
-        * ``"flag"``            — ``key``           when value is truthy
-        * ``"flag_false"``      — ``key: false``    when value is explicitly False
-        * ``"quoted_property"`` — ``key: quote(v)`` when value is truthy
+        * ``"property"``        : ``key: value``   when value is truthy
+        * ``"flag"``            : ``key``           when value is truthy
+        * ``"flag_false"``      : ``key: false``    when value is explicitly False
+        * ``"quoted_property"`` : ``key: quote(v)`` when value is truthy
         """
         lines: list[str] = []
         indent = self._indent(indent_level)
@@ -143,7 +144,7 @@ class TMDLWriter:
         min_tabs = min(tab_counts)
 
         # If the first non-empty line has 0 tabs but others have more,
-        # it was likely stripped by .strip() — use the min from remaining
+        # it was likely stripped by .strip() : use the min from remaining
         # lines as the true base indent.
         if min_tabs == 0 and len(tab_counts) > 1:
             remaining = [c for i, c in enumerate(tab_counts) if i > 0]
@@ -193,7 +194,7 @@ class TMDLWriter:
         """Check if an expression needs triple-backtick enclosure.
 
         Backticks are needed when the expression body would be altered by
-        normal TMDL tokenization — specifically when lines contain:
+        normal TMDL tokenization : specifically when lines contain:
         * trailing whitespace (spaces or tabs)
         * leading spaces (after stripping leading tabs) that convey
           indentation which the tokenizer would discard
@@ -218,12 +219,16 @@ class TMDLWriter:
             # Trailing whitespace
             if line.endswith(" ") or line.endswith("\t"):
                 return True
-            # Leading spaces (after tabs) — would be lost by tokenizer
+            # Leading spaces (after tabs) : would be lost by tokenizer
             stripped_tabs = line.lstrip("\t")
             if stripped_tabs and stripped_tabs[0] == " ":
                 return True
-            # Single quotes — lexer interprets as quoted-name delimiters
+            # Single quotes : lexer interprets as quoted-name delimiters
             if "'" in line:
+                return True
+            # Double-quoted strings : _smart_join_expression in the parser
+            # adds spaces around adjacent tokens (e.g. "x"&y -> "x" & y)
+            if '"' in line:
                 return True
 
         return False
@@ -403,6 +408,39 @@ class TMDLWriter:
                 if i < len(column.annotations) - 1:
                     lines.append("")  # Empty line between annotations
 
+        # relatedColumnDetails (anonymous child block)
+        if column.relatedColumnDetails:
+            lines.append(f"{self._indent(prop_indent)}relatedColumnDetails")
+            rcd = column.relatedColumnDetails
+            if isinstance(rcd, str):
+                for rcd_line in rcd.strip().split("\n"):
+                    lines.append(f"{self._indent(prop_indent + 1)}{rcd_line.strip()}")
+            elif isinstance(rcd, dict):
+                for k, v in rcd.items():
+                    lines.append(f"{self._indent(prop_indent + 1)}{k}: {v}")
+
+        # Extended properties
+        if column.extendedProperties:
+            lines.append("")
+            for ep in column.extendedProperties:
+                ep_name = ep.get("name") or ""
+                ep_expr = ep.get("expression", "")
+                ep_lines = self._normalize_expression_lines(ep_expr) if ep_expr else []
+                needs_bt = bool(ep_lines) and self._needs_backticks(ep_lines)
+                if needs_bt:
+                    lines.append(
+                        f"{self._indent(prop_indent)}extendedProperty {ep_name} = {BACKTICK_EXPR}"
+                    )
+                    for el in ep_lines:
+                        lines.append(f"{self._indent(prop_indent + 2)}{el}")
+                    lines.append(f"{self._indent(prop_indent + 2)}{BACKTICK_EXPR}")
+                else:
+                    lines.append(
+                        f"{self._indent(prop_indent)}extendedProperty {ep_name} ="
+                    )
+                    for el in ep_lines:
+                        lines.append(f"{self._indent(prop_indent + 2)}{el}")
+
         return lines
 
     def write_measure(self, measure: Measure, indent_level: int = 1) -> list[str]:
@@ -445,7 +483,7 @@ class TMDLWriter:
                     f"{indent}measure {self._quote_name(measure.name)} = {expr_text}"
                 )
             else:
-                # No `=` for empty expression — avoids parser capturing
+                # No `=` for empty expression : avoids parser capturing
                 # subsequent properties as a multi-line expression body
                 lines.append(f"{indent}measure {self._quote_name(measure.name)}")
 
@@ -480,6 +518,41 @@ class TMDLWriter:
             lines.append("")  # Empty line before annotations
             for ann in measure.annotations:
                 lines.append(self._write_annotation(ann, prop_indent))
+
+        # Changed properties (with empty line before)
+        if measure.changedProperties:
+            lines.append("")  # Empty line before changedProperties
+            for changed in measure.changedProperties:
+                if isinstance(changed, dict) and "property" in changed:
+                    lines.append(
+                        f"{self._indent(prop_indent)}changedProperty = {changed['property']}"
+                    )
+                elif isinstance(changed, str):
+                    lines.append(
+                        f"{self._indent(prop_indent)}changedProperty = {changed}"
+                    )
+
+        # Extended properties
+        if measure.extendedProperties:
+            lines.append("")
+            for ep in measure.extendedProperties:
+                ep_name = ep.get("name") or ""
+                ep_expr = ep.get("expression", "")
+                ep_lines = self._normalize_expression_lines(ep_expr) if ep_expr else []
+                needs_bt = bool(ep_lines) and self._needs_backticks(ep_lines)
+                if needs_bt:
+                    lines.append(
+                        f"{self._indent(prop_indent)}extendedProperty {ep_name} = {BACKTICK_EXPR}"
+                    )
+                    for el in ep_lines:
+                        lines.append(f"{self._indent(prop_indent + 2)}{el}")
+                    lines.append(f"{self._indent(prop_indent + 2)}{BACKTICK_EXPR}")
+                else:
+                    lines.append(
+                        f"{self._indent(prop_indent)}extendedProperty {ep_name} ="
+                    )
+                    for el in ep_lines:
+                        lines.append(f"{self._indent(prop_indent + 2)}{el}")
 
         return lines
 
@@ -613,6 +686,30 @@ class TMDLWriter:
             for ann in table.annotations:
                 lines.append(self._write_annotation(ann, 1))
 
+        # Changed properties
+        if table.changedProperties:
+            lines.append("")
+            for changed in table.changedProperties:
+                if isinstance(changed, dict) and "property" in changed:
+                    lines.append(f"\tchangedProperty = {changed['property']}")
+                elif isinstance(changed, str):
+                    lines.append(f"\tchangedProperty = {changed}")
+
+        # Calculation group (bare keyword when empty, else with properties)
+        if table.calculationGroup is not None:
+            cg_list = (
+                table.calculationGroup
+                if isinstance(table.calculationGroup, list)
+                else [table.calculationGroup]
+            )
+            for cg in cg_list:
+                lines.append("")
+                lines.append("\tcalculationGroup")
+                if isinstance(cg, dict):
+                    for k, v in cg.items():
+                        if k != "name" and v is not None:
+                            lines.append(f"\t\t{k}: {v}")
+
         lines.append("")  # Final newline
         return "\n".join(lines)
 
@@ -645,7 +742,7 @@ class TMDLWriter:
                 f"{self._indent(prop_indent)}sourceLineageTag: {hierarchy['sourceLineageTag']}"
             )
 
-        # Levels — transformer stores under "level" (singular, not in CHILDREN_NAMING_MAP)
+        # Levels : transformer stores under "level" (singular, not in CHILDREN_NAMING_MAP)
         # but model.bim uses "levels" (plural), so accept both keys.
         levels = hierarchy.get("levels") or hierarchy.get("level") or []
         if levels:
@@ -667,14 +764,26 @@ class TMDLWriter:
                     f"{self._indent(level_prop_indent)}sourceLineageTag: {level['sourceLineageTag']}"
                 )
             if level.get("column"):
+                col_val = unquote_name(level["column"]) or level["column"]
                 lines.append(
-                    f"{self._indent(level_prop_indent)}column: {self._quote_name(level['column'])}"
+                    f"{self._indent(level_prop_indent)}column: {self._quote_name(col_val)}"
                 )
             if level.get("ordinal") is not None:
                 lines.append(
                     f"{self._indent(level_prop_indent)}ordinal: {level['ordinal']}"
                 )
+            # Level annotations
+            if level.get("annotations"):
+                lines.append("")
+                for ann in level["annotations"]:
+                    lines.append(self._write_annotation(ann, level_prop_indent))
             lines.append("")  # Empty line after each level
+
+        # Hierarchy annotations
+        if hierarchy.get("annotations"):
+            lines.append("")
+            for ann in hierarchy["annotations"]:
+                lines.append(self._write_annotation(ann, prop_indent))
 
         return lines
 
@@ -690,7 +799,8 @@ class TMDLWriter:
         lines: list[str] = []
 
         # Relationship declaration
-        lines.append(f"relationship {relationship.name}")
+        name_part = f" {relationship.name}" if relationship.name else ""
+        lines.append(f"relationship{name_part}")
 
         # isActive (only if false, since true is default)
         if relationship.isActive is False:
@@ -774,8 +884,16 @@ class TMDLWriter:
         expr_lines = self._normalize_expression_lines(expression.expression)
 
         is_multiline = len(expr_lines) > 1
+        needs_backticks = is_multiline and self._needs_backticks(expr_lines)
 
-        if is_multiline:
+        if needs_backticks:
+            lines.append(
+                f"expression {self._quote_name(expression.name)} = {BACKTICK_EXPR}"
+            )
+            for expr_line in expr_lines:
+                lines.append(f"\t\t{expr_line}")
+            lines.append(f"\t\t{BACKTICK_EXPR}")
+        elif is_multiline:
             lines.append(f"expression {self._quote_name(expression.name)} =")
             for expr_line in expr_lines:
                 lines.append(f"\t\t{expr_line}")
@@ -791,11 +909,17 @@ class TMDLWriter:
         if expression.lineageTag:
             lines.append(f"\tlineageTag: {expression.lineageTag}")
 
+        if expression.sourceLineageTag:
+            lines.append(f"\tsourceLineageTag: {expression.sourceLineageTag}")
+
         if expression.queryGroup:
             lines.append(f"\tqueryGroup: {expression.queryGroup}")
 
         if expression.kind:
             lines.append(f"\tkind: {expression.kind}")
+
+        if expression.mAttributes:
+            lines.append(f"\tmAttributes: {expression.mAttributes}")
 
         # Annotations (with empty line before)
         if expression.annotations:
@@ -902,6 +1026,9 @@ class TMDLWriter:
 
         if model.discourageImplicitMeasures:
             lines.append(f"\tdiscourageImplicitMeasures")
+
+        if model.maxParallelismPerRefresh is not None:
+            lines.append(f"\tmaxParallelismPerRefresh: {model.maxParallelismPerRefresh}")
 
         # Data access options
         if model.dataAccessOptions:

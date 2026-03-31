@@ -243,10 +243,10 @@ def format_column_reference(ref: str) -> str:
 # ---------------------------------------------------------------------------
 #
 # Each entry is (attribute_name, emit_style):
-#   "property"        — emit  key: value   when value is truthy
-#   "flag"            — emit  key           when value is truthy
-#   "flag_false"      — emit  key: false    when value is explicitly False
-#   "quoted_property" — emit  key: quote(v) when value is truthy
+#   "property"        : emit  key: value   when value is truthy
+#   "flag"            : emit  key           when value is truthy
+#   "flag_false"      : emit  key: false    when value is explicitly False
+#   "quoted_property" : emit  key: quote(v) when value is truthy
 
 COLUMN_PROPERTY_ORDER: list[tuple[str, str]] = [
     ("dataType", "property"),

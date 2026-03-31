@@ -252,7 +252,7 @@ class TMDLLexer:
             while j < n:
                 if content[j] == '"':
                     if j + 1 < n and content[j + 1] == '"':
-                        j += 2  # escaped quote — skip both
+                        j += 2  # escaped quote : skip both
                     else:
                         found_close = True
                         j += 1
@@ -277,7 +277,7 @@ class TMDLLexer:
         Called when *content* contains a '"' at *dq_start* that is not closed
         on the same line.  Reads subsequent raw lines until the closing '"' is
         found, then emits a STRING token (carrying the full verbatim value,
-        quotes included) followed by a NEWLINE on the closing line — mirroring
+        quotes included) followed by a NEWLINE on the closing line : mirroring
         the behaviour of ``_handle_backtick_expression``.
 
         Args:
@@ -475,7 +475,7 @@ class TMDLLexer:
         pos = 0
         col = indent_level + 1
         content_len = len(content)
-        line = self.line  # Local copy — constant within _tokenize_line
+        line = self.line  # Local copy : constant within _tokenize_line
 
         while pos < content_len:
             char = content[pos]
@@ -553,7 +553,7 @@ class TMDLLexer:
                 tokens.append(token)
                 continue
 
-            # Unrecognized character — emit as STRING to preserve in expression
+            # Unrecognized character : emit as STRING to preserve in expression
             # content.  In practice this handles M expression punctuation
             # such as (, ), [, ], {, }, ;, and comma that appear on
             # continuation lines.  The lexer cannot distinguish structural
@@ -598,7 +598,7 @@ class TMDLLexer:
     def _tokenize_string_literal(
         self, content: str, pos: int, col: int, indent_level: int
     ) -> tuple[Token, int, int]:
-        """Handle double-quoted string — preserves quotes for expression content."""
+        """Handle double-quoted string : preserves quotes for expression content."""
         start_col = col
         end_pos = pos + 1
         found_closing = False
@@ -624,7 +624,7 @@ class TMDLLexer:
     def _tokenize_number_or_uuid(
         self, content: str, pos: int, col: int, indent_level: int
     ) -> tuple[Token, int, int]:
-        """Handle digits — number or UUID-like identifier starting with digits."""
+        """Handle digits : number or UUID-like identifier starting with digits."""
         start_col = col
         start_pos = pos
         content_len = len(content)
@@ -656,7 +656,7 @@ class TMDLLexer:
     def _tokenize_identifier_or_keyword(
         self, content: str, pos: int, col: int, indent_level: int
     ) -> tuple[Token, int, int]:
-        """Handle alpha/underscore — boolean, keyword, or plain identifier."""
+        """Handle alpha/underscore : boolean, keyword, or plain identifier."""
         start_col = col
         start_pos = pos
         content_len = len(content)
