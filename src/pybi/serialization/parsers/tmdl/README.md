@@ -1,4 +1,4 @@
-# TMDL — Tabular Model Definition Language
+# TMDL : Tabular Model Definition Language
 
 TMDL is Microsoft's text-based format for defining Power BI semantic models (formerly Analysis Services Tabular Models). It is the source-control-friendly alternative to the binary `.pbix` / JSON `.bim` formats, representing the complete Tabular Object Model (TOM) as a folder of human-readable `.tmdl` files.
 
@@ -12,10 +12,10 @@ A TMDL definition folder has one level of sub-folders. Every file has the `.tmdl
 
 ```
 definition/
-├── database.tmdl          # one file — database-level properties
-├── model.tmdl             # one file — model properties + ref ordering
-├── relationships.tmdl     # one file — ALL relationships
-├── expressions.tmdl       # one file — ALL named M/DAX expressions
+├── database.tmdl          # one file : database-level properties
+├── model.tmdl             # one file : model properties + ref ordering
+├── relationships.tmdl     # one file : ALL relationships
+├── expressions.tmdl       # one file : ALL named M/DAX expressions
 ├── tables/
 │   ├── Sales.tmdl         # one file per table
 │   └── Date.tmdl
@@ -165,7 +165,7 @@ From `tables/Opportunities.tmdl` (AI Sample). Note the property `formatString` s
 
 ### 3. Backtick-fenced (verbatim)
 
-Triple backticks (` ``` `) immediately follow `=` and the closing ` ``` ` sits on its own line. Everything between them is read verbatim — indentation, blank lines, trailing whitespace. **The closing delimiter determines the left boundary** of the expression; indentation to the right of it is preserved as-is.
+Triple backticks (` ``` `) immediately follow `=` and the closing ` ``` ` sits on its own line. Everything between them is read verbatim : indentation, blank lines, trailing whitespace. **The closing delimiter determines the left boundary** of the expression; indentation to the right of it is preserved as-is.
 
 ```tmdl
 measure 'Revenue Won' = ```
@@ -409,7 +409,7 @@ table 'COVID measures'
 	annotation PBI_ResultType = Table
 ```
 
-From `tables/COVID measures.tmdl` (COVID-19 US Sample). A table with no regular columns — measures only — and a single empty-row M partition.
+From `tables/COVID measures.tmdl` (COVID-19 US Sample). A table with no regular columns : measures only : and a single empty-row M partition.
 
 ### `cultures/<locale>.tmdl`
 
@@ -452,7 +452,7 @@ column 'Weeks Open' =
 
 Single-line shorthand also works: `column Blank = BLANK()`.
 
-Calculated columns have no `sourceColumn` or `dataType` — the engine infers the type from the DAX result.
+Calculated columns have no `sourceColumn` or `dataType` : the engine infers the type from the DAX result.
 
 ### Calculated Partition Source
 
@@ -500,7 +500,7 @@ column Month
 	sortByColumn: MonthNumber
 ```
 
-From `tables/Date.tmdl` (Human Resources Sample). `MonthNumber` is the name of another column in the same table — no table prefix needed for same-table references.
+From `tables/Date.tmdl` (Human Resources Sample). `MonthNumber` is the name of another column in the same table : no table prefix needed for same-table references.
 
 ### Hidden and Private Tables
 
@@ -629,7 +629,7 @@ column Date
 	sourceColumn: [Date]
 ```
 
-From `tables/DateTableTemplate_0039983e-de71-45fb-bd88-812f61c0ff38.tmdl` (AI Sample). Note `sourceColumn: [Date]` — the brackets are part of the source column name as emitted by the engine.
+From `tables/DateTableTemplate_0039983e-de71-45fb-bd88-812f61c0ff38.tmdl` (AI Sample). Note `sourceColumn: [Date]` : the brackets are part of the source column name as emitted by the engine.
 
 ### `isKey`
 
@@ -656,7 +656,7 @@ This subpackage implements the TMDL pipeline in `src/pybi/serialization/parsers/
 | File | Role |
 |------|------|
 | `grammar.py` | Keyword lists, property enums, `quote_name` / `unquote_name` utilities |
-| `lexer.py` | Tokenizer — tab-indentation tracking, backtick blocks, `///` descriptions |
+| `lexer.py` | Tokenizer : tab-indentation tracking, backtick blocks, `///` descriptions |
 | `parser.py` | Token stream → `ObjectDeclaration` AST |
 | `transformer.py` | AST → Pydantic models (`Table`, `Column`, `Measure`, …) |
 | `loader.py` | `TMDLFolderLoader` (filesystem) and `TMDLPartsLoader` (in-memory `dict[str, str]`) |
