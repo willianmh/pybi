@@ -27,6 +27,11 @@ _HUMAN_RESOURCES = Path(
     "/Human Resources Sample PBIX.SemanticModel/definition"
 )
 
+pytestmark = pytest.mark.skipif(
+    not Path("../pbi-samples").exists(),
+    reason="pbi-samples repository not available; clone https://github.com/willianmh/pbi-samples",
+)
+
 _UUID_RE = re.compile(
     r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
     re.IGNORECASE,
@@ -72,7 +77,9 @@ def all_tmdl_files(samples_dir: Path) -> list[Path]:
 
 class TestLexerOnAllSamples:
     @pytest.fixture(
-        params=sorted(Path("../pbi-samples/pbi/pbir/11.25").glob("**/*.tmdl")),
+        params=sorted(Path("../pbi-samples/pbi/pbir/11.25").glob("**/*.tmdl"))
+        if Path("../pbi-samples").exists()
+        else [],
         ids=lambda p: p.name,
     )
     def tmdl_file(self, request) -> Path:

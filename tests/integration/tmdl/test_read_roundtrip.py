@@ -16,6 +16,11 @@ from pybi.semanticmodel.semanticmodel import SemanticModel
 
 _SAMPLES_ROOT = Path("../pbi-samples/pbi/pbir/11.25")
 
+pytestmark = pytest.mark.skipif(
+    not Path("../pbi-samples").exists(),
+    reason="pbi-samples repository not available; clone https://github.com/willianmh/pbi-samples",
+)
+
 _SAMPLE_DIRS: dict[str, Path] = {
     "ai": _SAMPLES_ROOT / "ai" / "Artificial Intelligence Sample.SemanticModel",
     "human-resources": _SAMPLES_ROOT

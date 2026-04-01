@@ -20,5 +20,11 @@ jobs:
       - name: Install dependencies
         run: uv sync --dev
 
+      - name: Checkout pbi-samples
+        uses: actions/checkout@v4
+        with:
+          repository: willianmh/pbi-samples
+          path: ../pbi-samples
+
       - name: Run Tests
         run: uv run pytest tests

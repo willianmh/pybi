@@ -13,7 +13,12 @@ from pybi.report.legacy.legacy_model import (
 
 REPORT_DIR = Path("../pbi-samples/local/reports")
 
-_report_files = sorted(REPORT_DIR.glob("**/*.json"))
+pytestmark = pytest.mark.skipif(
+    not REPORT_DIR.parent.parent.exists(),
+    reason="pbi-samples repository not available; clone https://github.com/willianmh/pbi-samples",
+)
+
+_report_files = sorted(REPORT_DIR.glob("**/*.json")) if REPORT_DIR.exists() else []
 
 
 @pytest.mark.parametrize(

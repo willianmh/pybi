@@ -7,7 +7,12 @@ from pybi.expressions.filter import Filter, FilterTypeEnum
 
 FILTERS_DIR = Path("../pbi-samples/local/filters")
 
-_filter_files = sorted(FILTERS_DIR.glob("**/*.json"))
+pytestmark = pytest.mark.skipif(
+    not FILTERS_DIR.parent.parent.exists(),
+    reason="pbi-samples repository not available; clone https://github.com/willianmh/pbi-samples",
+)
+
+_filter_files = sorted(FILTERS_DIR.glob("**/*.json")) if FILTERS_DIR.exists() else []
 
 
 @pytest.mark.parametrize(

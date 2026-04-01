@@ -20,6 +20,11 @@ from pybi.report.types import ReportFormat
 # ---------------------------------------------------------------------------
 
 _PBIR_ROOT = Path("../pbi-samples/pbi/pbir/11.25")
+
+pytestmark = pytest.mark.skipif(
+    not Path("../pbi-samples").exists(),
+    reason="pbi-samples repository not available; clone https://github.com/willianmh/pbi-samples",
+)
 _AI_REPORT = _PBIR_ROOT / "ai" / "Artificial Intelligence Sample.Report"
 
 # Curated list of PBIR-format samples (mirrors test_pbir_strategy.py).
