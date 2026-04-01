@@ -1,8 +1,0 @@
-relationship f1f4dec2-922f-4ec6-8dc1-49554a10a01c
-	fromColumn: Explanations.'Product ID'
-	toColumn: Risk.'Product ID'
-
-relationship 9ed0ec75-78b2-4f82-bffb-1dce5fda3499
-	fromColumn: 'Backorder Percentage'.Month
-	toColumn: Month.Month
-
