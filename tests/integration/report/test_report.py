@@ -11,8 +11,7 @@ from pybi.report.legacy.legacy_model import (
     VisualContainerConfig,
 )
 
-REPO_ROOT = Path(__file__).parents[3]
-REPORT_DIR = REPO_ROOT / "samples" / "local" / "reports"
+REPORT_DIR = Path("../pbi-samples/local/reports")
 
 _report_files = sorted(REPORT_DIR.glob("**/*.json"))
 

@@ -15,7 +15,7 @@ from pybi.serialization.parsers.tmdl.loader import TMDLPartsLoader
 # Paths to sample semantic model definition directories
 # ---------------------------------------------------------------------------
 
-_SAMPLES_ROOT = Path("samples/pbir/11.25")
+_SAMPLES_ROOT = Path("../pbi-samples/pbi/pbir/11.25")
 
 _SAMPLE_DIRS: dict[str, Path] = {
     "ai": _SAMPLES_ROOT / "ai" / "Artificial Intelligence Sample.SemanticModel",

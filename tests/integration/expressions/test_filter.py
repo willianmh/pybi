@@ -5,8 +5,7 @@ import pytest
 
 from pybi.expressions.filter import Filter, FilterTypeEnum
 
-REPO_ROOT = Path(__file__).parents[3]
-FILTERS_DIR = REPO_ROOT / "samples" / "local" / "filters"
+FILTERS_DIR = Path("../pbi-samples/local/filters")
 
 _filter_files = sorted(FILTERS_DIR.glob("**/*.json"))
 

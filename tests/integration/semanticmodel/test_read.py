@@ -10,8 +10,8 @@ from pybi.semanticmodel.semanticmodel import SemanticModel
 # Sample paths (relative to project root)
 # ---------------------------------------------------------------------------
 
-_PBIR_ROOT = Path("samples/pbir/11.25")
-_LEGACY_ROOT = Path("samples/legacy/11.25")
+_PBIR_ROOT = Path("../pbi-samples/pbi/pbir/11.25")
+_LEGACY_ROOT = Path("../pbi-samples/pbi/legacy/11.25")
 
 _AI_PBIR = _PBIR_ROOT / "ai" / "Artificial Intelligence Sample.SemanticModel"
 _AI_LEGACY = _LEGACY_ROOT / "ai" / "Artificial Intelligence Sample.SemanticModel"

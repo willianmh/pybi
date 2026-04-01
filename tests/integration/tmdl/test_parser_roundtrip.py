@@ -15,10 +15,10 @@ from pybi.serialization.parsers.tmdl.parser import (
 # ---------------------------------------------------------------------------
 
 _AI = Path(
-    "samples/pbir/11.25/ai/Artificial Intelligence Sample.SemanticModel/definition"
+    "../pbi-samples/pbi/pbir/11.25/ai/Artificial Intelligence Sample.SemanticModel/definition"
 )
 _HUMAN_RESOURCES = Path(
-    "samples/pbir/11.25/human-resources"
+    "../pbi-samples/pbi/pbir/11.25/human-resources"
     "/Human Resources Sample PBIX.SemanticModel/definition"
 )
 
@@ -65,7 +65,7 @@ def _collect_all_annotations(nodes: list[ObjectDeclaration]) -> list[ObjectDecla
 
 @pytest.fixture(scope="session")
 def samples_dir() -> Path:
-    return Path("samples/pbir/11.25")
+    return Path("../pbi-samples/pbi/pbir/11.25")
 
 
 @pytest.fixture(scope="session")
@@ -82,7 +82,7 @@ def all_tmdl_files(samples_dir: Path) -> list[Path]:
 
 class TestParserOnAllSamples:
     @pytest.fixture(
-        params=sorted(Path("samples/pbir/11.25").glob("**/*.tmdl")),
+        params=sorted(Path("../pbi-samples/pbi/pbir/11.25").glob("**/*.tmdl")),
         ids=lambda p: p.name,
     )
     def tmdl_file(self, request) -> Path:

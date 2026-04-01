@@ -19,7 +19,7 @@ from pybi.report.types import ReportFormat
 # Paths
 # ---------------------------------------------------------------------------
 
-_PBIR_ROOT = Path("samples/pbir/11.25")
+_PBIR_ROOT = Path("../pbi-samples/pbi/pbir/11.25")
 _AI_REPORT = _PBIR_ROOT / "ai" / "Artificial Intelligence Sample.Report"
 
 # Curated list of PBIR-format samples (mirrors test_pbir_strategy.py).

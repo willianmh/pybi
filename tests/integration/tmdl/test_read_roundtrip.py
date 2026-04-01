@@ -14,7 +14,7 @@ from pybi.semanticmodel.semanticmodel import SemanticModel
 # Sample directory paths (each points to the .SemanticModel folder)
 # ---------------------------------------------------------------------------
 
-_SAMPLES_ROOT = Path("samples/pbir/11.25")
+_SAMPLES_ROOT = Path("../pbi-samples/pbi/pbir/11.25")
 
 _SAMPLE_DIRS: dict[str, Path] = {
     "ai": _SAMPLES_ROOT / "ai" / "Artificial Intelligence Sample.SemanticModel",

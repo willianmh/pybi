@@ -13,17 +13,17 @@ from pybi.serialization.parsers.tmdl.lexer import TMDLLexer, Token, TokenType
 # ---------------------------------------------------------------------------
 
 _AI = Path(
-    "samples/pbir/11.25/ai/Artificial Intelligence Sample.SemanticModel/definition"
+    "../pbi-samples/pbi/pbir/11.25/ai/Artificial Intelligence Sample.SemanticModel/definition"
 )
 _COVID_US = Path(
-    "samples/pbir/11.25/covid-19-us"
+    "../pbi-samples/pbi/pbir/11.25/covid-19-us"
     "/COVID-19 US Tracking Sample.SemanticModel/definition"
 )
 _COVID_BAKEOFF = Path(
-    "samples/pbir/11.25/covid-bakeoff/COVID Bakeoff.SemanticModel/definition"
+    "../pbi-samples/pbi/pbir/11.25/covid-bakeoff/COVID Bakeoff.SemanticModel/definition"
 )
 _HUMAN_RESOURCES = Path(
-    "samples/pbir/11.25/human-resources"
+    "../pbi-samples/pbi/pbir/11.25/human-resources"
     "/Human Resources Sample PBIX.SemanticModel/definition"
 )
 
@@ -54,7 +54,7 @@ def _consecutive_pairs(toks: list[Token]):
 
 @pytest.fixture(scope="session")
 def samples_dir() -> Path:
-    return Path("samples/pbir/11.25")
+    return Path("../pbi-samples/pbi/pbir/11.25")
 
 
 @pytest.fixture(scope="session")
@@ -72,7 +72,7 @@ def all_tmdl_files(samples_dir: Path) -> list[Path]:
 
 class TestLexerOnAllSamples:
     @pytest.fixture(
-        params=sorted(Path("samples/pbir/11.25").glob("**/*.tmdl")),
+        params=sorted(Path("../pbi-samples/pbi/pbir/11.25").glob("**/*.tmdl")),
         ids=lambda p: p.name,
     )
     def tmdl_file(self, request) -> Path:
