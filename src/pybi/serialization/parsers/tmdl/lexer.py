@@ -57,6 +57,7 @@ class Token:
     line: int
     column: int
     indent_level: int = 0
+    space_indent: int = 0  # leading spaces after tabs (preserves M expression formatting)
 
     def __repr__(self) -> str:
         return f"Token({self.type.name}, {self.value!r}, line={self.line})"
@@ -456,8 +457,13 @@ class TMDLLexer:
                     yield from _dq_tokens
                     continue
 
-            # Tokenize the line content
-            yield from self._tokenize_line(content, indent_level)
+            # Tokenize the line content; preserve leading spaces for M expression bodies
+            _line_tokens = list(self._tokenize_line(content, indent_level))
+            if _line_tokens:
+                _leading_sp = len(content) - len(content.lstrip(" "))
+                if _leading_sp:
+                    _line_tokens[0].space_indent = _leading_sp
+            yield from _line_tokens
             yield Token(TokenType.NEWLINE, "\n", self.line, len(line) + 1, indent_level)
 
             line_idx += 1

@@ -4,6 +4,7 @@ from typing import Any
 from .exceptions import TMDLTransformError
 from .grammar import (
     CHILDREN_NAMING_MAP,
+    normalize_expression,
     parse_column_reference,
     unquote_name,
 )
@@ -24,49 +25,18 @@ from ....semanticmodel.definition import (
 def _normalize_expr(raw: str | None) -> str | list[str] | None:
     """Normalize a raw TMDL expression string to relative (0-based) indentation.
 
-    This mirrors the normalization that ``TMDLWriter._normalize_expression_lines``
-    applies on write, so that the stored model value is stable across round-trips
-    regardless of the absolute indentation in the source file.
-
-    Steps:
-    1. Strip leading/trailing whitespace from the full string.
-    2. Split into lines.
-    3. Strip the minimum common leading-tab count from every non-empty line.
-       If the first non-empty line lost its leading tabs via the strip in step 1
-       (i.e. it has 0 tabs but subsequent lines have common indentation), use the
-       minimum of the *remaining* lines as the base indent to strip.
+    Thin wrapper around :func:`grammar.normalize_expression` that preserves
+    the legacy return-type contract: single-line → ``str``, multi-line →
+    ``list[str]``, empty/None → ``None``.
     """
     if not raw:
         return None
-    stripped = raw.strip()
-    if not stripped:
+    lines = normalize_expression(raw)
+    if not lines:
         return None
-    lines = stripped.split("\n")
     if len(lines) == 1:
         return lines[0]
-
-    non_empty = [l for l in lines if l.strip()]
-    if not non_empty:
-        return lines
-
-    tab_counts = [len(l) - len(l.lstrip("\t")) for l in non_empty]
-    min_tabs = min(tab_counts)
-
-    if min_tabs == 0 and len(tab_counts) > 1:
-        remaining = [c for c in tab_counts[1:]]
-        if remaining and min(remaining) > 0:
-            min_tabs = min(remaining)
-
-    if min_tabs == 0:
-        return lines
-
-    result = []
-    for line in lines:
-        if len(line) >= min_tabs and line[:min_tabs] == "\t" * min_tabs:
-            result.append(line[min_tabs:])
-        else:
-            result.append(line)
-    return result
+    return lines
 
 
 def _normalize_changed_properties(raw_list: list) -> list[dict]:
@@ -159,8 +129,9 @@ class TMDLTransformer:
         # formatStringDefinition children -> dict with "expression" key
         fsd_list = raw.pop("formatStringDefinition", None)
         if fsd_list:
+            fsd_expr = fsd_list[0].get("expression")
             raw["formatStringDefinition"] = {
-                "expression": fsd_list[0].get("expression")
+                "expression": _normalize_expr(fsd_expr) or ""
             }
         if "changedProperties" in raw:
             raw["changedProperties"] = _normalize_changed_properties(

@@ -101,17 +101,41 @@ class TMDLPartsLoader:
                     tables.append(self.transformer.transform_table(n))
         return tables
 
+    def _get_ref_table_order(self) -> list[str]:
+        """Return table names in the order they appear as 'ref table' in model.tmdl."""
+        nodes = self._parse_content(DEFINITION_FILES["model"])
+        order: list[str] = []
+        for node in nodes:
+            if node.object_type == "ref" and node.name and node.name.startswith("table "):
+                order.append(node.name[len("table "):])
+        return order
+
+    def _get_ref_role_names(self) -> list[str]:
+        """Return role names from 'ref role' entries in model.tmdl."""
+        nodes = self._parse_content(DEFINITION_FILES["model"])
+        names: list[str] = []
+        for node in nodes:
+            if node.object_type == "ref" and node.name and node.name.startswith("role "):
+                names.append(node.name[len("role "):])
+        return names
+
     def _load_model_config(self) -> ObjectDeclaration | None:
         nodes = self._parse_content(DEFINITION_FILES["model"])
         model_node = None
         top_level_annotations = []
+        top_level_query_groups = []
         for node in nodes:
             if node.object_type == "model":
                 model_node = node
             elif node.object_type == "annotation":
                 top_level_annotations.append(node)
-        if model_node and top_level_annotations:
-            model_node.children.extend(top_level_annotations)
+            elif node.object_type == "queryGroup":
+                top_level_query_groups.append(node)
+        if model_node:
+            if top_level_annotations:
+                model_node.children.extend(top_level_annotations)
+            if top_level_query_groups:
+                model_node.children.extend(top_level_query_groups)
         return model_node
 
     def load(self) -> dict[str, Any]:
@@ -125,6 +149,16 @@ class TMDLPartsLoader:
         relationships = self._load_relationships()
         cultures = self._load_cultures()
         tables = self._load_tables()
+
+        # Re-order tables to match the 'ref table' order from model.tmdl
+        ref_order = self._get_ref_table_order()
+        if ref_order:
+            order_map = {name: i for i, name in enumerate(ref_order)}
+            tables.sort(key=lambda t: order_map.get(t.name, len(ref_order)))
+
+        # Collect role references from model.tmdl
+        role_refs = self._get_ref_role_names()
+
         model_config = self._load_model_config()
 
         if model_config:
@@ -142,6 +176,10 @@ class TMDLPartsLoader:
                 expressions=expressions or None,
                 cultures=cultures,
             )
+
+        # Inject role references as minimal dicts (name only) if not already set
+        if role_refs and not model.roles:
+            model.roles = [{"name": n} for n in role_refs]
 
         return {
             "compatibilityLevel": compat_level,

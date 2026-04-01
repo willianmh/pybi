@@ -69,12 +69,13 @@ CHILDREN_NAMING_MAP: dict[str, str] = {
     "annotation": "annotations",
     "changedProperty": "changedProperties",
     "extendedProperty": "extendedProperties",
+    "queryGroup": "queryGroups",
     "role": "roles",
     "variation": "variations",
 }
 
 # Characters allowed in unquoted identifiers (beyond alphanumeric)
-IDENTIFIER_CONTINUATION_CHARS = frozenset("_-/+.\\@")
+IDENTIFIER_CONTINUATION_CHARS = frozenset("_-/+.\\@?")
 
 # Characters that force a name to be single-quoted per TMDL spec
 SPECIAL_CHARS_REQUIRE_QUOTE = frozenset(" .=:'")
@@ -239,6 +240,71 @@ def format_column_reference(ref: str) -> str:
 
 
 # ---------------------------------------------------------------------------
+# 1d. Shared expression normalisation
+# ---------------------------------------------------------------------------
+
+
+def normalize_expression(raw: str | list[str] | None) -> list[str]:
+    """Normalize a raw TMDL expression to a list of lines with relative indentation.
+
+    Strips the minimum common leading-tab count from every non-empty line so
+    that expression text is stable across round-trips regardless of the
+    absolute indentation in the source file.
+
+    Handles the common case where the first line lost its leading tabs via
+    ``.strip()`` (e.g. 0 tabs) while subsequent lines retain theirs.  In that
+    situation the base indent is derived from lines 1+ so all lines are
+    rebased consistently.
+
+    Returns:
+        A list of lines (possibly empty).  Never returns ``None``.
+    """
+    if raw is None:
+        return []
+
+    if isinstance(raw, list):
+        raw_lines = list(raw)
+    else:
+        stripped = raw.strip()
+        if not stripped:
+            return []
+        raw_lines = stripped.split("\n")
+
+    if len(raw_lines) <= 1:
+        return raw_lines
+
+    # Filter to non-empty lines for computing minimum indent
+    non_empty = [line for line in raw_lines if line.strip()]
+    if not non_empty:
+        return raw_lines
+
+    # Count leading tabs on each non-empty line
+    tab_counts = [len(line) - len(line.lstrip("\t")) for line in non_empty]
+    min_tabs = min(tab_counts)
+
+    # If the first non-empty line has 0 tabs but others have more,
+    # it was likely stripped by .strip(): use the min from remaining
+    # lines as the true base indent.
+    if min_tabs == 0 and len(tab_counts) > 1:
+        remaining = tab_counts[1:]
+        if remaining and min(remaining) > 0:
+            min_tabs = min(remaining)
+
+    if min_tabs == 0:
+        return raw_lines
+
+    # Strip the common leading tabs
+    prefix = "\t" * min_tabs
+    result = []
+    for line in raw_lines:
+        if line[:min_tabs] == prefix:
+            result.append(line[min_tabs:])
+        else:
+            result.append(line)
+    return result
+
+
+# ---------------------------------------------------------------------------
 # Property-ordering specs for the writer
 # ---------------------------------------------------------------------------
 #
@@ -278,10 +344,10 @@ MEASURE_PROPERTY_ORDER: list[tuple[str, str]] = [
 
 TABLE_PROPERTY_ORDER: list[tuple[str, str]] = [
     ("dataCategory", "property"),
+    ("isHidden", "flag"),
     ("showAsVariationsOnly", "flag"),
+    ("isPrivate", "flag"),
     ("lineageTag", "property"),
     ("sourceLineageTag", "property"),
-    ("isHidden", "flag"),
-    ("isPrivate", "flag"),
     ("excludeFromModelRefresh", "flag"),
 ]

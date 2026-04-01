@@ -59,6 +59,9 @@ class TMDLParser:
         self.lexer = TMDLLexer(text, file_path)
         self.tokens: list[Token] = []
         self.pos = 0
+        # Raw source lines (1-indexed via _raw_line helper) for verbatim
+        # expression body capture.
+        self._source_lines: list[str] = text.replace("\r\n", "\n").replace("\r", "\n").split("\n")
 
     def _error(self, message: str, token: Token | None = None) -> TMDLParseError:
         line = token.line if token else None
@@ -156,6 +159,31 @@ class TMDLParser:
         self._advance()
         return None
 
+    # Tokens that signal the end of a name in an object declaration
+    _NAME_STOP = frozenset({
+        TokenType.EQUALS,
+        TokenType.COLON,
+        TokenType.NEWLINE,
+        TokenType.INDENT,
+        TokenType.DEDENT,
+        TokenType.EOF,
+    })
+
+    def _collect_name_continuation(self, name: str) -> str:
+        """After consuming the initial name token, collect any trailing tokens
+        that are part of the name (e.g. ``Date[Date]`` where ``[``, ``]``
+        lex as STRING tokens)."""
+        if self._current().type not in self._NAME_STOP:
+            parts = [name]
+            while self._current().type not in self._NAME_STOP:
+                t = self._advance()
+                if t.type == TokenType.QUOTED_NAME:
+                    parts.append(f"'{t.value}'")
+                else:
+                    parts.append(str(t.value))
+            name = "".join(parts)
+        return name
+
     def _parse_object_declaration(self) -> ObjectDeclaration:
         """Parse an object declaration (table, column, measure, etc.)."""
         keyword_token = self._expect(TokenType.KEYWORD)
@@ -170,11 +198,15 @@ class TMDLParser:
         token = self._current()
         if token.type == TokenType.IDENTIFIER:
             name = self._advance().value
+            # Continue collecting adjacent tokens that are part of the name
+            # (e.g., Date[Date] where [ ] lex as STRING tokens).
+            name = self._collect_name_continuation(name)
         elif token.type == TokenType.QUOTED_NAME:
             name = self._advance().value
         elif token.type == TokenType.NUMBER:
-            # Column/measure names that start with a digit (e.g. "column 3")
+            # Column/measure names that start with a digit (e.g. "column 14Q")
             name = str(self._advance().value)
+            name = self._collect_name_continuation(name)
         elif token.type == TokenType.KEYWORD and object_type == "ref":
             # 'ref table TableName' - the second keyword is the ref type
             ref_type = self._advance().value
@@ -185,20 +217,15 @@ class TMDLParser:
                 name = f"{ref_type} {self._advance().value}"
             elif token.type == TokenType.QUOTED_NAME:
                 name = f"{ref_type} {self._advance().value}"
+        elif token.type == TokenType.KEYWORD and object_type == "queryGroup":
+            # queryGroup names can be TMDL keywords (e.g. "queryGroup source")
+            name = self._advance().value
         elif token.type == TokenType.STRING:
             # Fallback: collect consecutive STRING/IDENTIFIER/NUMBER tokens as the
             # name (handles non-standard names like ?Visualize? where ? lexes as
             # STRING).  Stop before structural tokens (=, :, NEWLINE, INDENT, EOF).
-            _stop = {
-                TokenType.EQUALS,
-                TokenType.COLON,
-                TokenType.NEWLINE,
-                TokenType.INDENT,
-                TokenType.DEDENT,
-                TokenType.EOF,
-            }
             parts: list[str] = []
-            while self._current().type not in _stop:
+            while self._current().type not in self._NAME_STOP:
                 t = self._advance()
                 if t.type == TokenType.QUOTED_NAME:
                     parts.append(f"'{t.value}'")
@@ -434,15 +461,22 @@ class TMDLParser:
         return self._advance().value
 
     def _collect_indented_content(self) -> str:
-        """Collect indented content as a multi-line string.
+        """Collect indented content as a multi-line string using raw source lines.
 
-        Tracks INDENT/DEDENT nesting so that internal indent changes
-        within the expression body (e.g. DAX with varying indentation)
-        are correctly captured.
+        Instead of re-tokenizing expression body lines (which would alter
+        spacing around operators like ``=``), this method looks up each
+        line's raw text from the original source.  Leading structural tabs
+        are preserved so that downstream normalisation can strip them
+        uniformly.
+
+        Blank source lines that fall within the expression scope are
+        included (the TMDL spec says *"Vertical whitespace (blank lines
+        without whitespace) is allowed and are considered part of the
+        expression"*).
         """
-        lines = []
-        base_indent = 0
+        raw_lines: list[str] = []
         nesting_depth = 0
+        seen_line_numbers: set[int] = set()
 
         while True:
             current = self._current()
@@ -450,50 +484,68 @@ class TMDLParser:
                 break
             if current.type == TokenType.DEDENT:
                 if nesting_depth <= 0:
-                    # This DEDENT exits our scope : consume it and stop
                     self._advance()
                     break
-                # Internal DEDENT (within the expression body)
                 self._advance()
                 nesting_depth -= 1
                 continue
             if current.type == TokenType.INDENT:
-                # Internal INDENT (within the expression body)
                 self._advance()
                 nesting_depth += 1
                 continue
 
-            line_parts = []
-            current_indent = current.indent_level
+            first_line_no = current.line  # 1-based
 
-            # Collect tokens on this line
+            # Consume tokens on this logical line, tracking the last line
+            # number seen (multi-line string tokens span multiple source
+            # lines; the NEWLINE token following them records the closing
+            # line number).
+            last_line_no = first_line_no
             while self._current().type not in (
                 TokenType.NEWLINE,
                 TokenType.DEDENT,
                 TokenType.INDENT,
                 TokenType.EOF,
             ):
-                token = self._advance()
-                if token.type == TokenType.STRING:
-                    line_parts.append(token.value)
-                elif token.type == TokenType.QUOTED_NAME:
-                    line_parts.append(f"'{token.value}'")
-                elif token.type == TokenType.COLON:
-                    line_parts.append(":")
-                elif token.type == TokenType.EQUALS:
-                    line_parts.append("=")
-                else:
-                    line_parts.append(str(token.value))
+                tok = self._advance()
+                if tok.line > last_line_no:
+                    last_line_no = tok.line
 
-            if line_parts:
-                indent_prefix = "\t" * max(0, current_indent - base_indent - 1)
-                result = self._smart_join_expression(line_parts)
-                lines.append(indent_prefix + result)
+            # Insert gap lines between the previous content and this line.
+            # Gap lines include blank lines (vertical whitespace in the
+            # expression) and comment lines (// ...) that the lexer skips
+            # entirely without emitting tokens.
+            if seen_line_numbers:
+                prev_max = max(seen_line_numbers)
+                for gap_line in range(prev_max + 1, first_line_no):
+                    gap_idx = gap_line - 1
+                    if gap_idx < len(self._source_lines):
+                        gap_text = self._source_lines[gap_idx]
+                        if gap_text.strip():
+                            raw_lines.append(gap_text)
+                        else:
+                            raw_lines.append("")
+                        seen_line_numbers.add(gap_line)
 
+            # Add raw source lines for the entire range this logical line spans
+            for line_no in range(first_line_no, last_line_no + 1):
+                if line_no not in seen_line_numbers and 1 <= line_no <= len(self._source_lines):
+                    raw_lines.append(self._source_lines[line_no - 1])
+                    seen_line_numbers.add(line_no)
+
+            # Peek at NEWLINE to get its line number (for multi-line tokens
+            # the NEWLINE is on the closing line)
             if self._current().type == TokenType.NEWLINE:
-                self._advance()
+                nl_tok = self._advance()
+                if nl_tok.line > last_line_no:
+                    # The NEWLINE is on a later line than the last content
+                    # token; include any intermediate source lines
+                    for line_no in range(last_line_no + 1, nl_tok.line + 1):
+                        if line_no not in seen_line_numbers and 1 <= line_no <= len(self._source_lines):
+                            raw_lines.append(self._source_lines[line_no - 1])
+                            seen_line_numbers.add(line_no)
 
-        return "\n".join(lines)
+        return "\n".join(raw_lines)
 
     def _smart_join_expression(self, parts: list[str]) -> str:
         """Join expression parts with smart spacing around punctuation."""
