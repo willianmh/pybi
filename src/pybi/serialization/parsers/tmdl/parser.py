@@ -268,7 +268,7 @@ class TMDLParser:
             # If we already have an expression, the indented content is properties
             if has_expression_assignment and not expression:
                 # Multi-line expression: body follows on indented lines
-                expr_body = self._collect_indented_content()
+                expr_body = self._collect_indented_content(context_line=line)
                 obj.expression = expr_body
                 # After expression body, there may be properties/annotations at a shallower indent.
                 # We may see DEDENT tokens followed by an INDENT token to reach property scope.
@@ -406,7 +406,7 @@ class TMDLParser:
         # Check for multi-line value (indented content)
         if self._current().type == TokenType.INDENT:
             self._advance()
-            indented = self._collect_indented_content()
+            indented = self._collect_indented_content(context_line=line)
             if value:
                 value = str(value) + "\n" + indented
             else:
@@ -460,7 +460,7 @@ class TMDLParser:
             return ""
         return self._advance().value
 
-    def _collect_indented_content(self) -> str:
+    def _collect_indented_content(self, context_line: int | None = None) -> str:
         """Collect indented content as a multi-line string using raw source lines.
 
         Instead of re-tokenizing expression body lines (which would alter
@@ -469,10 +469,19 @@ class TMDLParser:
         are preserved so that downstream normalisation can strip them
         uniformly.
 
-        Blank source lines that fall within the expression scope are
-        included (the TMDL spec says *"Vertical whitespace (blank lines
-        without whitespace) is allowed and are considered part of the
-        expression"*).
+        Blank source lines and ``//`` comment lines that fall within the
+        expression scope are included.  The TMDL spec says *"Vertical
+        whitespace (blank lines without whitespace) is allowed and are
+        considered part of the expression"*.  Comment lines are preserved
+        so that ``_needs_backticks`` can trigger backtick wrapping to
+        protect them from the lexer's comment-skip behaviour on subsequent
+        round-trips.
+
+        Args:
+            context_line: 1-based line number of the preceding declaration
+                (e.g. the ``=`` line).  When provided, gap lines
+                (blank / comment) between *context_line* and the first
+                content line are captured as leading content.
         """
         raw_lines: list[str] = []
         nesting_depth = 0
@@ -484,6 +493,37 @@ class TMDLParser:
                 break
             if current.type == TokenType.DEDENT:
                 if nesting_depth <= 0:
+                    # Capture trailing gap lines (comments / blank lines)
+                    # that sit at the expression indent level between the
+                    # last content token and the DEDENT.  Only include
+                    # lines whose tab depth is >= the minimum of already-
+                    # collected non-empty lines (avoids grabbing structural
+                    # comments at a shallower indent).
+                    if seen_line_numbers:
+                        gap_start = max(seen_line_numbers)
+                        non_empty = [l for l in raw_lines if l.strip()]
+                        min_tabs = (
+                            min(
+                                len(l) - len(l.lstrip("\t"))
+                                for l in non_empty
+                            )
+                            if non_empty
+                            else 0
+                        )
+                        for gap_line in range(gap_start + 1, current.line):
+                            gap_idx = gap_line - 1
+                            if gap_idx < len(self._source_lines):
+                                gap_text = self._source_lines[gap_idx]
+                                if gap_text.strip():
+                                    gap_tabs = len(gap_text) - len(
+                                        gap_text.lstrip("\t")
+                                    )
+                                    if gap_tabs >= min_tabs:
+                                        raw_lines.append(gap_text)
+                                        seen_line_numbers.add(gap_line)
+                                else:
+                                    raw_lines.append("")
+                                    seen_line_numbers.add(gap_line)
                     self._advance()
                     break
                 self._advance()
@@ -512,12 +552,19 @@ class TMDLParser:
                     last_line_no = tok.line
 
             # Insert gap lines between the previous content and this line.
-            # Gap lines include blank lines (vertical whitespace in the
-            # expression) and comment lines (// ...) that the lexer skips
-            # entirely without emitting tokens.
+            # Gap lines include blank lines and // comment lines that the
+            # lexer skips.  Including comment lines in the expression
+            # body ensures _needs_backticks triggers backtick wrapping,
+            # protecting the comments on subsequent round-trips.
             if seen_line_numbers:
-                prev_max = max(seen_line_numbers)
-                for gap_line in range(prev_max + 1, first_line_no):
+                gap_start = max(seen_line_numbers)
+            elif context_line is not None:
+                gap_start = context_line
+            else:
+                gap_start = None
+
+            if gap_start is not None:
+                for gap_line in range(gap_start + 1, first_line_no):
                     gap_idx = gap_line - 1
                     if gap_idx < len(self._source_lines):
                         gap_text = self._source_lines[gap_idx]
