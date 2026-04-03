@@ -2,7 +2,6 @@
 
 import json
 import logging
-from pathlib import Path
 from typing import Any
 
 from pybi.serialization.parsers.tmdl.grammar import (
@@ -26,6 +25,7 @@ from pybi.semanticmodel.definition import (
     Model,
     Partition,
     Relationship,
+    Role,
     Table,
 )
 
@@ -133,9 +133,9 @@ class TMDLWriter:
 
         Handles normalize → backtick check → backtick or multi-line or
         single-line form.  Content is emitted at *indent_level + 2*,
-        closing backtick at *indent_level + 1* (per TMDL spec, it
-        determines the left boundary and should be shallower than
-        content).
+        closing backtick at the same level as content (matching
+        Power BI / Tabular Editor convention where the closing marker
+        sits at the content indentation level).
 
         Args:
             decl: Declaration prefix without trailing ``=``, e.g.
@@ -158,8 +158,8 @@ class TMDLWriter:
                 if expr_line:
                     lines.append(f"{expr_indent}{expr_line}")
                 else:
-                    lines.append("")
-            lines.append(f"{self._indent(indent_level + 1)}{BACKTICK_EXPR}")
+                    lines.append(expr_indent)
+            lines.append(f"{self._indent(indent_level + 2)}{BACKTICK_EXPR}")
         elif is_multiline:
             lines.append(f"{decl} =")
             expr_indent = self._indent(indent_level + 2)
@@ -167,7 +167,7 @@ class TMDLWriter:
                 if expr_line:
                     lines.append(f"{expr_indent}{expr_line}")
                 else:
-                    lines.append("")
+                    lines.append(expr_indent)
         else:
             expr_text = (expr_lines[0] if expr_lines else "").strip()
             if expr_text:
@@ -410,10 +410,10 @@ class TMDLWriter:
                         f"{self._indent(var_prop_indent)}defaultHierarchy: {hierarchy_ref}"
                     )
 
-        # Changed properties (with empty line before)
+        # Changed properties (with empty line before and between each)
         if column.changedProperties:
             lines.append("")  # Empty line before changedProperties
-            for changed in column.changedProperties:
+            for i, changed in enumerate(column.changedProperties):
                 if isinstance(changed, dict) and "property" in changed:
                     lines.append(
                         f"{self._indent(prop_indent)}changedProperty = {changed['property']}"
@@ -422,17 +422,12 @@ class TMDLWriter:
                     lines.append(
                         f"{self._indent(prop_indent)}changedProperty = {changed}"
                     )
+                if i < len(column.changedProperties) - 1:
+                    lines.append("")  # Empty line between changedProperties
 
-        # Annotations (with empty line before first and between each)
-        if column.annotations:
-            lines.append("")  # Empty line before annotations
-            for i, ann in enumerate(column.annotations):
-                lines.append(self._write_annotation(ann, prop_indent))
-                if i < len(column.annotations) - 1:
-                    lines.append("")  # Empty line between annotations
-
-        # relatedColumnDetails (anonymous child block)
+        # relatedColumnDetails (anonymous child block, blank line before)
         if column.relatedColumnDetails:
+            lines.append("")  # Empty line before relatedColumnDetails
             lines.append(f"{self._indent(prop_indent)}relatedColumnDetails")
             rcd = column.relatedColumnDetails
             if isinstance(rcd, str):
@@ -450,6 +445,14 @@ class TMDLWriter:
                 ep_expr = ep.get("expression", "")
                 decl = f"{self._indent(prop_indent)}extendedProperty {ep_name}"
                 lines.extend(self._write_expr_block(decl, ep_expr, prop_indent))
+        
+        # Annotations (with empty line before first and between each)
+        if column.annotations:
+            lines.append("")  # Empty line before annotations
+            for i, ann in enumerate(column.annotations):
+                lines.append(self._write_annotation(ann, prop_indent))
+                if i < len(column.annotations) - 1:
+                    lines.append("")  # Empty line between annotations
 
         return lines
 
@@ -496,25 +499,6 @@ class TMDLWriter:
                 decl = f"{self._indent(prop_indent)}formatStringDefinition"
                 lines.extend(self._write_expr_block(decl, expr, prop_indent))
 
-        # Annotations (with empty line before first annotation)
-        if measure.annotations:
-            lines.append("")  # Empty line before annotations
-            for ann in measure.annotations:
-                lines.append(self._write_annotation(ann, prop_indent))
-
-        # Changed properties (with empty line before)
-        if measure.changedProperties:
-            lines.append("")  # Empty line before changedProperties
-            for changed in measure.changedProperties:
-                if isinstance(changed, dict) and "property" in changed:
-                    lines.append(
-                        f"{self._indent(prop_indent)}changedProperty = {changed['property']}"
-                    )
-                elif isinstance(changed, str):
-                    lines.append(
-                        f"{self._indent(prop_indent)}changedProperty = {changed}"
-                    )
-
         # Extended properties
         if measure.extendedProperties:
             lines.append("")
@@ -523,6 +507,27 @@ class TMDLWriter:
                 ep_expr = ep.get("expression", "")
                 decl = f"{self._indent(prop_indent)}extendedProperty {ep_name}"
                 lines.extend(self._write_expr_block(decl, ep_expr, prop_indent))
+
+        # Changed properties (with empty line before and between each)
+        if measure.changedProperties:
+            lines.append("")  # Empty line before changedProperties
+            for i, changed in enumerate(measure.changedProperties):
+                if isinstance(changed, dict) and "property" in changed:
+                    lines.append(
+                        f"{self._indent(prop_indent)}changedProperty = {changed['property']}"
+                    )
+                elif isinstance(changed, str):
+                    lines.append(
+                        f"{self._indent(prop_indent)}changedProperty = {changed}"
+                    )
+                if i < len(measure.changedProperties) - 1:
+                    lines.append("")  # Empty line between changedProperties
+
+        # Annotations (with empty line before first annotation)
+        if measure.annotations:
+            lines.append("")  # Empty line before annotations
+            for ann in measure.annotations:
+                lines.append(self._write_annotation(ann, prop_indent))
 
         return lines
 
@@ -599,6 +604,21 @@ class TMDLWriter:
         # Properties (order matches typical TMDL output from Power BI)
         lines.extend(self._write_properties_from_spec(table, TABLE_PROPERTY_ORDER, 1))
 
+        # Calculation group (bare keyword when empty, else with properties)
+        if table.calculationGroup is not None:
+            cg_list = (
+                table.calculationGroup
+                if isinstance(table.calculationGroup, list)
+                else [table.calculationGroup]
+            )
+            for cg in cg_list:
+                lines.append("")
+                lines.append("\tcalculationGroup")
+                if isinstance(cg, dict):
+                    for k, v in cg.items():
+                        if k != "name" and v is not None:
+                            lines.append(f"\t\t{k}: {v}")
+
         # Measures first (common TMDL pattern)
         if table.measures:
             lines.append("")  # Blank line before measures
@@ -626,6 +646,18 @@ class TMDLWriter:
                 lines.extend(self.write_partition(partition, indent_level=1))
                 lines.append("")  # Blank line between partitions
 
+        # Changed properties (with empty line between each)
+        if table.changedProperties:
+            if lines and lines[-1] != "":
+                lines.append("")
+            for i, changed in enumerate(table.changedProperties):
+                if isinstance(changed, dict) and "property" in changed:
+                    lines.append(f"\tchangedProperty = {changed['property']}")
+                elif isinstance(changed, str):
+                    lines.append(f"\tchangedProperty = {changed}")
+                if i < len(table.changedProperties) - 1:
+                    lines.append("")  # Empty line between changedProperties
+
         # Annotations (with empty line before first and between each)
         if table.annotations:
             if lines and lines[-1] != "":
@@ -634,31 +666,6 @@ class TMDLWriter:
                 lines.append(self._write_annotation(ann, 1))
                 if i < len(table.annotations) - 1:
                     lines.append("")  # Empty line between annotations
-
-        # Changed properties
-        if table.changedProperties:
-            if lines and lines[-1] != "":
-                lines.append("")
-            for changed in table.changedProperties:
-                if isinstance(changed, dict) and "property" in changed:
-                    lines.append(f"\tchangedProperty = {changed['property']}")
-                elif isinstance(changed, str):
-                    lines.append(f"\tchangedProperty = {changed}")
-
-        # Calculation group (bare keyword when empty, else with properties)
-        if table.calculationGroup is not None:
-            cg_list = (
-                table.calculationGroup
-                if isinstance(table.calculationGroup, list)
-                else [table.calculationGroup]
-            )
-            for cg in cg_list:
-                lines.append("")
-                lines.append("\tcalculationGroup")
-                if isinstance(cg, dict):
-                    for k, v in cg.items():
-                        if k != "name" and v is not None:
-                            lines.append(f"\t\t{k}: {v}")
 
         lines.append("")  # Final newline
         return "\n".join(lines)
@@ -885,6 +892,43 @@ class TMDLWriter:
         lines.append("")  # Trailing newline to match original format
         return "\n".join(lines)
 
+    def write_role(self, role: Role) -> str:
+        """Write a role.tmdl file content.
+
+        Args:
+            role: The Role model.
+
+        Returns:
+            Complete TMDL role file content.
+        """
+        lines: list[str] = []
+
+        # Role declaration
+        lines.append(f"role {self._quote_name(role.name)}")
+
+        # modelPermission property
+        if role.modelPermission:
+            lines.append(f"\tmodelPermission: {role.modelPermission}")
+
+        # tablePermission children
+        if role.tablePermissions:
+            for tp in role.tablePermissions:
+                lines.append("")
+                decl = f"\ttablePermission {self._quote_name(tp.name)}"
+                if tp.filterExpression:
+                    lines.extend(self._write_expr_block(decl, tp.filterExpression, 1))
+                else:
+                    lines.append(decl)
+
+        # Annotations
+        if role.annotations:
+            lines.append("")
+            for ann in role.annotations:
+                lines.append(self._write_annotation(ann, 1))
+
+        lines.append("")  # Final newline
+        return "\n".join(lines)
+
     def write_culture(self, culture: Culture) -> str:
         """Write a culture.tmdl file content.
 
@@ -919,7 +963,7 @@ class TMDLWriter:
                             lines.append("")
                 # If content is a dict, format as JSON
                 elif isinstance(content, dict):
-                    json_str = json.dumps(content, indent=2)
+                    json_str = json.dumps(content, indent=2, ensure_ascii=False)
                     for json_line in json_str.split("\n"):
                         lines.append(f"\t\t\t{json_line}")
                 else:
@@ -1011,7 +1055,12 @@ class TMDLWriter:
             if lines and lines[-1] != "":
                 lines.append("")
             for role in model.roles:
-                role_name = role.get("name", "") if isinstance(role, dict) else str(role)
+                if isinstance(role, Role):
+                    role_name = role.name
+                elif isinstance(role, dict):
+                    role_name = role.get("name", "")
+                else:
+                    role_name = str(role)
                 if role_name:
                     lines.append(f"ref role {self._quote_name(role_name)}")
 
@@ -1096,6 +1145,14 @@ class TMDLPartsWriter:
                     files[f"{DEFINITION_FOLDERS['cultures']}/{culture.name}.tmdl"] = (
                         content
                     )
+
+        if model.roles:
+            for role in model.roles:
+                if isinstance(role, Role):
+                    content = self.writer.write_role(role)
+                    if content.strip():
+                        fname = f"{self._sanitize_filename(role.name)}.tmdl"
+                        files[f"{DEFINITION_FOLDERS['roles']}/{fname}"] = content
 
         if model.tables:
             for table in model.tables:

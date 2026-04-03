@@ -17,8 +17,10 @@ from ....semanticmodel.definition import (
     Model,
     Partition,
     Relationship,
+    Role,
     Source,
     Table,
+    TablePermission,
 )
 
 
@@ -254,6 +256,33 @@ class TMDLTransformer:
         if linguistic_metadata is not None:
             return Culture(name=name, linguisticMetadata=linguistic_metadata)
         return Culture(name=name)
+
+    def transform_role(self, node: ObjectDeclaration) -> Role:
+        """Transform a role node to a Role model."""
+        raw = expand_node(node)
+        name = raw.get("name") or ""
+
+        # Transform tablePermission children
+        table_permissions = None
+        tp_list = raw.get("tablePermissions")
+        if tp_list:
+            table_permissions = []
+            for tp in tp_list:
+                tp_name = tp.get("name") or ""
+                tp_expr = _normalize_expr(tp.get("expression"))
+                table_permissions.append(
+                    TablePermission(name=tp_name, filterExpression=tp_expr)
+                )
+
+        # Annotations
+        annotations = raw.get("annotations")
+
+        return Role(
+            name=name,
+            modelPermission=raw.get("modelPermission"),
+            tablePermissions=table_permissions or None,
+            annotations=annotations,
+        )
 
     def transform_model(
         self,
