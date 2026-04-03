@@ -152,6 +152,18 @@ class Table(BaseModel):
     description: str | None = None
 
 
+class TablePermission(BaseModel):
+    name: str
+    filterExpression: list[str] | str | None = None
+
+
+class Role(BaseModel):
+    name: str
+    modelPermission: str | None = None
+    tablePermissions: list[TablePermission] | None = None
+    annotations: list[dict] | None = None
+
+
 class Model(BaseModel):
     annotations: list[dict] | None = None
     culture: str = "en-US"
@@ -163,7 +175,7 @@ class Model(BaseModel):
     maxParallelismPerRefresh: int | None = None
     queryGroups: Any | None = None
     relationships: list[Relationship] | None = None
-    roles: list[dict] | None = None
+    roles: list["Role"] | None = None
     sourceQueryCulture: str = "en-US"
     tables: list[Table] | None = None
 
