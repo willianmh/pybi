@@ -71,6 +71,7 @@ CHILDREN_NAMING_MAP: dict[str, str] = {
     "extendedProperty": "extendedProperties",
     "queryGroup": "queryGroups",
     "role": "roles",
+    "tablePermission": "tablePermissions",
     "variation": "variations",
 }
 
@@ -107,6 +108,7 @@ DEFINITION_FILES: dict[str, str] = {
 DEFINITION_FOLDERS: dict[str, str] = {
     "tables": "tables",
     "cultures": "cultures",
+    "roles": "roles",
 }
 
 # Prefix used by the persistence layer to namespace TMDL parts
@@ -265,13 +267,19 @@ def normalize_expression(raw: str | list[str] | None) -> list[str]:
     if isinstance(raw, list):
         raw_lines = list(raw)
     else:
-        stripped = raw.strip()
-        if not stripped:
+        if not raw.strip():
             return []
-        raw_lines = stripped.split("\n")
+        raw_lines = raw.split("\n")
+        # Remove trailing empty lines (common artifact) but preserve
+        # leading blank lines — they are part of the expression per
+        # the TMDL spec ("vertical whitespace is part of expression").
+        while raw_lines and not raw_lines[-1].strip():
+            raw_lines.pop()
 
     if len(raw_lines) <= 1:
-        return raw_lines
+        # Single-line: strip leading/trailing whitespace (tabs from
+        # source indentation) since there is no multi-line structure.
+        return [raw_lines[0].strip()] if raw_lines and raw_lines[0].strip() else raw_lines
 
     # Filter to non-empty lines for computing minimum indent
     non_empty = [line for line in raw_lines if line.strip()]
@@ -321,6 +329,7 @@ COLUMN_PROPERTY_ORDER: list[tuple[str, str]] = [
     ("isNullable", "flag_false"),
     ("alignment", "property"),
     ("formatString", "property"),
+    ("sourceProviderType", "property"),
     ("lineageTag", "property"),
     ("sourceLineageTag", "property"),
     ("dataCategory", "property"),
@@ -328,7 +337,6 @@ COLUMN_PROPERTY_ORDER: list[tuple[str, str]] = [
     ("isDataTypeInferred", "flag"),
     ("isNameInferred", "flag"),
     ("sourceColumn", "property"),
-    ("sourceProviderType", "property"),
     ("sortByColumn", "quoted_property"),
     ("displayFolder", "property"),
 ]
@@ -347,7 +355,7 @@ TABLE_PROPERTY_ORDER: list[tuple[str, str]] = [
     ("isHidden", "flag"),
     ("showAsVariationsOnly", "flag"),
     ("isPrivate", "flag"),
+    ("excludeFromModelRefresh", "flag"),
     ("lineageTag", "property"),
     ("sourceLineageTag", "property"),
-    ("excludeFromModelRefresh", "flag"),
 ]
