@@ -1,0 +1,29 @@
+table DimMonth
+	lineageTag: aaaaaaaa-dddd-0000-0000-000000000001
+
+	column Month
+		dataType: string
+		lineageTag: 11111111-dddd-0000-0000-000000000001
+		summarizeBy: none
+		sourceColumn: Month
+		sortByColumn: 'Month Number'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Number'
+		dataType: int64
+		lineageTag: 22222222-dddd-0000-0000-000000000001
+		summarizeBy: none
+		sourceColumn: Month Number
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimMonth = m
+		mode: import
+		source =
+				let
+				    Source = ...
+				in
+				    Source
+
+	annotation PBI_ResultType = Table

@@ -1,0 +1,14 @@
+expression 'Sales Query' =
+		let
+		    Source = Sql.Database(Server, Database),
+		    Sales = Source{[Schema="dbo", Item="Sales"]}[Data],
+		    #"Changed Type" = Table.TransformColumnTypes(Sales, {{"Date", type date}})
+		in
+		    #"Changed Type"
+	lineageTag: aaaaaaaa-8888-0000-0000-000000000001
+	kind: M
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

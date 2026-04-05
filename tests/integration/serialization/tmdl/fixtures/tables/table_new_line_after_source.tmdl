@@ -1,14 +1,14 @@
 table new_line_after_source
 	lineageTag: d4568e9f-462d-8765-bac8-6a008ac947bf
 
-	measure 'Measure1' =
+	measure Measure1 =
 			
 			var s = 1
 			return
 			s
 		lineageTag: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 
-	column 'Column1'
+	column Column1
 		dataType: string
 		lineageTag: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 		summarizeBy: none

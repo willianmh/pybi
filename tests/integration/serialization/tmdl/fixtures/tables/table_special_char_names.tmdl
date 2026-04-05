@@ -1,0 +1,44 @@
+table SpecialNames
+	lineageTag: aaaaaaaa-0000-0000-0000-000000000001
+
+	measure complex_measure =
+			CALCULATE(
+			    [SalesAmount],
+			    Dates[Relative Year]=1
+			)
+		formatString: 0.00
+		lineageTag: 11111111-0000-0000-0000-000000000001
+
+	column Exclude?
+		dataType: string
+		lineageTag: 22222222-0000-0000-0000-000000000001
+		summarizeBy: none
+		sourceColumn: Exclude?
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date[Date]
+		dataType: string
+		lineageTag: 33333333-0000-0000-0000-000000000001
+		summarizeBy: none
+		sourceColumn: Date[Date]
+
+		annotation SummarizationSetBy = Automatic
+
+	column tooltip(between param/slash)
+		dataType: string
+		lineageTag: 44444444-0000-0000-0000-000000000001
+		summarizeBy: none
+		sourceColumn: tooltip(between param/slash)
+
+		annotation SummarizationSetBy = Automatic
+
+	partition SpecialNames = m
+		mode: import
+		source =
+				let
+				    Source = ...
+				in
+				    Source
+
+	annotation PBI_ResultType = Table
