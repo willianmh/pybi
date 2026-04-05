@@ -4,7 +4,7 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from .exceptions import TMDLParseError
-from .grammar import FLAG_PROPERTIES
+from .grammar import FLAG_PROPERTIES, ExpressionStyle, NameStyle
 from .lexer import (
     TMDLLexer,
     Token,
@@ -29,6 +29,8 @@ class ObjectDeclaration:
     object_type: str  # table, column, measure, etc.
     name: str | None  # Name of the object (optional for some types)
     expression: str | None  # Expression value (for measure/expression with =)
+    expression_style: ExpressionStyle = ExpressionStyle.INLINE  # Serialisation form
+    name_style: NameStyle = NameStyle.UNQUOTED  # Whether name was single-quoted
     properties: list[PropertyNode] = field(default_factory=list)
     children: list["ObjectDeclaration"] = field(default_factory=list)
     description: str | None = None
@@ -196,6 +198,7 @@ class TMDLParser:
 
         # Parse name (can be identifier, quoted name, number, or absent)
         token = self._current()
+        name_style = NameStyle.UNQUOTED
         if token.type == TokenType.IDENTIFIER:
             name = self._advance().value
             # Continue collecting adjacent tokens that are part of the name
@@ -203,6 +206,7 @@ class TMDLParser:
             name = self._collect_name_continuation(name)
         elif token.type == TokenType.QUOTED_NAME:
             name = self._advance().value
+            name_style = NameStyle.QUOTED
         elif token.type == TokenType.NUMBER:
             # Column/measure names that start with a digit (e.g. "column 14Q")
             name = str(self._advance().value)
@@ -241,19 +245,30 @@ class TMDLParser:
             has_expression_assignment = True
             # Collect expression value on same line
             token = self._current()
-            if token.type == TokenType.STRING:
+            if token.type == TokenType.BACKTICK_STRING:
                 expression = self._advance().value
+                expression_style = ExpressionStyle.BACKTICK
+            elif token.type == TokenType.STRING:
+                expression = self._advance().value
+                expression_style = ExpressionStyle.INLINE
             elif token.type in (
                 TokenType.IDENTIFIER,
                 TokenType.QUOTED_NAME,
                 TokenType.NUMBER,
             ):
                 expression = self._advance().value
+                expression_style = ExpressionStyle.INLINE
+            else:
+                expression_style = ExpressionStyle.INLINE
+        else:
+            expression_style = ExpressionStyle.INLINE
 
         obj = ObjectDeclaration(
             object_type=object_type,
             name=name,
             expression=expression,
+            expression_style=expression_style,
+            name_style=name_style,
             line=line,
         )
 
@@ -270,6 +285,7 @@ class TMDLParser:
                 # Multi-line expression: body follows on indented lines
                 expr_body = self._collect_indented_content(context_line=line)
                 obj.expression = expr_body
+                obj.expression_style = ExpressionStyle.MULTILINE
                 # After expression body, there may be properties/annotations at a shallower indent.
                 # We may see DEDENT tokens followed by an INDENT token to reach property scope.
                 # Only consume DEDENTs if they are followed by an INDENT (property scope).
@@ -452,12 +468,14 @@ class TMDLParser:
     def _collect_expression_value(self) -> str:
         """Collect the expression value after an equals sign.
 
-        The lexer emits at most one STRING token after EQUALS (rest-of-line
-        capture).
+        The lexer emits at most one STRING or BACKTICK_STRING token after
+        EQUALS (rest-of-line capture).
         """
         token = self._current()
         if token.type in (TokenType.NEWLINE, TokenType.EOF):
             return ""
+        if token.type in (TokenType.STRING, TokenType.BACKTICK_STRING):
+            return self._advance().value
         return self._advance().value
 
     def _collect_indented_content(self, context_line: int | None = None) -> str:

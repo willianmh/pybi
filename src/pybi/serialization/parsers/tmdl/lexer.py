@@ -40,6 +40,7 @@ class TokenType(Enum):
 
     # Literals
     STRING = auto()
+    BACKTICK_STRING = auto()  # ```...``` verbatim expression
     NUMBER = auto()
     BOOLEAN = auto()
 
@@ -165,7 +166,7 @@ class TMDLLexer:
                 expr_value = after_stripped[: -len(BACKTICK_EXPR)]
                 tokens.append(
                     Token(
-                        TokenType.STRING,
+                        TokenType.BACKTICK_STRING,
                         expr_value,
                         opening_line,
                         len(before_backtick) + 2,
@@ -214,7 +215,7 @@ class TMDLLexer:
         closing_line = closing_line_idx + 1  # convert to 1-based
         tokens.append(
             Token(
-                TokenType.STRING,
+                TokenType.BACKTICK_STRING,
                 expr_value,
                 opening_line,
                 len(before_backtick) + 2,

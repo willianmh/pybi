@@ -8,6 +8,7 @@ Single source of truth for all TMDL grammar-level definitions:
 """
 
 import re
+from enum import Enum
 
 # ---------------------------------------------------------------------------
 # 1a. Token-level constants
@@ -91,6 +92,65 @@ BACKTICK_ASSIGN = "= ```"
 # Used by the lexer so that '=```' and '=   ```' are both recognised correctly.
 BACKTICK_ASSIGN_RE: re.Pattern[str] = re.compile(r"=\s*```")
 DESCRIPTION_PREFIX = "///"
+
+# ---------------------------------------------------------------------------
+# 1a-iii. Expression serialisation style
+# ---------------------------------------------------------------------------
+
+
+class ExpressionStyle(str, Enum):
+    """How an expression is serialised in TMDL.
+
+    * ``INLINE``   : value follows ``=`` on the same declaration line.
+    * ``MULTILINE``: value occupies indented lines below the ``=``.
+    * ``BACKTICK`` : value is wrapped in triple-backtick delimiters.
+
+    Writer policy
+    -------------
+    ``BACKTICK`` content is emitted at ``indent_level + 2`` tabs, closing
+    delimiter at the same depth.  If the stored style is ``MULTILINE`` but
+    the content *requires* backticks (trailing whitespace, comment lines,
+    unbalanced quotes), the writer promotes the style to ``BACKTICK``
+    automatically and logs a debug message.  This promotion only occurs for
+    expressions created programmatically (e.g. from model.bim); expressions
+    parsed from TMDL always carry the correct style.
+
+    Indentation normalisation
+    -------------------------
+    On the first write, backtick content may shift from the original author's
+    indentation depth to ``indent_level + 2``.  This is intentional
+    normalisation.  Subsequent round-trips are stable.
+    """
+
+    INLINE = "inline"
+    MULTILINE = "multiline"
+    BACKTICK = "backtick"
+
+
+class NameStyle(str, Enum):
+    """Whether a TMDL object name was written with surrounding single-quotes.
+
+    * ``UNQUOTED``: name was a bare identifier (e.g. ``column Price``).
+    * ``QUOTED``  : name was single-quoted  (e.g. ``column 'My Col'``).
+
+    The writer uses this to faithfully reproduce the original quoting style.
+    It will still escalate to ``QUOTED`` when ``_requires_quoting`` detects
+    characters that *require* quotes, regardless of the stored style.
+    """
+
+    QUOTED = "quoted"
+    UNQUOTED = "unquoted"
+
+
+def _requires_quoting(name: str) -> bool:
+    """Return True if *name* contains characters that REQUIRE single-quoting.
+
+    Digit-prefix names (e.g. ``97d97e``, ``14Q``) do *not* require quoting
+    per the TMDL spec; the SDK writes them unquoted.  Only characters in
+    ``SPECIAL_CHARS_REQUIRE_QUOTE`` mandate quotes.
+    """
+    return any(c in SPECIAL_CHARS_REQUIRE_QUOTE for c in name)
+
 
 # ---------------------------------------------------------------------------
 # 1b. TMDL definition structure registry
@@ -246,7 +306,10 @@ def format_column_reference(ref: str) -> str:
 # ---------------------------------------------------------------------------
 
 
-def normalize_expression(raw: str | list[str] | None) -> list[str]:
+def normalize_expression(
+    raw: str | list[str] | None,
+    preserve_trailing_blanks: bool = False,
+) -> list[str]:
     """Normalize a raw TMDL expression to a list of lines with relative indentation.
 
     Strips the minimum common leading-tab count from every non-empty line so
@@ -257,6 +320,14 @@ def normalize_expression(raw: str | list[str] | None) -> list[str]:
     ``.strip()`` (e.g. 0 tabs) while subsequent lines retain theirs.  In that
     situation the base indent is derived from lines 1+ so all lines are
     rebased consistently.
+
+    Args:
+        raw: Raw expression string or list of lines.
+        preserve_trailing_blanks: When ``True`` (used for ``BACKTICK``
+            expressions), trailing blank lines are retained verbatim because
+            the spec says backtick content is read verbatim.  When ``False``
+            (default, used for ``MULTILINE`` / ``INLINE``), trailing blank
+            lines are stripped per the TMDL spec.
 
     Returns:
         A list of lines (possibly empty).  Never returns ``None``.
@@ -271,10 +342,11 @@ def normalize_expression(raw: str | list[str] | None) -> list[str]:
             return []
         raw_lines = raw.split("\n")
         # Remove trailing empty lines (common artifact) but preserve
-        # leading blank lines — they are part of the expression per
+        # leading blank lines: they are part of the expression per
         # the TMDL spec ("vertical whitespace is part of expression").
-        while raw_lines and not raw_lines[-1].strip():
-            raw_lines.pop()
+        if not preserve_trailing_blanks:
+            while raw_lines and not raw_lines[-1].strip():
+                raw_lines.pop()
 
     if len(raw_lines) <= 1:
         # Single-line: strip leading/trailing whitespace (tabs from
