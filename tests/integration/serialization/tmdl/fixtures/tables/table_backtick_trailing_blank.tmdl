@@ -1,0 +1,38 @@
+table BacktickTrailingBlank
+	lineageTag: aaaaaaaa-aaaa-0000-0000-000000000001
+
+	measure 'Complex KPI' = ```
+			var val =
+			    CALCULATE([Amount])
+			return
+			    IF(ISBLANK(val), 0, val)
+
+			```
+		lineageTag: 11111111-aaaa-0000-0000-000000000001
+
+	measure 'Two Blanks' = ```
+			var a = 1
+			var b = 2
+
+
+			return a + b
+			```
+		lineageTag: 22222222-aaaa-0000-0000-000000000001
+
+	column Column1
+		dataType: string
+		lineageTag: 33333333-aaaa-0000-0000-000000000001
+		summarizeBy: none
+		sourceColumn: Column1
+
+		annotation SummarizationSetBy = Automatic
+
+	partition BacktickTrailingBlank = m
+		mode: import
+		source =
+				let
+				    Source = ...
+				in
+				    Source
+
+	annotation PBI_ResultType = Table

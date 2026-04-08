@@ -1,0 +1,25 @@
+table _costs
+	lineageTag: aaaaaaaa-6666-0000-0000-000000000001
+
+	calculationGroup
+
+	measure reimbursement = SUM(FactCosts[Amount])
+		lineageTag: 11111111-6666-0000-0000-000000000001
+
+	column Column1
+		dataType: string
+		lineageTag: 22222222-6666-0000-0000-000000000001
+		summarizeBy: none
+		sourceColumn: Column1
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _costs = m
+		mode: import
+		source =
+				let
+				    Source = ...
+				in
+				    Source
+
+	annotation PBI_ResultType = Table

@@ -1,0 +1,25 @@
+table DimDate
+	lineageTag: aaaaaaaa-eeee-0000-0000-000000000001
+
+	column Date
+		dataType: dateTime
+		lineageTag: 11111111-eeee-0000-0000-000000000001
+		summarizeBy: none
+		sourceColumn: Date
+
+		variation Default
+			isDefault
+			relationship: 11111111-relo-0000-0000-000000000001
+			defaultHierarchy: DimDate.Calendar
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimDate = m
+		mode: import
+		source =
+				let
+				    Source = ...
+				in
+				    Source
+
+	annotation PBI_ResultType = Table

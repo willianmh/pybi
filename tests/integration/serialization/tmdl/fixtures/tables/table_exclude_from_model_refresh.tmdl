@@ -1,0 +1,21 @@
+table tblExcludeFromModel
+	excludeFromModelRefresh
+	lineageTag: aaaaaaaa-5555-0000-0000-000000000001
+
+	column 'Column1'
+		dataType: string
+		lineageTag: 11111111-5555-0000-0000-000000000001
+		summarizeBy: none
+		sourceColumn: Column1
+
+		annotation SummarizationSetBy = Automatic
+
+	partition tblExcludeFromModel = m
+		mode: import
+		source =
+				let
+				    Source = ...
+				in
+				    Source
+
+	annotation PBI_ResultType = Table

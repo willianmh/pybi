@@ -8,6 +8,7 @@ from ....semanticmodel.definition import (
     Expression,
     Model,
     Relationship,
+    Role,
     Table,
 )
 from .grammar import (
@@ -119,6 +120,20 @@ class TMDLPartsLoader:
                 names.append(node.name[len("role "):])
         return names
 
+    def _load_roles(self) -> list[Role]:
+        """Load role definitions from roles/*.tmdl files."""
+        roles_prefix = f"{DEFINITION_FOLDERS['roles']}/"
+        role_keys = sorted(
+            k for k in self.files if k.startswith(roles_prefix) and k.endswith(".tmdl")
+        )
+        roles: list[Role] = []
+        for key in role_keys:
+            nodes = self._parse_content(key)
+            for n in nodes:
+                if n.object_type == "role":
+                    roles.append(self.transformer.transform_role(n))
+        return roles
+
     def _load_model_config(self) -> ObjectDeclaration | None:
         nodes = self._parse_content(DEFINITION_FILES["model"])
         model_node = None
@@ -159,6 +174,9 @@ class TMDLPartsLoader:
         # Collect role references from model.tmdl
         role_refs = self._get_ref_role_names()
 
+        # Load full role definitions from roles/*.tmdl files
+        roles = self._load_roles()
+
         model_config = self._load_model_config()
 
         if model_config:
@@ -177,9 +195,11 @@ class TMDLPartsLoader:
                 cultures=cultures,
             )
 
-        # Inject role references as minimal dicts (name only) if not already set
-        if role_refs and not model.roles:
-            model.roles = [{"name": n} for n in role_refs]
+        # Use loaded roles if available, else fall back to ref names
+        if roles:
+            model.roles = roles
+        elif role_refs and not model.roles:
+            model.roles = [Role(name=n) for n in role_refs]
 
         return {
             "compatibilityLevel": compat_level,

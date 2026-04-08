@@ -1,0 +1,29 @@
+table PropertyOrder
+	lineageTag: aaaaaaaa-4444-0000-0000-000000000001
+
+	measure 'Ordered Measure' = SUM(Sales[Amount])
+		lineageTag: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+
+		extendedProperty JsonProp = {"key": "value"}
+
+		changedProperty = Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column1
+		dataType: string
+		lineageTag: 22222222-4444-0000-0000-000000000001
+		summarizeBy: none
+		sourceColumn: Column1
+
+		annotation SummarizationSetBy = Automatic
+
+	partition PropertyOrder = m
+		mode: import
+		source =
+				let
+				    Source = ...
+				in
+				    Source
+
+	annotation PBI_ResultType = Table

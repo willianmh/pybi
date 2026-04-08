@@ -1,0 +1,48 @@
+table DimCalendar
+	lineageTag: aaaaaaaa-cccc-0000-0000-000000000001
+
+	column Year
+		dataType: int64
+		lineageTag: 11111111-cccc-0000-0000-000000000001
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: string
+		lineageTag: 22222222-cccc-0000-0000-000000000001
+		summarizeBy: none
+		sourceColumn: Month
+		sortByColumn: MonthNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthNumber
+		dataType: int64
+		lineageTag: 33333333-cccc-0000-0000-000000000001
+		summarizeBy: none
+		sourceColumn: MonthNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy Calendar
+		lineageTag: 44444444-cccc-0000-0000-000000000001
+
+		level Year
+			lineageTag: 55555555-cccc-0000-0000-000000000001
+			column: Year
+
+		level Month
+			lineageTag: 66666666-cccc-0000-0000-000000000001
+			column: Month
+
+	partition DimCalendar = m
+		mode: import
+		source =
+				let
+				    Source = ...
+				in
+				    Source
+
+	annotation PBI_ResultType = Table

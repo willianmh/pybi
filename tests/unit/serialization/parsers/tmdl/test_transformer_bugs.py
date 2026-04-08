@@ -1,5 +1,4 @@
-"""Tests for known bugs and edge cases in the TMDL transformer."""
-
+from pybi.semanticmodel.definition import ExpressionValue
 from pybi.serialization.parsers.tmdl.parser import (
     ObjectDeclaration,
     PropertyNode,
@@ -57,7 +56,8 @@ class TestCalculatedColumnExpression:
             properties=[_prop("lineageTag", "abc")],
         )
         col = _transformer().transform_column(node)
-        assert col.expression == '[FirstName] & " " & [LastName]'
+        assert isinstance(col.expression, ExpressionValue)
+        assert col.expression.value == '[FirstName] & " " & [LastName]'
 
     def test_multiline_expression_stored_as_string(self):
         """Multi-line calculated column expression is stored as raw string."""
@@ -69,8 +69,8 @@ class TestCalculatedColumnExpression:
             properties=[_prop("lineageTag", "abc")],
         )
         col = _transformer().transform_column(node)
-        # expand_node stores the raw expression string; Column accepts str
-        assert col.expression == expr
+        assert isinstance(col.expression, ExpressionValue)
+        assert col.expression.value == expr
 
     def test_real_lookupvalue_expression(self):
         """LOOKUPVALUE calculated column from Accounts.tmdl sample."""
@@ -86,9 +86,7 @@ class TestCalculatedColumnExpression:
         )
         col = _transformer().transform_column(node)
         assert col.expression is not None
-        assert "LOOKUPVALUE" in (
-            col.expression if isinstance(col.expression, str) else col.expression[0]
-        )
+        assert "LOOKUPVALUE" in col.expression.value
 
     def test_expression_stored_in_expression_key(self):
         """expand_node puts ObjectDeclaration.expression under 'expression' key."""
@@ -252,8 +250,8 @@ class TestTransformExpressionBugs:
             properties=[_prop("lineageTag", "e-1")],
         )
         e = _transformer().transform_expression(node)
-        assert isinstance(e.expression, list)
-        assert len(e.expression) == 4
+        assert isinstance(e.expression, ExpressionValue)
+        assert len(e.expression.value.splitlines()) == 4
 
     def test_single_line_expression_stays_string(self):
         """Single-line expression should remain a string."""
@@ -264,8 +262,8 @@ class TestTransformExpressionBugs:
             properties=[_prop("lineageTag", "e-2")],
         )
         e = _transformer().transform_expression(node)
-        assert isinstance(e.expression, str)
-        assert e.expression == "1 + 1"
+        assert isinstance(e.expression, ExpressionValue)
+        assert e.expression.value == "1 + 1"
 
     def test_empty_expression(self):
         """Expression node without expression content."""
@@ -275,7 +273,7 @@ class TestTransformExpressionBugs:
             properties=[_prop("lineageTag", "e-3")],
         )
         e = _transformer().transform_expression(node)
-        assert e.expression == ""
+        assert e.expression.value == ""
 
 
 # ---------------------------------------------------------------------------
@@ -300,7 +298,7 @@ class TestTransformPartitionEdgeCases:
         p = _transformer().transform_partition(node)
         assert p.source.type == "m"
         assert p.source.expression is not None
-        assert isinstance(p.source.expression, list)
+        assert isinstance(p.source.expression, ExpressionValue)
 
     def test_calculated_partition_no_source_child(self):
         """Calculated partition without explicit source child."""
@@ -526,7 +524,7 @@ class TestParserToTransformerIntegration:
         assert t.columns[0].dataType == "int64"
         assert t.measures is not None and len(t.measures) == 1
         assert t.measures[0].name == "Total Sales"
-        assert t.measures[0].expression == "SUM(Sales[Amount])"
+        assert t.measures[0].expression.value == "SUM(Sales[Amount])"  # type: ignore
         assert len(t.partitions) == 1
 
     def test_table_with_calculated_column_and_variation(self):
@@ -559,16 +557,12 @@ class TestParserToTransformerIntegration:
         t = _transformer().transform_table(nodes[0])
 
         # Calculated column should have expression
-        calc_col = next(c for c in t.columns if c.name == "Weeks Open")
+        calc_col = next(c for c in t.columns if c.name == "Weeks Open")  # type: ignore
         assert calc_col.expression is not None
-        assert "ABS" in (
-            calc_col.expression
-            if isinstance(calc_col.expression, str)
-            else calc_col.expression[0]
-        )
+        assert "ABS" in calc_col.expression.value
 
         # Column with variation
-        date_col = next(c for c in t.columns if c.name == "Date")
+        date_col = next(c for c in t.columns if c.name == "Date")  # type: ignore
         assert date_col.variations is not None
         assert len(date_col.variations) == 1
 
@@ -601,8 +595,8 @@ class TestParserToTransformerIntegration:
         nodes = parse_tmdl(text)
         e = _transformer().transform_expression(nodes[0])
         assert e.name == "Query1"
-        assert isinstance(e.expression, list)
-        assert any("let" in line for line in e.expression)
+        assert isinstance(e.expression, ExpressionValue)
+        assert "let" in e.expression.value
 
     def test_column_with_changed_properties(self):
         """Column with changedProperty children from Opportunity Calendar."""
@@ -654,10 +648,7 @@ class TestParserToTransformerIntegration:
         m = t.measures[0]
         assert m.name == "Revenue Won"
         assert m.expression is not None
-        expr = (
-            m.expression if isinstance(m.expression, str) else "\n".join(m.expression)
-        )
-        assert "CALCULATE" in expr
+        assert "CALCULATE" in m.expression.value
         assert m.formatString == "\\$#,0"
 
     def test_table_with_hierarchy(self):
@@ -691,7 +682,7 @@ class TestParserToTransformerIntegration:
         assert len(t.hierarchies) == 1
         hier = t.hierarchies[0]
         assert hier["name"] == "Location Hierarchy"
-        # Levels are under "level" key (singular) — not in CHILDREN_NAMING_MAP
+        # Levels are under "level" key (singular): not in CHILDREN_NAMING_MAP
         assert "level" in hier
 
     def test_annotation_on_table_and_column(self):
