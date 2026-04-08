@@ -1,5 +1,4 @@
-"""Unit tests for the TMDL transformer (AST nodes → Pydantic models)."""
-
+from pybi.semanticmodel.definition import ExpressionValue
 from pybi.serialization.parsers.tmdl.parser import ObjectDeclaration, PropertyNode
 from pybi.serialization.parsers.tmdl.transformer import TMDLTransformer
 
@@ -79,7 +78,8 @@ class TestTransformColumn:
         )
         col = TMDLTransformer().transform_column(node)
         assert col.name == "FullName"
-        assert col.expression == '[FirstName] & " " & [LastName]'
+        assert isinstance(col.expression, ExpressionValue)
+        assert col.expression.value == '[FirstName] & " " & [LastName]'
 
 
 class TestTransformMeasure:
@@ -92,7 +92,8 @@ class TestTransformMeasure:
         )
         m = TMDLTransformer().transform_measure(node)
         assert m.name == "Total Sales"
-        assert m.expression == "SUM(Sales[Amount])"
+        assert isinstance(m.expression, ExpressionValue)
+        assert m.expression.value == "SUM(Sales[Amount])"
 
     def test_multi_line_expression(self):
         expr = "CALCULATE(\n    SUM(Sales[Amount]),\n    FILTER(Sales, Sales[Year] = 2024)\n)"
@@ -103,8 +104,8 @@ class TestTransformMeasure:
             properties=[_prop("lineageTag", "m-002")],
         )
         m = TMDLTransformer().transform_measure(node)
-        assert isinstance(m.expression, list)
-        assert len(m.expression) == 4
+        assert isinstance(m.expression, ExpressionValue)
+        assert len(m.expression.value.splitlines()) == 4
 
     def test_format_string(self):
         node = _node(
@@ -248,7 +249,7 @@ class TestTransformModel:
                 toTable="T2",
             )
         ]
-        expressions = [Expression(name="e-1", expression="let x = 1 in x")]
+        expressions = [Expression(name="e-1", expression="let x = 1 in x")]  # type: ignore
         cultures = [Culture(name="en-US")]
 
         m = TMDLTransformer().transform_model(

@@ -1,0 +1,13 @@
+expression MaxMIS = ```
+		let
+		    Source = ...
+		    //Source = ...
+		in
+		    Source
+		```
+	lineageTag: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+
+	annotation PBI_ResultType = Number
+
+	annotation PBI_NavigationStepName = Navigation
+

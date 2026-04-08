@@ -1,0 +1,29 @@
+table ChangedProps
+	lineageTag: aaaaaaaa-2222-0000-0000-000000000001
+
+	measure 'Renamed Measure' = SUM(Sales[Amount])
+		lineageTag: 11111111-2222-0000-0000-000000000001
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+	column 'Renamed Column'
+		dataType: string
+		lineageTag: 22222222-2222-0000-0000-000000000001
+		summarizeBy: none
+		sourceColumn: OriginalColumn
+
+		changedProperty = Name
+
+		changedProperty = DataType
+
+	partition ChangedProps = m
+		mode: import
+		source =
+				let
+				    Source = ...
+				in
+				    Source
+
+	annotation PBI_ResultType = Table

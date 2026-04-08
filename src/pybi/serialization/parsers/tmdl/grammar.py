@@ -8,6 +8,7 @@ Single source of truth for all TMDL grammar-level definitions:
 """
 
 import re
+from enum import Enum
 
 # ---------------------------------------------------------------------------
 # 1a. Token-level constants
@@ -71,6 +72,7 @@ CHILDREN_NAMING_MAP: dict[str, str] = {
     "extendedProperty": "extendedProperties",
     "queryGroup": "queryGroups",
     "role": "roles",
+    "tablePermission": "tablePermissions",
     "variation": "variations",
 }
 
@@ -92,6 +94,65 @@ BACKTICK_ASSIGN_RE: re.Pattern[str] = re.compile(r"=\s*```")
 DESCRIPTION_PREFIX = "///"
 
 # ---------------------------------------------------------------------------
+# 1a-iii. Expression serialisation style
+# ---------------------------------------------------------------------------
+
+
+class ExpressionStyle(str, Enum):
+    """How an expression is serialised in TMDL.
+
+    * ``INLINE``   : value follows ``=`` on the same declaration line.
+    * ``MULTILINE``: value occupies indented lines below the ``=``.
+    * ``BACKTICK`` : value is wrapped in triple-backtick delimiters.
+
+    Writer policy
+    -------------
+    ``BACKTICK`` content is emitted at ``indent_level + 2`` tabs, closing
+    delimiter at the same depth.  If the stored style is ``MULTILINE`` but
+    the content *requires* backticks (trailing whitespace, comment lines,
+    unbalanced quotes), the writer promotes the style to ``BACKTICK``
+    automatically and logs a debug message.  This promotion only occurs for
+    expressions created programmatically (e.g. from model.bim); expressions
+    parsed from TMDL always carry the correct style.
+
+    Indentation normalisation
+    -------------------------
+    On the first write, backtick content may shift from the original author's
+    indentation depth to ``indent_level + 2``.  This is intentional
+    normalisation.  Subsequent round-trips are stable.
+    """
+
+    INLINE = "inline"
+    MULTILINE = "multiline"
+    BACKTICK = "backtick"
+
+
+class NameStyle(str, Enum):
+    """Whether a TMDL object name was written with surrounding single-quotes.
+
+    * ``UNQUOTED``: name was a bare identifier (e.g. ``column Price``).
+    * ``QUOTED``  : name was single-quoted  (e.g. ``column 'My Col'``).
+
+    The writer uses this to faithfully reproduce the original quoting style.
+    It will still escalate to ``QUOTED`` when ``_requires_quoting`` detects
+    characters that *require* quotes, regardless of the stored style.
+    """
+
+    QUOTED = "quoted"
+    UNQUOTED = "unquoted"
+
+
+def _requires_quoting(name: str) -> bool:
+    """Return True if *name* contains characters that REQUIRE single-quoting.
+
+    Digit-prefix names (e.g. ``97d97e``, ``14Q``) do *not* require quoting
+    per the TMDL spec; the SDK writes them unquoted.  Only characters in
+    ``SPECIAL_CHARS_REQUIRE_QUOTE`` mandate quotes.
+    """
+    return any(c in SPECIAL_CHARS_REQUIRE_QUOTE for c in name)
+
+
+# ---------------------------------------------------------------------------
 # 1b. TMDL definition structure registry
 # ---------------------------------------------------------------------------
 
@@ -107,6 +168,7 @@ DEFINITION_FILES: dict[str, str] = {
 DEFINITION_FOLDERS: dict[str, str] = {
     "tables": "tables",
     "cultures": "cultures",
+    "roles": "roles",
 }
 
 # Prefix used by the persistence layer to namespace TMDL parts
@@ -244,7 +306,10 @@ def format_column_reference(ref: str) -> str:
 # ---------------------------------------------------------------------------
 
 
-def normalize_expression(raw: str | list[str] | None) -> list[str]:
+def normalize_expression(
+    raw: str | list[str] | None,
+    preserve_trailing_blanks: bool = False,
+) -> list[str]:
     """Normalize a raw TMDL expression to a list of lines with relative indentation.
 
     Strips the minimum common leading-tab count from every non-empty line so
@@ -256,6 +321,14 @@ def normalize_expression(raw: str | list[str] | None) -> list[str]:
     situation the base indent is derived from lines 1+ so all lines are
     rebased consistently.
 
+    Args:
+        raw: Raw expression string or list of lines.
+        preserve_trailing_blanks: When ``True`` (used for ``BACKTICK``
+            expressions), trailing blank lines are retained verbatim because
+            the spec says backtick content is read verbatim.  When ``False``
+            (default, used for ``MULTILINE`` / ``INLINE``), trailing blank
+            lines are stripped per the TMDL spec.
+
     Returns:
         A list of lines (possibly empty).  Never returns ``None``.
     """
@@ -265,13 +338,20 @@ def normalize_expression(raw: str | list[str] | None) -> list[str]:
     if isinstance(raw, list):
         raw_lines = list(raw)
     else:
-        stripped = raw.strip()
-        if not stripped:
+        if not raw.strip():
             return []
-        raw_lines = stripped.split("\n")
+        raw_lines = raw.split("\n")
+        # Remove trailing empty lines (common artifact) but preserve
+        # leading blank lines: they are part of the expression per
+        # the TMDL spec ("vertical whitespace is part of expression").
+        if not preserve_trailing_blanks:
+            while raw_lines and not raw_lines[-1].strip():
+                raw_lines.pop()
 
     if len(raw_lines) <= 1:
-        return raw_lines
+        # Single-line: strip leading/trailing whitespace (tabs from
+        # source indentation) since there is no multi-line structure.
+        return [raw_lines[0].strip()] if raw_lines and raw_lines[0].strip() else raw_lines
 
     # Filter to non-empty lines for computing minimum indent
     non_empty = [line for line in raw_lines if line.strip()]
@@ -321,6 +401,7 @@ COLUMN_PROPERTY_ORDER: list[tuple[str, str]] = [
     ("isNullable", "flag_false"),
     ("alignment", "property"),
     ("formatString", "property"),
+    ("sourceProviderType", "property"),
     ("lineageTag", "property"),
     ("sourceLineageTag", "property"),
     ("dataCategory", "property"),
@@ -328,7 +409,6 @@ COLUMN_PROPERTY_ORDER: list[tuple[str, str]] = [
     ("isDataTypeInferred", "flag"),
     ("isNameInferred", "flag"),
     ("sourceColumn", "property"),
-    ("sourceProviderType", "property"),
     ("sortByColumn", "quoted_property"),
     ("displayFolder", "property"),
 ]
@@ -347,7 +427,7 @@ TABLE_PROPERTY_ORDER: list[tuple[str, str]] = [
     ("isHidden", "flag"),
     ("showAsVariationsOnly", "flag"),
     ("isPrivate", "flag"),
+    ("excludeFromModelRefresh", "flag"),
     ("lineageTag", "property"),
     ("sourceLineageTag", "property"),
-    ("excludeFromModelRefresh", "flag"),
 ]

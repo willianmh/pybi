@@ -1,0 +1,22 @@
+table DimLastRefresh
+	lineageTag: aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee
+
+	column LastRefreshDate
+		dataType: dateTime
+		lineageTag: 11111111-2222-3333-4444-555555555555
+		summarizeBy: none
+		sourceColumn: LastRefreshDate
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimLastRefresh = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(Server, Database),
+				    dbo_LastRefresh = Source{[Schema="dbo", Item="LastRefresh"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(dbo_LastRefresh, {{"LastRefreshDate", type datetime}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table

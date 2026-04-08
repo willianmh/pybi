@@ -4,7 +4,7 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from .exceptions import TMDLParseError
-from .grammar import FLAG_PROPERTIES
+from .grammar import FLAG_PROPERTIES, ExpressionStyle, NameStyle
 from .lexer import (
     TMDLLexer,
     Token,
@@ -29,6 +29,8 @@ class ObjectDeclaration:
     object_type: str  # table, column, measure, etc.
     name: str | None  # Name of the object (optional for some types)
     expression: str | None  # Expression value (for measure/expression with =)
+    expression_style: ExpressionStyle = ExpressionStyle.INLINE  # Serialisation form
+    name_style: NameStyle = NameStyle.UNQUOTED  # Whether name was single-quoted
     properties: list[PropertyNode] = field(default_factory=list)
     children: list["ObjectDeclaration"] = field(default_factory=list)
     description: str | None = None
@@ -196,6 +198,7 @@ class TMDLParser:
 
         # Parse name (can be identifier, quoted name, number, or absent)
         token = self._current()
+        name_style = NameStyle.UNQUOTED
         if token.type == TokenType.IDENTIFIER:
             name = self._advance().value
             # Continue collecting adjacent tokens that are part of the name
@@ -203,6 +206,7 @@ class TMDLParser:
             name = self._collect_name_continuation(name)
         elif token.type == TokenType.QUOTED_NAME:
             name = self._advance().value
+            name_style = NameStyle.QUOTED
         elif token.type == TokenType.NUMBER:
             # Column/measure names that start with a digit (e.g. "column 14Q")
             name = str(self._advance().value)
@@ -241,19 +245,30 @@ class TMDLParser:
             has_expression_assignment = True
             # Collect expression value on same line
             token = self._current()
-            if token.type == TokenType.STRING:
+            if token.type == TokenType.BACKTICK_STRING:
                 expression = self._advance().value
+                expression_style = ExpressionStyle.BACKTICK
+            elif token.type == TokenType.STRING:
+                expression = self._advance().value
+                expression_style = ExpressionStyle.INLINE
             elif token.type in (
                 TokenType.IDENTIFIER,
                 TokenType.QUOTED_NAME,
                 TokenType.NUMBER,
             ):
                 expression = self._advance().value
+                expression_style = ExpressionStyle.INLINE
+            else:
+                expression_style = ExpressionStyle.INLINE
+        else:
+            expression_style = ExpressionStyle.INLINE
 
         obj = ObjectDeclaration(
             object_type=object_type,
             name=name,
             expression=expression,
+            expression_style=expression_style,
+            name_style=name_style,
             line=line,
         )
 
@@ -268,8 +283,9 @@ class TMDLParser:
             # If we already have an expression, the indented content is properties
             if has_expression_assignment and not expression:
                 # Multi-line expression: body follows on indented lines
-                expr_body = self._collect_indented_content()
+                expr_body = self._collect_indented_content(context_line=line)
                 obj.expression = expr_body
+                obj.expression_style = ExpressionStyle.MULTILINE
                 # After expression body, there may be properties/annotations at a shallower indent.
                 # We may see DEDENT tokens followed by an INDENT token to reach property scope.
                 # Only consume DEDENTs if they are followed by an INDENT (property scope).
@@ -406,7 +422,7 @@ class TMDLParser:
         # Check for multi-line value (indented content)
         if self._current().type == TokenType.INDENT:
             self._advance()
-            indented = self._collect_indented_content()
+            indented = self._collect_indented_content(context_line=line)
             if value:
                 value = str(value) + "\n" + indented
             else:
@@ -452,15 +468,17 @@ class TMDLParser:
     def _collect_expression_value(self) -> str:
         """Collect the expression value after an equals sign.
 
-        The lexer emits at most one STRING token after EQUALS (rest-of-line
-        capture).
+        The lexer emits at most one STRING or BACKTICK_STRING token after
+        EQUALS (rest-of-line capture).
         """
         token = self._current()
         if token.type in (TokenType.NEWLINE, TokenType.EOF):
             return ""
+        if token.type in (TokenType.STRING, TokenType.BACKTICK_STRING):
+            return self._advance().value
         return self._advance().value
 
-    def _collect_indented_content(self) -> str:
+    def _collect_indented_content(self, context_line: int | None = None) -> str:
         """Collect indented content as a multi-line string using raw source lines.
 
         Instead of re-tokenizing expression body lines (which would alter
@@ -469,10 +487,19 @@ class TMDLParser:
         are preserved so that downstream normalisation can strip them
         uniformly.
 
-        Blank source lines that fall within the expression scope are
-        included (the TMDL spec says *"Vertical whitespace (blank lines
-        without whitespace) is allowed and are considered part of the
-        expression"*).
+        Blank source lines and ``//`` comment lines that fall within the
+        expression scope are included.  The TMDL spec says *"Vertical
+        whitespace (blank lines without whitespace) is allowed and are
+        considered part of the expression"*.  Comment lines are preserved
+        so that ``_needs_backticks`` can trigger backtick wrapping to
+        protect them from the lexer's comment-skip behaviour on subsequent
+        round-trips.
+
+        Args:
+            context_line: 1-based line number of the preceding declaration
+                (e.g. the ``=`` line).  When provided, gap lines
+                (blank / comment) between *context_line* and the first
+                content line are captured as leading content.
         """
         raw_lines: list[str] = []
         nesting_depth = 0
@@ -484,6 +511,37 @@ class TMDLParser:
                 break
             if current.type == TokenType.DEDENT:
                 if nesting_depth <= 0:
+                    # Capture trailing gap lines (comments / blank lines)
+                    # that sit at the expression indent level between the
+                    # last content token and the DEDENT.  Only include
+                    # lines whose tab depth is >= the minimum of already-
+                    # collected non-empty lines (avoids grabbing structural
+                    # comments at a shallower indent).
+                    if last_seen_line > 0:
+                        gap_start = last_seen_line
+                        non_empty = [l for l in raw_lines if l.strip()]
+                        min_tabs = (
+                            min(
+                                len(l) - len(l.lstrip("\t"))
+                                for l in non_empty
+                            )
+                            if non_empty
+                            else 0
+                        )
+                        for gap_line in range(gap_start + 1, current.line):
+                            gap_idx = gap_line - 1
+                            if gap_idx < len(self._source_lines):
+                                gap_text = self._source_lines[gap_idx]
+                                if gap_text.strip():
+                                    gap_tabs = len(gap_text) - len(
+                                        gap_text.lstrip("\t")
+                                    )
+                                    if gap_tabs >= min_tabs:
+                                        raw_lines.append(gap_text)
+                                        last_seen_line = gap_line
+                                else:
+                                    raw_lines.append("")
+                                    last_seen_line = gap_line
                     self._advance()
                     break
                 self._advance()
@@ -512,11 +570,19 @@ class TMDLParser:
                     last_line_no = tok.line
 
             # Insert gap lines between the previous content and this line.
-            # Gap lines include blank lines (vertical whitespace in the
-            # expression) and comment lines (// ...) that the lexer skips
-            # entirely without emitting tokens.
+            # Gap lines include blank lines and // comment lines that the
+            # lexer skips.  Including comment lines in the expression
+            # body ensures _needs_backticks triggers backtick wrapping,
+            # protecting the comments on subsequent round-trips.
             if last_seen_line > 0:
-                for gap_line in range(last_seen_line + 1, first_line_no):
+                gap_start = last_seen_line
+            elif context_line is not None:
+                gap_start = context_line
+            else:
+                gap_start = None
+
+            if gap_start is not None:
+                for gap_line in range(gap_start + 1, first_line_no):
                     gap_idx = gap_line - 1
                     if gap_idx < len(self._source_lines):
                         gap_text = self._source_lines[gap_idx]

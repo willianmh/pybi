@@ -1,0 +1,23 @@
+table RelatedColDetails
+	lineageTag: aaaaaaaa-3333-0000-0000-000000000001
+
+	column CalendarKey
+		dataType: int64
+		lineageTag: 11111111-3333-0000-0000-000000000001
+		summarizeBy: none
+		sourceColumn: CalendarKey
+
+		relatedColumnDetails
+			groupByColumn: Calendar[Date]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition RelatedColDetails = m
+		mode: import
+		source =
+				let
+				    Source = ...
+				in
+				    Source
+
+	annotation PBI_ResultType = Table

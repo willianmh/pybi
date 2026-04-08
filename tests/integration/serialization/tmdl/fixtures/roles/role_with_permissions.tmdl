@@ -1,0 +1,8 @@
+role Reader
+	modelPermission: read
+
+	tablePermission Sales = [Region] = "East"
+
+	tablePermission Product = [Category] = "Electronics"
+
+	annotation PBI_RoleType = Standard
