@@ -37,15 +37,13 @@ def dump_json_bytes(
     indent: int = 2,
     encoding: str = "utf-8",
 ) -> bytes:
-    data = model.model_dump(
-        mode="json",
+    return model.model_dump_json(
+        indent=indent,
+        exclude=exclude,
         exclude_none=exclude_none,
         exclude_unset=exclude_unset,
         by_alias=by_alias,
-        exclude=exclude,
-    )
-    text = json.dumps(data, indent=indent)
-    return text.encode(encoding)
+    ).encode(encoding)
 
 
 def find_part(parts: list[Part], path: str) -> Part | None:

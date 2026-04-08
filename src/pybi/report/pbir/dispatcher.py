@@ -11,7 +11,14 @@ _SCHEMA_PATTERN = re.compile(
 )
 
 
+_STRICT_REGISTRY: dict[str, dict[str, type[BaseModel]]] | None = None
+
+
 def strict_models_registry() -> dict[str, dict[str, type[BaseModel]]]:
+    global _STRICT_REGISTRY
+    if _STRICT_REGISTRY is not None:
+        return _STRICT_REGISTRY
+
     from .models.versionmetadata.v1_0_0 import VersionMetadata as VersionMetadataV100
     from .models.report.v3_0_0 import Report as ReportV300
     from .models.report.v3_1_0 import Report as ReportV310
@@ -36,7 +43,7 @@ def strict_models_registry() -> dict[str, dict[str, type[BaseModel]]]:
     from .models.visualcontainer.v2_6_0 import VisualContainer as VisualContainerV260
     from .models.visualcontainer.v2_7_0 import VisualContainer as VisualContainerV270
 
-    return {
+    _STRICT_REGISTRY = {
         "versionMetadata": {
             "1.0.0": VersionMetadataV100,
         },
@@ -75,6 +82,7 @@ def strict_models_registry() -> dict[str, dict[str, type[BaseModel]]]:
             "2.7.0": VisualContainerV270,
         },
     }
+    return _STRICT_REGISTRY
 
 
 class ParseMode(Enum):

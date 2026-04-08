@@ -476,7 +476,7 @@ class TMDLParser:
         """
         raw_lines: list[str] = []
         nesting_depth = 0
-        seen_line_numbers: set[int] = set()
+        last_seen_line: int = 0  # high-water mark; replaces O(n) max(set) calls
 
         while True:
             current = self._current()
@@ -515,9 +515,8 @@ class TMDLParser:
             # Gap lines include blank lines (vertical whitespace in the
             # expression) and comment lines (// ...) that the lexer skips
             # entirely without emitting tokens.
-            if seen_line_numbers:
-                prev_max = max(seen_line_numbers)
-                for gap_line in range(prev_max + 1, first_line_no):
+            if last_seen_line > 0:
+                for gap_line in range(last_seen_line + 1, first_line_no):
                     gap_idx = gap_line - 1
                     if gap_idx < len(self._source_lines):
                         gap_text = self._source_lines[gap_idx]
@@ -525,13 +524,13 @@ class TMDLParser:
                             raw_lines.append(gap_text)
                         else:
                             raw_lines.append("")
-                        seen_line_numbers.add(gap_line)
+                        last_seen_line = gap_line
 
             # Add raw source lines for the entire range this logical line spans
             for line_no in range(first_line_no, last_line_no + 1):
-                if line_no not in seen_line_numbers and 1 <= line_no <= len(self._source_lines):
+                if line_no > last_seen_line and 1 <= line_no <= len(self._source_lines):
                     raw_lines.append(self._source_lines[line_no - 1])
-                    seen_line_numbers.add(line_no)
+                    last_seen_line = line_no
 
             # Peek at NEWLINE to get its line number (for multi-line tokens
             # the NEWLINE is on the closing line)
@@ -541,9 +540,9 @@ class TMDLParser:
                     # The NEWLINE is on a later line than the last content
                     # token; include any intermediate source lines
                     for line_no in range(last_line_no + 1, nl_tok.line + 1):
-                        if line_no not in seen_line_numbers and 1 <= line_no <= len(self._source_lines):
+                        if line_no > last_seen_line and 1 <= line_no <= len(self._source_lines):
                             raw_lines.append(self._source_lines[line_no - 1])
-                            seen_line_numbers.add(line_no)
+                            last_seen_line = line_no
 
         return "\n".join(raw_lines)
 
