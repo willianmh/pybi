@@ -230,7 +230,7 @@ class TestIndentation:
         assert tt.count(TokenType.INDENT) == tt.count(TokenType.DEDENT)
 
     def test_space_indentation_is_not_structural(self):
-        # Spaces are not counted as indentation — only tabs are.
+        # Spaces are not counted as indentation: only tabs are.
         # A line with leading spaces has indent_level=0.
         text = "table Foo\n    spaceIndented"
         toks = tokens(text)
@@ -592,31 +592,31 @@ class TestBacktickExpressions:
         assert TokenType.KEYWORD in tt
         assert TokenType.IDENTIFIER in tt
         assert TokenType.EQUALS in tt
-        s = first_of(toks, TokenType.STRING)
+        s = first_of(toks, TokenType.BACKTICK_STRING)
         assert s.value == "content"
 
     def test_single_line_backtick_no_space(self):
         # Bug 3: no space between = and ```
         toks = tokens("measure Total =```content```")
-        s = first_of(toks, TokenType.STRING)
+        s = first_of(toks, TokenType.BACKTICK_STRING)
         assert s.value == "content"
 
     def test_single_line_backtick_extra_spaces(self):
         # Bug 3: extra spaces between = and ```
         toks = tokens("measure Total =   ```content```")
-        s = first_of(toks, TokenType.STRING)
+        s = first_of(toks, TokenType.BACKTICK_STRING)
         assert s.value == "content"
 
     def test_multi_line_backtick_basic(self):
         text = "measure Total = ```\nDIVIDE(A, B)\n```"
         toks = tokens(text)
-        s = first_of(toks, TokenType.STRING)
+        s = first_of(toks, TokenType.BACKTICK_STRING)
         assert s.value == "DIVIDE(A, B)"
 
     def test_multi_line_backtick_preserves_internal_newlines(self):
         text = "measure Total = ```\nline1\nline2\n```"
         toks = tokens(text)
-        s = first_of(toks, TokenType.STRING)
+        s = first_of(toks, TokenType.BACKTICK_STRING)
         assert "\n" in s.value
 
     def test_closing_line_number_on_newline_token(self):
@@ -630,7 +630,7 @@ class TestBacktickExpressions:
             if found_string and t.type == TokenType.NEWLINE:
                 nl_after_string = t
                 break
-            if t.type == TokenType.STRING and "\n" in t.value:
+            if t.type == TokenType.BACKTICK_STRING and "\n" in t.value:
                 found_string = True
         assert nl_after_string is not None
         assert nl_after_string.line == 5
@@ -639,7 +639,7 @@ class TestBacktickExpressions:
         # Bug 1: a line ending with ``` that is NOT alone is content.
         text = "measure M = ```\nresult = x ```\n```"
         toks = tokens(text)
-        s = first_of(toks, TokenType.STRING)
+        s = first_of(toks, TokenType.BACKTICK_STRING)
         assert "```" in s.value
 
     def test_colon_before_equals_backtick_not_backtick(self):
@@ -658,12 +658,12 @@ class TestBacktickExpressions:
     def test_string_token_references_opening_line(self):
         text = "measure Total = ```\nline1\nline2\n```"
         toks = tokens(text)
-        s = first_of(toks, TokenType.STRING)
+        s = first_of(toks, TokenType.BACKTICK_STRING)
         assert s.line == 1  # STRING references the opening line
 
     def test_single_line_empty_backtick(self):
         toks = tokens("measure M = ``````")
-        s = first_of(toks, TokenType.STRING)
+        s = first_of(toks, TokenType.BACKTICK_STRING)
         assert s.value == ""
 
 

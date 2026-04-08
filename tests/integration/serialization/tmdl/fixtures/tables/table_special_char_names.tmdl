@@ -25,7 +25,7 @@ table SpecialNames
 
 		annotation SummarizationSetBy = Automatic
 
-	column tooltip(between param/slash)
+	column 'tooltip(between param/slash)'
 		dataType: string
 		lineageTag: 44444444-0000-0000-0000-000000000001
 		summarizeBy: none
