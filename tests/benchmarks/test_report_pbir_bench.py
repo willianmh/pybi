@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import pytest
+
 from pybi.serialization.strategies import PbirStrategy
 from pybi.serialization.transport import LocalTransport
 
@@ -22,6 +24,7 @@ def test_bench_report_pbir_roundtrip_mem_realistic(benchmark, report_parts) -> N
     benchmark(run)
 
 
+@pytest.mark.io_benchmark
 def test_bench_report_pbir_roundtrip_io_realistic(
     benchmark, report_fixture_root, tmp_path
 ) -> None:

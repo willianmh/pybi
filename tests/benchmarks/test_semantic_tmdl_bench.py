@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import pytest
+
 from pybi.serialization.strategies import TmdlStrategy
 from pybi.serialization.transport import LocalTransport
 
@@ -22,6 +24,7 @@ def test_bench_semantic_tmdl_roundtrip_mem_realistic(benchmark, semantic_model_p
     benchmark(run)
 
 
+@pytest.mark.io_benchmark
 def test_bench_semantic_tmdl_roundtrip_io_realistic(
     benchmark, semantic_model_fixture_root, tmp_path
 ) -> None:

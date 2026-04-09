@@ -12,8 +12,8 @@ permissions:
   id-token: write
 
 jobs:
-  benchmarks:
-    name: Run benchmarks
+  simulation-benchmarks:
+    name: Run simulation benchmarks
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -27,8 +27,29 @@ jobs:
       - name: Install dependencies
         run: uv sync --dev
 
-      - name: Run benchmarks
+      - name: Run CPU-focused benchmarks (simulation)
         uses: CodSpeedHQ/action@v4
         with:
           mode: simulation
-          run: uv run pytest tests/ --codspeed
+          run: uv run pytest tests/ --codspeed -m "not io_benchmark"
+
+  walltime-io-benchmarks:
+    name: Run I/O benchmarks (walltime)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Set up Python
+        run: uv python install
+
+      - name: Install dependencies
+        run: uv sync --dev
+
+      - name: Run filesystem I/O benchmarks (walltime)
+        uses: CodSpeedHQ/action@v4
+        with:
+          mode: walltime
+          run: uv run pytest tests/ --codspeed -m "io_benchmark"
