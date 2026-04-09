@@ -3,6 +3,8 @@ from typing import Any, ClassVar
 
 from pydantic import BaseModel, Field, model_validator
 
+from pybi.collections import NamedList
+
 from .types import (
     Alignment,
     ColumnType,
@@ -198,6 +200,108 @@ class Table(BaseModel):
     sourceLineageTag: str | None = None
     description: str | None = None
 
+    def model_post_init(self, __context: Any) -> None:
+        # Upgrade existing non-None lists to NamedList so callers get indexed
+        # access and duplicate-name validation.  object.__setattr__ is used to
+        # bypass Pydantic's __setattr__ so that model_fields_set is NOT updated
+        # — avoiding spurious empty-list entries in serialized output.
+        if self.columns is not None and not isinstance(self.columns, NamedList):
+            object.__setattr__(self, "columns", NamedList(self.columns))
+        if self.measures is not None and not isinstance(self.measures, NamedList):
+            object.__setattr__(self, "measures", NamedList(self.measures))
+        if not isinstance(self.partitions, NamedList):
+            object.__setattr__(self, "partitions", NamedList(self.partitions))
+
+    # ── column helpers ────────────────────────────────────────────────────────
+
+    def get_column(self, name: str) -> "Column":
+        """Return column by name. Raises :class:`~pybi.errors.ColumnNotFoundError`."""
+        if self.columns:
+            col = self.columns.get(name) if isinstance(self.columns, NamedList) else next(
+                (c for c in self.columns if c.name == name), None
+            )
+            if col is not None:
+                return col
+        from pybi.errors import ColumnNotFoundError
+        raise ColumnNotFoundError(name, table=self.name)
+
+    def find_column(self, name: str) -> "Column | None":
+        """Return column by name, or ``None`` if not found."""
+        if self.columns:
+            if isinstance(self.columns, NamedList):
+                return self.columns.get(name)
+            return next((c for c in self.columns if c.name == name), None)
+        return None
+
+    def add_column(self, column: "Column") -> None:
+        """Append *column* to this table.
+
+        Initialises the columns list if it is currently ``None`` and validates
+        that no column with the same name already exists.
+        """
+        if self.columns is None:
+            # Use Pydantic's __setattr__ so model_fields_set is updated,
+            # ensuring the field is included in serialized output.
+            self.columns = NamedList([column])
+        else:
+            self.columns.append(column)  # type: ignore[union-attr]
+
+    def remove_column(self, name: str) -> "Column":
+        """Remove and return the column named *name*.
+
+        Raises :class:`~pybi.errors.ColumnNotFoundError` if not found.
+        """
+        col = self.find_column(name)
+        if col is None:
+            from pybi.errors import ColumnNotFoundError
+            raise ColumnNotFoundError(name, table=self.name)
+        self.columns.remove(col)  # type: ignore[union-attr]
+        return col
+
+    # ── measure helpers ───────────────────────────────────────────────────────
+
+    def get_measure(self, name: str) -> "Measure":
+        """Return measure by name. Raises :class:`~pybi.errors.MeasureNotFoundError`."""
+        if self.measures:
+            m = self.measures.get(name) if isinstance(self.measures, NamedList) else next(
+                (m for m in self.measures if m.name == name), None
+            )
+            if m is not None:
+                return m
+        from pybi.errors import MeasureNotFoundError
+        raise MeasureNotFoundError(name, table=self.name)
+
+    def find_measure(self, name: str) -> "Measure | None":
+        """Return measure by name, or ``None`` if not found."""
+        if self.measures:
+            if isinstance(self.measures, NamedList):
+                return self.measures.get(name)
+            return next((m for m in self.measures if m.name == name), None)
+        return None
+
+    def add_measure(self, measure: "Measure") -> None:
+        """Append *measure* to this table.
+
+        Initialises the measures list if it is currently ``None`` and validates
+        that no measure with the same name already exists.
+        """
+        if self.measures is None:
+            self.measures = NamedList([measure])
+        else:
+            self.measures.append(measure)  # type: ignore[union-attr]
+
+    def remove_measure(self, name: str) -> "Measure":
+        """Remove and return the measure named *name*.
+
+        Raises :class:`~pybi.errors.MeasureNotFoundError` if not found.
+        """
+        m = self.find_measure(name)
+        if m is None:
+            from pybi.errors import MeasureNotFoundError
+            raise MeasureNotFoundError(name, table=self.name)
+        self.measures.remove(m)  # type: ignore[union-attr]
+        return m
+
 
 class TablePermission(BaseModel):
     name: str
@@ -225,6 +329,54 @@ class Model(BaseModel):
     roles: list["Role"] | None = None
     sourceQueryCulture: str = "en-US"
     tables: list[Table] | None = None
+
+    def model_post_init(self, __context: Any) -> None:
+        if self.tables is not None and not isinstance(self.tables, NamedList):
+            object.__setattr__(self, "tables", NamedList(self.tables))
+        if self.roles is not None and not isinstance(self.roles, NamedList):
+            object.__setattr__(self, "roles", NamedList(self.roles))
+        if not isinstance(self.expressions, NamedList):
+            object.__setattr__(self, "expressions", NamedList(self.expressions))
+
+    # ── table helpers ─────────────────────────────────────────────────────────
+
+    def get_table(self, name: str) -> Table:
+        """Return table by name. Raises :class:`~pybi.errors.TableNotFoundError`."""
+        if self.tables:
+            t = self.tables.get(name) if isinstance(self.tables, NamedList) else next(
+                (t for t in self.tables if t.name == name), None
+            )
+            if t is not None:
+                return t
+        from pybi.errors import TableNotFoundError
+        raise TableNotFoundError(name)
+
+    def find_table(self, name: str) -> Table | None:
+        """Return table by name, or ``None`` if not found."""
+        if self.tables:
+            if isinstance(self.tables, NamedList):
+                return self.tables.get(name)
+            return next((t for t in self.tables if t.name == name), None)
+        return None
+
+    def add_table(self, table: Table) -> None:
+        """Append *table*, initialising the list if needed and validating uniqueness."""
+        if self.tables is None:
+            self.tables = NamedList([table])
+        else:
+            self.tables.append(table)  # type: ignore[union-attr]
+
+    def remove_table(self, name: str) -> Table:
+        """Remove and return the table named *name*.
+
+        Raises :class:`~pybi.errors.TableNotFoundError` if not found.
+        """
+        t = self.find_table(name)
+        if t is None:
+            from pybi.errors import TableNotFoundError
+            raise TableNotFoundError(name)
+        self.tables.remove(t)  # type: ignore[union-attr]
+        return t
 
 
 class SemanticModelDefinition(BaseModel):
