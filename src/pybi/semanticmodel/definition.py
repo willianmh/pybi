@@ -1,7 +1,12 @@
 import uuid
-from typing import Any, ClassVar, cast
+from typing import Annotated, Any, ClassVar, cast
 
-from pydantic import BaseModel, Field, model_validator
+from pydantic import (
+    BaseModel,
+    BeforeValidator,
+    Field,
+    PlainSerializer,
+)
 
 from ..collections import NamedList
 from ..errors import TableNotFoundError, ColumnNotFoundError, MeasureNotFoundError
@@ -15,6 +20,33 @@ from .types import (
     SourceType,
     SummarizeBy,
 )
+
+
+def _coerce_expression(v: Any) -> Any:
+    if v is None:
+        return None
+    if isinstance(v, ExpressionValue):
+        return v
+    if isinstance(v, str):
+        return ExpressionValue(
+            value=v,
+            style=ExpressionStyle.MULTILINE if "\n" in v else ExpressionStyle.INLINE,
+        )
+    if isinstance(v, list):
+        if not all(isinstance(line, str) for line in v):
+            raise TypeError("Expression list input must contain only strings")
+        return ExpressionValue(
+            value="\n".join(v),
+            style=ExpressionStyle.MULTILINE,
+        )
+    raise TypeError(f"Invalid expression input: {type(v)!r}")
+
+
+def _serialize_expression(obj: ExpressionValue) -> str | list[str]:
+    if obj.style == ExpressionStyle.INLINE:
+        return obj.value
+    lines = obj.value.split("\n")
+    return lines if len(lines) > 1 else obj.value
 
 
 class ExpressionValue(BaseModel):
@@ -35,34 +67,14 @@ class ExpressionValue(BaseModel):
     style: ExpressionStyle = ExpressionStyle.INLINE
     verbatim: bool = False
 
-    @model_validator(mode="before")
-    @classmethod
-    def _coerce_from_raw(cls, data: Any) -> Any:
-        """Accept str, list[str], or dict in addition to ExpressionValue."""
-        if isinstance(data, str):
-            lines = data.split("\n")
-            style = (
-                ExpressionStyle.MULTILINE if len(lines) > 1 else ExpressionStyle.INLINE
-            )
-            return {"value": data, "style": style}
-        if isinstance(data, list):
-            return {"value": "\n".join(data), "style": ExpressionStyle.MULTILINE}
-        return data
 
-    @classmethod
-    def from_raw(
-        cls,
-        raw: "str | list[str] | ExpressionValue | None",
-        style: ExpressionStyle = ExpressionStyle.INLINE,
-    ) -> "ExpressionValue | None":
-        """Create an ExpressionValue from a raw string, list of lines, or existing instance."""
-        if raw is None:
-            return None
-        if isinstance(raw, cls):
-            return raw
-        if isinstance(raw, list):
-            return cls(value="\n".join(raw), style=style)
-        return cls(value=raw, style=style)  # type: ignore
+ExpressionInput = ExpressionValue | str | list[str]
+
+ExpressionField = Annotated[
+    ExpressionInput,
+    BeforeValidator(_coerce_expression),
+    PlainSerializer(_serialize_expression),
+]
 
 
 class Annotation(BaseModel):
@@ -92,7 +104,7 @@ class Culture(BaseModel):
 
 class Source(BaseModel):
     entityName: str | None = None
-    expression: ExpressionValue | None = None
+    expression: ExpressionField | None = None
     expressionSource: str | None = None
     schemaName: str | None = None
     type: SourceType
@@ -129,7 +141,7 @@ class Expression(BaseModel):
     name: str
     annotations: list[dict] | None = None
     description: str | None = None
-    expression: ExpressionValue
+    expression: ExpressionField
     sourceLineageTag: str | None = None
     kind: str | None = None
     lineageTag: str = Field(default_factory=lambda: str(uuid.uuid4()))
@@ -144,7 +156,7 @@ class Measure(BaseModel):
     changedProperties: Any | None = None
     dataCategory: DataCategory | None = None
     displayFolder: str | None = None
-    expression: ExpressionValue | None = None
+    expression: ExpressionField | None = None
     extendedProperties: list[dict] | None = None  # TODO: discover and implement
     formatString: str | None = None
     formatStringDefinition: dict | None = None
@@ -165,7 +177,7 @@ class Column(BaseModel):
     changedProperties: list[Any] | None = None
     dataCategory: DataCategory | None = None
     dataType: DataType | None = None
-    expression: ExpressionValue | None = None
+    expression: ExpressionField | None = None
     formatString: str | None = None
     extendedProperties: list[dict] | None = None
     isKey: bool | None = None
@@ -297,7 +309,7 @@ class Table(BaseModel):
 
 class TablePermission(BaseModel):
     name: str
-    filterExpression: ExpressionValue | None = None
+    filterExpression: ExpressionField | None = None
 
 
 class Role(BaseModel):
