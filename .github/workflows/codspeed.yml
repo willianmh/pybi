@@ -1,0 +1,52 @@
+name: CodSpeed
+
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  simulation-benchmarks:
+    name: Run simulation benchmarks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Set up Python
+        run: uv python install
+
+      - name: Install dependencies
+        run: uv sync --dev
+
+      - name: Run CPU-focused benchmarks (simulation)
+        uses: CodSpeedHQ/action@v4
+        with:
+          mode: simulation
+          run: uv run pytest tests/ --codspeed -m "not io_benchmark"
+
+  io-benchmark-smoke:
+    name: Run I/O benchmark smoke tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Set up Python
+        run: uv python install
+
+      - name: Install dependencies
+        run: uv sync --dev
+
+      - name: Smoke-test filesystem I/O benchmark scenarios
+        run: uv run pytest tests/ -m "io_benchmark"

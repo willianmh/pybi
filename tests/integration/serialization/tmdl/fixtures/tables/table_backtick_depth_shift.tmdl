@@ -1,0 +1,24 @@
+table BacktickDepthShift
+	lineageTag: aaaaaaaa-0000-0000-0000-000000000001
+
+	column Status = ```
+				IF(
+				'Products'[Value] > 0,
+				"Positive",
+				"Negative"
+				)
+			```
+		lineageTag: bbbbbbbb-0000-0000-0000-000000000002
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition BacktickDepthShift = m
+		mode: import
+		source =
+				let
+				    Source = ...
+				in
+				    Source
+
+	annotation PBI_ResultType = Table

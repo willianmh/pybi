@@ -1,0 +1,25 @@
+table MeasureWithFSD
+	lineageTag: aaaaaaaa-1111-0000-0000-000000000001
+
+	measure 'Sales Amount' = SUM(Sales[Net Price])
+		lineageTag: 11111111-1111-0000-0000-000000000001
+
+		formatStringDefinition = "#,##0.00"
+
+	column Column1
+		dataType: string
+		lineageTag: 22222222-1111-0000-0000-000000000001
+		summarizeBy: none
+		sourceColumn: Column1
+
+		annotation SummarizationSetBy = Automatic
+
+	partition MeasureWithFSD = m
+		mode: import
+		source =
+				let
+				    Source = ...
+				in
+				    Source
+
+	annotation PBI_ResultType = Table

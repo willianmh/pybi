@@ -1,0 +1,27 @@
+table BacktickExpr
+	lineageTag: aaaaaaaa-7777-0000-0000-000000000001
+
+	measure 'With Comment' = ```
+			var val = CALCULATE([SalesAmount])
+			// this comment triggers backtick wrapping
+			return IF(ISBLANK(val), 0, val)
+			```
+		lineageTag: 11111111-7777-0000-0000-000000000001
+
+	column Column1
+		dataType: string
+		lineageTag: 22222222-7777-0000-0000-000000000001
+		summarizeBy: none
+		sourceColumn: Column1
+
+		annotation SummarizationSetBy = Automatic
+
+	partition BacktickExpr = m
+		mode: import
+		source =
+				let
+				    Source = ...
+				in
+				    Source
+
+	annotation PBI_ResultType = Table

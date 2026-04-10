@@ -1,0 +1,30 @@
+table SimpleBacktickWrap
+	lineageTag: aaaaaaaa-8888-0000-0000-000000000001
+
+	measure Count = ```
+			DISTINCTCOUNT(Fact[ID])
+			```
+		lineageTag: 11111111-8888-0000-0000-000000000001
+
+	measure 'Simple Total' = ```
+			SUM(Fact[Amount])
+			```
+		lineageTag: 22222222-8888-0000-0000-000000000001
+
+	column Column1
+		dataType: string
+		lineageTag: 33333333-8888-0000-0000-000000000001
+		summarizeBy: none
+		sourceColumn: Column1
+
+		annotation SummarizationSetBy = Automatic
+
+	partition SimpleBacktickWrap = m
+		mode: import
+		source =
+				let
+				    Source = ...
+				in
+				    Source
+
+	annotation PBI_ResultType = Table
