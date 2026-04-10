@@ -10,10 +10,16 @@ from ..report.pbir.models.semanticquery.expressions import (
 
 class FilterTypeEnum(Enum):
     CATEGORICAL = "Categorical"
+    RANGE = "Range"
     ADVANCED = "Advanced"
     TOPN = "TopN"
     RELATIVE_DATE = "RelativeDate"
+    RELATIVE_TIME = "RelativeTime"
     PASSTHROUGH = "Passthrough"
+    INCLUDE = "Include"
+    EXCLUDE = "Exclude"
+    TUPLE = "Tuple"
+    VISUALTOPN = "VisualTopN"
 
 
 class FilterObjectProperty(BaseModel):
