@@ -14,21 +14,62 @@ pip install pybi
 uv add pybi
 ```
 
-## Quick Start
+## Usage
+
+### PowerBI
+
+```python
+from pybi import PowerBI
+
+# Load a full .pbip project (auto-resolves report and semantic model)
+pbi = PowerBI.from_pbip("/path/to/My.pbip")
+
+sm = pbi.semantic_model
+report = pbi.report
+```
+
+### SemanticModel
 
 ```python
 from pybi.semanticmodel import SemanticModel
 
-# Read a semantic model (auto-detects TMDL or model.bim)
+# Read (auto-detects TMDL or model.bim)
 sm = SemanticModel.read("/path/to/My.SemanticModel")
 
-# Inspect the model
-for table in sm.definition.model.tables:
-    print(table.name)
+# Browse tables, columns, and measures
+for table in sm.tables:
+    print(table.name, [c.name for c in table.columns])
 
-# Modify and write back
-sm.definition.model.tables[0].name = "Renamed"
-sm.write("/path/to/My.SemanticModel")
+measure = sm.get_measure("Total Sales")
+print(measure.expression)
+```
+
+```python
+# Modify and save
+table = sm.get_table("Sales")
+table.name = "Orders"
+
+sm.save()  # write back to original path
+```
+
+### Report
+
+```python
+from pybi.report import Report
+
+# Read (auto-detects PBIR or legacy report.json)
+report = Report.read("/path/to/My.Report")
+
+# Browse pages and visuals
+for page in report.pages:
+    print(page.display_name, len(page.visuals))
+```
+
+```python
+# Look up a specific page
+page = report.get_page("Overview")
+for visual in page.visuals:
+    print(visual)
 ```
 
 ## Supported Formats

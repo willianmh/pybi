@@ -16,8 +16,8 @@ sm = SemanticModel(
         metadata=Metadata(type="SemanticModel", displayName="Test Model")
     ),
 )
-print(f"{len(sm.tables)} tables")
-for table in sm.tables:
-    n_cols = len(table.columns or [])
-    n_measures = len(table.measures or [])
-    print(f"  {table.name}  ({n_cols} columns, {n_measures} measures)")
+column = sm.get_column("Table1", "Column1")
+
+print(f"Before: {column.name}")
+column.name = "Product ID"
+print(f"After:  {column.name}")

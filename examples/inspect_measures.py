@@ -16,8 +16,9 @@ sm = SemanticModel(
         metadata=Metadata(type="SemanticModel", displayName="Test Model")
     ),
 )
-print(f"{len(sm.tables)} tables")
-for table in sm.tables:
-    n_cols = len(table.columns or [])
-    n_measures = len(table.measures or [])
-    print(f"  {table.name}  ({n_cols} columns, {n_measures} measures)")
+
+print(f"{len(sm.measures)} measures across {len(sm.tables)} tables\n")
+for table, measure in sm.measures:
+    expr = measure.expression.value if measure.expression else "(none)"
+    print(f"[{table.name}] {measure.name}")
+    print(f"  {expr}\n")
