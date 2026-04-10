@@ -63,7 +63,9 @@ class TMDLParser:
         self.pos = 0
         # Raw source lines (1-indexed via _raw_line helper) for verbatim
         # expression body capture.
-        self._source_lines: list[str] = text.replace("\r\n", "\n").replace("\r", "\n").split("\n")
+        self._source_lines: list[str] = (
+            text.replace("\r\n", "\n").replace("\r", "\n").split("\n")
+        )
 
     def _error(self, message: str, token: Token | None = None) -> TMDLParseError:
         line = token.line if token else None
@@ -162,14 +164,16 @@ class TMDLParser:
         return None
 
     # Tokens that signal the end of a name in an object declaration
-    _NAME_STOP = frozenset({
-        TokenType.EQUALS,
-        TokenType.COLON,
-        TokenType.NEWLINE,
-        TokenType.INDENT,
-        TokenType.DEDENT,
-        TokenType.EOF,
-    })
+    _NAME_STOP = frozenset(
+        {
+            TokenType.EQUALS,
+            TokenType.COLON,
+            TokenType.NEWLINE,
+            TokenType.INDENT,
+            TokenType.DEDENT,
+            TokenType.EOF,
+        }
+    )
 
     def _collect_name_continuation(self, name: str) -> str:
         """After consuming the initial name token, collect any trailing tokens
@@ -521,10 +525,7 @@ class TMDLParser:
                         gap_start = last_seen_line
                         non_empty = [l for l in raw_lines if l.strip()]
                         min_tabs = (
-                            min(
-                                len(l) - len(l.lstrip("\t"))
-                                for l in non_empty
-                            )
+                            min(len(l) - len(l.lstrip("\t")) for l in non_empty)
                             if non_empty
                             else 0
                         )
@@ -606,7 +607,9 @@ class TMDLParser:
                     # The NEWLINE is on a later line than the last content
                     # token; include any intermediate source lines
                     for line_no in range(last_line_no + 1, nl_tok.line + 1):
-                        if line_no > last_seen_line and 1 <= line_no <= len(self._source_lines):
+                        if line_no > last_seen_line and 1 <= line_no <= len(
+                            self._source_lines
+                        ):
                             raw_lines.append(self._source_lines[line_no - 1])
                             last_seen_line = line_no
 

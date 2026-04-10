@@ -351,7 +351,9 @@ def normalize_expression(
     if len(raw_lines) <= 1:
         # Single-line: strip leading/trailing whitespace (tabs from
         # source indentation) since there is no multi-line structure.
-        return [raw_lines[0].strip()] if raw_lines and raw_lines[0].strip() else raw_lines
+        return (
+            [raw_lines[0].strip()] if raw_lines and raw_lines[0].strip() else raw_lines
+        )
 
     # Filter to non-empty lines for computing minimum indent
     non_empty = [line for line in raw_lines if line.strip()]

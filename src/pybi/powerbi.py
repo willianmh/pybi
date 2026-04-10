@@ -23,8 +23,69 @@ class PowerBI(BaseModel):
 
     @classmethod
     def read(cls, root_path: str) -> PowerBI:
-        """Read a folder, detect pbip, if there is a .pbip then call `.from_pbip`, otherwise try to parse .Report and .SemanticModel folder"""
-        ...
+        """Read a project folder.
+
+        Detection order:
+
+        1. If the folder contains a ``*.pbip`` file, delegate to
+           :meth:`from_pbip` (which also loads the linked report and semantic
+           model).
+        2. Otherwise scan for sub-folders whose names end with ``.Report`` and
+           ``.SemanticModel`` and load whichever are found.
+
+        Raises ``ValueError`` when *root_path* does not exist or is not a
+        directory.
+        """
+        p = Path(root_path)
+        if not p.is_dir():
+            raise ValueError(f"Path {root_path!r} is not a directory.")
+
+        pbip_files = sorted(p.glob("*.pbip"))
+        if len(pbip_files) > 1:
+            raise ValueError(
+                f"Found {len(pbip_files)} .pbip files in {root_path!r}; "
+                "expected exactly one. Specify the file directly via from_pbip()."
+            )
+        if pbip_files:
+            return cls.from_pbip(str(pbip_files[0]))
+
+        report_dirs = sorted(
+            [d for d in p.iterdir() if d.is_dir() and d.name.endswith(".Report")]
+        )
+        sm_dirs = sorted(
+            [d for d in p.iterdir() if d.is_dir() and d.name.endswith(".SemanticModel")]
+        )
+
+        if len(report_dirs) > 1:
+            raise ValueError(
+                f"Found {len(report_dirs)} .Report folders in {root_path!r}; "
+                "expected at most one."
+            )
+        if len(sm_dirs) > 1:
+            raise ValueError(
+                f"Found {len(sm_dirs)} .SemanticModel folders in {root_path!r}; "
+                "expected at most one."
+            )
+
+        name: str | None = None
+        report = None
+        semantic_model = None
+
+        if report_dirs:
+            report = Report.read(str(report_dirs[0]))
+            name = report_dirs[0].name.removesuffix(".Report")
+
+        if sm_dirs:
+            semantic_model = SemanticModel.read(str(sm_dirs[0]))
+            if name is None:
+                name = sm_dirs[0].name.removesuffix(".SemanticModel")
+
+        return PowerBI(
+            name=name,
+            root_path=str(root_path),
+            report=report,
+            semantic_model=semantic_model,
+        )
 
     @classmethod
     def from_pbip(cls, pbip_path: str) -> PowerBI:

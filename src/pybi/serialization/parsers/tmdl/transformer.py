@@ -53,7 +53,9 @@ def _normalize_expr(
         clean = "\n".join(line.rstrip("\r") for line in raw.split("\n"))
         if not clean.strip():
             return None
-        return ExpressionValue(value=clean, style=ExpressionStyle.BACKTICK, verbatim=True)
+        return ExpressionValue(
+            value=clean, style=ExpressionStyle.BACKTICK, verbatim=True
+        )
 
     preserve_trailing = False
     lines = normalize_expression(raw, preserve_trailing_blanks=preserve_trailing)
@@ -147,13 +149,17 @@ class TMDLTransformer:
         if "extendedProperties" in raw:
             for ep in raw["extendedProperties"]:
                 if "expression" in ep and ep["expression"]:
-                    ep["expression"] = _normalize_expr(ep["expression"]) or ExpressionValue(value="")
+                    ep["expression"] = _normalize_expr(
+                        ep["expression"]
+                    ) or ExpressionValue(value="")
         return Column.model_validate(raw)
 
     def transform_measure(self, node: ObjectDeclaration) -> Measure:
         """Transform a measure node to a Measure model."""
         raw = expand_node(node)
-        raw["expression"] = _normalize_expr(node.expression, node.expression_style) or ExpressionValue(value="")
+        raw["expression"] = _normalize_expr(
+            node.expression, node.expression_style
+        ) or ExpressionValue(value="")
         # formatStringDefinition children -> dict with "expression" key
         fsd_list = raw.pop("formatStringDefinition", None)
         if fsd_list:
@@ -171,7 +177,9 @@ class TMDLTransformer:
         if "extendedProperties" in raw:
             for ep in raw["extendedProperties"]:
                 if "expression" in ep and ep["expression"]:
-                    ep["expression"] = _normalize_expr(ep["expression"]) or ExpressionValue(value="")
+                    ep["expression"] = _normalize_expr(
+                        ep["expression"]
+                    ) or ExpressionValue(value="")
         return Measure.model_validate(raw)
 
     def transform_partition(self, node: ObjectDeclaration) -> Partition:
@@ -183,9 +191,7 @@ class TMDLTransformer:
         source_children = raw.pop("source", None)
 
         # Find the raw source child node to access its expression_style
-        src_node = next(
-            (c for c in node.children if c.object_type == "source"), None
-        )
+        src_node = next((c for c in node.children if c.object_type == "source"), None)
 
         if source_children:
             src = source_children[0]
@@ -205,8 +211,12 @@ class TMDLTransformer:
             # (3) M expression on source child overrides type
             if src.get("expression"):
                 source_data["type"] = "m"
-                src_style = src_node.expression_style if src_node else ExpressionStyle.MULTILINE
-                source_data["expression"] = _normalize_expr(src["expression"], src_style)
+                src_style = (
+                    src_node.expression_style if src_node else ExpressionStyle.MULTILINE
+                )
+                source_data["expression"] = _normalize_expr(
+                    src["expression"], src_style
+                )
 
         # Partition-level expression determines source type
         if node.expression:

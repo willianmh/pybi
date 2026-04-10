@@ -58,7 +58,9 @@ class Token:
     line: int
     column: int
     indent_level: int = 0
-    space_indent: int = 0  # leading spaces after tabs (preserves M expression formatting)
+    space_indent: int = (
+        0  # leading spaces after tabs (preserves M expression formatting)
+    )
 
     def __repr__(self) -> str:
         return f"Token({self.type.name}, {self.value!r}, line={self.line})"
