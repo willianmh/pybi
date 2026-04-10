@@ -3,7 +3,6 @@ from typing import Annotated, Any, ClassVar, cast
 
 from pydantic import (
     BaseModel,
-    BeforeValidator,
     Field,
     PlainSerializer,
 )
@@ -22,26 +21,6 @@ from .types import (
 )
 
 
-def _coerce_expression(v: Any) -> Any:
-    if v is None:
-        return None
-    if isinstance(v, ExpressionValue):
-        return v
-    if isinstance(v, str):
-        return ExpressionValue(
-            value=v,
-            style=ExpressionStyle.MULTILINE if "\n" in v else ExpressionStyle.INLINE,
-        )
-    if isinstance(v, list):
-        if not all(isinstance(line, str) for line in v):
-            raise TypeError("Expression list input must contain only strings")
-        return ExpressionValue(
-            value="\n".join(v),
-            style=ExpressionStyle.MULTILINE,
-        )
-    raise TypeError(f"Invalid expression input: {type(v)!r}")
-
-
 def _serialize_expression(obj: ExpressionValue) -> str | list[str]:
     if obj.style == ExpressionStyle.INLINE:
         return obj.value
@@ -56,11 +35,9 @@ class ExpressionValue(BaseModel):
     (relative indentation, 0-based).  ``style`` records how it was read
     from TMDL, or how it should be written.
 
-    Backward compatibility
-    ----------------------
-    Pydantic will coerce a plain ``str`` or ``list[str]`` to
-    ``ExpressionValue`` via the ``model_validator``, so existing code that
-    sets expression fields to raw strings continues to work.
+    This model is exists mainly to preserve TMDL formatting,
+    then it should be treated as a serialization-layer detail,
+    not as the main semantic type exposed to most users
     """
 
     value: str
@@ -68,11 +45,8 @@ class ExpressionValue(BaseModel):
     verbatim: bool = False
 
 
-ExpressionInput = ExpressionValue | str | list[str]
-
-ExpressionField = Annotated[
-    ExpressionInput,
-    BeforeValidator(_coerce_expression),
+ExpressionInput = Annotated[
+    ExpressionValue,
     PlainSerializer(_serialize_expression),
 ]
 
@@ -104,7 +78,7 @@ class Culture(BaseModel):
 
 class Source(BaseModel):
     entityName: str | None = None
-    expression: ExpressionField | None = None
+    expression: ExpressionInput | str | list[str] | None = None
     expressionSource: str | None = None
     schemaName: str | None = None
     type: SourceType
@@ -141,7 +115,7 @@ class Expression(BaseModel):
     name: str
     annotations: list[dict] | None = None
     description: str | None = None
-    expression: ExpressionField
+    expression: ExpressionInput | str | list[str]
     sourceLineageTag: str | None = None
     kind: str | None = None
     lineageTag: str = Field(default_factory=lambda: str(uuid.uuid4()))
@@ -156,7 +130,7 @@ class Measure(BaseModel):
     changedProperties: Any | None = None
     dataCategory: DataCategory | None = None
     displayFolder: str | None = None
-    expression: ExpressionField | None = None
+    expression: ExpressionInput | str | list[str] | None = None
     extendedProperties: list[dict] | None = None  # TODO: discover and implement
     formatString: str | None = None
     formatStringDefinition: dict | None = None
@@ -177,7 +151,7 @@ class Column(BaseModel):
     changedProperties: list[Any] | None = None
     dataCategory: DataCategory | None = None
     dataType: DataType | None = None
-    expression: ExpressionField | None = None
+    expression: ExpressionInput | str | list[str] | None = None
     formatString: str | None = None
     extendedProperties: list[dict] | None = None
     isKey: bool | None = None
@@ -309,7 +283,7 @@ class Table(BaseModel):
 
 class TablePermission(BaseModel):
     name: str
-    filterExpression: ExpressionField | None = None
+    filterExpression: ExpressionInput | str | list[str] | None = None
 
 
 class Role(BaseModel):
