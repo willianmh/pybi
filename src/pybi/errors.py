@@ -11,7 +11,7 @@ class PyBIError(Exception):
     """Base class for all pybi exceptions."""
 
 
-# ── I/O errors ────────────────────────────────────────────────────────────────
+# - I/O errors --------------------------------
 
 
 class ArtifactNotFoundError(PyBIError):
@@ -22,7 +22,7 @@ class UnsupportedFormatError(PyBIError):
     """Raised when a file format is not recognized or not supported."""
 
 
-# ── Semantic model lookup errors ──────────────────────────────────────────────
+# - Semantic model lookup errors -----------------------
 
 
 class TableNotFoundError(PyBIError):
@@ -76,7 +76,7 @@ class DuplicateNameError(PyBIError):
         self.name = name
 
 
-# ── Report lookup errors ───────────────────────────────────────────────────────
+# - Report lookup errors ---------------------------─
 
 
 class PageNotFoundError(PyBIError):

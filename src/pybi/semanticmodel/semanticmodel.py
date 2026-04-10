@@ -4,7 +4,15 @@ from typing import TYPE_CHECKING
 from pydantic import BaseModel, PrivateAttr
 
 from ..fabric.fabric import DefinitionPbism, Platform
-from .definition import Column, Expression, Measure, Relationship, Role, Table, SemanticModelDefinition
+from .definition import (
+    Column,
+    Expression,
+    Measure,
+    Relationship,
+    Role,
+    SemanticModelDefinition,
+    Table,
+)
 from .types import SemanticModelFormat
 
 if TYPE_CHECKING:
@@ -20,15 +28,16 @@ class SemanticModel(BaseModel):
 
     _source_format: SemanticModelFormat | None = PrivateAttr(default=None)
 
-    # ── convenience read properties ───────────────────────────────────────────
+    # - convenience read properties ---------------------─
 
     @property
-    def tables(self) -> "NamedList[Table]":
+    def tables(self) -> NamedList[Table]:
         """All tables in the model.  Supports name-based indexing:
         ``sm.tables["Sales"]``.  Returns an empty :class:`~pybi.collections.NamedList`
         when the model has no tables.
         """
         from ..collections import NamedList as NL
+
         return self.definition.model.tables or NL()  # type: ignore[return-value]
 
     @property
@@ -37,9 +46,10 @@ class SemanticModel(BaseModel):
         return self.definition.model.relationships or []
 
     @property
-    def roles(self) -> "NamedList[Role]":
+    def roles(self) -> NamedList[Role]:
         """All roles in the model.  Supports name-based indexing."""
         from ..collections import NamedList as NL
+
         return self.definition.model.roles or NL()  # type: ignore[return-value]
 
     @property
@@ -47,6 +57,7 @@ class SemanticModel(BaseModel):
         """All shared expressions (M parameters / functions).  Supports
         name-based indexing."""
         from ..collections import NamedList as NL
+
         return self.definition.model.expressions or NL()  # type: ignore[return-value]
 
     @property
@@ -54,12 +65,12 @@ class SemanticModel(BaseModel):
         """All measures across all tables as ``(table, measure)`` pairs.
 
         Use :meth:`get_measure` for a direct name lookup, or access a specific
-        table first — ``sm.tables["Sales"].measures["Total Revenue"]`` — for
+        table first - ``sm.tables["Sales"].measures["Total Revenue"]`` - for
         unambiguous table-scoped access.
         """
         result: list[tuple[Table, Measure]] = []
         for t in self.tables:
-            for m in (t.measures or []):
+            for m in t.measures or []:
                 result.append((t, m))
         return result
 
@@ -68,11 +79,11 @@ class SemanticModel(BaseModel):
         """All columns across all tables as ``(table, column)`` pairs."""
         result: list[tuple[Table, Column]] = []
         for t in self.tables:
-            for c in (t.columns or []):
+            for c in t.columns or []:
                 result.append((t, c))
         return result
 
-    # ── lookup helpers ────────────────────────────────────────────────────────
+    # - lookup helpers ----------------------------
 
     def get_table(self, name: str) -> Table:
         """Return the table named *name*.
@@ -90,7 +101,7 @@ class SemanticModel(BaseModel):
 
         Raises :class:`~pybi.errors.MeasureNotFoundError` if the measure cannot
         be found.  Raises :class:`~pybi.errors.AmbiguousMeasureError` if the
-        same name exists in more than one table and no *table* scope was given —
+        same name exists in more than one table and no *table* scope was given -
         use ``get_measure(name, table="Sales")`` to disambiguate.
         """
         from ..errors import AmbiguousMeasureError, MeasureNotFoundError
@@ -102,7 +113,7 @@ class SemanticModel(BaseModel):
             m = t.find_measure(name)
             if m is not None:
                 if table is not None:
-                    return m  # scoped lookup — first (only valid) match
+                    return m  # scoped lookup - first (only valid) match
                 matches.append((t.name, m))
 
         if len(matches) == 1:
@@ -133,7 +144,7 @@ class SemanticModel(BaseModel):
         t = self.find_table(table)
         return t.find_column(name) if t else None
 
-    # ── mutation helpers ──────────────────────────────────────────────────────
+    # - mutation helpers ---------------------------
 
     def add_table(self, table: Table) -> None:
         """Add *table* to the model, raising
@@ -149,7 +160,7 @@ class SemanticModel(BaseModel):
         """
         return self.definition.model.remove_table(name)
 
-    # ── persistence ───────────────────────────────────────────────────────────
+    # - persistence -----------------------------─
 
     def save(self, format: SemanticModelFormat | None = None) -> None:
         """Write back to the path this model was read from.
@@ -162,9 +173,9 @@ class SemanticModel(BaseModel):
 
     @classmethod
     def read(cls, root_path: str | Path) -> SemanticModel:
-        from ..serialization.strategies import TmdlStrategy, ModelBimStrategy
-        from ..serialization.transport import LocalTransport
         from ..serialization.detect import detect_semantic_model_format
+        from ..serialization.strategies import ModelBimStrategy, TmdlStrategy
+        from ..serialization.transport import LocalTransport
 
         fmt = detect_semantic_model_format(root_path=root_path)
         strategy = (
@@ -183,7 +194,7 @@ class SemanticModel(BaseModel):
         root_path: str | Path | None,
         format: SemanticModelFormat | None = None,
     ):
-        from ..serialization.strategies import TmdlStrategy, ModelBimStrategy
+        from ..serialization.strategies import ModelBimStrategy, TmdlStrategy
         from ..serialization.transport import LocalTransport
 
         root_path = root_path or self._ROOT_PATH

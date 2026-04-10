@@ -107,8 +107,12 @@ class TMDLPartsLoader:
         nodes = self._parse_content(DEFINITION_FILES["model"])
         order: list[str] = []
         for node in nodes:
-            if node.object_type == "ref" and node.name and node.name.startswith("table "):
-                order.append(node.name[len("table "):])
+            if (
+                node.object_type == "ref"
+                and node.name
+                and node.name.startswith("table ")
+            ):
+                order.append(node.name[len("table ") :])
         return order
 
     def _get_ref_role_names(self) -> list[str]:
@@ -116,8 +120,12 @@ class TMDLPartsLoader:
         nodes = self._parse_content(DEFINITION_FILES["model"])
         names: list[str] = []
         for node in nodes:
-            if node.object_type == "ref" and node.name and node.name.startswith("role "):
-                names.append(node.name[len("role "):])
+            if (
+                node.object_type == "ref"
+                and node.name
+                and node.name.startswith("role ")
+            ):
+                names.append(node.name[len("role ") :])
         return names
 
     def _load_roles(self) -> list[Role]:

@@ -171,7 +171,9 @@ class TMDLWriter:
         elif isinstance(expression, ExpressionValue):
             ev = expression
         elif isinstance(expression, list):
-            ev = ExpressionValue(value="\n".join(expression), style=ExpressionStyle.MULTILINE)
+            ev = ExpressionValue(
+                value="\n".join(expression), style=ExpressionStyle.MULTILINE
+            )
         else:
             # Plain string: keep its original single-line style
             ev = ExpressionValue(value=expression, style=ExpressionStyle.INLINE)
@@ -188,7 +190,9 @@ class TMDLWriter:
                     lines.append(raw_line)
             else:
                 # Programmatic or promoted content: apply standard indent.
-                expr_lines = normalize_expression(ev.value, preserve_trailing_blanks=True)
+                expr_lines = normalize_expression(
+                    ev.value, preserve_trailing_blanks=True
+                )
                 expr_indent = self._indent(indent_level + 2)
                 for expr_line in expr_lines:
                     if expr_line:
@@ -228,7 +232,9 @@ class TMDLWriter:
         safe for all content.  Promoting MULTILINE → BACKTICK would
         produce spurious diffs vs. the original SDK-written TMDL.
         """
-        if expr.style == ExpressionStyle.INLINE and self._requires_backticks(expr.value):
+        if expr.style == ExpressionStyle.INLINE and self._requires_backticks(
+            expr.value
+        ):
             logger.debug(
                 "Promoting expression style INLINE → BACKTICK (content requires it)"
             )
@@ -436,7 +442,9 @@ class TMDLWriter:
             decl = f"{indent}column {self._format_name(column.name or '', column.name_style)}"
             lines.extend(self._write_expr_block(decl, column.expression, indent_level))
         else:
-            lines.append(f"{indent}column {self._format_name(column.name or '', column.name_style)}")
+            lines.append(
+                f"{indent}column {self._format_name(column.name or '', column.name_style)}"
+            )
 
         # Properties (order matches typical TMDL output from Power BI)
         lines.extend(
@@ -504,7 +512,7 @@ class TMDLWriter:
                 ep_expr = ep.get("expression", "")
                 decl = f"{self._indent(prop_indent)}extendedProperty {ep_name}"
                 lines.extend(self._write_expr_block(decl, ep_expr, prop_indent))
-        
+
         # Annotations (with empty line before first and between each)
         if column.annotations:
             lines.append("")  # Empty line before annotations
@@ -907,19 +915,27 @@ class TMDLWriter:
         prop_indent = indent_level + 1
 
         if expression.lineageTag:
-            lines.append(f"{self._indent(prop_indent)}lineageTag: {expression.lineageTag}")
+            lines.append(
+                f"{self._indent(prop_indent)}lineageTag: {expression.lineageTag}"
+            )
 
         if expression.sourceLineageTag:
-            lines.append(f"{self._indent(prop_indent)}sourceLineageTag: {expression.sourceLineageTag}")
+            lines.append(
+                f"{self._indent(prop_indent)}sourceLineageTag: {expression.sourceLineageTag}"
+            )
 
         if expression.queryGroup:
-            lines.append(f"{self._indent(prop_indent)}queryGroup: {expression.queryGroup}")
+            lines.append(
+                f"{self._indent(prop_indent)}queryGroup: {expression.queryGroup}"
+            )
 
         if expression.kind:
             lines.append(f"{self._indent(prop_indent)}kind: {expression.kind}")
 
         if expression.mAttributes:
-            lines.append(f"{self._indent(prop_indent)}mAttributes: {expression.mAttributes}")
+            lines.append(
+                f"{self._indent(prop_indent)}mAttributes: {expression.mAttributes}"
+            )
 
         # Annotations (with empty line before first and between each)
         if expression.annotations:

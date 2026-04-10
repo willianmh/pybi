@@ -23,15 +23,15 @@ def _apply() -> None:
 
     _eval_type = getattr(typing, "_eval_type", None)
     if _eval_type is None:
-        return  # Private API removed entirely — nothing to patch.
+        return  # Private API removed entirely - nothing to patch.
 
     try:
         sig = inspect.signature(_eval_type)
     except (TypeError, ValueError):
-        return  # Can't introspect — leave it alone.
+        return  # Can't introspect - leave it alone.
 
     if "prefer_fwd_module" in sig.parameters:
-        return  # Already has the parameter — no patch needed.
+        return  # Already has the parameter - no patch needed.
 
     def _patched(
         t: object,

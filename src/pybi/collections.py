@@ -4,11 +4,11 @@
 checks and is accepted by Pydantic fields typed as ``list[T]``.  It adds three
 capabilities on top of a regular list:
 
-1. **String indexing** — ``collection["Sales"]`` finds the item whose ``name``
+1. **String indexing** - ``collection["Sales"]`` finds the item whose ``name``
    attribute equals ``"Sales"``, raising ``KeyError`` if absent.
-2. **Membership test by name** — ``"Sales" in collection`` returns ``True`` when
+2. **Membership test by name** - ``"Sales" in collection`` returns ``True`` when
    any item has that name.
-3. **Duplicate-name guard on ``append`` / ``insert``** — trying to add an item
+3. **Duplicate-name guard on ``append`` / ``insert``** - trying to add an item
    whose name already exists raises :class:`~pybi.errors.DuplicateNameError`.
    The guard is intentionally *not* applied in ``__init__`` so that data loaded
    from existing files (which may pre-date validation) is never rejected.
@@ -28,7 +28,7 @@ from typing import Generic, Iterator, TypeVar, overload
 T = TypeVar("T")
 
 
-class NamedList(list, Generic[T]):  # type: ignore[type-arg]
+class NamedList(list, Generic[T]):
     """A ``list`` subclass that also supports name-based indexing and validates
     uniqueness when items are appended or inserted.
 
@@ -48,12 +48,12 @@ class NamedList(list, Generic[T]):  # type: ignore[type-arg]
     >>> measures.append(Measure(name="Revenue", ...))  # raises DuplicateNameError
     """
 
-    # ── initialisation ────────────────────────────────────────────────────────
+    # - initialisation ----------------------------
 
     def __init__(self, items: list[T] | None = None) -> None:
         super().__init__(items or [])
 
-    # ── item access ───────────────────────────────────────────────────────────
+    # - item access -----------------------------─
 
     @overload
     def __getitem__(self, key: int) -> T: ...
@@ -70,14 +70,14 @@ class NamedList(list, Generic[T]):  # type: ignore[type-arg]
             raise KeyError(key)
         return super().__getitem__(key)
 
-    # ── membership ────────────────────────────────────────────────────────────
+    # - membership ------------------------------
 
     def __contains__(self, item: object) -> bool:  # type: ignore[override]
         if isinstance(item, str):
             return any(getattr(x, "name", None) == item for x in self)
         return super().__contains__(item)
 
-    # ── convenience helpers ───────────────────────────────────────────────────
+    # - convenience helpers -------------------------─
 
     def get(self, name: str, default: T | None = None) -> T | None:
         """Return the item with the given name, or *default* if not present."""
@@ -88,19 +88,18 @@ class NamedList(list, Generic[T]):  # type: ignore[type-arg]
 
     def names(self) -> list[str]:
         """Return a list of all item names (skipping items with ``name=None``)."""
-        return [
-            n for item in self if (n := getattr(item, "name", None)) is not None
-        ]
+        return [n for item in self if (n := getattr(item, "name", None)) is not None]
 
-    # ── mutation with validation ──────────────────────────────────────────────
+    # - mutation with validation -----------------------
 
     def _check_duplicate(self, item: T) -> None:
         name = getattr(item, "name", None)
         if name is not None and name in self:
             from pybi.errors import DuplicateNameError
+
             raise DuplicateNameError(name)
 
-    def append(self, item: T) -> None:  # type: ignore[override]
+    def append(self, item: T) -> None:
         """Append *item*, raising :class:`~pybi.errors.DuplicateNameError` if
         an item with the same name already exists."""
         self._check_duplicate(item)
@@ -112,7 +111,7 @@ class NamedList(list, Generic[T]):  # type: ignore[type-arg]
         self._check_duplicate(item)
         super().insert(index, item)
 
-    # ── dunder helpers ────────────────────────────────────────────────────────
+    # - dunder helpers ----------------------------
 
     def __repr__(self) -> str:
         return f"NamedList({list.__repr__(self)})"

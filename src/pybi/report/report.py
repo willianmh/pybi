@@ -22,7 +22,7 @@ class Report(BaseModel):
     _ROOT_PATH: str | None = PrivateAttr(default="MyPowerBIDashboard.Report")
     _source_format: ReportFormat | None = PrivateAttr(default=None)
 
-    # ── convenience read properties ───────────────────────────────────────────
+    # - convenience read properties ---------------------─
 
     @property
     def pages(self) -> list[PbirPageWithVisuals]:
@@ -46,6 +46,7 @@ class Report(BaseModel):
         """
         if not isinstance(self.definition, PbirReportDefinition):
             from ..errors import UnsupportedFormatError
+
             raise UnsupportedFormatError(
                 "get_page() is only supported for PBIR format reports, "
                 "not legacy report.json"
@@ -54,6 +55,7 @@ class Report(BaseModel):
             if _page_display_name(p) == display_name:
                 return p
         from ..errors import PageNotFoundError
+
         raise PageNotFoundError(display_name)
 
     def find_page(self, display_name: str) -> PbirPageWithVisuals | None:
@@ -76,7 +78,7 @@ class Report(BaseModel):
             return self.definition.bookmarks
         return []
 
-    # ── persistence ───────────────────────────────────────────────────────────
+    # - persistence -----------------------------─
 
     def save(self, format: ReportFormat | None = None) -> None:
         """Write back to the path this report was read from.
