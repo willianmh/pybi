@@ -43,6 +43,21 @@ class MeasureNotFoundError(PyBIError):
         self.table = table
 
 
+class AmbiguousMeasureError(PyBIError):
+    """Raised when a measure name matches in more than one table and no table
+    scope was provided.  Use ``get_measure(name, table=...)`` to disambiguate.
+    """
+
+    def __init__(self, name: str, tables: list[str]) -> None:
+        super().__init__(
+            f"Measure {name!r} is ambiguous: found in tables "
+            + ", ".join(repr(t) for t in tables)
+            + ". Use get_measure(name, table=...) to disambiguate."
+        )
+        self.name = name
+        self.tables = tables
+
+
 class ColumnNotFoundError(PyBIError):
     """Raised when a named column cannot be found."""
 

@@ -39,9 +39,17 @@ class Report(BaseModel):
     def get_page(self, display_name: str) -> PbirPageWithVisuals:
         """Return the page whose ``displayName`` equals *display_name*.
 
+        Raises :class:`~pybi.errors.UnsupportedFormatError` when called on a
+        legacy ``report.json`` report (pages are not modelled for that format).
         Raises :class:`~pybi.errors.PageNotFoundError` if no matching page is
-        found.  Only works for PBIR format reports.
+        found.
         """
+        if not isinstance(self.definition, PbirReportDefinition):
+            from ..errors import UnsupportedFormatError
+            raise UnsupportedFormatError(
+                "get_page() is only supported for PBIR format reports, "
+                "not legacy report.json"
+            )
         for p in self.pages:
             if _page_display_name(p) == display_name:
                 return p

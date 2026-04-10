@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 from pydantic import BaseModel, PrivateAttr
 
 from ..fabric.fabric import DefinitionPbism, Platform
-from .definition import Column, Expression, Measure, Model, Relationship, Role, Table, SemanticModelDefinition
+from .definition import Column, Expression, Measure, Relationship, Role, Table, SemanticModelDefinition
 from .types import SemanticModelFormat
 
 if TYPE_CHECKING:
@@ -89,15 +89,26 @@ class SemanticModel(BaseModel):
         """Return a measure by name, optionally scoped to a single table.
 
         Raises :class:`~pybi.errors.MeasureNotFoundError` if the measure cannot
-        be found (or is ambiguous without a *table* scope).
+        be found.  Raises :class:`~pybi.errors.AmbiguousMeasureError` if the
+        same name exists in more than one table and no *table* scope was given —
+        use ``get_measure(name, table="Sales")`` to disambiguate.
         """
-        from ..errors import MeasureNotFoundError
+        from ..errors import AmbiguousMeasureError, MeasureNotFoundError
+
+        matches: list[tuple[str, Measure]] = []
         for t in self.tables:
             if table is not None and t.name != table:
                 continue
             m = t.find_measure(name)
             if m is not None:
-                return m
+                if table is not None:
+                    return m  # scoped lookup — first (only valid) match
+                matches.append((t.name, m))
+
+        if len(matches) == 1:
+            return matches[0][1]
+        if len(matches) > 1:
+            raise AmbiguousMeasureError(name, [t for t, _ in matches])
         raise MeasureNotFoundError(name, table=table)
 
     def find_measure(self, name: str, *, table: str | None = None) -> Measure | None:

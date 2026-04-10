@@ -9,6 +9,7 @@ from .errors import (
     UnsupportedFormatError,
     TableNotFoundError,
     MeasureNotFoundError,
+    AmbiguousMeasureError,
     ColumnNotFoundError,
     DuplicateNameError,
     PageNotFoundError,

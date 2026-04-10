@@ -12,15 +12,26 @@ no longer calls ``typing._eval_type(..., prefer_fwd_module=True)``.
 from __future__ import annotations
 
 import inspect
+import sys
 import typing
 
 
 def _apply() -> None:
-    sig = inspect.signature(typing._eval_type)  # type: ignore[attr-defined]
+    # Only patch on Python 3.14; earlier versions are unaffected.
+    if sys.version_info[:2] != (3, 14):
+        return
+
+    _eval_type = getattr(typing, "_eval_type", None)
+    if _eval_type is None:
+        return  # Private API removed entirely — nothing to patch.
+
+    try:
+        sig = inspect.signature(_eval_type)
+    except (TypeError, ValueError):
+        return  # Can't introspect — leave it alone.
+
     if "prefer_fwd_module" in sig.parameters:
         return  # Already has the parameter — no patch needed.
-
-    _orig = typing._eval_type  # type: ignore[attr-defined]
 
     def _patched(
         t: object,
@@ -31,7 +42,7 @@ def _apply() -> None:
         prefer_fwd_module: bool = False,
         **kwargs: object,
     ) -> object:
-        return _orig(t, globalns, localns, type_params, **kwargs)
+        return _eval_type(t, globalns, localns, type_params, **kwargs)
 
     typing._eval_type = _patched  # type: ignore[attr-defined]
 

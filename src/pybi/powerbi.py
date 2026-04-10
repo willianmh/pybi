@@ -40,12 +40,32 @@ class PowerBI(BaseModel):
         if not p.is_dir():
             raise ValueError(f"Path {root_path!r} is not a directory.")
 
-        pbip_files = list(p.glob("*.pbip"))
+        pbip_files = sorted(p.glob("*.pbip"))
+        if len(pbip_files) > 1:
+            raise ValueError(
+                f"Found {len(pbip_files)} .pbip files in {root_path!r}; "
+                "expected exactly one. Specify the file directly via from_pbip()."
+            )
         if pbip_files:
             return cls.from_pbip(str(pbip_files[0]))
 
-        report_dirs = [d for d in p.iterdir() if d.is_dir() and d.name.endswith(".Report")]
-        sm_dirs = [d for d in p.iterdir() if d.is_dir() and d.name.endswith(".SemanticModel")]
+        report_dirs = sorted(
+            [d for d in p.iterdir() if d.is_dir() and d.name.endswith(".Report")]
+        )
+        sm_dirs = sorted(
+            [d for d in p.iterdir() if d.is_dir() and d.name.endswith(".SemanticModel")]
+        )
+
+        if len(report_dirs) > 1:
+            raise ValueError(
+                f"Found {len(report_dirs)} .Report folders in {root_path!r}; "
+                "expected at most one."
+            )
+        if len(sm_dirs) > 1:
+            raise ValueError(
+                f"Found {len(sm_dirs)} .SemanticModel folders in {root_path!r}; "
+                "expected at most one."
+            )
 
         name: str | None = None
         report = None
