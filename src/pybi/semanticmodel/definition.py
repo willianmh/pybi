@@ -1,10 +1,11 @@
 import uuid
-from typing import Any, ClassVar
+from typing import Any, ClassVar, cast
 
 from pydantic import BaseModel, Field, model_validator
 
-from pybi.collections import NamedList
-
+from ..collections import NamedList
+from ..errors import TableNotFoundError, ColumnNotFoundError, MeasureNotFoundError
+from ..serialization.parsers.tmdl.grammar import ExpressionStyle, NameStyle
 from .types import (
     Alignment,
     ColumnType,
@@ -14,7 +15,6 @@ from .types import (
     SourceType,
     SummarizeBy,
 )
-from pybi.serialization.parsers.tmdl.grammar import ExpressionStyle, NameStyle
 
 
 class ExpressionValue(BaseModel):
@@ -62,7 +62,7 @@ class ExpressionValue(BaseModel):
             return raw
         if isinstance(raw, list):
             return cls(value="\n".join(raw), style=style)
-        return cls(value=raw, style=style)
+        return cls(value=raw, style=style)  # type: ignore
 
 
 class Annotation(BaseModel):
@@ -221,23 +221,15 @@ class Table(BaseModel):
     def get_column(self, name: str) -> Column:
         """Return column by name. Raises :class:`~pybi.errors.ColumnNotFoundError`."""
         if self.columns:
-            col = (
-                self.columns.get(name)
-                if isinstance(self.columns, NamedList)
-                else next((c for c in self.columns if c.name == name), None)
-            )
+            col = cast(NamedList[Column], self.columns).get(name)
             if col is not None:
                 return col
-        from pybi.errors import ColumnNotFoundError
-
         raise ColumnNotFoundError(name, table=self.name)
 
-    def find_column(self, name: str) -> "Column | None":
+    def find_column(self, name: str) -> Column | None:
         """Return column by name, or ``None`` if not found."""
         if self.columns:
-            if isinstance(self.columns, NamedList):
-                return self.columns.get(name)
-            return next((c for c in self.columns if c.name == name), None)
+            return cast(NamedList[Column], self.columns).get(name)
         return None
 
     def add_column(self, column: Column) -> None:
@@ -253,44 +245,34 @@ class Table(BaseModel):
         else:
             self.columns.append(column)
 
-    def remove_column(self, name: str) -> "Column":
+    def remove_column(self, name: str) -> Column:
         """Remove and return the column named *name*.
 
         Raises :class:`~pybi.errors.ColumnNotFoundError` if not found.
         """
         col = self.find_column(name)
         if col is None:
-            from pybi.errors import ColumnNotFoundError
-
             raise ColumnNotFoundError(name, table=self.name)
-        self.columns.remove(col)  # type: ignore[union-attr]
+        cast(NamedList[Column], self.columns).remove(col)
         return col
 
     # - measure helpers ---------------------------─
 
-    def get_measure(self, name: str) -> "Measure":
+    def get_measure(self, name: str) -> Measure:
         """Return measure by name. Raises :class:`~pybi.errors.MeasureNotFoundError`."""
         if self.measures:
-            m = (
-                self.measures.get(name)
-                if isinstance(self.measures, NamedList)
-                else next((m for m in self.measures if m.name == name), None)
-            )
+            m = cast(NamedList[Measure], self.measures).get(name)
             if m is not None:
                 return m
-        from pybi.errors import MeasureNotFoundError
-
         raise MeasureNotFoundError(name, table=self.name)
 
-    def find_measure(self, name: str) -> "Measure | None":
+    def find_measure(self, name: str) -> Measure | None:
         """Return measure by name, or ``None`` if not found."""
         if self.measures:
-            if isinstance(self.measures, NamedList):
-                return self.measures.get(name)
-            return next((m for m in self.measures if m.name == name), None)
+            return cast(NamedList[Measure], self.measures).get(name)
         return None
 
-    def add_measure(self, measure: "Measure") -> None:
+    def add_measure(self, measure: Measure) -> None:
         """Append *measure* to this table.
 
         Initialises the measures list if it is currently ``None`` and validates
@@ -299,19 +281,17 @@ class Table(BaseModel):
         if self.measures is None:
             self.measures = NamedList([measure])
         else:
-            self.measures.append(measure)  # type: ignore[union-attr]
+            self.measures.append(measure)
 
-    def remove_measure(self, name: str) -> "Measure":
+    def remove_measure(self, name: str) -> Measure:
         """Remove and return the measure named *name*.
 
         Raises :class:`~pybi.errors.MeasureNotFoundError` if not found.
         """
         m = self.find_measure(name)
         if m is None:
-            from pybi.errors import MeasureNotFoundError
-
             raise MeasureNotFoundError(name, table=self.name)
-        self.measures.remove(m)  # type: ignore[union-attr]
+        cast(NamedList[Measure], self.measures).remove(m)
         return m
 
 
@@ -338,7 +318,7 @@ class Model(BaseModel):
     maxParallelismPerRefresh: int | None = None
     queryGroups: Any | None = None
     relationships: list[Relationship] | None = None
-    roles: list["Role"] | None = None
+    roles: list[Role] | None = None
     sourceQueryCulture: str = "en-US"
     tables: list[Table] | None = None
 
@@ -355,23 +335,15 @@ class Model(BaseModel):
     def get_table(self, name: str) -> Table:
         """Return table by name. Raises :class:`~pybi.errors.TableNotFoundError`."""
         if self.tables:
-            t = (
-                self.tables.get(name)
-                if isinstance(self.tables, NamedList)
-                else next((t for t in self.tables if t.name == name), None)
-            )
+            t = cast(NamedList[Table], self.tables).get(name)
             if t is not None:
                 return t
-        from pybi.errors import TableNotFoundError
-
         raise TableNotFoundError(name)
 
     def find_table(self, name: str) -> Table | None:
         """Return table by name, or ``None`` if not found."""
         if self.tables:
-            if isinstance(self.tables, NamedList):
-                return self.tables.get(name)
-            return next((t for t in self.tables if t.name == name), None)
+            return cast(NamedList[Table], self.tables).get(name)
         return None
 
     def add_table(self, table: Table) -> None:
@@ -379,7 +351,7 @@ class Model(BaseModel):
         if self.tables is None:
             self.tables = NamedList([table])
         else:
-            self.tables.append(table)  # type: ignore[union-attr]
+            self.tables.append(table)
 
     def remove_table(self, name: str) -> Table:
         """Remove and return the table named *name*.
@@ -388,10 +360,8 @@ class Model(BaseModel):
         """
         t = self.find_table(name)
         if t is None:
-            from pybi.errors import TableNotFoundError
-
             raise TableNotFoundError(name)
-        self.tables.remove(t)  # type: ignore[union-attr]
+        cast(NamedList[Table], self.tables).remove(t)
         return t
 
 

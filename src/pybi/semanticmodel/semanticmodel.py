@@ -1,8 +1,9 @@
 from pathlib import Path
-from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, PrivateAttr
 
+from ..collections import NamedList
+from ..errors import AmbiguousMeasureError, MeasureNotFoundError
 from ..fabric.fabric import DefinitionPbism, Platform
 from .definition import (
     Column,
@@ -14,9 +15,6 @@ from .definition import (
     Table,
 )
 from .types import SemanticModelFormat
-
-if TYPE_CHECKING:
-    from ..collections import NamedList
 
 
 class SemanticModel(BaseModel):
@@ -36,9 +34,7 @@ class SemanticModel(BaseModel):
         ``sm.tables["Sales"]``.  Returns an empty :class:`~pybi.collections.NamedList`
         when the model has no tables.
         """
-        from ..collections import NamedList as NL
-
-        return self.definition.model.tables or NL()  # type: ignore[return-value]
+        return self.definition.model.tables or NamedList()  # type: ignore[return-value]
 
     @property
     def relationships(self) -> list[Relationship]:
@@ -48,17 +44,15 @@ class SemanticModel(BaseModel):
     @property
     def roles(self) -> NamedList[Role]:
         """All roles in the model.  Supports name-based indexing."""
-        from ..collections import NamedList as NL
 
-        return self.definition.model.roles or NL()  # type: ignore[return-value]
+        return self.definition.model.roles or NamedList()  # type: ignore[return-value]
 
     @property
     def expressions(self) -> "NamedList[Expression]":
         """All shared expressions (M parameters / functions).  Supports
         name-based indexing."""
-        from ..collections import NamedList as NL
 
-        return self.definition.model.expressions or NL()  # type: ignore[return-value]
+        return self.definition.model.expressions or NamedList()  # type: ignore[return-value]
 
     @property
     def measures(self) -> list[tuple[Table, Measure]]:
@@ -104,7 +98,6 @@ class SemanticModel(BaseModel):
         same name exists in more than one table and no *table* scope was given -
         use ``get_measure(name, table="Sales")`` to disambiguate.
         """
-        from ..errors import AmbiguousMeasureError, MeasureNotFoundError
 
         matches: list[tuple[str, Measure]] = []
         for t in self.tables:
