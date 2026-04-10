@@ -26,7 +26,7 @@ from ...fabric.fabric import (
     default_definition_pbir,
     default_report_platform,
 )
-from .helpers import to_part, from_parts
+from .helpers import to_part
 
 # PbirPageWithVisuals and PbirReportDefinition use TYPE_CHECKING-guarded
 # forward references (e.g. "PageV210", "VisualContainerV270").  We import
@@ -200,6 +200,9 @@ class PbirStrategy:
         visuals_map: dict[str, list[BaseModel]] = defaultdict(list)
         mobiles_map: dict[str, dict[str, BaseModel]] = defaultdict(dict)
         bookmarks: list[BaseModel] = []
+        platform_part: Part | None = None
+        item_def_part: Part | None = None
+        static: list[Part] = []
 
         for part in parts:
             path = part.path
@@ -270,6 +273,17 @@ class PbirStrategy:
                 )
                 continue
 
+            if path == Platform._FILENAME:
+                platform_part = part
+                continue
+
+            if path == DefinitionPbir._FILENAME:
+                item_def_part = part
+                continue
+
+            if path.startswith("StaticResources/") or path.startswith("staticResources/"):
+                static.append(part)
+
         pages = [
             PbirPageWithVisuals(
                 page=page,
@@ -289,8 +303,16 @@ class PbirStrategy:
             report_extensions=report_extensions,
         )
 
-        platform = from_parts(parts, Platform) or default_report_platform()
-        item_definition = from_parts(parts, DefinitionPbir) or default_definition_pbir()
+        platform = (
+            Platform.model_validate(json.loads(platform_part.payload))
+            if platform_part is not None
+            else default_report_platform()
+        )
+        item_definition = (
+            DefinitionPbir.model_validate(json.loads(item_def_part.payload))
+            if item_def_part is not None
+            else default_definition_pbir()
+        )
 
         report = Report(
             item_definition=item_definition,
@@ -298,12 +320,6 @@ class PbirStrategy:
             platform=platform,
         )
 
-        static = [
-            p
-            for p in parts
-            if p.path.startswith("StaticResources/")
-            or p.path.startswith("staticResources/")
-        ]
         if static:
             object.__setattr__(report, "_static_resources", static)
 

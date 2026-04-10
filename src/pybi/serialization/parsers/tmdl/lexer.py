@@ -411,6 +411,20 @@ class TMDLLexer:
                     self.indent_stack.append(indent_level)
                     yield Token(TokenType.INDENT, "", self.line, 1, indent_level)
 
+            # Fast path: space-leading content inside an indented block is always a
+            # raw expression or embedded value (M/DAX body, JSON blob).  TMDL
+            # structural tokens (keywords, identifiers, quoted names) never start
+            # with a space.  The parser reads these lines via
+            # _collect_indented_content using raw source; only the line number
+            # matters, not the token value.  Guard with indent_level > 0 so that
+            # root-level lines with leading spaces (not structural indentation) are
+            # still tokenized normally.
+            if indent_level > 0 and content[0] == " ":
+                yield Token(TokenType.STRING, content, self.line, indent_level + 1, indent_level)
+                yield Token(TokenType.NEWLINE, "\n", self.line, len(line) + 1, indent_level)
+                line_idx += 1
+                continue
+
             # Check for description (///)
             if (
                 len(content) >= 3

@@ -507,7 +507,7 @@ class TMDLParser:
         """
         raw_lines: list[str] = []
         nesting_depth = 0
-        seen_line_numbers: set[int] = set()
+        last_seen_line: int = 0  # high-water mark; replaces O(n) max(set) calls
 
         while True:
             current = self._current()
@@ -521,8 +521,8 @@ class TMDLParser:
                     # lines whose tab depth is >= the minimum of already-
                     # collected non-empty lines (avoids grabbing structural
                     # comments at a shallower indent).
-                    if seen_line_numbers:
-                        gap_start = max(seen_line_numbers)
+                    if last_seen_line > 0:
+                        gap_start = last_seen_line
                         non_empty = [l for l in raw_lines if l.strip()]
                         min_tabs = (
                             min(len(l) - len(l.lstrip("\t")) for l in non_empty)
@@ -539,10 +539,10 @@ class TMDLParser:
                                     )
                                     if gap_tabs >= min_tabs:
                                         raw_lines.append(gap_text)
-                                        seen_line_numbers.add(gap_line)
+                                        last_seen_line = gap_line
                                 else:
                                     raw_lines.append("")
-                                    seen_line_numbers.add(gap_line)
+                                    last_seen_line = gap_line
                     self._advance()
                     break
                 self._advance()
@@ -575,8 +575,8 @@ class TMDLParser:
             # lexer skips.  Including comment lines in the expression
             # body ensures _needs_backticks triggers backtick wrapping,
             # protecting the comments on subsequent round-trips.
-            if seen_line_numbers:
-                gap_start = max(seen_line_numbers)
+            if last_seen_line > 0:
+                gap_start = last_seen_line
             elif context_line is not None:
                 gap_start = context_line
             else:
@@ -591,15 +591,13 @@ class TMDLParser:
                             raw_lines.append(gap_text)
                         else:
                             raw_lines.append("")
-                        seen_line_numbers.add(gap_line)
+                        last_seen_line = gap_line
 
             # Add raw source lines for the entire range this logical line spans
             for line_no in range(first_line_no, last_line_no + 1):
-                if line_no not in seen_line_numbers and 1 <= line_no <= len(
-                    self._source_lines
-                ):
+                if line_no > last_seen_line and 1 <= line_no <= len(self._source_lines):
                     raw_lines.append(self._source_lines[line_no - 1])
-                    seen_line_numbers.add(line_no)
+                    last_seen_line = line_no
 
             # Peek at NEWLINE to get its line number (for multi-line tokens
             # the NEWLINE is on the closing line)
@@ -609,11 +607,11 @@ class TMDLParser:
                     # The NEWLINE is on a later line than the last content
                     # token; include any intermediate source lines
                     for line_no in range(last_line_no + 1, nl_tok.line + 1):
-                        if line_no not in seen_line_numbers and 1 <= line_no <= len(
+                        if line_no > last_seen_line and 1 <= line_no <= len(
                             self._source_lines
                         ):
                             raw_lines.append(self._source_lines[line_no - 1])
-                            seen_line_numbers.add(line_no)
+                            last_seen_line = line_no
 
         return "\n".join(raw_lines)
 

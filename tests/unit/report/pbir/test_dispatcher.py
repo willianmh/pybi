@@ -104,7 +104,7 @@ class TestModelTypeMismatch:
         assert result is FallbackModel
 
     def test_type_mismatch_strict_still_returns_fallback(self):
-        # STRICT only raises for missing/unknown versions - a type mismatch is
+        # STRICT only raises for missing/unknown versions: a type mismatch is
         # treated as "not my URL" and falls back immediately, even in strict mode.
         result = get_model_for_schema(
             WRONG_TYPE_URL, "report", FallbackModel, ParseMode.STRICT
@@ -113,7 +113,7 @@ class TestModelTypeMismatch:
 
 
 # ---------------------------------------------------------------------------
-# Known URL - version found in registry
+# Known URL: version found in registry
 # ---------------------------------------------------------------------------
 
 

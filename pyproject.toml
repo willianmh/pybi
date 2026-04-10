@@ -21,3 +21,9 @@ dev = [
     "pytest>=9.0.2",
     "pytest-codspeed>=4.3.0",
 ]
+
+
+[tool.pytest.ini_options]
+markers = [
+    "io_benchmark: benchmarks that include filesystem I/O and should run with walltime instrumentation",
+]
