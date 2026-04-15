@@ -14,10 +14,10 @@ from .helpers import to_part, from_parts
 class ReportJsonStrategy:
     def serialize(self, model: Report) -> list[Part]:
         parts: list[Part] = []
-        if isinstance(model.definition, PbirReportDefinition):
+        if isinstance(model.raw_definition, PbirReportDefinition):
             raise ValueError("Pbir cannot be serialized as report json.")
 
-        parts.append(to_part(model.definition))
+        parts.append(to_part(model.raw_definition))
         parts.append(to_part(model.platform))
         parts.append(to_part(model.item_definition))
 
@@ -39,7 +39,7 @@ class ReportJsonStrategy:
 
         report = Report(
             item_definition=item_definition,
-            definition=definition,
+            raw_definition=definition,
             platform=platform,
         )
 

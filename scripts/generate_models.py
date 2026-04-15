@@ -44,7 +44,7 @@ Architecture / Pipeline Stages:
           imports.  Uses :class:`ClassRegistry` with structural-signature
           matching for safety.
        c. :func:`merge_numbered_variants`: collapse numbered variants
-          (e.g., ``Foo1``–``Foo47``) into a single ``Foo`` class.
+          (e.g., ``Foo1``-``Foo47``) into a single ``Foo`` class.
        d. :func:`_fix_optional_field_defaults`: normalise ``Field(False, …)``
           to ``Field(None, …)`` on ``Optional`` fields.
        e. :func:`_apply_post_generation_fixes`: apply schema-specific
@@ -1215,7 +1215,7 @@ def find_class_block(source: str, class_name: str) -> tuple[int, int] | None:
 
 
 def identify_numbered_variants(class_names: list[str]) -> dict[str, list[str]]:
-    """Identify numbered class variants like ``QueryExpressionContainer1``–``47``.
+    """Identify numbered class variants like ``QueryExpressionContainer1``-``47``.
 
     A class is considered a numbered variant if its name matches
     ``<BaseName><Digit(s)>`` (see ``_NUMBERED_VARIANT_PATTERN``).  Only
@@ -1507,7 +1507,7 @@ def _remove_stale_rebuild_calls(source: str) -> str:
 
 
 def merge_numbered_variants(source: str) -> str:
-    """Merge numbered class variants (e.g., ``Foo1``–``Foo47``) into a single base class.
+    """Merge numbered class variants (e.g., ``Foo1``-``Foo47``) into a single base class.
 
     When ``datamodel-codegen`` encounters a schema with *N* optional fields and
     an "exactly one required" constraint, it generates *N* separate classes,
@@ -2294,6 +2294,7 @@ def generate_all(
     targets: list[tuple[str, str, str]],
     dry_run: bool = False,
     clean: bool = False,
+    incremental: bool = False,
 ) -> bool:
     """Main entry point: discover, generate, post-process, and organise.
 
@@ -2307,6 +2308,9 @@ def generate_all(
         dry_run: If ``True``, print the generation plan and exit.
         clean: If ``True``, remove existing output directories before
             regenerating.
+        incremental: If ``True``, skip schemas whose ``model.py`` already
+            exists.  Skipped schemas still populate the class registry so
+            downstream deduplication works correctly.
 
     Returns:
         ``True`` if all schemas generated successfully, ``False`` if any
@@ -2351,11 +2355,18 @@ def generate_all(
                 shutil.rmtree(s.output_dir)
                 log.info("  Removed: %s", s.output_dir)
 
+    if incremental and clean:
+        log.warning(
+            "--clean and --incremental were both set; --clean runs first so "
+            "--incremental will have nothing to skip (full regeneration)."
+        )
+
     # Phase 4: Generate models in dependency order
     log.info("")
     log.info("[Phase 4] Generating models...")
     registry = ClassRegistry()
     generated: list[SchemaInfo] = []
+    skipped: list[SchemaInfo] = []
     failed: list[SchemaInfo] = []
 
     # Pre-register hand-crafted classes so downstream schemas will import them
@@ -2372,6 +2383,27 @@ def generate_all(
             schema_info.name,
             schema_info.version,
         )
+
+        # Incremental mode: skip schemas whose model.py already exists,
+        # but still populate the registry from the existing file so that
+        # downstream deduplication against this schema works correctly.
+        if incremental and schema_info.output_file.exists():
+            existing_source = schema_info.output_file.read_text(encoding="utf-8")
+            existing_lines = existing_source.count("\n")
+            log.info("  Skipping (already exists): %d lines", existing_lines)
+            existing_classes = extract_class_names(existing_source)
+            existing_signatures = extract_class_signatures(existing_source)
+            for cls_name in existing_classes:
+                registry.register(
+                    cls_name,
+                    schema_info.key,
+                    schema_info.import_path,
+                    signature=existing_signatures.get(cls_name),
+                )
+            create_init_files(schema_info)
+            ensure_handcrafted_helper_files(schema_info)
+            skipped.append(schema_info)
+            continue
 
         # 4a: Run datamodel-codegen
         if not run_codegen(schema_info):
@@ -2469,6 +2501,7 @@ def generate_all(
     log.info("SUMMARY")
     log.info("=" * 70)
     log.info("Generated : %d schemas", len(generated))
+    log.info("Skipped   : %d schemas", len(skipped))
     log.info("Failed    : %d schemas", len(failed))
     log.info("Registry  : %d unique classes", len(registry.all_classes))
     log.info("")
@@ -2477,6 +2510,10 @@ def generate_all(
         lines = s.output_file.read_text(encoding="utf-8").count("\n")
         status = "⚠" if lines > MAX_LINES_WARN else "✓"
         log.info("  %s %s v%s → %d lines", status, s.name, s.version, lines)
+
+    for s in skipped:
+        lines = s.output_file.read_text(encoding="utf-8").count("\n")
+        log.info("  ~ %s v%s → %d lines (skipped)", s.name, s.version, lines)
 
     if failed:
         log.error("")
@@ -2511,6 +2548,7 @@ def main() -> None:
               python scripts/generate_models.py
               python scripts/generate_models.py --dry-run
               python scripts/generate_models.py --clean
+              python scripts/generate_models.py --incremental
               python scripts/generate_models.py --schema-root /path/to/schemas
         """),
     )
@@ -2529,6 +2567,15 @@ def main() -> None:
         "--clean",
         action="store_true",
         help="Remove existing generated files before regenerating",
+    )
+    parser.add_argument(
+        "--incremental",
+        action="store_true",
+        help=(
+            "Skip schemas whose model.py already exists. "
+            "Existing schemas still populate the class registry so "
+            "downstream deduplication works correctly."
+        ),
     )
     parser.add_argument(
         "--verbose",
@@ -2551,6 +2598,7 @@ def main() -> None:
         targets=TARGET_SCHEMAS,
         dry_run=args.dry_run,
         clean=args.clean,
+        incremental=args.incremental,
     )
 
     sys.exit(0 if success else 1)

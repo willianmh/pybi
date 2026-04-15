@@ -124,11 +124,11 @@ def _get_name(model: BaseModel) -> str:
 
 class PbirStrategy:
     def serialize(self, model: Report) -> list[Part]:
-        if not isinstance(model.definition, PbirReportDefinition):
+        if not isinstance(model.raw_definition, PbirReportDefinition):
             raise ValueError("Report definition is not PBIR format.")
 
         parts: list[Part] = []
-        defn = model.definition
+        defn = model.raw_definition
 
         if defn.version is not None:
             parts.append(to_part(defn.version, _VERSION_PATH))
@@ -281,7 +281,9 @@ class PbirStrategy:
                 item_def_part = part
                 continue
 
-            if path.startswith("StaticResources/") or path.startswith("staticResources/"):
+            if path.startswith("StaticResources/") or path.startswith(
+                "staticResources/"
+            ):
                 static.append(part)
 
         pages = [
@@ -316,7 +318,7 @@ class PbirStrategy:
 
         report = Report(
             item_definition=item_definition,
-            definition=definition,
+            raw_definition=definition,
             platform=platform,
         )
 

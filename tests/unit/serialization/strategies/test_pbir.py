@@ -179,7 +179,7 @@ def _make_report(
     item_def: DefinitionPbir | None = None,
 ) -> Report:
     return Report(
-        definition=defn,
+        raw_definition=defn,
         platform=platform or default_report_platform(),
         item_definition=item_def or default_definition_pbir(),
     )
@@ -265,7 +265,7 @@ class TestSerializeRejectsNonPbir:
             {"config": "{}", "layoutOptimization": 0}
         )
         report = Report(
-            definition=legacy_def,
+            raw_definition=legacy_def,
             platform=default_report_platform(),
             item_definition=default_definition_pbir(),
         )
@@ -409,8 +409,8 @@ class TestDeserializeMinimal:
             ),
         ]
         report = PbirStrategy().deserialize(parts)
-        assert isinstance(report.definition, PbirReportDefinition)
-        defn = report.definition
+        assert isinstance(report.raw_definition, PbirReportDefinition)
+        defn = report.raw_definition
         assert defn.version is None
         assert defn.report is None
         assert defn.pages_metadata is None
@@ -493,10 +493,10 @@ class TestDeserializeFull:
 
     @pytest.fixture
     def defn(self, report) -> PbirReportDefinition:
-        return report.definition
+        return report.raw_definition
 
     def test_report_type(self, report):
-        assert isinstance(report.definition, PbirReportDefinition)
+        assert isinstance(report.raw_definition, PbirReportDefinition)
 
     def test_version(self, defn):
         assert defn.version is not None
@@ -570,7 +570,7 @@ class TestDeserializeIgnoresUnknownParts:
             Part(path="definition/unknown.json", payload=b"{}"),
         ]
         report = PbirStrategy().deserialize(parts)
-        assert isinstance(report.definition, PbirReportDefinition)
+        assert isinstance(report.raw_definition, PbirReportDefinition)
 
 
 # ---------------------------------------------------------------------------
@@ -611,13 +611,13 @@ class TestRoundtrip:
         return strategy.deserialize(parts)
 
     def test_version_preserved(self, original, roundtripped):
-        assert roundtripped.definition.version.version == "2.0.0"
+        assert roundtripped.raw_definition.version.version == "2.0.0"
 
     def test_page_count_preserved(self, original, roundtripped):
         assert len(roundtripped.definition.pages) == len(original.definition.pages)
 
     def test_page_name_preserved(self, roundtripped):
-        page = roundtripped.definition.pages[0]
+        page = roundtripped.raw_definition.pages[0]
         assert getattr(page.page, "name") == "MainPage"
 
     def test_visual_count_preserved(self, roundtripped):
@@ -629,7 +629,7 @@ class TestRoundtrip:
         assert getattr(vis, "name") == "chart1"
 
     def test_mobile_state_preserved(self, roundtripped):
-        page = roundtripped.definition.pages[0]
+        page = roundtripped.raw_definition.pages[0]
         assert "chart1" in page.mobile_states
 
     def test_bookmark_preserved(self, roundtripped):
@@ -667,7 +667,9 @@ class TestMultiplePages:
         parts = strategy.serialize(report)
         result = strategy.deserialize(parts)
 
-        pages_by_name = {getattr(p.page, "name"): p for p in result.definition.pages}
+        pages_by_name = {
+            getattr(p.page, "name"): p for p in result.raw_definition.pages
+        }
         assert len(pages_by_name["A"].visuals) == 2
         assert len(pages_by_name["B"].visuals) == 1
 
@@ -701,7 +703,7 @@ class TestSchemaDispatch:
             ),
         ]
         report = PbirStrategy().deserialize(parts)
-        assert isinstance(report.definition.version, VersionMetadataV100)
+        assert isinstance(report.raw_definition.version, VersionMetadataV100)
 
     def test_fallback_model_for_unknown_schema(self):
         parts = [
@@ -722,4 +724,4 @@ class TestSchemaDispatch:
             ),
         ]
         report = PbirStrategy().deserialize(parts)
-        assert isinstance(report.definition.version, PbirVersion)
+        assert isinstance(report.raw_definition.version, PbirVersion)
